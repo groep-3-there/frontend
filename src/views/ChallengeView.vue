@@ -30,7 +30,8 @@
                         <v-list-item-title><v-icon class="mr-1" size="24">mdi-pencil</v-icon>Bewerken</v-list-item-title>
                     </v-list-item>
                     <v-list-item :value="2" :key="2">
-                        <v-list-item-title><v-icon class="mr-1" size="24">mdi-check-bold</v-icon>Afronden</v-list-item-title>
+                        <v-list-item-title><v-icon class="mr-1"
+                                size="24">mdi-check-bold</v-icon>Afronden</v-list-item-title>
                     </v-list-item>
                     <v-list-item :value="3" :key="3">
                         <v-list-item-title><v-icon class="mr-1" size="24">mdi-archive</v-icon>Archiveren</v-list-item-title>
@@ -47,6 +48,10 @@
 
     <v-row>
         <v-col cols="10" class="mx-auto">
+
+            <v-alert class="my-8" v-if="challenge.concludingRemarks" type="success" title="Challenge Voltooid"
+                :text="challenge.concludingRemarks"></v-alert>
+
             <section>
                 <h2 class="post-heading">Samenvatting</h2>
                 <p>{{ challenge.summary }}</p>
@@ -56,7 +61,7 @@
                 <p>{{ challenge.description }}</p>
             </section>
 
-            <section>
+            <section v-if="challenge.contactInformation !== ''">
                 <h2 class="post-heading">Contact informatie</h2>
                 <p>{{ challenge.contactInformation }}</p>
             </section>
@@ -144,7 +149,7 @@
 
 
 
-.company-logo{
+.company-logo {
     border-radius: 100%;
 }
 </style>

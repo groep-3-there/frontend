@@ -68,7 +68,7 @@ namespace API {
         Het beste idee zal ik belonen met 45,-
         en een mogelijkheid om betrokken te zijn bij ontwikkelingsfase`,
             bannerId: 5,
-            concludingRemarks: 'These are the concluding remarks for the sample challenge',
+            concludingRemarks: 'Samen met Erik hebben wij oplossing .... gebruikt om ...',
             contactInformation: `Mocht je contact op willen nemen buiten het platform, stuur mij een email op Eline@mail.com`,
             status: 'active',
             createdAt: new Date(),
