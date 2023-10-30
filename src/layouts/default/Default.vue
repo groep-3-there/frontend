@@ -17,6 +17,7 @@
           <v-list-item @click="$router.push('/')" prepend-icon="mdi-home" title="Home" value="home"></v-list-item>
           <v-list-item @click="$router.push('/vue-tutorial')" prepend-icon="mdi-folder" title="Data Pagina"
             value="data"></v-list-item>
+          <v-list-item @click="$router.push('/search-challenges')" prepend-icon="mdi-magnify" title="Challenges zoeken"></v-list-item>
         </v-list>
         <v-divider></v-divider>
         <v-list density="compact" nav>
@@ -60,7 +61,7 @@ onMounted(() => {
 //Drawer size
 const drawerWidth = ref(256)
 const widthPx = computed(() => {
-  return `${drawerWidth.value}px`
+  return `${drawerWidth.value/2}px`
 })
 
 function logOut() {

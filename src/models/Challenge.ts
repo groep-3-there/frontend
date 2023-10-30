@@ -1,4 +1,4 @@
-export class User{
+export class Challenge{
     declare id: number;
     declare authorId: number;
     declare departmentId: number;

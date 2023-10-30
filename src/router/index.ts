@@ -19,6 +19,11 @@ const routes = [
         name: 'Vue Tutorial',
         component: () => import('@/views/TutorialView.vue'),
       },
+      {
+        path: 'search-challenges',
+        name: 'Search Challanges',
+        component: () => import('@/views/SearchChallengesView.vue'),
+      }
     ],
   },
 ]
