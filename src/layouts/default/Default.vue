@@ -61,7 +61,7 @@ onMounted(() => {
 //Drawer size
 const drawerWidth = ref(256)
 const widthPx = computed(() => {
-  return `${drawerWidth.value}px`
+  return `${drawerWidth.value/2}px`
 })
 
 function logOut() {
