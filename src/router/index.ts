@@ -21,7 +21,7 @@ const routes = [
         component: () => import('@/views/TutorialView.vue'),
       },
       {
-        path: 'search',
+        path: 'challenges',
         name: 'Search Challanges',
         component: () => import('@/views/SearchChallengesView.vue'),
         props: (route: { query: { query: any; company_id: any; branches: any; sort: any; }; }) => ({
