@@ -8,7 +8,7 @@
         style="position:fixed">
         <v-list>
           <v-list-item prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg" :title="user?.name"
-            :subtitle="user?.email"></v-list-item>
+            :subtitle="user?.id"></v-list-item>
         </v-list>
 
         <v-divider></v-divider>
@@ -49,13 +49,13 @@ import router from '@/router';
 import { watch } from 'vue';
 import { User } from '@/models/User';
 import { onMounted } from 'vue';
-import Api from '@/Api';
+import API from '@/Api';
 const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay()
 
 const user = ref({}) as Ref<User | null>
 
-onMounted(() => {
-  user.value = Api.getFakeUser()
+onMounted(async() => {
+  user.value = await API.getCurrentUser()
 })
 
 //Drawer size

@@ -3,44 +3,38 @@ import { ChallengeInput } from "./models/ChallengeInput"
 import { User } from "./models/User"
 
 
-function postRequest(url: string, bodyObject: {}) {
-    return fetch(url, {
+async function postRequest<T>(url: string, bodyObject: {}) {
+    const res = await fetch(API.BASEURL + url, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "http://localhost:3000"
         },
         mode: "cors",
-        credentials: "include",
+        // credentials: "include",
         body: JSON.stringify(bodyObject)
     })
+    return await res.json() as T
 }
 
-function getRequest(url: string) {
-    return fetch(url, {
+async function getRequest<T>(url: string) {
+    const res = await fetch(API.BASEURL + url, {
         method: "GET",
         headers: API.headers,
         mode: "cors",
-        credentials: "include"
+        // credentials: "include"
     })
+    return await res.json() as T
 }
 
 
 namespace API {
 
-    const BASEURL = "http://localhost:3001/"
+    export const BASEURL = "http://localhost:8080/"
 
     export const headers = {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "http://localhost:3000"
-    }
-
-    export function example() {
-        return getRequest(BASEURL + "example")
-    }
-
-    export function getFakeUser(){
-        return {name: "John", email: "john@email.com"} as User
     }
 
     export function getFakeChallenge(){
@@ -98,6 +92,18 @@ namespace API {
             createdAt : new Date()
         } as ChallengeInput;
         return dummyChallengeInput as ChallengeInput
+    }
+
+
+    /**
+     * Get the current logged in user
+     */
+    export async function getCurrentUser(){
+        return getRequest<User>("auth/user")
+    }
+
+    export async function getChallengeById(id : number){
+        return getRequest<Challenge>(`/challenge/${id}`)
     }
 
 }
