@@ -17,7 +17,7 @@
 
         <div class="challengedata d-flex justify-space-between">
           <div>
-            <p>{{ challenge?.endDate.getUTCFullYear() }}</p>
+            <p>Einddatum: {{ challenge?.endDate.getUTCFullYear() }}</p>
           </div>
           <div class="tags d-flex" style="border: 1px solid red">
             <v-chip v-for="tag in challenge?.tags" :key="tag">{{ tag }}</v-chip>
@@ -42,6 +42,7 @@ defineProps({
   padding: 1rem;
   margin: 2rem 0 0 0;
   border-radius: 15px;
+  box-shadow: 2px 2px darkgray;
 }
 
 .afbeelding {

@@ -1,3 +1,4 @@
+import { Company } from './../models/Company';
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -20,9 +21,15 @@ const routes = [
         component: () => import('@/views/TutorialView.vue'),
       },
       {
-        path: 'search-challenges',
+        path: 'search',
         name: 'Search Challanges',
         component: () => import('@/views/SearchChallengesView.vue'),
+        props: (route: { query: { query: any; company_id: any; branches: any; sort: any; }; }) => ({
+          query: route.query.query,
+          company_id: route.query.company_id,
+          branch: route.query.branches,
+          sort: route.query.sort,
+        })
       }
     ],
   },
