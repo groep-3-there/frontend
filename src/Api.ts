@@ -43,12 +43,15 @@ async function getRequest<T>(url: string) {
 namespace API {
 
     export const BASEURL = "http://localhost:8080/api/v1/"
+    export const BASEURL = "http://localhost:8080/api/v1/"
 
     export const headers = {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "http://localhost:3000"
     }
 
+    export function createChallenge(ch: {}){
+        return postRequest("challenge", ch)
     export function createChallenge(ch: {}){
         return postRequest("challenge", ch)
     }
@@ -61,6 +64,7 @@ namespace API {
     }
 
     export async function getChallengeById(id : number){
+        return getRequest<Challenge>(`challenge/${id}`)
         return getRequest<Challenge>(`challenge/${id}`)
     }
 
