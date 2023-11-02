@@ -30,6 +30,7 @@ const routes = [
           sort: route.query.sort,
         })
       },
+      {
         path: 'challenge',
         name: 'Challenge',
         component: () => import('@/views/ChallengeView.vue'),
