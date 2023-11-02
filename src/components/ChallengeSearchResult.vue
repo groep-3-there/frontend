@@ -17,7 +17,7 @@
 
         <div class="challengedata d-flex justify-space-between">
           <div>
-            <p>Einddatum: {{ challenge?.endDate.getUTCFullYear() }}</p>
+            <p v-if="challenge">Einddatum: {{ new Date(challenge.endDate).toLocaleDateString("nl-nl")  }}</p>
           </div>
           <div class="tags d-flex" style="border: 1px solid red">
             <v-chip v-for="tag in challenge?.tags" :key="tag">{{ tag }}</v-chip>

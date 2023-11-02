@@ -8,7 +8,7 @@
         style="position:fixed">
         <v-list>
           <v-list-item prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg" :title="user?.name"
-            :subtitle="user?.id"></v-list-item>
+            :subtitle="user?.role?.company?.name"></v-list-item>
         </v-list>
 
         <v-divider></v-divider>

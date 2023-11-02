@@ -1,22 +1,21 @@
+import { Company } from "./Company";
+import { Department } from "./Department";
 import { User } from "./User";
-
-export class Challenge{
+export class Challenge {
     declare id: number;
-    declare authorId: number;
-    declare departmentId: number;
-    declare companyId: number;
+    declare author: User;
+    declare department: Department;
+    declare company: Company;
+    declare contactInformation: string;
     declare title: string;
     declare description: string;
-    declare summary : string;
-    declare contactInformation : string
-    declare bannerId: number;
+    declare bannerImageId: number;
     declare concludingRemarks: string;
+    declare summary: string;
     declare status: string;
-    declare createdAt: string;   
+    declare createdAt: string;
     declare endDate: string;
-    declare tags: string[];
-    declare isPublicViewable: boolean;
-    declare isPublicReactable: boolean;
-    declare author : User;
-
+    declare tags: string;
+    declare visibility: string;
 }
+

@@ -107,7 +107,7 @@
                 <v-divider></v-divider>
     
                 <!-- Custom component voor reacties -->
-                <ChallengeReaction :challengeInput="reaction"></ChallengeReaction>
+                <!-- <ChallengeReaction :challengeInput="reaction"></ChallengeReaction> -->
     
             </v-col>
         </v-row>
@@ -180,7 +180,7 @@ onMounted(async()=>{
 })
 
 
-const reaction: Ref<ChallengeInput> = ref(API.getFakeChallengeInput())
+// const reaction: Ref<ChallengeInput> = ref(API.getFakeChallengeInput())
 
 </script>
   
