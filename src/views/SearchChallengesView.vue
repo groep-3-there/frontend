@@ -102,14 +102,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { Ref, ref } from "vue";
 import ChallengeSearchResult from "@/components/ChallengeSearchResult.vue";
 import API from "@/Api";
 import { Challenge } from "@/models/Challenge";
 import router from "@/router";
+import { onMounted } from "vue";
 
-const challenges = ref();
-challenges.value = API.getChallengesBySearch();
+const challenges : Ref<Challenge[]> = ref([]);
+
+onMounted(async ()=>{
+  challenges.value = await API.getChallengesBySearch();
+})
 console.log("challenges: " + challenges.value);
 </script>
 
