@@ -4,19 +4,6 @@
       Challenges zoeken
     </h1>
 
-    <!-- deze div kan uiteindelijk verwijderd worden -->
-    <!-- <div style="border: 1px solid red">
-    <h3>debug info</h3>
-    <p v-if="$route.query.query">query: {{ $route.query.query }}</p>
-    <p v-for="company in $route.query.company?.split(',')" :key="company">
-      company: {{ company }}
-    </p>
-    <p v-for="branch in $route.query.branche?.split(',')" :key="branch">
-      branch: {{ branch }}
-    </p>
-    <p v-if="$route.query.sort">sort: {{ $route.query.sort }}</p>
-  </div> -->
-
     <v-row class="align-center">
       <v-col cols="10" md="8">
         <v-text-field
