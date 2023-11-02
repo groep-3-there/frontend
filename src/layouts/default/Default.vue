@@ -17,7 +17,7 @@
                   <v-list-item @click="$router.push('/vue-tutorial')" prepend-icon="mdi-folder" title="Data Pagina" value="data"></v-list-item>
                   <v-list-item @click="$router.push('/challenge/1')" prepend-icon="mdi-folder" title="Challenge" value="challenge"></v-list-item>
                   <v-list-item @click="$router.push('/challenges')" prepend-icon="mdi-folder" title="Zoeken" value="zoeken"></v-list-item>
-                  
+                  <v-list-item @click="$router.push('/create-challenge')" prepend-icon="mdi-folder" title="Create Challenge" value="create-challenge"></v-list-item>
               </v-list>
               <v-divider></v-divider>
               <v-list density="compact" nav>
@@ -54,7 +54,7 @@ const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay()
 
 const user = ref({}) as Ref<User | null>
 
-onMounted(async() => {
+onMounted(async () => {
   user.value = await API.getCurrentUser()
 })
 

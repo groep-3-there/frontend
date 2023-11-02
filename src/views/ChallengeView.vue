@@ -177,7 +177,6 @@ onMounted(async()=>{
     const idParam = useRoute().params.id
     let id = Array.isArray(idParam) ? idParam[0] : idParam 
     challenge.value = await API.getChallengeById(parseInt(id))
-    challenge.value.hallo()
 })
 
 

@@ -19,7 +19,4 @@ export class Challenge{
     declare isPublicReactable: boolean;
     declare author : User;
 
-    hallo(){
-        console.log("ahllo")
-    }
 }

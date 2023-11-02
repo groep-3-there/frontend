@@ -36,6 +36,10 @@ namespace API {
         "Access-Control-Allow-Origin": "http://localhost:3000"
     }
 
+    export function createChallenge(ch: {}){
+        return postRequest("challenge", ch)
+    }
+
     export function getFakeChallengeInput(){
         const dummyChallengeInput =  {
             id: 1,
@@ -55,6 +59,7 @@ namespace API {
         return dummyChallengeInput as ChallengeInput
     }
 
+
     /**
      * Get the current logged in user
      */
@@ -66,50 +71,12 @@ namespace API {
         return getRequest<Challenge>(`challenge/${id}`)
     }
 
-  export function getFakeChallenges() {
-    const challenges = [
-      {
-        id: 1,
-        authorId: 1,
-        departmentId: 1,
-        companyId: 1,
-        title: "Website voor de bakker",
-        description: `Ik ben op zoek naar een getalenteerde webdesigner/ontwikkelaar die
-                mijn kleine bakkerij naar het digitale tijdperk kan brengen. Mijn
-                doel is om een gebruiksvriendelijke website te creëren waarmee
-                klanten eenvoudig ons uitgebreide assortiment kunnen..............`,
-        bannerId: 1,
-        concludingRemarks: "Concluding Remarks 1",
-        status: "openvoorideeen",
-        createdAt: new Date(),
-        endDate: new Date(),
-        tags: ["AI", "website"],
-        isPublicViewable: true,
-        isPublicReactable: true,
-      } as Challenge,
-      {
-        id: 2,
-        authorId: 2,
-        departmentId: 1,
-        companyId: 2,
-        title: "Innovatie kapperszaak",
-        description: `Ik ben op zoek naar een getalenteerde webdesigner/ontwikkelaar die een nieuwe website maakt voor mijn kapperszaak. Mijn doel is om een gebruiksvriendelijke website te creëren waarmee klanten eenvoudig ons uitgebreide assortiment kunnen..............`,
-        bannerId: 2,
-        concludingRemarks: "Concluding Remarks 1",
-        status: "openvoorideeen",
-        createdAt: new Date(),
-        endDate: new Date(),
-        tags: ["Systeem", "website"],
-        isPublicViewable: true,
-        isPublicReactable: true,
-      } as Challenge,
-    ];
-    return challenges;
-  }
+    export async function getChallengesBySearch(){
+        return getRequest("challenge/search");
+    }
 
-  export async function getChallengesBySearch(){
-    return getRequest(BASEURL + `/challenge/search`);
-  }
+
 }
+
 
 export default API
