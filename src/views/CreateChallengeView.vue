@@ -60,10 +60,8 @@
 
         <v-row>
           <v-col>
-            <v-combobox label="Tags" :items="['Test1', 'Test2']" variant="outlined" multiple chips clearable>
-              <template #selection="{ item }">
-                <Tag :tagName="item.value"></Tag>
-              </template>
+            <v-combobox label="Tags" v-model="tags" :items="['Item1', 'Item2']" variant="outlined" multiple chips
+              clearable>
             </v-combobox>
           </v-col>
         </v-row>
@@ -81,6 +79,11 @@
         </v-row>
       </v-col>
     </v-row>
+    <v-row v-if="createdChallenge !== null">
+      <RouterLink :to="'/challenge/' + createdChallenge.id">Ga naar challenge</RouterLink>
+      <h2>Challenge gemaakt</h2>
+      {{ createdChallenge.id }}
+    </v-row>
   </v-container>
 </template>
 
@@ -88,6 +91,10 @@
 import Tag from "@/components/Tag.vue";
 import { ref } from "vue";
 import Api from "@/Api"
+import { Ref } from "vue";
+import { Challenge } from "@/models/Challenge";
+
+const createdChallenge = ref(null) as Ref<Challenge | null>
 
 const title = ref("");
 const summary = ref("");
@@ -96,10 +103,16 @@ const contactInformation = ref("");
 const visibility = ref("");
 const banner = ref("");
 const images = ref("");
-const tags = ref("");
+const tags = ref();
 const date = ref("");
 
-function createChallenge() {
+async function createChallenge() {
+
+  let tagString = ""
+  tags.value.forEach((tag:string) => {
+    tagString += tag + ","
+  });
+
   const challenge = {
     "contactInformation": contactInformation.value,
     "title": title.value,
@@ -108,9 +121,10 @@ function createChallenge() {
     "summary": summary.value,
     "status": "OPEN_VOOR_IDEEEN",
     "endDate": date.value,
-    "tags": "tag1,tag2",
+    "tags": tagString,
     "visiblity": visibility.value
   }
-  Api.createChallenge(challenge)
+  createdChallenge.value = await Api.createChallenge(challenge)
+  console.log("sent new challenge")
 }
 </script>
