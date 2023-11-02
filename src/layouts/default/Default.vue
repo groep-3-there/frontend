@@ -17,7 +17,7 @@
                   <v-list-item @click="$router.push('/')" prepend-icon="mdi-home" title="Home" value="home"></v-list-item>
                   <v-list-item @click="$router.push('/vue-tutorial')" prepend-icon="mdi-folder" title="Data Pagina" value="data"></v-list-item>
                   <v-list-item @click="$router.push('/challenge')" prepend-icon="mdi-folder" title="Challenge" value="challenge"></v-list-item>
-                  
+                  <v-list-item @click="$router.push('/create-challenge')" prepend-icon="mdi-folder" title="Create Challenge" value="challenge"></v-list-item>
               </v-list>
               <v-divider></v-divider>
               <v-list density="compact" nav>
