@@ -29,7 +29,7 @@ async function getRequest<T>(url: string) {
 
 namespace API {
 
-    export const BASEURL = "http://localhost:8080/"
+    export const BASEURL = "http://localhost:8080/api/v1"
 
     export const headers = {
         "Content-Type": "application/json",
