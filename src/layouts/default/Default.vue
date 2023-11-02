@@ -54,8 +54,8 @@ const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay()
 
 const user = ref({}) as Ref<User | null>
 
-onMounted(() => {
-  user.value = Api.getFakeUser()
+onMounted(async () => {
+  user.value = await Api.getCurrentUser()
 })
 
 //Drawer size

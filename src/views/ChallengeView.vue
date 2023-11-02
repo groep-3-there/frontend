@@ -162,7 +162,9 @@ import Tag from "@/components/Tag.vue"
 import ChallengeReaction from "@/components/ChallengeReaction.vue"
 import { ChallengeInput } from '@/models/ChallengeInput';
 import Api from "@/Api"
-const challenge = ref(Api.getFakeChallenge()) as Ref<Challenge>
+const challenge = ref(new Challenge() ) as Ref<Challenge | null>
+
+
 
 
 const reaction: Ref<ChallengeInput> = ref(Api.getFakeChallengeInput())
