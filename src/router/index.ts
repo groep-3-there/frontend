@@ -1,4 +1,3 @@
-import { Company } from './../models/Company';
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -30,7 +29,11 @@ const routes = [
           branch: route.query.branches,
           sort: route.query.sort,
         })
-      }
+      },
+        path: 'challenge',
+        name: 'Challenge',
+        component: () => import('@/views/ChallengeView.vue'),
+      },
     ],
   },
 ]
