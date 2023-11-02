@@ -51,7 +51,7 @@ namespace API {
 
     export function createChallenge(ch: {}){
         return postRequest<Challenge>("challenge", ch)
-
+    }
     /**
      * Get the current logged in user
      */
