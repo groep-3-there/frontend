@@ -1,3 +1,5 @@
+import { User } from "./User";
+
 export class Challenge{
     declare id: number;
     declare authorId: number;
@@ -10,9 +12,14 @@ export class Challenge{
     declare bannerId: number;
     declare concludingRemarks: string;
     declare status: string;
-    declare createdAt: Date;
-    declare endDate: Date;
+    declare createdAt: string;   
+    declare endDate: string;
     declare tags: string[];
     declare isPublicViewable: boolean;
     declare isPublicReactable: boolean;
+    declare author : User;
+
+    hallo(){
+        console.log("ahllo")
+    }
 }
