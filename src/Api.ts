@@ -1,3 +1,4 @@
+import { Company } from './models/Company';
 import { Challenge } from "./models/Challenge";
 import { User } from "./models/User";
 
@@ -79,6 +80,14 @@ namespace API {
     ];
     return challenges;
   }
+
+  export async function getChallengesBySearch(){
+    return getRequest(BASEURL + `/challenge/search`);
+  }
+  
+  // export function getChallengesBySearch(query: string, company: string[], branch: string[], sort: string){
+  //   return getRequest(BASEURL + `/challenge/search?query=${query}&company=${company}&branch=${branch}&sort=${sort}`);
+  // }
 }
 
 export default API;

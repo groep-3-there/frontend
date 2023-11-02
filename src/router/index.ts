@@ -26,7 +26,7 @@ const routes = [
         component: () => import('@/views/SearchChallengesView.vue'),
         props: (route: { query: { query: any; company_id: any; branches: any; sort: any; }; }) => ({
           query: route.query.query,
-          company_id: route.query.company_id,
+          company: route.query.company_id,
           branch: route.query.branches,
           sort: route.query.sort,
         })
