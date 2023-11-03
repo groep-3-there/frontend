@@ -171,6 +171,7 @@
 <script lang="ts" setup>
 import ConcludeChallengePopup from '@/components/ConcludeChallengePopup.vue'
 import AreYouSurePopup from '@/components/AreYouSurePopup.vue'
+
 import { Ref, ref } from 'vue';
 import { Challenge } from '@/models/Challenge';
 import Tag from "@/components/Tag.vue"

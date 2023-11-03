@@ -62,7 +62,7 @@ namespace API {
   };
 
   export function createChallenge(ch: {}) {
-    return postRequest("challenge", ch);
+    return postRequest<Challenge>("challenge", ch);
   }
 
   /**
