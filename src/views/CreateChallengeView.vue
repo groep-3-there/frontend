@@ -58,7 +58,7 @@
 
           <v-row class="fit-buttons make-high">
             <v-col>
-              <v-select variant="outlined" label="Zichtbaarheid" :items="visibilityItems" :item-props="visibilityProperties" class="date"></v-select>
+              <v-select v-model="visibility" variant="outlined" label="Zichtbaarheid" :items="visibilityItems" :item-props="visibilityProperties" class="date"></v-select>
             </v-col>
           </v-row>
 
@@ -154,8 +154,8 @@ const title = ref("");
 const summary = ref("");
 const description = ref("");
 const contactInformation = ref("");
-const visibilityItems = [{title:'Publiek', subtitle:'Iedereen, ook zonder account', codeValue: "PUBLIC"}, {title:'Intranet', subtitle:'Iedereen met een account', codeValue: "INTRANET"}, {title:'Intern', subtitle:'Iedereen van uw bedrijf', codeValue:"INTERN"}, {title:'Afdeling', subtitle: 'Iedereen van uw afdeling', codeName:"DEPARTMENT"}]
-const visibility = ref(visibilityItems[0]);
+const visibilityItems = [{title:'Publiek', subtitle:'Iedereen, ook zonder account', codeName: "PUBLIC"}, {title:'Intranet', subtitle:'Iedereen met een account', codeName: "INTRANET"}, {title:'Intern', subtitle:'Iedereen van uw bedrijf', codeName:"INTERN"}, {title:'Afdeling', subtitle: 'Iedereen van uw afdeling', codeName:"DEPARTMENT"}]
+const visibility = ref(null);
 const banner = ref();
 const images = ref();
 const tags = ref();
@@ -166,11 +166,17 @@ function visibilityProperties (item : any) {
     subtitle: item.subtitle,
   }
 }
+function getVisibilityCodeName (title : string){
+  return visibilityItems.find((item) => item.title === title)?.codeName
+}
 const createChallengeForm = ref(null) as any;
+
+
+
 async function createChallenge() {
 
   const { valid } = await createChallengeForm.value.validate();
-  if (!valid) {
+  if (!valid || visibility.value == null) {
     alert("Alle vereiste velden zijn nog niet ingevuld!");
     return;
   }
@@ -195,7 +201,6 @@ async function createChallenge() {
     const img = await Api.uploadImage(toUpload)
     attachmentImages.push(img.id)
   }
-
   const challenge = {
     title: title.value,
     summary: summary.value,
@@ -206,9 +211,9 @@ async function createChallenge() {
     endDate: date.value,
     imageAttachmentsIds: attachmentImages,
     tags: tagString,
-    visiblity: visibility.value.codeName,
+    visibility: getVisibilityCodeName(visibility.value),
   };
-  console.log("Creating challenge")
+  console.log("Creating challenge", challenge)
   const created = await Api.createChallenge(challenge);
  
 
