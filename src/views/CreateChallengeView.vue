@@ -195,7 +195,7 @@ async function createChallenge() {
   };
   createdChallenge.value = await Api.createChallenge(challenge);
   console.log("sent new challenge");
-  router.push(`/challenge/${createdChallenge.value.id}`);
+  router.push(`/challenge/${createdChallenge?.value?.id}`);
 }
 </script>
 
