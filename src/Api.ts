@@ -3,6 +3,7 @@ import { ChallengeInput } from "./models/ChallengeInput";
 import { Image } from "./models/Image";
 import { User } from "./models/User";
 
+
 async function postRequest<T>(url: string, bodyObject: {}) {
   const res = await fetch(API.BASEURL + url, {
     method: "POST",
