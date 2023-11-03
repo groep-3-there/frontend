@@ -85,13 +85,17 @@
         order-md="first"
         class="d-flex justify-md-start justify-center"
       >
-        <p>2 resultaten</p>
+        <p v-if="challenges.length == 1">1 resultaat</p>
+        <p v-else-if="challenges.length > 1">{{ challenges.length }} resultaten</p>
+        <p v-else-if="challenges.length == 0">Geen resultaten</p>
+        <p v-else>Er is iets fout gegaan</p>
       </v-col>
     </v-row>
   </v-container>
+  <hr />
 
   <div v-for="challenge in challenges" :key="challenge.id">
-    <ChallengeSearchResult
+    <ChallengeSearchResult @click="() => router.push(`/challenge/${challenge.id}`)"
       :challenge="(challenge as Challenge)"
     ></ChallengeSearchResult>
   </div>
@@ -109,15 +113,8 @@ import { Challenge } from "@/models/Challenge";
 import router from "@/router";
 import { onMounted } from "vue";
 
-const challenges : Ref<Challenge[]> = ref([]);
+const challenges: Ref<Challenge[]> = ref([]);
 
-onMounted(async ()=>{
-  challenges.value = await API.getChallengesBySearch();
-})
-console.log("challenges: " + challenges.value);
-</script>
-
-<script lang="ts">
 //search term in search bar
 const searchTerm = ref("");
 
@@ -131,22 +128,53 @@ const selectedCompanies = ref([]);
 //sort order, newest_first or deadline_closest_first, newest_first is standard
 const sort = ref("newest_first");
 
-//challenges to show
-// let challenges = ref([]);
-// let challenges = API.getFakeChallenges();
+onMounted(async () => {
+  let query = router.currentRoute.value.query;
 
-function search() {
-  // challenges.value = API.getFakeChallenges();
+  let searchTerm = query?.query as string;
+  
+  let companiesAsString = query?.company as string;
+  console.log(companiesAsString);
+  let companies = companiesAsString?.split(",") as string[];
+  
+  let branchesAsString = query?.branche as string;
+  let branches = branchesAsString?.split(",") as string[];
 
+  let sort = query?.sort as string;
+
+  challenges.value = await API.getChallengesBySearch(
+    searchTerm,
+    companies,
+    branches,
+    sort
+  );
+});
+
+async function search() {
+  const query: any = {};
+  if (searchTerm.value) {
+    query.query = searchTerm.value;
+  }
+  if (selectedCompanies.value.length) {
+    query.company = selectedCompanies.value.join(",");
+  }
+  if (selectedBranches.value.length) {
+    query.branche = selectedBranches.value.join(",");
+  }
+  if (sort.value) {
+    query.sort = sort.value;
+  }
   router.push({
     path: "/challenges",
-    query: {
-      query: searchTerm.value,
-      company: selectedCompanies.value.join(","),
-      branche: selectedBranches.value.join(","),
-      sort: sort.value,
-    },
+    query,
   });
+  
+  challenges.value = await API.getChallengesBySearch(
+    searchTerm.value,
+    selectedCompanies.value,
+    selectedBranches.value,
+    sort.value
+  );
 }
 </script>
 
