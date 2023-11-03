@@ -16,6 +16,20 @@ async function postRequest<T>(url: string, bodyObject: {}) {
     })
     return await res.json() as T
 }
+
+async function putRequest<T>(url: string, bodyObject: {}) {
+    const res = await fetch(API.BASEURL + url, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "http://localhost:3000"
+        },
+        mode: "cors",
+        // credentials: "include",
+        body: JSON.stringify(bodyObject)
+    })
+    return await res.json() as T
+
 async function uploadFile<T>(url: string, keyName : string, file: File) {
     const formData = new FormData();
     formData.append(keyName, file);
@@ -40,12 +54,15 @@ async function getRequest<T>(url: string) {
 namespace API {
 
     export const BASEURL = "http://localhost:8080/api/v1/"
+    export const BASEURL = "http://localhost:8080/api/v1/"
 
     export const headers = {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "http://localhost:3000"
     }
 
+    export function createChallenge(ch: {}){
+        return postRequest("challenge", ch)
     export function createChallenge(ch: {}){
         return postRequest("challenge", ch)
     }
@@ -59,6 +76,7 @@ namespace API {
 
     export async function getChallengeById(id : number){
         return getRequest<Challenge>(`challenge/${id}`)
+        return getRequest<Challenge>(`challenge/${id}`)
     }
 
     export async function getChallengesBySearch(query? : string, company?: string[], branche?: string[], sort?: string){
@@ -70,6 +88,11 @@ namespace API {
         return getRequest<Challenge[]>(urlstring);
     }
 
+
+    export async function updateChallenge(ch : Challenge){
+        return putRequest<Challenge>("challenge/update", ch)
+    }
+    
     export async function uploadImage(img : File){
         return uploadFile<Image>("image/upload", "image", img)
     }
