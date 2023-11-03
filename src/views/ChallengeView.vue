@@ -4,9 +4,9 @@
     </template>
     <template v-if="challenge">
 
-        <v-row class="challenge-hero" no-gutters justify="center" align="center">
-            <v-col cols="12" md="2" class="">
-                <img width="196" src="https://randomuser.me/api/portraits/women/85.jpg" class="company-logo">
+        <v-row class="challenge-hero" :style="banner()" no-gutters justify="center" align="center">
+            <v-col cols="12" md="2" class="" v-if="challenge.company?.bannerImageId">
+                <img width="196" :src="companyLogoSrc()" class="company-logo">
             </v-col>
             <v-col cols="12" md="6" class="d-flex hero-title flex-column justify-center align-start hero-text">
                 <h3 class="white-text">Challenge</h3>
@@ -20,8 +20,7 @@
             </v-col>
             <v-col cols="6" class="d-flex justify-center">
                 <div>
-                    <Tag>Website</Tag>
-                    <Tag>UI</Tag>
+                    <Tag v-for="tag in challenge.tags.split(',')" >{{ tag }}</Tag>
                 </div>
             </v-col>
             <v-col cols="3" class="d-flex justify-end align-center">
@@ -65,8 +64,6 @@
 
                 <v-alert class="my-8" v-if="challenge.concludingRemarks" type="success" title="Challenge Voltooid"
                     :text="challenge.concludingRemarks"></v-alert>
-
-                    {{ challenge.status }}
                 <section>
                     <h2 class="post-heading">Samenvatting</h2>
                     <p>{{ challenge.summary }}</p>
@@ -86,19 +83,18 @@
                     <p><v-icon>mdi-calendar-blank</v-icon> {{ new Date(challenge.endDate).toLocaleDateString("nl-nl") }}</p>
                 </section>
 
-                <section>
+                <section v-if="challenge.imageAttachmentsIds.length > 0">
                     <h2 class="post-heading">Afbeeldingen</h2>
                     <v-container>
                         <v-row>
-                            <v-col cols="2">
-                                <v-img src="https://www.salonhandel.nl/wp-content/uploads/salon-interieur.jpg" class="mb-4">
+                            <v-col cols="2" v-for="imgId in challenge.imageAttachmentsIds">
+                                <v-img :src="API.BASEURL + 'image/' + imgId" class="mb-4"
+                                @click="openImage(API.BASEURL + 'image/' + imgId)"
+                                >
                                 </v-img>
                             </v-col>
-                            <v-col cols="2"><v-img src="https://www.salonhandel.nl/wp-content/uploads/salon-interieur.jpg"
-                                    class="mb-4">
-                                </v-img>
-                            </v-col>
-
+                            
+                            
                         </v-row>
                     </v-container>
                 </section>
@@ -157,7 +153,7 @@
 }
 
 .challenge-hero {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url("https://www.salonhandel.nl/wp-content/uploads/salon-interieur.jpg");
+    
     background-size: cover;
     background-position: 0;
     height: 400px;
@@ -165,6 +161,8 @@
 
 .company-logo {
     border-radius: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
 }
 </style>
   
@@ -181,6 +179,7 @@ import { ChallengeInput } from '@/models/ChallengeInput';
 import { useRoute } from 'vue-router';
 import { onMounted } from 'vue';
 import API from '@/Api';
+import { Image } from '@/models/Image';
 
 const concludePopup = ref(false)
 const archivePopup = ref(false)
@@ -190,7 +189,7 @@ onMounted(async () => {
     const idParam = useRoute().params.id
     let id = Array.isArray(idParam) ? idParam[0] : idParam
     challenge.value = await API.getChallengeById(parseInt(id))
-})
+    })
 
 function archive(){
     if(challenge.value){
@@ -198,6 +197,21 @@ function archive(){
         API.updateChallenge(challenge.value)
     }
 }
+
+function banner(){
+    if(challenge.value?.bannerImageId){
+        return {"background-image":`linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url("${API.BASEURL}image/${challenge.value?.bannerImageId}")`}
+    }
+    return {"background-image":`linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7))`}
+}
+
+function companyLogoSrc(){
+    return `${API.BASEURL}image/${challenge.value?.company?.profileImageId}`
+}
+function openImage(imageUrl : string) {
+    window.open(imageUrl, '_blank');
+}
+
 
 // const reaction: Ref<ChallengeInput> = ref(API.getFakeChallengeInput())
 

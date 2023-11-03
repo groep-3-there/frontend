@@ -69,6 +69,7 @@
                 label="Upload een banner"
                 variant="outlined"
                 density="compact"
+                v-model="banner"
               >
               </v-file-input>
             </v-col>
@@ -82,6 +83,7 @@
                 variant="outlined"
                 multiple
                 density="compact"
+                v-model="images"
               >
               </v-file-input>
             </v-col>
@@ -154,18 +156,19 @@ const description = ref("");
 const contactInformation = ref("");
 const visibilityItems = [{title:'Publiek', subtitle:'Iedereen, ook zonder account', codeValue: "PUBLIC"}, {title:'Intranet', subtitle:'Iedereen met een account', codeValue: "INTRANET"}, {title:'Intern', subtitle:'Iedereen van uw bedrijf', codeValue:"INTERN"}, {title:'Afdeling', subtitle: 'Iedereen van uw afdeling', codeName:"DEPARTMENT"}]
 const visibility = ref(visibilityItems[0]);
-const banner = ref("");
-const images = ref("");
+const banner = ref();
+const images = ref();
 const tags = ref();
 const date = ref("");
 function visibilityProperties (item : any) {
-        return {
-          title: item.title,
-          subtitle: item.subtitle,
-        }
-      }
+  return {
+    title: item.title,
+    subtitle: item.subtitle,
+  }
+}
 const createChallengeForm = ref(null) as any;
 async function createChallenge() {
+
   const { valid } = await createChallengeForm.value.validate();
   if (!valid) {
     alert("Alle vereiste velden zijn nog niet ingevuld!");
@@ -179,23 +182,39 @@ async function createChallenge() {
     });
   }
   
+  //upload banner
+  let uploadedBannerId = null
+  if(banner.value?.length){
+    const response = await Api.uploadImage(banner.value[0])
+    uploadedBannerId = response.id
+  }
   
-  
+  //Upload attachments and get their ids
+  const attachmentImages : number[] = []
+  for(const toUpload of images.value){
+    const img = await Api.uploadImage(toUpload)
+    attachmentImages.push(img.id)
+  }
 
   const challenge = {
     title: title.value,
     summary: summary.value,
     description: summary.value,
-    banner: banner.value,
+    bannerImageId: uploadedBannerId,
     contactInformation: contactInformation.value,
     status: "OPEN_VOOR_IDEEEN",
     endDate: date.value,
+    imageAttachmentsIds: attachmentImages,
     tags: tagString,
     visiblity: visibility.value.codeName,
   };
-  createdChallenge.value = await Api.createChallenge(challenge);
-  console.log("sent new challenge");
-  router.push(`/challenge/${createdChallenge?.value?.id}`);
+  console.log("Creating challenge")
+  const created = await Api.createChallenge(challenge);
+ 
+
+  createdChallenge.value = created;
+  console.log(createdChallenge.value);
+  // router.push(`/challenge/${createdChallenge?.value?.id}`);
 }
 </script>
 
