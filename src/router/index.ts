@@ -20,7 +20,18 @@ const routes = [
         component: () => import('@/views/TutorialView.vue'),
       },
       {
-        path: 'challenge',
+        path: 'challenges',
+        name: 'Search Challanges',
+        component: () => import('@/views/SearchChallengesView.vue'),
+        props: (route: { query: { query: any; company_id: any; branches: any; sort: any; }; }) => ({
+          query: route.query.query,
+          company: route.query.company_id,
+          branch: route.query.branches,
+          sort: route.query.sort,
+        })
+      },
+      {
+        path: 'challenge/:id',
         name: 'Challenge',
         component: () => import('@/views/ChallengeView.vue'),
       },

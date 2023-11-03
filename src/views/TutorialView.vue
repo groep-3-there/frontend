@@ -1,8 +1,5 @@
 <template>
     <h2>Vue tutorial</h2>
-
-    
-
 </template>
 <style scoped>
     h2{
@@ -12,4 +9,3 @@
 <script lang="ts" setup>
 import HelloWorld from '@/components/HelloWorld.vue'
 </script>
-  
