@@ -2,7 +2,6 @@ import { Challenge } from "./models/Challenge"
 import { ChallengeInput } from "./models/ChallengeInput"
 import { User } from "./models/User"
 
-
 async function postRequest<T>(url: string, bodyObject: {}) {
     const res = await fetch(API.BASEURL + url, {
         method: "POST",
@@ -51,8 +50,13 @@ namespace API {
         return getRequest<Challenge>(`challenge/${id}`)
     }
 
-    export async function getChallengesBySearch(){
-        return getRequest<Challenge[]>("challenge/search");
+    export async function getChallengesBySearch(query? : string, company?: string[], branche?: string[], sort?: string){
+        let urlstring = "challenge/search?"
+        if(query) urlstring += `query=${query}&`
+        if(company) urlstring += `company=${company}&`
+        if(branche) urlstring += `branche=${branche}&`
+        if(sort) urlstring += `sort=${sort}&`
+        return getRequest<Challenge[]>(urlstring);
     }
 
 
