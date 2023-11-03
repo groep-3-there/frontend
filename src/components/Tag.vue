@@ -12,13 +12,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-enum Type {
-    Idea = "idea",
-    Feedback = "feedback",
-    Question = "question",
-    default = "default"
-}
-
 const props = defineProps({
     type: {
         type: String,
@@ -29,14 +22,14 @@ const props = defineProps({
 
 const color = ref("");
 
-switch (props.type) {
-    case Type.Idea:
+switch (props.type.toLowerCase()) {
+    case "idea":
         color.value = "mmyellow"
         break;
-    case Type.Feedback:
+    case "feedback":
         color.value = "primary"
         break;
-    case Type.Question:
+    case "question":
         color.value = "primary"
         break;
     default:
