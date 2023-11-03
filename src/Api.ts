@@ -1,7 +1,7 @@
 import { Challenge } from "./models/Challenge"
 import { ChallengeInput } from "./models/ChallengeInput"
+import { Image } from "./models/Image"
 import { User } from "./models/User"
-
 
 async function postRequest<T>(url: string, bodyObject: {}) {
     const res = await fetch(API.BASEURL + url, {
@@ -16,6 +16,7 @@ async function postRequest<T>(url: string, bodyObject: {}) {
     })
     return await res.json() as T
 }
+
 async function putRequest<T>(url: string, bodyObject: {}) {
     const res = await fetch(API.BASEURL + url, {
         method: "PUT",
@@ -28,6 +29,16 @@ async function putRequest<T>(url: string, bodyObject: {}) {
         body: JSON.stringify(bodyObject)
     })
     return await res.json() as T
+
+async function uploadFile<T>(url: string, keyName : string, file: File) {
+    const formData = new FormData();
+    formData.append(keyName, file);
+    const response = await fetch(API.BASEURL + url, {
+        method: 'POST',
+        body: formData,
+    });
+    const data = await response.json();
+    return data as T
 }
 
 async function getRequest<T>(url: string) {
@@ -68,14 +79,24 @@ namespace API {
         return getRequest<Challenge>(`challenge/${id}`)
     }
 
-    export async function getChallengesBySearch(){
-        return getRequest<Challenge[]>("challenge/search");
+    export async function getChallengesBySearch(query? : string, company?: string[], branche?: string[], sort?: string){
+        let urlstring = "challenge/search?"
+        if(query) urlstring += `query=${query}&`
+        if(company) urlstring += `company=${company}&`
+        if(branche) urlstring += `branche=${branche}&`
+        if(sort) urlstring += `sort=${sort}&`
+        return getRequest<Challenge[]>(urlstring);
     }
+
 
     export async function updateChallenge(ch : Challenge){
         return putRequest<Challenge>("challenge/update", ch)
     }
     
+    export async function uploadImage(img : File){
+        return uploadFile<Image>("image/upload", "image", img)
+    }
+
 }
 
 

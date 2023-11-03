@@ -1,28 +1,34 @@
 <template>
-  <v-container class="challengekaart">
-    <v-row>
-      <v-col-3 class="d-flex justify-center align-center">
+  <v-container class="challenge-card">
+    <v-row class="d-flex justify-center align-start">
+      <v-col cols="2" class="d-flex justify-center align-start">
         <img
-          class="afbeelding"
+          class="image"
           src="https://www.weertmagazine.com/wp-content/uploads/2019/11/D5D_0199.jpg"
-          alt="afbeelding van jeroen"
+          alt="profielfoto van de challenger"
         />
-      </v-col-3>
+      </v-col>
 
-      <v-col>
-        <div class="challengetekst">
+      <v-col cols="10">
+        <v-row no-gutters>
           <h3>{{ challenge?.title }}</h3>
-          <p>{{ challenge?.description }}</p>
-        </div>
+        </v-row>
 
-        <div class="challengedata d-flex justify-space-between">
-          <div>
-            <p v-if="challenge">Einddatum: {{ new Date(challenge.endDate).toLocaleDateString("nl-nl")  }}</p>
-          </div>
-          <div class="tags d-flex" style="border: 1px solid red">
+        <v-row v-if="challenge?.summary" no-gutters>
+          {{ challenge?.summary }}
+        </v-row>
+
+        <v-row no-gutters>
+          <v-col v-if="challenge?.endDate" cols="12" md="4">
+            <p>
+              Einddatum:
+              {{ new Date(challenge.endDate).toLocaleDateString("nl-nl") }}
+            </p>
+          </v-col>
+          <v-col v-if="challenge?.tags">
             <v-chip v-for="tag in challenge?.tags" :key="tag">{{ tag }}</v-chip>
-          </div>
-        </div>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
   </v-container>
@@ -37,23 +43,16 @@ defineProps({
 </script>
 
 <style scoped>
-.challengekaart {
+.challenge-card {
   border: 1px solid black;
-  padding: 1rem;
-  margin: 2rem 0 0 0;
+  margin: 1rem 0 0 0;
   border-radius: 15px;
   box-shadow: 2px 2px darkgray;
 }
 
-.afbeelding {
-  width: 100px;
-  height: 100px;
+.image {
+  min-width: 3rem;
   background-color: #e0e0e0;
   border-radius: 50%;
-  margin: 1rem;
-}
-
-.challengedata {
-  margin-top: 1rem;
 }
 </style>
