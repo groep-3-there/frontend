@@ -16,7 +16,7 @@
                 </div>
             </v-col>
             <v-col cols="6" class="reaction-tag d-flex justify-end" align-self="center">
-                <Tag :tag-name="props.challengeInput.type" is-idea></Tag>
+                <Tag type="idea">props.challengeInput.type</Tag>
             </v-col>
         </v-row>
             

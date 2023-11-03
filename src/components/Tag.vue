@@ -5,50 +5,42 @@
         text-color="white"
         class="ma-2"
     >
-        {{ props.tagName }}
+        <slot></slot>
     </v-chip>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { ref } from 'vue';
 
-
-const color = computed(()=>{
-    if(props.isIdea){
-        return "mmyellow"
-    }
-    if(props.isFeedback){
-        return "primary"
-    }
-    if(props.isQuestion){
-        return "primary"
-    }
-    return "primary"
-
-})
-
+enum Type {
+    Idea = "idea",
+    Feedback = "feedback",
+    Question = "question",
+    default = "default"
+}
 
 const props = defineProps({
-    tagName: {
+    type: {
         type: String,
-        required: true
-    },
-    isIdea: {
-        type: Boolean,
         required: false,
-        default: false
-    },
-    isFeedback:{
-        type: Boolean,
-        required: false,
-        default: false
-    },
-    isQuestion:{
-        type: Boolean,
-        required: false,
-        default: false
+        default: "default"
     }
-
 })
 
+const color = ref("");
+
+switch (props.type) {
+    case Type.Idea:
+        color.value = "mmyellow"
+        break;
+    case Type.Feedback:
+        color.value = "primary"
+        break;
+    case Type.Question:
+        color.value = "primary"
+        break;
+    default:
+        color.value = "primary"
+        break;
+}
 </script>

@@ -19,9 +19,8 @@
             </v-col>
             <v-col cols="6" class="d-flex justify-center">
                 <div>
-                    <Tag tag-name="Website"></Tag>
-                    <Tag tag-name="UI"></Tag>
-    
+                    <Tag>Website</Tag>
+                    <Tag>UI</Tag>
                 </div>
             </v-col>
             <v-col cols="3" class="d-flex justify-end align-center">
@@ -48,7 +47,6 @@
         </v-row>
     
         <v-divider class="mt-4"></v-divider>
-    
     
         <v-row>
             <v-col cols="10" class="mx-auto">
@@ -152,15 +150,12 @@
     height: 400px;
 }
 
-
-
 .company-logo {
     border-radius: 100%;
 }
 </style>
   
 <script lang="ts" setup>
-import HelloWorld from '@/components/HelloWorld.vue'
 import { Ref, ref } from 'vue';
 import { Challenge } from '@/models/Challenge';
 import Tag from "@/components/Tag.vue"
@@ -170,7 +165,6 @@ import { useRoute } from 'vue-router';
 import { onMounted } from 'vue';
 import API from '@/Api';
 
-
 const challenge = ref(null) as Ref<Challenge | null>
 
 onMounted(async()=>{
@@ -178,7 +172,6 @@ onMounted(async()=>{
     let id = Array.isArray(idParam) ? idParam[0] : idParam 
     challenge.value = await API.getChallengeById(parseInt(id))
 })
-
 
 // const reaction: Ref<ChallengeInput> = ref(API.getFakeChallengeInput())
 

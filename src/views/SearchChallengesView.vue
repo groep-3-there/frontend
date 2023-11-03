@@ -135,10 +135,10 @@ onMounted(async () => {
   
   let companiesAsString = query?.company as string;
   console.log(companiesAsString);
-  let companies = companiesAsString.split(",") as string[];
+  let companies = companiesAsString?.split(",") as string[];
   
   let branchesAsString = query?.branche as string;
-  let branches = branchesAsString.split(",") as string[];
+  let branches = branchesAsString?.split(",") as string[];
 
   let sort = query?.sort as string;
 
