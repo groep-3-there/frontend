@@ -5,50 +5,35 @@
         text-color="white"
         class="ma-2"
     >
-        {{ props.tagName }}
+        <slot></slot>
     </v-chip>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-
-
-const color = computed(()=>{
-    if(props.isIdea){
-        return "mmyellow"
-    }
-    if(props.isFeedback){
-        return "primary"
-    }
-    if(props.isQuestion){
-        return "primary"
-    }
-    return "primary"
-
-})
-
+import { ref } from 'vue';
 
 const props = defineProps({
-    tagName: {
+    type: {
         type: String,
-        required: true
-    },
-    isIdea: {
-        type: Boolean,
         required: false,
-        default: false
-    },
-    isFeedback:{
-        type: Boolean,
-        required: false,
-        default: false
-    },
-    isQuestion:{
-        type: Boolean,
-        required: false,
-        default: false
+        default: "default"
     }
-
 })
 
+const color = ref("");
+
+switch (props.type.toLowerCase()) {
+    case "idea":
+        color.value = "mmyellow"
+        break;
+    case "feedback":
+        color.value = "primary"
+        break;
+    case "question":
+        color.value = "primary"
+        break;
+    default:
+        color.value = "primary"
+        break;
+}
 </script>

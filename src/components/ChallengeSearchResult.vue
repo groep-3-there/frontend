@@ -26,7 +26,7 @@
             </p>
           </v-col>
           <v-col v-if="challenge?.tags">
-            <v-chip v-for="tag in challenge?.tags" :key="tag">{{ tag }}</v-chip>
+            <Tag v-for="tag in challenge?.tags.split(',')" :key="tag">{{ tag }}</Tag>
           </v-col>
         </v-row>
       </v-col>
@@ -36,6 +36,7 @@
 
 <script setup lang="ts">
 import { Challenge } from "@/models/Challenge";
+import Tag from "@/components/Tag.vue";
 
 defineProps({
   challenge: Challenge,

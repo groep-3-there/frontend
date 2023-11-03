@@ -4,7 +4,6 @@
     </template>
     <template v-if="challenge">
 
-
         <v-row class="challenge-hero" no-gutters justify="center" align="center">
             <v-col cols="12" md="2" class="">
                 <img width="196" src="https://randomuser.me/api/portraits/women/85.jpg" class="company-logo">
@@ -21,9 +20,8 @@
             </v-col>
             <v-col cols="6" class="d-flex justify-center">
                 <div>
-                    <Tag tag-name="Website"></Tag>
-                    <Tag tag-name="UI"></Tag>
-
+                    <Tag>Website</Tag>
+                    <Tag>UI</Tag>
                 </div>
             </v-col>
             <v-col cols="3" class="d-flex justify-end align-center">
@@ -61,7 +59,6 @@
         </v-row>
 
         <v-divider class="mt-4"></v-divider>
-
 
         <v-row>
             <v-col cols="10" class="mx-auto">
@@ -166,8 +163,6 @@
     height: 400px;
 }
 
-
-
 .company-logo {
     border-radius: 100%;
 }
@@ -176,7 +171,6 @@
 <script lang="ts" setup>
 import ConcludeChallengePopup from '@/components/ConcludeChallengePopup.vue'
 import AreYouSurePopup from '@/components/AreYouSurePopup.vue'
-
 import { Ref, ref } from 'vue';
 import { Challenge } from '@/models/Challenge';
 import Tag from "@/components/Tag.vue"
@@ -196,7 +190,6 @@ onMounted(async () => {
     let id = Array.isArray(idParam) ? idParam[0] : idParam
     challenge.value = await API.getChallengeById(parseInt(id))
 })
-
 
 function archive(){
     if(challenge.value){
