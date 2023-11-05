@@ -178,9 +178,6 @@ async function createChallenge() {
       tagString += tag + ",";
     });
   }
-  
-  
-  
 
   const challenge = {
     title: title.value,
@@ -194,7 +191,6 @@ async function createChallenge() {
     visiblity: visibility.value.codeName,
   };
   createdChallenge.value = await Api.createChallenge(challenge);
-  console.log("sent new challenge");
   router.push(`/challenge/${createdChallenge?.value?.id}`);
 }
 </script>

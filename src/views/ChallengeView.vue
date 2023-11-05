@@ -39,7 +39,7 @@
                         <v-icon v-bind="props" size="48">mdi-dots-horizontal</v-icon>
                     </template>
                     <v-list>
-                        <v-list-item :value="1" :key="1">
+                        <v-list-item :value="1" :key="1" @click="$router.push('/edit-challenge')">
                             <v-list-item-title><v-icon class="mr-1"
                                     size="24">mdi-pencil</v-icon>Bewerken</v-list-item-title>
                         </v-list-item>
@@ -82,7 +82,7 @@
                 </section>
 
                 <section v-if="challenge.endDate">
-                    <h2 class="post-heading">Eind datum</h2>
+                    <h2 class="post-heading">Einddatum</h2>
                     <p><v-icon>mdi-calendar-blank</v-icon> {{ new Date(challenge.endDate).toLocaleDateString("nl-nl") }}</p>
                 </section>
 
