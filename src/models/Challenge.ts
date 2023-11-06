@@ -17,5 +17,6 @@ export class Challenge {
     declare endDate: string;
     declare tags: string;
     declare visibility: string;
+    declare imageAttachmentsIds : number[];
 }
 

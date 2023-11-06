@@ -72,8 +72,10 @@ namespace API {
     return getRequest<User>("auth/user");
   }
 
+  export async function getImagesByChallengeId(id: number) {
+    return getRequest<Image[]>(`image/challenge/${id}`);
+  }
   export async function getChallengeById(id: number) {
-    return getRequest<Challenge>(`challenge/${id}`);
     return getRequest<Challenge>(`challenge/${id}`);
   }
 
@@ -98,6 +100,10 @@ namespace API {
   export async function uploadImage(img: File) {
     return uploadFile<Image>("image/upload", "image", img);
   }
+  export async function uploadImageForChallenge(img : File, challengeId : number){
+    return uploadFile<Image>(`image/upload/challenge/${challengeId}`, "image", img);
+  }
+
 }
 
 export default API;

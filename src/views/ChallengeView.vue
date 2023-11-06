@@ -4,27 +4,26 @@
     </template>
     <template v-if="challenge">
 
-        <v-row class="challenge-hero" no-gutters justify="center" align="center">
-            <v-col cols="12" md="2" class="">
-                <img width="196" src="https://randomuser.me/api/portraits/women/85.jpg" class="company-logo">
+        <v-row class="challenge-hero" :style="banner()" no-gutters justify="center" align="center">
+            <v-col cols="6" md="3" class="d-flex justify-center"  v-if="challenge.company?.bannerImageId">
+                <img :src="companyLogoSrc()" class="company-logo">
             </v-col>
-            <v-col cols="12" md="6" class="d-flex hero-title flex-column justify-center align-start hero-text">
+            <v-col cols="10 " md="8" class="d-flex hero-title flex-column justify-center align-start hero-text ml-4">
                 <h3 class="white-text">Challenge</h3>
                 <h1 class="white-text challenge-title">{{ challenge.title }}</h1>
             </v-col>
         </v-row>
 
         <v-row>
-            <v-col cols="3" class="d-flex align-center justify-start">
+            <v-col md="3" class="d-flex align-center justify-center">
                 <v-icon>mdi-calendar-blank</v-icon> {{ new Date(challenge.createdAt).toLocaleDateString("nl-nl") }}
             </v-col>
-            <v-col cols="6" class="d-flex justify-center">
-                <div>
-                    <Tag>Website</Tag>
-                    <Tag>UI</Tag>
+            <v-col cols="12"  md="6" class="">
+                <div class="d-flex flex-wrap justify-center">
+                    <Tag v-for="tag in challenge.tags.split(',')" >{{ tag }}</Tag>
                 </div>
             </v-col>
-            <v-col cols="3" class="d-flex justify-end align-center">
+            <v-col cols="12" md="3" class="d-flex justify-center align-center">
                 <ConcludeChallengePopup v-if="concludePopup" @request-popup-close="concludePopup = false"
                     :challenge="challenge"></ConcludeChallengePopup>
                 <AreYouSurePopup v-if="archivePopup" 
@@ -65,8 +64,6 @@
 
                 <v-alert class="my-8" v-if="challenge.concludingRemarks" type="success" title="Challenge Voltooid"
                     :text="challenge.concludingRemarks"></v-alert>
-
-                    {{ challenge.status }}
                 <section>
                     <h2 class="post-heading">Samenvatting</h2>
                     <p>{{ challenge.summary }}</p>
@@ -86,21 +83,19 @@
                     <p><v-icon>mdi-calendar-blank</v-icon> {{ new Date(challenge.endDate).toLocaleDateString("nl-nl") }}</p>
                 </section>
 
-                <section>
+                <section v-if="challenge.imageAttachmentsIds?.length > 0">
                     <h2 class="post-heading">Afbeeldingen</h2>
-                    <v-container>
                         <v-row>
-                            <v-col cols="2">
-                                <v-img src="https://www.salonhandel.nl/wp-content/uploads/salon-interieur.jpg" class="mb-4">
-                                </v-img>
+                            <v-col cols="10" md="4" v-for="imgId in challenge.imageAttachmentsIds">
+                                <img 
+                                class="attachment-image"
+                                lazy-src="https://picsum.photos/id/11/100/60"
+                                :src="API.BASEURL + 'image/' + imgId"
+                                @click="openImage(API.BASEURL + 'image/' + imgId)"
+                                >
+                                
                             </v-col>
-                            <v-col cols="2"><v-img src="https://www.salonhandel.nl/wp-content/uploads/salon-interieur.jpg"
-                                    class="mb-4">
-                                </v-img>
-                            </v-col>
-
                         </v-row>
-                    </v-container>
                 </section>
 
                 <v-divider class="my-4"></v-divider>
@@ -148,24 +143,42 @@
 }
 
 .challenge-title {
-    font-size: 4em;
+    font-size: 4rem;
     font-weight: 1000;
 }
-
 .white-text {
     color: white;
 }
 
 .challenge-hero {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url("https://www.salonhandel.nl/wp-content/uploads/salon-interieur.jpg");
+    
     background-size: cover;
     background-position: 0;
-    height: 400px;
+    min-height: 400px;
+    max-height: fit-content;
 }
 
 .company-logo {
+    max-width: min(80%, 25vw);
     border-radius: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
 }
+.attachment-image{
+    max-height: 200px;
+    max-width: 100%;
+}
+
+
+@media screen and (max-width: 1000px) {
+    .challenge-title{
+        font-size: 2.5rem;
+
+    }
+}
+
+
+
 </style>
   
 <script lang="ts" setup>
@@ -181,6 +194,7 @@ import { ChallengeInput } from '@/models/ChallengeInput';
 import { useRoute } from 'vue-router';
 import { onMounted } from 'vue';
 import API from '@/Api';
+import { Image } from '@/models/Image';
 
 const concludePopup = ref(false)
 const archivePopup = ref(false)
@@ -190,7 +204,8 @@ onMounted(async () => {
     const idParam = useRoute().params.id
     let id = Array.isArray(idParam) ? idParam[0] : idParam
     challenge.value = await API.getChallengeById(parseInt(id))
-})
+    console.log(challenge.value)
+    })
 
 function archive(){
     if(challenge.value){
@@ -198,6 +213,21 @@ function archive(){
         API.updateChallenge(challenge.value)
     }
 }
+
+function banner(){
+    if(challenge.value?.bannerImageId){
+        return {"background-image":`linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url("${API.BASEURL}image/${challenge.value?.bannerImageId}")`}
+    }
+    return {"background-image":`linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7))`}
+}
+
+function companyLogoSrc(){
+    return `${API.BASEURL}image/${challenge.value?.company?.profileImageId}`
+}
+function openImage(imageUrl : string) {
+    window.open(imageUrl, '_blank');
+}
+
 
 // const reaction: Ref<ChallengeInput> = ref(API.getFakeChallengeInput())
 
