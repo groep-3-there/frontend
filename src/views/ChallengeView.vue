@@ -5,7 +5,7 @@
     <template v-if="challenge">
 
         <v-row class="challenge-hero" :style="banner()" no-gutters justify="center" align="center">
-            <v-col cols="6" md="3" class="d-flex justify-center"  v-if="challenge.company?.bannerImageId">
+            <v-col cols="6" md="3" class="d-flex justify-center"  v-if="challenge.company?.profileImageId">
                 <img :src="companyLogoSrc()" class="company-logo">
             </v-col>
             <v-col cols="10 " md="8" class="d-flex hero-title flex-column justify-center align-start hero-text ml-4">
