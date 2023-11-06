@@ -48,7 +48,7 @@
           multiple
           v-model="selectedBranches"
           label="Branches"
-          :items="['ICT', 'Horeca', 'Kantoor', 'Zorg', 'Onderwijs', 'Overheid']"
+          :items="standardbranches.map(obj => obj.name)"
           variant="outlined"
         ></v-autocomplete>
       </v-col>
@@ -112,8 +112,10 @@ import API from "@/Api";
 import { Challenge } from "@/models/Challenge";
 import router from "@/router";
 import { onMounted } from "vue";
+import { Branch } from "@/models/Branch";
 
 const challenges: Ref<Challenge[]> = ref([]);
+const standardbranches: Ref<Branch[]> = ref([]);
 
 //search term in search bar
 const searchTerm = ref("");
@@ -130,7 +132,7 @@ const sort = ref("newest_first");
 
 onMounted(async () => {
   let query = router.currentRoute.value.query;
-
+  
   let searchTerm = query?.query as string;
   
   let companiesAsString = query?.company as string;
@@ -147,6 +149,9 @@ onMounted(async () => {
     companies,
     branches,
     sort
+  );
+
+  standardbranches.value = await API.getBranches(
   );
 });
 
