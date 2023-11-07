@@ -1,8 +1,11 @@
+import exp from "constants";
 import { Challenge } from "./models/Challenge";
 import { ChallengeInput } from "./models/ChallengeInput";
 import { Image } from "./models/Image";
 import { User } from "./models/User";
 import { useSnackbarStore } from "./store/Snackbar";
+import { ChallengeSearchResults } from "./models/ChallengeSearchResults";
+import { Branch } from "./models/Branch";
 
 const snackbar = useSnackbarStore();
 
@@ -92,7 +95,6 @@ namespace API {
   export async function getCurrentUser() {
     return getRequest<User>("auth/user");
   }
-
   export async function getImagesByChallengeId(id: number) {
     return getRequest<Image[]>(`image/challenge/${id}`);
   }
@@ -100,18 +102,34 @@ namespace API {
     return getRequest<Challenge>(`challenge/${id}`);
   }
 
+  export async function getBranches() {
+    return getRequest<Branch[]>(`branch/all`);
+  }
+
+  /**
+   * This function calls to API to get all challenges that match the given filters
+   * @param query - words to search for in the challenge title, description and tags
+   * @param company - campany names to filter for
+   * @param branche - branche names to filter for
+   * @param sort - sort by newest_first, deadline_closest_first
+   * @param page - page number
+   * @returns 
+   */
   export async function getChallengesBySearch(
     query?: string,
     company?: string[],
     branche?: string[],
-    sort?: string
+    sort?: string,
+    page?: number
   ) {
     let urlstring = "challenge/search?";
     if (query) urlstring += `query=${query}&`;
     if (company) urlstring += `company=${company}&`;
     if (branche) urlstring += `branche=${branche}&`;
     if (sort) urlstring += `sort=${sort}&`;
-    return getRequest<Challenge[]>(urlstring);
+    if (page) urlstring += `page=${page}&`;
+
+    return getRequest<ChallengeSearchResults>(urlstring);
   }
 
   export async function updateChallenge(ch: Challenge) {
