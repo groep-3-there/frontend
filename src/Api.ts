@@ -2,7 +2,7 @@ import { Challenge } from "./models/Challenge";
 import { ChallengeInput } from "./models/ChallengeInput";
 import { Image } from "./models/Image";
 import { User } from "./models/User";
-
+import { ChallengeSearchResults } from "./models/ChallengeSearchResults";
 
 async function postRequest<T>(url: string, bodyObject: {}) {
   const res = await fetch(API.BASEURL + url, {
@@ -74,21 +74,32 @@ namespace API {
 
   export async function getChallengeById(id: number) {
     return getRequest<Challenge>(`challenge/${id}`);
-    return getRequest<Challenge>(`challenge/${id}`);
   }
 
+  /**
+   * This function calls to API to get all challenges that match the given filters
+   * @param query - words to search for in the challenge title, description and tags
+   * @param company - campany names to filter for
+   * @param branche - branche names to filter for
+   * @param sort - sort by newest_first, deadline_closest_first
+   * @param page - page number
+   * @returns 
+   */
   export async function getChallengesBySearch(
     query?: string,
     company?: string[],
     branche?: string[],
-    sort?: string
+    sort?: string,
+    page?: number
   ) {
     let urlstring = "challenge/search?";
     if (query) urlstring += `query=${query}&`;
     if (company) urlstring += `company=${company}&`;
     if (branche) urlstring += `branche=${branche}&`;
     if (sort) urlstring += `sort=${sort}&`;
-    return getRequest<Challenge[]>(urlstring);
+    if (page) urlstring += `page=${page}&`;
+
+    return getRequest<ChallengeSearchResults>(urlstring);
   }
 
   export async function updateChallenge(ch: Challenge) {
