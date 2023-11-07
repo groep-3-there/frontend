@@ -116,7 +116,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { Ref, ref } from "vue";
 import API from "@/Api";
 import ChallengeSearchResult from "@/components/ChallengeSearchResult.vue";
 import { Challenge } from "@/models/Challenge";
