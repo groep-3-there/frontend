@@ -1,7 +1,9 @@
+import exp from "constants";
 import { Challenge } from "./models/Challenge";
 import { ChallengeInput } from "./models/ChallengeInput";
 import { Image } from "./models/Image";
 import { User } from "./models/User";
+import { Branch } from "./models/Branch";
 
 
 async function postRequest<T>(url: string, bodyObject: {}) {
@@ -71,12 +73,14 @@ namespace API {
   export async function getCurrentUser() {
     return getRequest<User>("auth/user");
   }
-
   export async function getImagesByChallengeId(id: number) {
     return getRequest<Image[]>(`image/challenge/${id}`);
   }
   export async function getChallengeById(id: number) {
     return getRequest<Challenge>(`challenge/${id}`);
+  }
+  export async function getBranches() {
+    return getRequest<Branch[]>(`branch/all`);
   }
 
   export async function getChallengesBySearch(
