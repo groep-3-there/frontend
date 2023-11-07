@@ -1,8 +1,10 @@
+import exp from "constants";
 import { Challenge } from "./models/Challenge";
 import { ChallengeInput } from "./models/ChallengeInput";
 import { Image } from "./models/Image";
 import { User } from "./models/User";
 import { ChallengeSearchResults } from "./models/ChallengeSearchResults";
+import { Branch } from "./models/Branch";
 
 async function postRequest<T>(url: string, bodyObject: {}) {
   const res = await fetch(API.BASEURL + url, {
@@ -71,9 +73,15 @@ namespace API {
   export async function getCurrentUser() {
     return getRequest<User>("auth/user");
   }
-
+  export async function getImagesByChallengeId(id: number) {
+    return getRequest<Image[]>(`image/challenge/${id}`);
+  }
   export async function getChallengeById(id: number) {
     return getRequest<Challenge>(`challenge/${id}`);
+  }
+
+  export async function getBranches() {
+    return getRequest<Branch[]>(`branch/all`);
   }
 
   /**
@@ -109,6 +117,10 @@ namespace API {
   export async function uploadImage(img: File) {
     return uploadFile<Image>("image/upload", "image", img);
   }
+  export async function uploadImageForChallenge(img : File, challengeId : number){
+    return uploadFile<Image>(`image/upload/challenge/${challengeId}`, "image", img);
+  }
+
 }
 
 export default API;

@@ -48,7 +48,7 @@
           multiple
           v-model="selectedBranches"
           label="Branches"
-          :items="['ICT', 'Horeca', 'Kantoor', 'Zorg', 'Onderwijs', 'Overheid']"
+          :items="standardbranches.map(obj => obj.name)"
           variant="outlined"
         ></v-autocomplete>
       </v-col>
@@ -121,9 +121,11 @@ import API from "@/Api";
 import ChallengeSearchResult from "@/components/ChallengeSearchResult.vue";
 import { Challenge } from "@/models/Challenge";
 import { ChallengeSearchResults } from "@/models/ChallengeSearchResults";
-
 import router from "@/router";
 import { onMounted } from "vue";
+import { Branch } from "@/models/Branch";
+
+const standardbranches: Ref<Branch[]> = ref([]);
 
 /**
  * @type {string} - search term in search bar
@@ -169,7 +171,7 @@ const challenges = ref<ChallengeSearchResults>();
 const page = ref(1);
 
 onMounted(async () => {
-  var query = router.currentRoute.value.query;
+  let query = router.currentRoute.value.query;
   let searchTerm = query?.query as string;
   let companiesAsString = query?.company as string;
   let companies = companiesAsString?.split(",") as string[];
@@ -183,6 +185,9 @@ onMounted(async () => {
     branches,
     sort,
     page.value - 1 // subtract 1 because the API starts counting at 0 for pages and Vue starts counting at 1
+  );
+
+  standardbranches.value = await API.getBranches(
   );
 });
 

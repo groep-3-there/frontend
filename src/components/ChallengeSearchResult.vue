@@ -55,5 +55,7 @@ defineProps({
   min-width: 3rem;
   background-color: #e0e0e0;
   border-radius: 50%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
 }
 </style>
