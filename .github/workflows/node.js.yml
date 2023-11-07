@@ -29,6 +29,3 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
-    - name: NodeJS Create Release
-      uses: gregoranders/nodejs-create-release@v0.0.21
-            
