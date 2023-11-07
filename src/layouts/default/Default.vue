@@ -43,7 +43,7 @@
           <v-list-item
             @click="$router.push('/challenges')"
             prepend-icon="mdi-folder"
-            title="HULP NIET NODIG MEER LOL DOCKER"
+            title="Zoeken"
             value="zoeken"
           ></v-list-item>
           <v-list-item
