@@ -2,7 +2,9 @@ import { Challenge } from "./models/Challenge";
 import { ChallengeInput } from "./models/ChallengeInput";
 import { Image } from "./models/Image";
 import { User } from "./models/User";
+import { useSnackbarStore } from "./store/Snackbar";
 
+const snackbar = useSnackbarStore();
 
 async function postRequest<T>(url: string, bodyObject: {}) {
   const res = await fetch(API.BASEURL + url, {
@@ -15,6 +17,9 @@ async function postRequest<T>(url: string, bodyObject: {}) {
     // credentials: "include",
     body: JSON.stringify(bodyObject),
   });
+  if(!res.ok){
+    snackbar.createSimple(res.statusText, "error");
+  }
   return (await res.json()) as T;
 }
 
@@ -29,27 +34,43 @@ async function putRequest<T>(url: string, bodyObject: {}) {
     // credentials: "include",
     body: JSON.stringify(bodyObject),
   });
+  if(!res.ok){
+    snackbar.createSimple(res.statusText, "error");
+  }
   return (await res.json()) as T;
 }
 
 async function uploadFile<T>(url: string, keyName: string, file: File) {
   const formData = new FormData();
   formData.append(keyName, file);
-  const response = await fetch(API.BASEURL + url, {
+  const res = await fetch(API.BASEURL + url, {
     method: "POST",
     body: formData,
   });
-  const data = await response.json();
+  if(!res.ok){
+    snackbar.createSimple(`Upload gefaald : ${res.statusText}`, "error");
+  }
+  const data = await res.json();
   return data as T;
 }
 
 async function getRequest<T>(url: string) {
-  const res = await fetch(API.BASEURL + url, {
-    method: "GET",
-    headers: API.headers,
-    mode: "cors",
-    // credentials: "include"
-  });
+  let res;
+  try{
+    res = await fetch(API.BASEURL + url, {
+      method: "GET",
+      headers: API.headers,
+      mode: "cors",
+      // credentials: "include"
+    });
+  }
+  catch(e){
+    snackbar.createSimple("We konden de server niet bereiken", "error");
+    throw e;
+  }
+  if(!res.ok){
+    snackbar.createSimple(res.statusText, "error");
+  }
   return (await res.json()) as T;
 }
 
