@@ -205,7 +205,7 @@ const challenge : Ref<Challenge | null> = ref(null)
 
 const challengeInputs : Ref<ChallengeInput[]> = ref([])
 const inputsHaveChosenAnswer = computed(() => challengeInputs.value.some(input => input.isChosenAnswer))
-const userCanMarkAnswer = computed(() => sessionStore.loggedInUser!.hasPermissionAtCompany("MANAGE_CHALLENGE", challenge.value?.company.id))
+const userCanMarkAnswer = computed(() => sessionStore.loggedInUser!.hasPermissionAtCompany("CHALLENGE_MANAGE", challenge.value?.company.id))
 
 
 onMounted(async () => {
@@ -214,6 +214,7 @@ onMounted(async () => {
     challenge.value = await API.getChallengeById(parseInt(id))
     console.log(challenge.value)
     challengeInputs.value = await API.getChallengeInputs(parseInt(id))
+    console.log(challengeInputs.value)
     })
 
 function archive(){

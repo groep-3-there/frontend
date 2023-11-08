@@ -1,6 +1,3 @@
-import API from "@/Api";
-import { Company } from "./Company";
-import { Department } from "./Department";
 import { Image } from "./Image";
 import { Role } from "./Role";
 
@@ -55,6 +52,8 @@ export class User{
     }
 
     hasPermissionAtCompany(permission : string, companyId : number | null | undefined){
+        console.log(permission, companyId)
+        console.log(this.role)
         if(companyId === null || companyId === undefined){
             return false
         }

@@ -100,7 +100,7 @@ import Tag from "@/components/Tag.vue";
 import API from "@/Api";
 import { computed, ref } from "vue";
 import AreYouSurePopup from "./AreYouSurePopup.vue";
-const props = defineProps<{
+const props = defineProps({
   challengeInput: {
     type: ChallengeInput,
     required: true
@@ -110,7 +110,7 @@ const props = defineProps<{
     required: false,
     default: false
   }
-}>();
+});
 
 const smallText = computed(() => props.challengeInput.text.substring(0, 1000));
 const shortened = computed(
