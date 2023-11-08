@@ -32,14 +32,15 @@
           <v-row>
             <v-col>
               <v-textarea
-                v-model="description"
-                label="Beschrijving"
-                :rules="[(v) => !!v || 'Dit veld is verplicht!']"
-                required
-                variant="outlined"
-                auto-grow
-                rows="10"
-              ></v-textarea>
+                  v-model="description"
+                  label="Beschrijving"
+                  :rules="[(v) => !!v || 'Dit veld is verplicht!']"
+                  required
+                  variant="outlined"
+                  auto-grow
+                  rows="10"
+                  ></v-textarea>
+                  <RichEditor/>
             </v-col>
           </v-row>
 
@@ -148,6 +149,7 @@ import Api from "@/Api";
 import { Ref } from "vue";
 import { Challenge } from "@/models/Challenge";
 import router from "@/router";
+import RichEditor from "@/components/RichEditor.vue";
 const createdChallenge = ref(null) as Ref<Challenge | null>;
 
 const title = ref("");
@@ -170,8 +172,6 @@ function getVisibilityCodeName (title : string){
   return visibilityItems.find((item) => item.title === title)?.codeName
 }
 const createChallengeForm = ref(null) as any;
-
-
 
 async function createChallenge() {
 
@@ -215,7 +215,7 @@ async function createChallenge() {
   };
   console.log("Creating challenge", challenge)
   const created = await Api.createChallenge(challenge);
- 
+
 
   createdChallenge.value = created;
   console.log(createdChallenge.value);
