@@ -1,4 +1,3 @@
-import exp from "constants";
 import { Challenge } from "./models/Challenge";
 import { ChallengeInput } from "./models/ChallengeInput";
 import { Image } from "./models/Image";
