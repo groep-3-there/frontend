@@ -125,8 +125,6 @@ import router from "@/router";
 import { onMounted } from "vue";
 import { Branch } from "@/models/Branch";
 
-const challenges: Ref<Challenge[]> = ref([]);
-
 const standardbranches: Ref<Branch[]> = ref([]);
 
 /**
@@ -187,9 +185,6 @@ onMounted(async () => {
     branches,
     sort,
     page.value - 1 // subtract 1 because the API starts counting at 0 for pages and Vue starts counting at 1
-  );
-
-  standardbranches.value = await API.getBranches(
   );
 
   standardbranches.value = await API.getBranches(
