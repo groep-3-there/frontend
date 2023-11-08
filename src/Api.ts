@@ -97,7 +97,7 @@ namespace API {
     return getRequest<Challenge[]>(urlstring);
   }
 
-  export async function updateChallenge(ch: {}) {
+  export async function updateChallenge(ch: Challenge | {}) {
     return putRequest<Challenge>("challenge/update", ch);
   }
 

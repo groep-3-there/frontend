@@ -58,7 +58,15 @@
 
           <v-row class="fit-buttons make-high">
             <v-col>
-              <v-select v-model="visibility" variant="outlined" label="Zichtbaarheid" :items="visibilityItems" :item-props="visibilityProperties" class="date" :rules="[(v) => !!v || 'Dit veld is verplicht!']"></v-select>
+              <v-select
+                v-model="visibility"
+                variant="outlined"
+                label="Zichtbaarheid"
+                :items="visibilityItems"
+                :item-props="visibilityProperties"
+                class="date"
+                :rules="[(v) => !!v || 'Dit veld is verplicht!']"
+              ></v-select>
             </v-col>
           </v-row>
 
@@ -71,7 +79,12 @@
                 chips
                 show-size
                 v-model="banner"
-                :rules="[(v) => (v.length == 0 || (v.length == 1 && v[0].size < 10000000)) || 'De grootte van het bestand moet kleiner zijn dan 10MB!']"
+                :rules="[
+                  (v) =>
+                    v.length == 0 ||
+                    (v.length == 1 && v[0].size < 10000000) ||
+                    'De grootte van het bestand moet kleiner zijn dan 10MB!',
+                ]"
               >
               </v-file-input>
             </v-col>
@@ -137,13 +150,6 @@
           </v-row>
         </v-col>
       </v-row>
-      <v-row v-if="createdChallenge !== null">
-        <RouterLink :to="'/challenge/' + createdChallenge.id"
-          >Ga naar challenge</RouterLink
-        >
-        <h2>Challenge gemaakt</h2>
-        {{ createdChallenge.id }}
-      </v-row>
     </v-form>
   </v-container>
 </template>
@@ -151,35 +157,51 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import Api from "@/Api";
-import { Ref } from "vue";
-import { Challenge } from "@/models/Challenge";
-const createdChallenge = ref(null) as Ref<Challenge | null>;
+import router from "@/router";
 
 const title = ref("");
 const summary = ref("");
 const description = ref("");
 const contactInformation = ref("");
-const visibilityItems = [{title:'Publiek', subtitle:'Iedereen, ook zonder account', codeName: "PUBLIC"}, {title:'Intranet', subtitle:'Iedereen met een account', codeName: "INTRANET"}, {title:'Intern', subtitle:'Iedereen van uw bedrijf', codeName:"INTERNAL"}, {title:'Afdeling', subtitle: 'Iedereen van uw afdeling', codeName:"DEPARTMENT"}]
+const visibilityItems = [
+  {
+    title: "Publiek",
+    subtitle: "Iedereen, ook zonder account",
+    codeName: "PUBLIC",
+  },
+  {
+    title: "Intranet",
+    subtitle: "Iedereen met een account",
+    codeName: "INTRANET",
+  },
+  {
+    title: "Intern",
+    subtitle: "Iedereen van uw bedrijf",
+    codeName: "INTERNAL",
+  },
+  {
+    title: "Afdeling",
+    subtitle: "Iedereen van uw afdeling",
+    codeName: "DEPARTMENT",
+  },
+];
 const visibility = ref(null);
 const banner = ref([]);
 const images = ref([]);
 const tags = ref([]);
 const date = ref("");
-function visibilityProperties (item : any) {
+function visibilityProperties(item: any) {
   return {
     title: item.title,
     subtitle: item.subtitle,
-  }
+  };
 }
-function getVisibilityCodeName (title : string){
-  return visibilityItems.find((item) => item.title === title)?.codeName
+function getVisibilityCodeName(title: string) {
+  return visibilityItems.find((item) => item.title === title)?.codeName;
 }
 const createChallengeForm = ref(null) as any;
 
-
-
 async function createChallenge() {
-
   const { valid } = await createChallengeForm.value.validate();
   if (!valid || visibility.value == null) {
     alert("Alle vereiste velden zijn nog niet ingevuld!");
@@ -192,19 +214,19 @@ async function createChallenge() {
       tagString += tag + ",";
     });
   }
-  
+
   //upload banner
-  let uploadedBannerId = null
-  if(banner.value?.length){
-    const response = await Api.uploadImage(banner.value[0])
-    uploadedBannerId = response.id
+  let uploadedBannerId = null;
+  if (banner.value?.length) {
+    const response = await Api.uploadImage(banner.value[0]);
+    uploadedBannerId = response.id;
   }
-  
+
   //Upload attachments and get their ids
-  const attachmentImages : number[] = []
-  for(const toUpload of images.value){
-    const img = await Api.uploadImage(toUpload)
-    attachmentImages.push(img.id)
+  const attachmentImages: number[] = [];
+  for (const toUpload of images.value) {
+    const img = await Api.uploadImage(toUpload);
+    attachmentImages.push(img.id);
   }
   const challenge = {
     title: title.value,
@@ -218,18 +240,13 @@ async function createChallenge() {
     tags: tagString,
     visibility: getVisibilityCodeName(visibility.value),
   };
-  console.log("Creating challenge", challenge)
+  console.log("Creating challenge", challenge);
   const created = await Api.createChallenge(challenge);
- 
-
-  createdChallenge.value = created;
-  console.log(createdChallenge.value);
-  // router.push(`/challenge/${createdChallenge?.value?.id}`);
+  router.push(`/challenge/${created?.id}`);
 }
 </script>
 
 <style scoped>
-
 .date {
   max-width: 11rem;
 }
