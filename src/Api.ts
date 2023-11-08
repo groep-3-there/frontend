@@ -84,10 +84,6 @@ namespace API {
   export async function getBranches() {
     return getRequest<Branch[]>(`branch/all`);
   }
-
-  export async function getBranches() {
-    return getRequest<Branch[]>(`branch/all`);
-  }
   export async function pingServer(){
     return getRequest<String>("ping");
   }
