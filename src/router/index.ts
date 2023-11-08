@@ -23,12 +23,6 @@ const routes = [
         path: 'challenges',
         name: 'Search Challanges',
         component: () => import('@/views/SearchChallengesView.vue'),
-        props: (route: { query: { query: any; company_id: any; branches: any; sort: any; }; }) => ({
-          query: route.query.query,
-          company: route.query.company_id,
-          branch: route.query.branches,
-          sort: route.query.sort,
-        })
       },
       {
         path: 'challenge/:id',

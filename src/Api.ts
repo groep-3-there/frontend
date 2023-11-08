@@ -3,7 +3,9 @@ import { Challenge } from "./models/Challenge";
 import { ChallengeInput } from "./models/ChallengeInput";
 import { Image } from "./models/Image";
 import { User } from "./models/User";
+import { ChallengeSearchResults } from "./models/ChallengeSearchResults";
 import { Branch } from "./models/Branch";
+import { Tag } from "./models/Tag";
 
 
 async function postRequest<T>(url: string, bodyObject: {}) {
@@ -37,11 +39,11 @@ async function putRequest<T>(url: string, bodyObject: {}) {
 async function uploadFile<T>(url: string, keyName: string, file: File) {
   const formData = new FormData();
   formData.append(keyName, file);
-  const response = await fetch(API.BASEURL + url, {
+  const res = await fetch(API.BASEURL + url, {
     method: "POST",
     body: formData,
   });
-  const data = await response.json();
+  const data = await res.json();
   return data as T;
 }
 
@@ -54,6 +56,7 @@ async function getRequest<T>(url: string) {
   });
   return (await res.json()) as T;
 }
+
 
 namespace API {
   export const BASEURL = "http://localhost:8080/api/v1/";
@@ -79,22 +82,38 @@ namespace API {
   export async function getChallengeById(id: number) {
     return getRequest<Challenge>(`challenge/${id}`);
   }
+
   export async function getBranches() {
     return getRequest<Branch[]>(`branch/all`);
   }
+  export async function pingServer(){
+    return getRequest<String>("ping");
+  }
 
+  /**
+   * This function calls to API to get all challenges that match the given filters
+   * @param query - words to search for in the challenge title, description and tags
+   * @param company - campany names to filter for
+   * @param branche - branche names to filter for
+   * @param sort - sort by newest_first, deadline_closest_first
+   * @param page - page number
+   * @returns
+   */
   export async function getChallengesBySearch(
     query?: string,
     company?: string[],
     branche?: string[],
-    sort?: string
+    sort?: string,
+    page?: number
   ) {
     let urlstring = "challenge/search?";
     if (query) urlstring += `query=${query}&`;
     if (company) urlstring += `company=${company}&`;
     if (branche) urlstring += `branche=${branche}&`;
     if (sort) urlstring += `sort=${sort}&`;
-    return getRequest<Challenge[]>(urlstring);
+    if (page) urlstring += `page=${page}&`;
+
+    return getRequest<ChallengeSearchResults>(urlstring);
   }
 
   export async function updateChallenge(ch: Challenge | {}) {
@@ -104,10 +123,20 @@ namespace API {
   export async function uploadImage(img: File) {
     return uploadFile<Image>("image/upload", "image", img);
   }
-  export async function uploadImageForChallenge(img : File, challengeId : number){
-    return uploadFile<Image>(`image/upload/challenge/${challengeId}`, "image", img);
+  export async function uploadImageForChallenge(
+    img: File,
+    challengeId: number
+  ) {
+    return uploadFile<Image>(
+      `image/upload/challenge/${challengeId}`,
+      "image",
+      img
+    );
   }
 
+  export async function getTags() {
+    return getRequest<Tag[]>(`tags`);
+  }
 }
 
 export default API;

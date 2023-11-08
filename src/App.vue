@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      
+      <SnackbarContent />
       <router-view v-if="ready">
       </router-view>
       <template v-else>
@@ -10,10 +10,34 @@
     </v-main>
   </v-app>
 </template>
-
+<style>
+.snack-item{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 100;
+}
+</style>
 <script setup lang="ts">
-  import HelloWorld from '@/components/HelloWorld.vue'
-  import { ref } from 'vue';
+import HelloWorld from '@/components/HelloWorld.vue'
+import { ref } from 'vue';
+import { useSnackbarStore } from "./store/Snackbar"
+import SnackbarContent from "./components/SnackbarContent.vue"
+import API from './Api';
+import { onMounted } from 'vue';
 
-  const ready = ref(true)
+const ready = ref(true)
+const snackbar = useSnackbarStore();
+onMounted(async ()=>{
+  setInterval(async()=>{
+    try{
+      console.log(await API.pingServer())
+    }
+    catch(error : any){
+      snackbar.createSimple("We konden de server niet bereieken", "error")
+    }
+  }, 10000)
+
+})
+
 </script>

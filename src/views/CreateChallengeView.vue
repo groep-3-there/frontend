@@ -71,7 +71,18 @@
           </v-row>
 
           <v-row>
-            <v-col>
+            <v-col class="d-flex justify-space-around">
+              <v-tooltip v-model="showBanner" location="top">
+                <template v-slot:activator="{ props }">
+                  <v-btn icon v-bind="props" class="tooltip" color="primary">
+                    <v-icon color="secundary"> mdi-information-variant </v-icon>
+                  </v-btn>
+                </template>
+                <span>
+                  <p>Maximale groote banner: 10MB</p>
+                  <p>Aangeraden aspect ratio: 16:9</p>
+                </span>
+              </v-tooltip>
               <v-file-input
                 accept="image/png, image/jpeg, image/svg"
                 label="Upload een banner"
@@ -91,7 +102,18 @@
           </v-row>
 
           <v-row>
-            <v-col>
+            <v-col class="d-flex justify-space-around">
+              <v-tooltip v-model="showImages" location="top">
+                <template v-slot:activator="{ props }">
+                  <v-btn icon v-bind="props" class="tooltip" color="primary">
+                    <v-icon color="secundary"> mdi-information-variant </v-icon>
+                  </v-btn>
+                </template>
+                <span>
+                  <p>Maximaal 8 afbeeldingen</p>
+                  <p>Maximale groote per afbeelding: 10MB</p>
+                </span>
+              </v-tooltip>
               <v-file-input
                 accept="image/png, image/jpeg, image/svg"
                 label="Upload afbeeldingen"
@@ -101,7 +123,7 @@
                 counter
                 show-size
                 v-model="images"
-                :rules="[(v) => (v.length < 9 && !v.some((i:any) => {return i.size > 10000000 })) || 'Er mogen maximaal 8 afbeeldingen van 10MB worden geüpload!']"
+                :rules="[(v) => (v.length < 9 && !v.some((i: any) => { return i.size > 10000000 })) || 'Er mogen maximaal 8 afbeeldingen van 10MB worden geüpload!']"
               >
               </v-file-input>
             </v-col>
@@ -112,12 +134,12 @@
               <v-combobox
                 label="Tags"
                 v-model="tags"
-                :items="['Item1', 'Item2']"
+                :items="standardTags.map((tag) => tag.name)"
                 variant="outlined"
                 multiple
                 chips
                 clearable
-                :rules="[(v) => !v.some((i:string)=>{return i.includes(',')}) || 'Invoer ongeldig']"
+                :rules="[(v) => !v.some((i: string) => { return i.includes(',') }) || 'Invoer ongeldig']"
               >
               </v-combobox>
             </v-col>
@@ -155,9 +177,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { Ref, ref } from "vue";
+import { onMounted } from "vue";
 import Api from "@/Api";
 import router from "@/router";
+import { Challenge } from "@/models/Challenge";
+import { Tag } from "@/models/Tag";
+
+/**
+ * funtion
+ * */
+onMounted(async () => {
+  standardTags.value = await Api.getTags();
+});
+
+const createdChallenge = ref(null) as Ref<Challenge | null>;
 
 const title = ref("");
 const summary = ref("");
@@ -189,6 +223,13 @@ const visibility = ref(null);
 const banner = ref([]);
 const images = ref([]);
 const tags = ref([]);
+
+/**
+ * @type {string[]} - standard tags to choose from
+ * API gets called on mounted, which fills this array
+ */
+const standardTags: Ref<Tag[]> = ref([]);
+
 const date = ref("");
 function visibilityProperties(item: any) {
   return {
@@ -200,6 +241,18 @@ function getVisibilityCodeName(title: string) {
   return visibilityItems.find((item) => item.title === title)?.codeName;
 }
 const createChallengeForm = ref(null) as any;
+
+/**
+ * show the tooltip for the banner
+ * default is false
+ */
+const showBanner = ref(false);
+
+/**
+ * show the tooltip for the images
+ * default is false
+ */
+const showImages = ref(false);
 
 async function createChallenge() {
   const { valid } = await createChallengeForm.value.validate();
@@ -242,6 +295,7 @@ async function createChallenge() {
   };
   console.log("Creating challenge", challenge);
   const created = await Api.createChallenge(challenge);
+
   router.push(`/challenge/${created?.id}`);
 }
 </script>
@@ -257,5 +311,9 @@ async function createChallenge() {
 
 h1 {
   padding: 4rem 0 0 0;
+}
+
+.tooltip {
+  margin: 0 2rem 0 0;
 }
 </style>
