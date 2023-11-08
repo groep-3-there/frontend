@@ -9,7 +9,7 @@ export class Challenge {
     declare contactInformation: string;
     declare title: string;
     declare description: string;
-    declare bannerImageId: number;
+    declare bannerImageId: number | null;
     declare concludingRemarks: string;
     declare summary: string;
     declare status: string;

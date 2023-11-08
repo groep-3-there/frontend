@@ -34,6 +34,11 @@ const routes = [
         name: 'Create Challenge',
         component: () => import('@/views/CreateChallengeView.vue'),
       },
+      {
+      path: 'edit-challenge/:id',
+        name: 'Edit Challenge',
+        component: () => import('@/views/EditChallengeView.vue'),
+      },
     ],
   },
 ]
