@@ -32,14 +32,15 @@
           <v-row>
             <v-col>
               <v-textarea
-                v-model="description"
-                label="Beschrijving"
-                :rules="[(v) => !!v || 'Dit veld is verplicht!']"
-                required
-                variant="outlined"
-                auto-grow
-                rows="10"
-              ></v-textarea>
+                  v-model="description"
+                  label="Beschrijving"
+                  :rules="[(v) => !!v || 'Dit veld is verplicht!']"
+                  required
+                  variant="outlined"
+                  auto-grow
+                  rows="10"
+                  ></v-textarea>
+                  <RichEditor/>
             </v-col>
           </v-row>
 
@@ -182,6 +183,10 @@ import { onMounted } from "vue";
 import Api from "@/Api";
 import router from "@/router";
 import { Challenge } from "@/models/Challenge";
+
+
+import RichEditor from "@/components/RichEditor.vue";
+
 import { Tag } from "@/models/Tag";
 
 /**
@@ -190,6 +195,7 @@ import { Tag } from "@/models/Tag";
 onMounted(async () => {
   standardTags.value = await Api.getTags();
 });
+
 
 const createdChallenge = ref(null) as Ref<Challenge | null>;
 
@@ -241,6 +247,7 @@ function getVisibilityCodeName(title: string) {
   return visibilityItems.find((item) => item.title === title)?.codeName;
 }
 const createChallengeForm = ref(null) as any;
+
 
 /**
  * show the tooltip for the banner
@@ -296,7 +303,9 @@ async function createChallenge() {
   console.log("Creating challenge", challenge);
   const created = await Api.createChallenge(challenge);
 
+
   router.push(`/challenge/${created?.id}`);
+
 }
 </script>
 

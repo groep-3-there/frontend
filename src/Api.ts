@@ -82,7 +82,6 @@ namespace API {
   export async function getChallengeById(id: number) {
     return getRequest<Challenge>(`challenge/${id}`);
   }
-
   export async function getBranches() {
     return getRequest<Branch[]>(`branch/all`);
   }
