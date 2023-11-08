@@ -7,7 +7,7 @@ export class Challenge {
     author: User;
     department: Department;
     company: Company;
-    contactInformation: string | null;
+    contactInformation: string;
     title: string;
     description: string;
     bannerImageId: number | null;

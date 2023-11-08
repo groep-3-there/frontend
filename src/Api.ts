@@ -126,7 +126,7 @@ namespace API {
     return new ChallengeSearchResults(data);
   }
 
-  export async function updateChallenge(ch: Challenge) {
+  export async function updateChallenge(ch: Challenge | {}) {
     const data = await putRequest("challenge/update", ch);
     return new Challenge(data)
   }
