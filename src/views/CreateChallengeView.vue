@@ -124,7 +124,7 @@
                 counter
                 show-size
                 v-model="images"
-                :rules="[(v) => (v.length < 9 && !v.some((i:any) => {return i.size > 10000000 })) || 'Er mogen maximaal 8 afbeeldingen van 10MB worden geüpload!']"
+                :rules="[(v) => (v.length < 9 && !v.some((i: any) => { return i.size > 10000000 })) || 'Er mogen maximaal 8 afbeeldingen van 10MB worden geüpload!']"
               >
               </v-file-input>
             </v-col>
@@ -135,12 +135,12 @@
               <v-combobox
                 label="Tags"
                 v-model="tags"
-                :items="['Item1', 'Item2']"
+                :items="standardTags.map((tag) => tag.name)"
                 variant="outlined"
                 multiple
                 chips
                 clearable
-                :rules="[(v) => !v.some((i:string)=>{return i.includes(',')}) || 'Invoer ongeldig']"
+                :rules="[(v) => !v.some((i: string) => { return i.includes(',') }) || 'Invoer ongeldig']"
               >
               </v-combobox>
             </v-col>
@@ -185,13 +185,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { Ref, ref } from "vue";
+import { onMounted } from "vue";
 import Api from "@/Api";
-import { Ref } from "vue";
 import { Challenge } from "@/models/Challenge";
+
 
 import router from "@/router";
 import RichEditor from "@/components/RichEditor.vue";
+
+import { Tag } from "@/models/Tag";
+
+/**
+ * funtion
+ * */
+onMounted(async () => {
+  standardTags.value = await Api.getTags();
+});
+
+
 
 const createdChallenge = ref(null) as Ref<Challenge | null>;
 
@@ -225,6 +237,13 @@ const visibility = ref(null);
 const banner = ref([]);
 const images = ref([]);
 const tags = ref([]);
+
+/**
+ * @type {string[]} - standard tags to choose from
+ * API gets called on mounted, which fills this array
+ */
+const standardTags: Ref<Tag[]> = ref([]);
+
 const date = ref("");
 function visibilityProperties(item: any) {
   return {
