@@ -11,7 +11,7 @@ export class Company{
     tags : string
     branch : Branch
     createdAt : string
-    owner : User 
+    ownerId : number 
 
     constructor(data: any) {
         this.id = data.id;
@@ -22,7 +22,7 @@ export class Company{
         this.tags = data.tags;
         this.branch = data.branch;
         this.createdAt = data.createdAt;
-        this.owner = data.owner;
+        this.ownerId = data.ownerId;
     }
 
     getProfileOrDefaultImageUrl(){

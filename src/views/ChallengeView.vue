@@ -38,7 +38,7 @@
                         <v-icon v-bind="props" size="48">mdi-dots-horizontal</v-icon>
                     </template>
                     <v-list>
-                        <v-list-item :value="1" :key="1">
+                        <v-list-item :value="1" :key="1" @click="$router.push(`/edit-challenge/${challenge?.id}`)">
                             <v-list-item-title><v-icon class="mr-1"
                                     size="24">mdi-pencil</v-icon>Bewerken</v-list-item-title>
                         </v-list-item>

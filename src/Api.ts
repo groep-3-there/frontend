@@ -5,6 +5,8 @@ import { Image } from "./models/Image";
 import { User } from "./models/User";
 import { ChallengeSearchResults } from "./models/ChallengeSearchResults";
 import { Branch } from "./models/Branch";
+import { Tag } from "./models/Tag";
+
 
 async function postRequest(url: string, bodyObject: {}) {
   const res = await fetch(API.BASEURL + url, {
@@ -37,7 +39,7 @@ async function putRequest(url: string, bodyObject: {}) {
 async function uploadFile(url: string, keyName: string, file: File) {
   const formData = new FormData();
   formData.append(keyName, file);
-  const response = await fetch(API.BASEURL + url, {
+  const res = await fetch(API.BASEURL + url, {
     method: "POST",
     body: formData,
   });
@@ -53,6 +55,7 @@ async function getRequest(url: string) {
   });
   return (await res.json());
 }
+
 
 namespace API {
   export const BASEURL = "http://localhost:8080/api/v1/";
@@ -86,11 +89,14 @@ namespace API {
     const data = await getRequest(`reaction/challenge/${id}`);
     return data.map((d: any) => new ChallengeInput(d));
   }
-
   export async function getBranches() {
     const data = await getRequest(`branch/all`);
     return data.map((d : any) => new Branch(d))
 
+  }
+
+  export async function pingServer(){
+    return getRequest("ping");
   }
 
   /**
@@ -100,7 +106,7 @@ namespace API {
    * @param branche - branche names to filter for
    * @param sort - sort by newest_first, deadline_closest_first
    * @param page - page number
-   * @returns 
+   * @returns
    */
   export async function getChallengesBySearch(
     query?: string,
@@ -138,6 +144,10 @@ namespace API {
     return new ChallengeInput(data)
   }
 
+  export async function getTags() {
+    const data = await getRequest(`tags`);
+    return data.map((d : any) => new Tag(d))
+  }
 }
 
 export default API;

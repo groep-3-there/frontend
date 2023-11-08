@@ -22,12 +22,14 @@
         <v-divider></v-divider>
         <v-list density="compact" nav>
           <v-list-item
+            :key="1"
             @click="$router.push('/')"
             prepend-icon="mdi-home"
             title="Home"
             value="home"
           ></v-list-item>
           <v-list-item
+            :key="2"
             @click="$router.push('/vue-tutorial')"
             prepend-icon="mdi-folder"
             title="Data Pagina"
@@ -35,18 +37,21 @@
           ></v-list-item>
 
           <v-list-item
+            :key="3"
             @click="$router.push('/challenge/1')"
             prepend-icon="mdi-folder"
             title="Challenge"
             value="challenge"
           ></v-list-item>
           <v-list-item
+            :key="4"
             @click="$router.push('/challenges')"
             prepend-icon="mdi-folder"
             title="Zoeken"
             value="zoeken"
           ></v-list-item>
           <v-list-item
+            :key="5"
             @click="$router.push('/create-challenge')"
             prepend-icon="mdi-folder"
             title="Create Challenge"
