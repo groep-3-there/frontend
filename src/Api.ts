@@ -116,7 +116,7 @@ namespace API {
     return getRequest<ChallengeSearchResults>(urlstring);
   }
 
-  export async function updateChallenge(ch: Challenge) {
+  export async function updateChallenge(ch: Challenge | {}) {
     return putRequest<Challenge>("challenge/update", ch);
   }
 

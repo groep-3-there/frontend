@@ -1,9 +1,9 @@
 <template>
   <v-container>
-    <v-form ref="createChallengeForm" @submit.prevent>
+    <v-form ref="editChallengeForm" @submit.prevent>
       <v-row>
         <v-col cols="12">
-          <h1 class="my-2">Challenge maken</h1>
+          <h1 class="my-2">Challenge bewerken</h1>
           <v-row>
             <v-col>
               <v-text-field
@@ -71,21 +71,10 @@
           </v-row>
 
           <v-row>
-            <v-col class="d-flex justify-space-around">
-              <v-tooltip v-model="showBanner" location="top">
-                <template v-slot:activator="{ props }">
-                  <v-btn icon v-bind="props" class="tooltip" color="primary">
-                    <v-icon color="secundary"> mdi-information-variant </v-icon>
-                  </v-btn>
-                </template>
-                <span>
-                  <p>Maximale groote banner: 10MB</p>
-                  <p>Aangeraden aspect ratio: 16:9</p>
-                </span>
-              </v-tooltip>
+            <v-col>
               <v-file-input
                 accept="image/png, image/jpeg, image/svg"
-                label="Upload een banner"
+                label="Upload een nieuwe banner"
                 variant="outlined"
                 chips
                 show-size
@@ -101,19 +90,23 @@
             </v-col>
           </v-row>
 
+          <v-row v-if="originalChallenge?.bannerImageId !== null">
+            <v-col>
+              <div>
+                <v-img class="banner" :src="showBanner()">
+                  <v-btn
+                    class="delete-image"
+                    size="x-small"
+                    icon="mdi-trash-can-outline"
+                    @click="deleteImage"
+                  ></v-btn>
+                </v-img>
+              </div>
+            </v-col>
+          </v-row>
+
           <v-row>
-            <v-col class="d-flex justify-space-around">
-              <v-tooltip v-model="showImages" location="top">
-                <template v-slot:activator="{ props }">
-                  <v-btn icon v-bind="props" class="tooltip" color="primary">
-                    <v-icon color="secundary"> mdi-information-variant </v-icon>
-                  </v-btn>
-                </template>
-                <span>
-                  <p>Maximaal 8 afbeeldingen</p>
-                  <p>Maximale groote per afbeelding: 10MB</p>
-                </span>
-              </v-tooltip>
+            <v-col>
               <v-file-input
                 accept="image/png, image/jpeg, image/svg"
                 label="Upload afbeeldingen"
@@ -123,7 +116,7 @@
                 counter
                 show-size
                 v-model="images"
-                :rules="[(v) => (v.length < 9 && !v.some((i: any) => { return i.size > 10000000 })) || 'Er mogen maximaal 8 afbeeldingen van 10MB worden geüpload!']"
+                :rules="[(v) => (v.length < 9 && !v.some((i:any) => {return i.size > 10000000 })) || 'Er mogen maximaal 8 afbeeldingen van 10MB worden geüpload!']"
               >
               </v-file-input>
             </v-col>
@@ -134,12 +127,12 @@
               <v-combobox
                 label="Tags"
                 v-model="tags"
-                :items="standardTags.map((tag) => tag.name)"
+                :items="['Item1', 'Item2']"
                 variant="outlined"
                 multiple
                 chips
                 clearable
-                :rules="[(v) => !v.some((i: string) => { return i.includes(',') }) || 'Invoer ongeldig']"
+                :rules="[(v) => !v.some((i:string)=>{return i.includes(',')}) || 'Invoer ongeldig']"
               >
               </v-combobox>
             </v-col>
@@ -158,16 +151,15 @@
               ></v-text-field>
             </v-col>
           </v-row>
-
           <v-row class="d-flex justify-end">
             <v-btn
-              @click="createChallenge"
+              @click="editChallenge"
               size="large"
               variant="elevated"
               color="primary"
               type="submit"
             >
-              Aanmaken
+              Bewerken
             </v-btn>
           </v-row>
         </v-col>
@@ -175,24 +167,16 @@
     </v-form>
   </v-container>
 </template>
-
 <script setup lang="ts">
-import { Ref, ref } from "vue";
-import { onMounted } from "vue";
+import { ref } from "vue";
 import Api from "@/Api";
-import router from "@/router";
+import { Ref } from "vue";
 import { Challenge } from "@/models/Challenge";
-import { Tag } from "@/models/Tag";
+import { useRoute } from "vue-router";
+import { onMounted } from "vue";
+import router from "@/router";
 
-/**
- * funtion
- * */
-onMounted(async () => {
-  standardTags.value = await Api.getTags();
-});
-
-const createdChallenge = ref(null) as Ref<Challenge | null>;
-
+const originalChallenge: Ref<Challenge | null> = ref(null);
 const title = ref("");
 const summary = ref("");
 const description = ref("");
@@ -219,18 +203,14 @@ const visibilityItems = [
     codeName: "DEPARTMENT",
   },
 ];
-const visibility = ref(null);
+const visibility = ref();
 const banner = ref([]);
 const images = ref([]);
-const tags = ref([]);
-
-/**
- * @type {string[]} - standard tags to choose from
- * API gets called on mounted, which fills this array
- */
-const standardTags: Ref<Tag[]> = ref([]);
-
+const tags = ref([] as any);
 const date = ref("");
+const editChallengeForm = ref(null) as any;
+const idParam = useRoute().params.id;
+let id = parseInt(Array.isArray(idParam) ? idParam[0] : idParam);
 function visibilityProperties(item: any) {
   return {
     title: item.title,
@@ -240,22 +220,33 @@ function visibilityProperties(item: any) {
 function getVisibilityCodeName(title: string) {
   return visibilityItems.find((item) => item.title === title)?.codeName;
 }
-const createChallengeForm = ref(null) as any;
 
-/**
- * show the tooltip for the banner
- * default is false
- */
-const showBanner = ref(false);
+onMounted(async () => {
+  originalChallenge.value = await Api.getChallengeById(id);
+  title.value = originalChallenge.value.title;
+  summary.value = originalChallenge.value.summary;
+  description.value = originalChallenge.value.description;
+  contactInformation.value = originalChallenge.value.contactInformation;
+  visibility.value = visibilityItems.find((item) => {
+    if (originalChallenge.value !== null) {
+      return item.codeName === originalChallenge.value.visibility;
+    }
+  })?.title;
+  //TODO images.value = originalChallenge.value.imageAttachmentsIds
+  tags.value = originalChallenge.value.tags.split(",");
+  date.value = originalChallenge.value.endDate.slice(0, 10);
+});
 
-/**
- * show the tooltip for the images
- * default is false
- */
-const showImages = ref(false);
+function showBanner() {
+  return `${Api.BASEURL}image/${originalChallenge.value?.bannerImageId}`;
+}
 
-async function createChallenge() {
-  const { valid } = await createChallengeForm.value.validate();
+function deleteImage(){
+  originalChallenge.value!.bannerImageId = null
+}
+
+async function editChallenge() {
+  const { valid } = await editChallengeForm.value.validate();
   if (!valid || visibility.value == null) {
     alert("Alle vereiste velden zijn nog niet ingevuld!");
     return;
@@ -268,20 +259,20 @@ async function createChallenge() {
     });
   }
 
-  //upload banner
   let uploadedBannerId = null;
   if (banner.value?.length) {
     const response = await Api.uploadImage(banner.value[0]);
     uploadedBannerId = response.id;
   }
 
-  //Upload attachments and get their ids
   const attachmentImages: number[] = [];
   for (const toUpload of images.value) {
     const img = await Api.uploadImage(toUpload);
     attachmentImages.push(img.id);
   }
+
   const challenge = {
+    id: id,
     title: title.value,
     summary: summary.value,
     description: summary.value,
@@ -293,27 +284,25 @@ async function createChallenge() {
     tags: tagString,
     visibility: getVisibilityCodeName(visibility.value),
   };
-  console.log("Creating challenge", challenge);
-  const created = await Api.createChallenge(challenge);
-
-  router.push(`/challenge/${created?.id}`);
+  await Api.updateChallenge(challenge);
+  router.push(`/challenge/${id}`);
 }
 </script>
-
 <style scoped>
 .date {
   max-width: 11rem;
 }
 
-.dropdown {
+.banner {
+  max-width: 10rem;
+}
+
+.delete-image {
   max-width: fit-content;
+  max-height: 0;
 }
 
 h1 {
   padding: 4rem 0 0 0;
-}
-
-.tooltip {
-  margin: 0 2rem 0 0;
 }
 </style>
