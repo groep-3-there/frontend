@@ -43,7 +43,7 @@ async function uploadFile(url: string, keyName: string, file: File) {
     method: "POST",
     body: formData,
   });
-  return (await response.json());
+  return (await res.json());
 }
 
 async function getRequest(url: string) {
