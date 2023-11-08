@@ -8,7 +8,7 @@ import { Branch } from "./models/Branch";
 import { Tag } from "./models/Tag";
 
 
-async function postRequest<T>(url: string, bodyObject: {}) {
+async function postRequest(url: string, bodyObject: {}) {
   const res = await fetch(API.BASEURL + url, {
     method: "POST",
     headers: {
@@ -19,10 +19,10 @@ async function postRequest<T>(url: string, bodyObject: {}) {
     // credentials: "include",
     body: JSON.stringify(bodyObject),
   });
-  return (await res.json()) as T;
+  return (await res.json())
 }
 
-async function putRequest<T>(url: string, bodyObject: {}) {
+async function putRequest(url: string, bodyObject: {}) {
   const res = await fetch(API.BASEURL + url, {
     method: "PUT",
     headers: {
@@ -33,28 +33,27 @@ async function putRequest<T>(url: string, bodyObject: {}) {
     // credentials: "include",
     body: JSON.stringify(bodyObject),
   });
-  return (await res.json()) as T;
+  return (await res.json());
 }
 
-async function uploadFile<T>(url: string, keyName: string, file: File) {
+async function uploadFile(url: string, keyName: string, file: File) {
   const formData = new FormData();
   formData.append(keyName, file);
   const res = await fetch(API.BASEURL + url, {
     method: "POST",
     body: formData,
   });
-  const data = await res.json();
-  return data as T;
+  return (await res.json());
 }
 
-async function getRequest<T>(url: string) {
+async function getRequest(url: string) {
   const res = await fetch(API.BASEURL + url, {
     method: "GET",
     headers: API.headers,
     mode: "cors",
     // credentials: "include"
   });
-  return (await res.json()) as T;
+  return (await res.json());
 }
 
 
@@ -66,27 +65,38 @@ namespace API {
     "Access-Control-Allow-Origin": "http://localhost:3000",
   };
 
-  export function createChallenge(ch: {}) {
-    return postRequest<Challenge>("challenge", ch);
+  export async function createChallenge(ch: {}) {
+    const data = await postRequest("challenge", ch);
+    return new Challenge(data)
   }
 
   /**
    * Get the current logged in user
    */
   export async function getCurrentUser() {
-    return getRequest<User>("auth/user");
+    const data = await getRequest("auth/user");
+    return new User(data);
   }
   export async function getImagesByChallengeId(id: number) {
-    return getRequest<Image[]>(`image/challenge/${id}`);
+    const data = await getRequest(`image/challenge/${id}`);
+    return data.map((d: any) => new Image(d));
   }
   export async function getChallengeById(id: number) {
-    return getRequest<Challenge>(`challenge/${id}`);
+    const data = await getRequest(`challenge/${id}`);
+    return new Challenge(data)
+  }
+  export async function getChallengeInputs(id: number) {
+    const data = await getRequest(`reaction/challenge/${id}`);
+    return data.map((d: any) => new ChallengeInput(d));
   }
   export async function getBranches() {
-    return getRequest<Branch[]>(`branch/all`);
+    const data = await getRequest(`branch/all`);
+    return data.map((d : any) => new Branch(d))
+
   }
+
   export async function pingServer(){
-    return getRequest<String>("ping");
+    return getRequest("ping");
   }
 
   /**
@@ -112,29 +122,31 @@ namespace API {
     if (sort) urlstring += `sort=${sort}&`;
     if (page) urlstring += `page=${page}&`;
 
-    return getRequest<ChallengeSearchResults>(urlstring);
+    const data = await getRequest(urlstring);
+    return new ChallengeSearchResults(data);
   }
 
   export async function updateChallenge(ch: Challenge | {}) {
-    return putRequest<Challenge>("challenge/update", ch);
+    const data = await putRequest("challenge/update", ch);
+    return new Challenge(data)
   }
 
   export async function uploadImage(img: File) {
-    return uploadFile<Image>("image/upload", "image", img);
+    const data =  uploadFile("image/upload", "image", img);
+    return new Image(data)
   }
-  export async function uploadImageForChallenge(
-    img: File,
-    challengeId: number
-  ) {
-    return uploadFile<Image>(
-      `image/upload/challenge/${challengeId}`,
-      "image",
-      img
-    );
+  export async function uploadImageForChallenge(img : File, challengeId : number){
+    const data =  uploadFile(`image/upload/challenge/${challengeId}`, "image", img);
+    return new Image(data)
+  }
+  export async function markReactionAsChosen(reactionId : number){
+    const data = await putRequest(`/reaction/${reactionId}/markreaction`, {});
+    return new ChallengeInput(data)
   }
 
   export async function getTags() {
-    return getRequest<Tag[]>(`tags`);
+    const data = await getRequest(`tags`);
+    return data.map((d : any) => new Tag(d))
   }
 }
 

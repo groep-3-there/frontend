@@ -1,7 +1,13 @@
 import { Challenge } from "./Challenge";
 
 export class ChallengeSearchResults{
-    declare content: Challenge[];
-    declare totalPages: number;
-    declare totalElements: number;
+    content: Challenge[];
+    totalPages: number;
+    totalElements: number;
+
+    constructor(data: any) {
+        this.content = data.content;
+        this.totalPages = data.totalPages;
+        this.totalElements = data.totalElements;
+    }    
 }

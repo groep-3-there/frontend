@@ -234,7 +234,7 @@ onMounted(async () => {
   })?.title;
   //TODO images.value = originalChallenge.value.imageAttachmentsIds
   tags.value = originalChallenge.value.tags.split(",");
-  date.value = originalChallenge.value.endDate.slice(0, 10);
+  date.value = originalChallenge.value.endDate.toString().slice(0, 10);
 });
 
 function showBanner() {

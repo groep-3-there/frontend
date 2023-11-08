@@ -5,8 +5,8 @@
     <template v-if="challenge">
 
         <v-row class="challenge-hero" :style="banner()" no-gutters justify="center" align="center">
-            <v-col cols="6" md="3" class="d-flex justify-center"  v-if="challenge.company?.profileImageId">
-                <img :src="companyLogoSrc()" class="company-logo">
+            <v-col cols="6" md="3" class="d-flex justify-center">
+                <img :src="challenge.company.getProfileOrDefaultImageUrl()" class="company-logo">
             </v-col>
             <v-col cols="10 " md="8" class="d-flex hero-title flex-column justify-center align-start hero-text ml-4">
                 <h3 class="white-text">Challenge</h3>
@@ -16,11 +16,11 @@
 
         <v-row>
             <v-col md="3" class="d-flex align-center justify-center">
-                <v-icon>mdi-calendar-blank</v-icon> {{ new Date(challenge.createdAt).toLocaleDateString("nl-nl") }}
+                <v-icon>mdi-calendar-blank</v-icon> {{ challenge.createdAt.toLocaleDateString("nl-nl") }}
             </v-col>
             <v-col cols="12"  md="6" class="">
                 <div class="d-flex flex-wrap justify-center">
-                    <Tag v-for="tag in challenge.tags.split(',')" >{{ tag }}</Tag>
+                    <Tag v-for="tag in challenge.tags.split(',')" :key="tag">{{ tag }}</Tag>
                 </div>
             </v-col>
             <v-col cols="12" md="3" class="d-flex justify-center align-center">
@@ -80,18 +80,18 @@
 
                 <section v-if="challenge.endDate">
                     <h2 class="post-heading">Einddatum</h2>
-                    <p><v-icon>mdi-calendar-blank</v-icon> {{ new Date(challenge.endDate).toLocaleDateString("nl-nl") }}</p>
+                    <p><v-icon>mdi-calendar-blank</v-icon> {{ challenge.endDate.toLocaleDateString("nl-nl") }}</p>
                 </section>
 
-                <section v-if="challenge.imageAttachmentsIds?.length > 0">
+                <section v-if="challenge.imageAttachments.length > 0">
                     <h2 class="post-heading">Afbeeldingen</h2>
                         <v-row>
-                            <v-col cols="10" md="4" v-for="imgId in challenge.imageAttachmentsIds">
+                            <v-col cols="10" md="4" v-for="img in challenge.imageAttachments" :key="img.id">
                                 <img 
                                 class="attachment-image"
                                 lazy-src="https://picsum.photos/id/11/100/60"
-                                :src="API.BASEURL + 'image/' + imgId"
-                                @click="openImage(API.BASEURL + 'image/' + imgId)"
+                                :src="img.getUrl()"
+                                @click="openImage(img.getUrl())"
                                 >
                                 
                             </v-col>
@@ -110,10 +110,10 @@
                     </div>
                 </section>
 
-                <v-divider></v-divider>
+                <v-divider class="my-4"></v-divider>
 
                 <!-- Custom component voor reacties -->
-                <!-- <ChallengeReaction :challengeInput="reaction"></ChallengeReaction> -->
+                <ChallengeReaction v-for="input in challengeInputs" :can-mark-answer="!inputsHaveChosenAnswer && userCanMarkAnswer" :challengeInput="input" :key="input.id"></ChallengeReaction>
 
             </v-col>
         </v-row>
@@ -185,7 +185,7 @@
 import ConcludeChallengePopup from '@/components/ConcludeChallengePopup.vue'
 import AreYouSurePopup from '@/components/AreYouSurePopup.vue'
 
-import { Ref, ref } from 'vue';
+import { Ref, computed, ref } from 'vue';
 import { Challenge } from '@/models/Challenge';
 import Tag from "@/components/Tag.vue"
 import ChallengeReaction from "@/components/ChallengeReaction.vue"
@@ -195,16 +195,26 @@ import { useRoute } from 'vue-router';
 import { onMounted } from 'vue';
 import API from '@/Api';
 import { Image } from '@/models/Image';
+import { useSessionStore } from '@/store/sessionStore';
+
+const sessionStore = useSessionStore()
 
 const concludePopup = ref(false)
 const archivePopup = ref(false)
-const challenge = ref(null) as Ref<Challenge | null>
+const challenge : Ref<Challenge | null> = ref(null)
+
+const challengeInputs : Ref<ChallengeInput[]> = ref([])
+const inputsHaveChosenAnswer = computed(() => challengeInputs.value.some(input => input.isChosenAnswer))
+const userCanMarkAnswer = computed(() => sessionStore.loggedInUser!.hasPermissionAtCompany("CHALLENGE_MANAGE", challenge.value?.company.id))
+
 
 onMounted(async () => {
     const idParam = useRoute().params.id
     let id = Array.isArray(idParam) ? idParam[0] : idParam
     challenge.value = await API.getChallengeById(parseInt(id))
     console.log(challenge.value)
+    challengeInputs.value = await API.getChallengeInputs(parseInt(id))
+    console.log(challengeInputs.value)
     })
 
 function archive(){
@@ -215,21 +225,13 @@ function archive(){
 }
 
 function banner(){
-    if(challenge.value?.bannerImageId){
-        return {"background-image":`linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url("${API.BASEURL}image/${challenge.value?.bannerImageId}")`}
-    }
-    return {"background-image":`linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7))`}
+    return {"background-image":`linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url("${challenge.value?.getBannerOrDefaultImageUrl()}")`}
 }
 
-function companyLogoSrc(){
-    return `${API.BASEURL}image/${challenge.value?.company?.profileImageId}`
-}
+
 function openImage(imageUrl : string) {
     window.open(imageUrl, '_blank');
 }
-
-
-// const reaction: Ref<ChallengeInput> = ref(API.getFakeChallengeInput())
 
 </script>
   
