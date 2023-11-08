@@ -6,6 +6,7 @@ import { User } from "./models/User";
 import { ChallengeSearchResults } from "./models/ChallengeSearchResults";
 import { Branch } from "./models/Branch";
 
+
 async function postRequest<T>(url: string, bodyObject: {}) {
   const res = await fetch(API.BASEURL + url, {
     method: "POST",
@@ -37,11 +38,11 @@ async function putRequest<T>(url: string, bodyObject: {}) {
 async function uploadFile<T>(url: string, keyName: string, file: File) {
   const formData = new FormData();
   formData.append(keyName, file);
-  const response = await fetch(API.BASEURL + url, {
+  const res = await fetch(API.BASEURL + url, {
     method: "POST",
     body: formData,
   });
-  const data = await response.json();
+  const data = await res.json();
   return data as T;
 }
 
@@ -54,6 +55,7 @@ async function getRequest<T>(url: string) {
   });
   return (await res.json()) as T;
 }
+
 
 namespace API {
   export const BASEURL = "http://localhost:8080/api/v1/";
@@ -82,6 +84,9 @@ namespace API {
 
   export async function getBranches() {
     return getRequest<Branch[]>(`branch/all`);
+  }
+  export async function pingServer(){
+    return getRequest<String>("ping");
   }
 
   /**
