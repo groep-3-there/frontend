@@ -1,4 +1,9 @@
 export class Branch{
-    declare id: number;
-    declare name: string;
+    id: number;
+    name: string;
+
+    constructor(data: any) {
+        this.id = data.id;
+        this.name = data.name;
+    }
 }

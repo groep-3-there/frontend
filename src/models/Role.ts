@@ -3,11 +3,21 @@ import { Department } from "./Department";
 import { Permission } from "./Permission";
 
 export class Role{
-    declare id :number;
-    declare name : string;
-    declare createdAt : string;
-    declare isMatchmaker : boolean;
-    declare company : Company;
-    declare department : Department;
-    declare permissions : Permission[]
+    id :number;
+    name : string;
+    createdAt : Date;
+    isMatchmaker : boolean;
+    company : Company;
+    department : Department;
+    permissions : Permission[]
+
+    constructor(data : any){
+        this.id = data.id;
+        this.name = data.name;
+        this.createdAt = new Date(data.createdAt);
+        this.isMatchmaker = data.isMatchmaker;
+        this.company = new Company(data.company);
+        this.department = new Department(data.department);
+        this.permissions = data.permissions.map((d : any) => new Permission(d));
+    }
 }

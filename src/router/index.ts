@@ -1,5 +1,6 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
+import { useSessionStore } from '@/store/sessionStore'
 
 const routes = [
   {
@@ -41,6 +42,14 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+})
+
+
+router.beforeEach((to, from, next) => {
+  document.title = to.name as string
+  const sessionStore = useSessionStore()
+  sessionStore.forceUpdate()
+  next()
 })
 
 export default router
