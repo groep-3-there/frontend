@@ -185,7 +185,6 @@ import router from "@/router";
 import { Challenge } from "@/models/Challenge";
 
 
-import router from "@/router";
 import RichEditor from "@/components/RichEditor.vue";
 
 import { Tag } from "@/models/Tag";
