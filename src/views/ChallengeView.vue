@@ -79,7 +79,7 @@
                 </section>
 
                 <section v-if="challenge.endDate">
-                    <h2 class="post-heading">Eind datum</h2>
+                    <h2 class="post-heading">Einddatum</h2>
                     <p><v-icon>mdi-calendar-blank</v-icon> {{ new Date(challenge.endDate).toLocaleDateString("nl-nl") }}</p>
                 </section>
 
