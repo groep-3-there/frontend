@@ -5,6 +5,7 @@ import { Image } from "./models/Image";
 import { User } from "./models/User";
 import { ChallengeSearchResults } from "./models/ChallengeSearchResults";
 import { Branch } from "./models/Branch";
+import { Tag } from "./models/Tag";
 
 
 async function postRequest<T>(url: string, bodyObject: {}) {
@@ -96,7 +97,7 @@ namespace API {
    * @param branche - branche names to filter for
    * @param sort - sort by newest_first, deadline_closest_first
    * @param page - page number
-   * @returns 
+   * @returns
    */
   export async function getChallengesBySearch(
     query?: string,
@@ -122,10 +123,20 @@ namespace API {
   export async function uploadImage(img: File) {
     return uploadFile<Image>("image/upload", "image", img);
   }
-  export async function uploadImageForChallenge(img : File, challengeId : number){
-    return uploadFile<Image>(`image/upload/challenge/${challengeId}`, "image", img);
+  export async function uploadImageForChallenge(
+    img: File,
+    challengeId: number
+  ) {
+    return uploadFile<Image>(
+      `image/upload/challenge/${challengeId}`,
+      "image",
+      img
+    );
   }
 
+  export async function getTags() {
+    return getRequest<Tag[]>(`tags`);
+  }
 }
 
 export default API;
