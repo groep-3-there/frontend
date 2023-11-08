@@ -23,6 +23,21 @@ import HelloWorld from '@/components/HelloWorld.vue'
 import { ref } from 'vue';
 import { useSnackbarStore } from "./store/Snackbar"
 import SnackbarContent from "./components/SnackbarContent.vue"
+import API from './Api';
+import { onMounted } from 'vue';
 
 const ready = ref(true)
+const snackbar = useSnackbarStore();
+onMounted(async ()=>{
+  setInterval(async()=>{
+    try{
+      console.log(await API.pingServer())
+    }
+    catch(error : any){
+      snackbar.createSimple("We konden de server niet bereieken", "error")
+    }
+  }, 10000)
+
+})
+
 </script>

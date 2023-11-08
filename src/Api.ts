@@ -3,11 +3,9 @@ import { Challenge } from "./models/Challenge";
 import { ChallengeInput } from "./models/ChallengeInput";
 import { Image } from "./models/Image";
 import { User } from "./models/User";
-import { useSnackbarStore } from "./store/Snackbar";
 import { ChallengeSearchResults } from "./models/ChallengeSearchResults";
 import { Branch } from "./models/Branch";
 
-const snackbar = useSnackbarStore();
 
 async function postRequest<T>(url: string, bodyObject: {}) {
   const res = await fetch(API.BASEURL + url, {
@@ -20,9 +18,6 @@ async function postRequest<T>(url: string, bodyObject: {}) {
     // credentials: "include",
     body: JSON.stringify(bodyObject),
   });
-  if(!res.ok){
-    snackbar.createSimple(res.statusText, "error");
-  }
   return (await res.json()) as T;
 }
 
@@ -37,9 +32,6 @@ async function putRequest<T>(url: string, bodyObject: {}) {
     // credentials: "include",
     body: JSON.stringify(bodyObject),
   });
-  if(!res.ok){
-    snackbar.createSimple(res.statusText, "error");
-  }
   return (await res.json()) as T;
 }
 
@@ -50,32 +42,20 @@ async function uploadFile<T>(url: string, keyName: string, file: File) {
     method: "POST",
     body: formData,
   });
-  if(!res.ok){
-    snackbar.createSimple(`Upload gefaald : ${res.statusText}`, "error");
-  }
   const data = await res.json();
   return data as T;
 }
 
 async function getRequest<T>(url: string) {
-  let res;
-  try{
-    res = await fetch(API.BASEURL + url, {
-      method: "GET",
-      headers: API.headers,
-      mode: "cors",
-      // credentials: "include"
-    });
-  }
-  catch(e){
-    snackbar.createSimple("We konden de server niet bereiken", "error");
-    throw e;
-  }
-  if(!res.ok){
-    snackbar.createSimple(res.statusText, "error");
-  }
+  const res = await fetch(API.BASEURL + url, {
+    method: "GET",
+    headers: API.headers,
+    mode: "cors",
+    // credentials: "include"
+  });
   return (await res.json()) as T;
 }
+
 
 namespace API {
   export const BASEURL = "http://localhost:8080/api/v1/";
@@ -104,6 +84,9 @@ namespace API {
 
   export async function getBranches() {
     return getRequest<Branch[]>(`branch/all`);
+  }
+  export async function pingServer(){
+    return getRequest<String>("ping");
   }
 
   /**

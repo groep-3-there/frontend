@@ -24,7 +24,7 @@ export const useSnackbarStore = defineStore('SnackbarStore', {
       this.snacks.push(payload)
     },
     createSimple(message: string, type: 'success' | 'error' | 'info' | 'warning') {
-      this.create({ message, type, timeout: 5, onClick: () => { } })
+      this.create({ message, type, timeout: 7, onClick: () => { } })
     }
   }
 })
