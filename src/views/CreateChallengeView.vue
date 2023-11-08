@@ -71,7 +71,18 @@
           </v-row>
 
           <v-row>
-            <v-col>
+            <v-col class="d-flex justify-space-around">
+              <v-tooltip v-model="showBanner" location="top">
+                <template v-slot:activator="{ props }">
+                  <v-btn icon v-bind="props" class="tooltip" color="primary">
+                    <v-icon color="secundary"> mdi-information-variant </v-icon>
+                  </v-btn>
+                </template>
+                <span>
+                  <p>Maximale groote banner: 10MB</p>
+                  <p>Aangeraden aspect ratio: 16:9</p>
+                </span>
+              </v-tooltip>
               <v-file-input
                 accept="image/png, image/jpeg, image/svg"
                 label="Upload een banner"
@@ -91,7 +102,18 @@
           </v-row>
 
           <v-row>
-            <v-col>
+            <v-col class="d-flex justify-space-around">
+              <v-tooltip v-model="showImages" location="top">
+                <template v-slot:activator="{ props }">
+                  <v-btn icon v-bind="props" class="tooltip" color="primary">
+                    <v-icon color="secundary"> mdi-information-variant </v-icon>
+                  </v-btn>
+                </template>
+                <span>
+                  <p>Maximaal 8 afbeeldingen</p>
+                  <p>Maximale groote per afbeelding: 10MB</p>
+                </span>
+              </v-tooltip>
               <v-file-input
                 accept="image/png, image/jpeg, image/svg"
                 label="Upload afbeeldingen"
@@ -227,6 +249,18 @@ function getVisibilityCodeName(title: string) {
 }
 const createChallengeForm = ref(null) as any;
 
+/**
+ * show the tooltip for the banner
+ * default is false
+ */
+const showBanner = ref(false);
+
+/**
+ * show the tooltip for the images
+ * default is false
+ */
+const showImages = ref(false);
+
 async function createChallenge() {
   const { valid } = await createChallengeForm.value.validate();
   if (!valid || visibility.value == null) {
@@ -286,5 +320,9 @@ async function createChallenge() {
 
 h1 {
   padding: 4rem 0 0 0;
+}
+
+.tooltip {
+  margin: 0 2rem 0 0;
 }
 </style>
