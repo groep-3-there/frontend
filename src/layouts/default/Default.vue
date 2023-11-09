@@ -13,9 +13,10 @@
       >
         <v-list>
           <v-list-item
+          v-if="user"
             prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
             :title="user?.name"
-            :subtitle="user?.role?.company?.name"
+            :subtitle="user.getSubtitle()"
           ></v-list-item>
         </v-list>
 
@@ -28,6 +29,7 @@
             title="Home"
             value="home"
           ></v-list-item>
+
           <v-list-item
             :key="2"
             @click="$router.push('/vue-tutorial')"
@@ -94,7 +96,7 @@ import { onMounted } from "vue";
 import API from "@/Api";
 const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay();
 
-const user = ref({}) as Ref<User | null>;
+const user = ref() as Ref<User | null>;
 
 onMounted(async () => {
   user.value = await API.getCurrentUser();

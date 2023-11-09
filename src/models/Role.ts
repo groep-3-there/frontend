@@ -7,8 +7,6 @@ export class Role{
     name : string;
     createdAt : Date;
     isMatchmaker : boolean;
-    company : Company;
-    department : Department;
     permissions : Permission[]
 
     constructor(data : any){
@@ -16,8 +14,6 @@ export class Role{
         this.name = data.name;
         this.createdAt = new Date(data.createdAt);
         this.isMatchmaker = data.isMatchmaker;
-        this.company = new Company(data.company);
-        this.department = new Department(data.department);
         this.permissions = data.permissions.map((d : any) => new Permission(d));
     }
 }

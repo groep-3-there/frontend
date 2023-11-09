@@ -1,3 +1,4 @@
+import { Department } from "./Department";
 import { Image } from "./Image";
 import { Role } from "./Role";
 
@@ -16,6 +17,7 @@ export class User{
     email: string;
     phoneNumber: string;
     role : Role | null;
+    department : Department | null;
     
     constructor(data: any) {
         this.id = data.id;
@@ -32,6 +34,7 @@ export class User{
         this.email = data.email;
         this.phoneNumber = data.phoneNumber;
         this.role = new Role(data.role);
+        this.department = new Department(data.department)
     }
 
     getAvatarOrDefaultUrl(){
@@ -45,25 +48,24 @@ export class User{
     }
 
     getSubtitle() {
-        if(!this.role){
-            return "Werkloos"
+        if(!this.role || !this.department){
+            return "Niet lid"
         }
-        return `${this.role.name} at ${this.role.department.name}`
+        return `${this.role.name} bij ${this.department.parentCompany.name}`
     }
 
-    hasPermissionAtCompany(permission : string, companyId : number | null | undefined){
-        console.log(permission, companyId)
+    hasPermissionAtDepartment(permission : string, departmentId : number | null | undefined){
         console.log(this.role)
-        if(companyId === null || companyId === undefined){
+        if(departmentId === null || departmentId === undefined){
             return false
         }
-        if(!this.role){
+        if(!this.department || !this.role){
             return false
         }
         if(this.role.isMatchmaker){
             return true;
         }
-        if(this.role.company.id !== companyId){
+        if(this.department.id !== departmentId){
             return false
         }
         return this.role.permissions.some((p : any) => p.name === permission)

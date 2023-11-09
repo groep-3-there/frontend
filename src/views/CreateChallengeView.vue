@@ -31,29 +31,12 @@
 
           <v-row>
             <v-col>
-              <v-textarea
-                  v-model="description"
-                  label="Beschrijving"
-                  :rules="[(v) => !!v || 'Dit veld is verplicht!']"
-                  required
-                  variant="outlined"
-                  auto-grow
-                  rows="10"
-                  ></v-textarea>
-                  <RichEditor/>
+              <RichEditor @model-value-changed="newDescription" :placeholder="'Beschrijving'" />
             </v-col>
           </v-row>
-
           <v-row>
             <v-col>
-              <v-textarea
-                v-model="contactInformation"
-                label="Contactinformatie"
-                :rules="[(v) => !!v || 'Dit veld is verplicht!']"
-                variant="outlined"
-                required
-                auto-grow
-              ></v-textarea>
+              <RichEditor @model-value-changed="newContactInformation" :placeholder="'Contactinformatie'" />
             </v-col>
           </v-row>
 
@@ -184,7 +167,6 @@ import Api from "@/Api";
 import router from "@/router";
 import { Challenge } from "@/models/Challenge";
 
-
 import RichEditor from "@/components/RichEditor.vue";
 
 import { Tag } from "@/models/Tag";
@@ -195,7 +177,6 @@ import { Tag } from "@/models/Tag";
 onMounted(async () => {
   standardTags.value = await Api.getTags();
 });
-
 
 const createdChallenge = ref(null) as Ref<Challenge | null>;
 
@@ -230,6 +211,14 @@ const banner = ref([]);
 const images = ref([]);
 const tags = ref([]);
 
+function newDescription(value : any){
+  description.value = value;
+}
+function newContactInformation(value : any){
+  contactInformation.value = value;
+}
+
+
 /**
  * @type {string[]} - standard tags to choose from
  * API gets called on mounted, which fills this array
@@ -248,7 +237,6 @@ function getVisibilityCodeName(title: string) {
 }
 const createChallengeForm = ref(null) as any;
 
-
 /**
  * show the tooltip for the banner
  * default is false
@@ -263,7 +251,7 @@ const showImages = ref(false);
 
 async function createChallenge() {
   const { valid } = await createChallengeForm.value.validate();
-  if (!valid || visibility.value == null) {
+  if (!valid || visibility.value == null || description.value == null || contactInformation.value == null) {
     alert("Alle vereiste velden zijn nog niet ingevuld!");
     return;
   }
@@ -277,8 +265,11 @@ async function createChallenge() {
 
   //upload banner
   let uploadedBannerId = null;
+  console.log(banner.value)
   if (banner.value?.length) {
+    console.log("Uploading banner");
     const response = await Api.uploadImage(banner.value[0]);
+    console.log(response)
     uploadedBannerId = response.id;
   }
 
@@ -291,7 +282,7 @@ async function createChallenge() {
   const challenge = {
     title: title.value,
     summary: summary.value,
-    description: summary.value,
+    description: description.value,
     bannerImageId: uploadedBannerId,
     contactInformation: contactInformation.value,
     status: "OPEN_VOOR_IDEEEN",
@@ -303,13 +294,12 @@ async function createChallenge() {
   console.log("Creating challenge", challenge);
   const created = await Api.createChallenge(challenge);
 
-
   router.push(`/challenge/${created?.id}`);
-
 }
 </script>
 
-<style scoped>
+<style>
+
 .date {
   max-width: 11rem;
 }

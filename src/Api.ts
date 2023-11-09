@@ -132,7 +132,7 @@ namespace API {
   }
 
   export async function uploadImage(img: File) {
-    const data =  uploadFile("image/upload", "image", img);
+    const data = await uploadFile("image/upload", "image", img);
     return new Image(data)
   }
   export async function uploadImageForChallenge(img : File, challengeId : number){
@@ -140,7 +140,11 @@ namespace API {
     return new Image(data)
   }
   export async function markReactionAsChosen(reactionId : number){
-    const data = await putRequest(`/reaction/${reactionId}/markreaction`, {});
+    const data = await putRequest(`reaction/${reactionId}/markreaction`, {});
+    return new ChallengeInput(data)
+  }
+  export async function postReaction(input : { }, challengeId : number){
+    const data = await postRequest(`reaction/create/${challengeId}`, input);
     return new ChallengeInput(data)
   }
 
@@ -148,6 +152,7 @@ namespace API {
     const data = await getRequest(`tags`);
     return data.map((d : any) => new Tag(d))
   }
+  
 }
 
 export default API;

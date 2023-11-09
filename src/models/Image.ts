@@ -10,7 +10,7 @@ export class Image{
     }
 
     getUrl(){
-        return `${API.BASEURL}/image/${this.id}`
+        return `${API.BASEURL}image/${this.id}`
     }
 
     
