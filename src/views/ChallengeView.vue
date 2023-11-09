@@ -57,7 +57,9 @@
           <template v-slot:activator="{ props }">
             <v-icon v-bind="props" size="48">mdi-dots-horizontal</v-icon>
           </template>
-          <v-list>
+          <v-list
+            v-if="sessionStore.loggedInUser!.hasPermissionAtCompany('CHALLENGE_MANAGE', challenge?.company.id)"
+          >
             <v-list-item
               :value="1"
               :key="1"
@@ -68,13 +70,13 @@
                 >Bewerken</v-list-item-title
               >
             </v-list-item>
-            <v-list-item :value="2" :key="2" @click="concludePopup = true">
+            <v-list-item :value="2" :key="2" @click="concludePopup = true" v-if="challenge.status == 'IN_UITVOERING'">
               <v-list-item-title
                 ><v-icon class="mr-1" size="24">mdi-check-bold</v-icon
                 >Afronden</v-list-item-title
               >
             </v-list-item>
-            <v-list-item :value="3" :key="3" @click="archivePopup = true">
+            <v-list-item :value="3" :key="3" @click="archivePopup = true" v-if="challenge.status == 'AFGEROND'">
               <v-list-item-title
                 ><v-icon class="mr-1" size="24">mdi-archive</v-icon
                 >Archiveren</v-list-item-title
@@ -102,7 +104,6 @@
         </section>
         <section>
           <h2 class="post-heading">Beschrijving</h2>
-          <v-divider></v-divider>
           <p v-html="challenge.description"></p>
         </section>
 
@@ -118,7 +119,6 @@
             {{ challenge.endDate.toLocaleDateString("nl-nl") }}
           </p>
         </section>
-
         <section v-if="challenge.imageAttachments.length > 0">
           <h2 class="post-heading">Afbeeldingen</h2>
           <v-row>
@@ -136,13 +136,15 @@
               />
             </v-col>
           </v-row>
+          <v-divider class="my-4"></v-divider>
         </section>
 
-        <v-divider class="my-4"></v-divider>
-
         <section v-if="sessionStore.loggedInUser">
-        <h2 class="post-heading">Ideeënbus</h2>
-          <v-alert type="info">U kunt geen reactie meer achterlaten, er is al een antwoord gekozen.</v-alert>
+          <h2 class="post-heading">Ideeënbus</h2>
+          <v-alert type="info" v-if="challenge.status == 'IN_UITVOERING'"
+            >U kunt geen reactie meer achterlaten, er is al een antwoord
+            gekozen.</v-alert
+          >
           <ChallengeCreateReaction
             v-if="challenge.status == 'OPEN_VOOR_IDEEEN'"
             :targetChallenge="challenge"
@@ -277,12 +279,12 @@ onMounted(async () => {
 });
 
 async function loadChallenge() {
-  console.log("Loading challenge")
+  console.log("Loading challenge");
   challenge.value = await API.getChallengeById(parseInt(id));
 }
 
 async function updateReactions() {
-  console.log("Updating reactions")
+  console.log("Updating reactions");
   challengeInputs.value = await API.getChallengeInputs(parseInt(id));
 }
 

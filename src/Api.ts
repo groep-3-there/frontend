@@ -133,7 +133,6 @@ namespace API {
 
   export async function uploadImage(img: File) {
     const data = await uploadFile("image/upload", "image", img);
-    console.warn(data)
     return new Image(data)
   }
   export async function uploadImageForChallenge(img : File, challengeId : number){

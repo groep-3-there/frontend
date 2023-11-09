@@ -251,7 +251,7 @@ const showImages = ref(false);
 
 async function createChallenge() {
   const { valid } = await createChallengeForm.value.validate();
-  if (!valid || visibility.value == null) {
+  if (!valid || visibility.value == null || description.value == null || contactInformation.value == null) {
     alert("Alle vereiste velden zijn nog niet ingevuld!");
     return;
   }

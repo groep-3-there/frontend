@@ -39,11 +39,10 @@ export class Challenge {
         this.endDate = new Date(data.endDate);
         this.tags = data.tags;
         this.visibility = data.visibility;
-        this.imageAttachments = data.imageAttachments ? data.imageAttachments.map((d: any) => new Image({id:d})) : [];
+        this.imageAttachments = data.imageAttachmentsIds ? data.imageAttachmentsIds.map((d: any) => new Image({id:d})) : [];
     }
 
     getBannerOrDefaultImageUrl(){
-        console.warn(this.banner)
         if(this.banner){
             return this.banner.getUrl()
         }
