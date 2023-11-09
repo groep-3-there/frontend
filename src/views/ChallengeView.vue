@@ -58,7 +58,7 @@
             <v-icon v-bind="props" size="48">mdi-dots-horizontal</v-icon>
           </template>
           <v-list
-            v-if="sessionStore.loggedInUser!.hasPermissionAtCompany('CHALLENGE_MANAGE', challenge?.company.id)"
+            v-if="sessionStore.loggedInUser!.hasPermissionAtDepartment('CHALLENGE_MANAGE', challenge?.department.id)"
           >
             <v-list-item
               :value="1"
@@ -264,9 +264,9 @@ const inputsHaveChosenAnswer = computed(() =>
   challengeInputs.value.some((input) => input.isChosenAnswer)
 );
 const userCanMarkAnswer = computed(() =>
-  sessionStore.loggedInUser!.hasPermissionAtCompany(
+  sessionStore.loggedInUser!.hasPermissionAtDepartment(
     "CHALLENGE_MANAGE",
-    challenge.value?.company.id
+    challenge.value?.department.id
   )
 );
 

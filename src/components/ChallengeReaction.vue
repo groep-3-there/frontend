@@ -57,7 +57,7 @@
       <v-divider class="my-4"></v-divider>
       <v-row>
         <v-btn @click="markSelectedPopup = true" class="my-4 mx-4" color="primary">Kies dit idee</v-btn>
-        <AreYouSurePopup v-if="markSelectedPopup" @on-close="markSelectedPopup = false" :accept-word="'Ja'" @on-accept-and-close="markSelected()" title="Dit idee markeren als gekozen?" subtitle="U kunt maar één reactie markeren als antwoord."></AreYouSurePopup>
+        <AreYouSurePopup v-if="markSelectedPopup" @on-close="markSelectedPopup = false" :accept-word="'Ja'" @on-accept-and-close="markSelected()" title="Dit idee markeren als gekozen?" subtitle="U kunt maar één reactie markeren als gekozen."></AreYouSurePopup>
       </v-row>
 
     </template>
