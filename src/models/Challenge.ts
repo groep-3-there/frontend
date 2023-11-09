@@ -43,6 +43,7 @@ export class Challenge {
     }
 
     getBannerOrDefaultImageUrl(){
+        console.warn(this.banner)
         if(this.banner){
             return this.banner.getUrl()
         }

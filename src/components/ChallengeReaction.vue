@@ -41,13 +41,13 @@
     <v-row class="reaction-content">
       <v-col cols="12">
         <p v-if="!readMore">
-          {{ smallText }}
+          <span v-html="smallText"></span>
           <span v-if="shortened">...</span>
           <span v-if="shortened" class="text-hint" @click="readMore = true">Meer lezen</span>
         </p>
 
         <p v-if="readMore && shortened">
-          {{ props.challengeInput.text }}
+          <span v-html="props.challengeInput.text"></span>
           <span v-if="readMore" class="text-hint" @click="readMore = false">Minder lezen</span
           >
         </p>
@@ -112,6 +112,8 @@ const props = defineProps({
   }
 });
 
+const emit = defineEmits(["updateChallenge"])
+
 const smallText = computed(() => props.challengeInput.text.substring(0, 1000));
 const shortened = computed(
   () => smallText.value.length < props.challengeInput.text.length
@@ -121,8 +123,11 @@ const readMore = ref(false);
 
 const markSelectedPopup = ref(false);
 
-function markSelected(){
+async function markSelected(){
   markSelectedPopup.value = false
+  const updated = await API.markReactionAsChosen(props.challengeInput.id)
+  props.challengeInput.isChosenAnswer = updated.isChosenAnswer
+  emit("updateChallenge")
 }
 
 

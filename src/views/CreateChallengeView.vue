@@ -31,28 +31,12 @@
 
           <v-row>
             <v-col>
-              <v-textarea
-                v-model="description"
-                label="Beschrijving"
-                :rules="[(v) => !!v || 'Dit veld is verplicht!']"
-                required
-                variant="outlined"
-                auto-grow
-                rows="10"
-              ></v-textarea>
+              <RichEditor @model-value-changed="newDescription" :placeholder="'Beschrijving'" />
             </v-col>
           </v-row>
-            <RichEditor @model-value-changed="newDescription" />
           <v-row>
             <v-col>
-              <v-textarea
-                v-model="contactInformation"
-                label="Contactinformatie"
-                :rules="[(v) => !!v || 'Dit veld is verplicht!']"
-                variant="outlined"
-                required
-                auto-grow
-              ></v-textarea>
+              <RichEditor @model-value-changed="newContactInformation" :placeholder="'Contactinformatie'" />
             </v-col>
           </v-row>
 
@@ -228,8 +212,10 @@ const images = ref([]);
 const tags = ref([]);
 
 function newDescription(value : any){
-  console.log("new description", value);
   description.value = value;
+}
+function newContactInformation(value : any){
+  contactInformation.value = value;
 }
 
 
@@ -279,8 +265,11 @@ async function createChallenge() {
 
   //upload banner
   let uploadedBannerId = null;
+  console.log(banner.value)
   if (banner.value?.length) {
+    console.log("Uploading banner");
     const response = await Api.uploadImage(banner.value[0]);
+    console.log(response)
     uploadedBannerId = response.id;
   }
 
@@ -293,7 +282,7 @@ async function createChallenge() {
   const challenge = {
     title: title.value,
     summary: summary.value,
-    description: summary.value,
+    description: description.value,
     bannerImageId: uploadedBannerId,
     contactInformation: contactInformation.value,
     status: "OPEN_VOOR_IDEEEN",
@@ -309,7 +298,8 @@ async function createChallenge() {
 }
 </script>
 
-<style scoped>
+<style>
+
 .date {
   max-width: 11rem;
 }
