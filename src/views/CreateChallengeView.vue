@@ -42,11 +42,7 @@
               ></v-textarea>
             </v-col>
           </v-row>
-          <v-row>
-            <RichEditor />
-
-          </v-row>
-
+            <RichEditor @model-value-changed="newDescription" />
           <v-row>
             <v-col>
               <v-textarea
@@ -230,6 +226,12 @@ const visibility = ref(null);
 const banner = ref([]);
 const images = ref([]);
 const tags = ref([]);
+
+function newDescription(value : any){
+  console.log("new description", value);
+  description.value = value;
+}
+
 
 /**
  * @type {string[]} - standard tags to choose from

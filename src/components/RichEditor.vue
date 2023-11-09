@@ -84,15 +84,6 @@
         <v-icon>mdi-code-tags</v-icon>
       </div>
       <div
-        @click="editor.chain().focus().toggleBlockquote().run()"
-        :class="{
-          'text-option': true,
-          'is-active': editor.isActive('blockquote'),
-        }"
-      >
-        <v-icon>mdi-format-quote-open</v-icon>
-      </div>
-      <div
         @click="editor.chain().focus().undo().run()"
         :disabled="!editor.can().chain().focus().undo().run()"
         :class="{ 'text-option': true }"
@@ -111,9 +102,10 @@
     <div class="edit-box">
       <editor-content class="editing" :editor="editor" />
     </div>
+
   </div>
 </template>
-<style scoped>
+<style>
 .text-option {
   /* border: 1px solid rgb(158, 158, 158); */
   min-width: 50px;
@@ -151,11 +143,11 @@
 }
 .editing > * {
   height: 100%;
-  padding: 0;
+  padding: 10px;
 
 }
-* {
-  padding:-1;
+*{
+  padding: revert-layer;
 }
 
 </style>
@@ -166,13 +158,25 @@ import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import { computed } from "vue";
 
+const emit = defineEmits(["modelValueChanged"]);
+
+
+
+
 const editor = useEditor({
   content: `Beschrijving..`,
   onFocus: () => {
     if (editor.value?.getHTML() == `<p>Beschrijving..</p>`) {
       editor.value?.commands.setContent("");
+      
     }
+  },
+  onUpdate: ({ editor }) => {
+    emit("modelValueChanged", editor.getHTML());
   },
   extensions: [StarterKit,Underline],
 });
+
+
+
 </script>
