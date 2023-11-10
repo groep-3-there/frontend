@@ -2,7 +2,7 @@
   <v-app>
     <v-main>
       <SnackbarContent />
-      <router-view v-if="ready">
+      <router-view>
       </router-view>
       <template v-else>
         Loading...
@@ -28,7 +28,8 @@ import API from './Api';
 import { onMounted } from 'vue';
 
 const sessionStore = useSessionStore()
-const ready = ref(true)
+// const ready = ref(true)
+
   setInterval(()=>{
     sessionStore.forceUpdate();
   },10000)
