@@ -40,7 +40,10 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
-    - run: mv ./dist ./github-pages
+    - uses: actions/upload-artifact@v3
+      with:
+        name: github-pages
+        path: dist
     - uses: actions/deploy-pages@v2
       id: "deployment"
       with:
