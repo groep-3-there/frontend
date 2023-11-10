@@ -40,6 +40,7 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+    - run: mv ./dist ./github-pages
     - uses: actions/deploy-pages@v2
       id: "deployment"
       with:
