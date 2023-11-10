@@ -141,7 +141,7 @@ const shortened = computed(
 const readMore = ref(false);
 
 
-const markSelectedPopup = ref(false);
+const markSelectedPopup = ref(false)
 
 function markSelected(){
   markSelectedPopup.value = false
