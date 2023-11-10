@@ -134,9 +134,7 @@
               <v-text-field
                 type="date"
                 label="Einddatum"
-                :rules="[(v) => !!v || 'Dit veld is verplicht!']"
                 variant="outlined"
-                required
                 v-model="date"
                 class="date"
               ></v-text-field>
@@ -177,8 +175,6 @@ import { Tag } from "@/models/Tag";
 onMounted(async () => {
   standardTags.value = await Api.getTags();
 });
-
-const createdChallenge = ref(null) as Ref<Challenge | null>;
 
 const title = ref("");
 const summary = ref("");
