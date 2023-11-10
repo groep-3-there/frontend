@@ -11,7 +11,9 @@ import { fileURLToPath, URL } from 'node:url'
 export default defineConfig({
   base: process.env.BASE_NAME ? `/${process.env.BASE_NAME}/` : '',
   plugins: [
-    vue({}),
+    vue({
+      template: { transformAssetUrls },
+    }),
     // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vite-plugin
     vuetify({
       autoImport: true,
