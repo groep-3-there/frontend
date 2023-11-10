@@ -43,15 +43,15 @@ const routes = [
     ],
   },
 ]
-
 const router = createRouter({
-  
   history: createWebHistory(process.env.BASE_URL),
   routes,
 })
 
 
 router.beforeEach((to, from, next) => {
+  console.warn("process.env.BASE_URL", process.env.BASE_URL)
+  console.warn("process.env.BASE_NAME", process.env.BASE_NAME)
   document.title = to.name as string
   const sessionStore = useSessionStore()
   // sessionStore.forceUpdate()
