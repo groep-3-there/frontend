@@ -10,15 +10,6 @@ import { fileURLToPath, URL } from 'node:url'
 // https://vitejs.dev/config/
 export default defineConfig({
   base: process.env.BASE_NAME ? `/${process.env.BASE_NAME}/` : '',
-  
-  build:{
-    rollupOptions:{
-      output:{
-        entryFileNames: '[name].js',
-        chunkFileNames: '[name].js'
-      }
-    }
-  },
   plugins: [
     vue({}),
     // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vite-plugin
