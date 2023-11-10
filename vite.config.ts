@@ -9,7 +9,7 @@ import { fileURLToPath, URL } from 'node:url'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: process.env.BASE_NAME ? `/${process.env.BASE_NAME}/` : '/',
+  base: process.env.BASE_NAME ? `/${process.env.BASE_NAME}/` : '',
   
   build:{
     rollupOptions:{
