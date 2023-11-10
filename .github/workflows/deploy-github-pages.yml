@@ -42,10 +42,11 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
-   
+    - uses: actions/upload-pages-artifact@v1
+      with:
+        name: github-pages
+        path: dist
     - uses: actions/deploy-pages@v2
       id: "deployment"
-      with:
-        path: ./dist
 
 
