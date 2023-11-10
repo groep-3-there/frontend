@@ -49,6 +49,7 @@ function close(){
 
 async function send(){
     props.challenge.concludingRemarks = summary.value
+    props.challenge.status = "AFGEROND"
     await API.updateChallenge(props.challenge)
     close()
 }

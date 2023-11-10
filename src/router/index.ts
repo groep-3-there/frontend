@@ -1,5 +1,6 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
+import { useSessionStore } from '@/store/sessionStore'
 
 const routes = [
   {
@@ -23,12 +24,6 @@ const routes = [
         path: 'challenges',
         name: 'Search Challanges',
         component: () => import('@/views/SearchChallengesView.vue'),
-        props: (route: { query: { query: any; company_id: any; branches: any; sort: any; }; }) => ({
-          query: route.query.query,
-          company: route.query.company_id,
-          branch: route.query.branches,
-          sort: route.query.sort,
-        })
       },
       {
         path: 'challenge/:id',
@@ -52,6 +47,14 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+})
+
+
+router.beforeEach((to, from, next) => {
+  document.title = to.name as string
+  const sessionStore = useSessionStore()
+  sessionStore.forceUpdate()
+  next()
 })
 
 export default router

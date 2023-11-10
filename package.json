@@ -10,6 +10,12 @@
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
+    "@tinymce/tinymce-vue": "^4.0.7",
+    "@tiptap/extension-bold": "^2.1.12",
+    "@tiptap/extension-underline": "^2.1.12",
+    "@tiptap/pm": "^2.1.12",
+    "@tiptap/starter-kit": "^2.1.12",
+    "@tiptap/vue-3": "^2.1.12",
     "pinia": "^2.0.23",
     "roboto-fontface": "*",
     "vue": "^3.2.0",
