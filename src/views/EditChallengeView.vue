@@ -31,28 +31,13 @@
 
           <v-row>
             <v-col>
-              <v-textarea
-                v-model="description"
-                label="Beschrijving"
-                :rules="[(v) => !!v || 'Dit veld is verplicht!']"
-                required
-                variant="outlined"
-                auto-grow
-                rows="10"
-              ></v-textarea>
+              <RichEditor v-if="originalChallenge" :initialize-with="originalChallenge.description" @model-value-changed="(e)=>description = e"></RichEditor>
             </v-col>
           </v-row>
 
           <v-row>
             <v-col>
-              <v-textarea
-                v-model="contactInformation"
-                label="Contactinformatie"
-                :rules="[(v) => !!v || 'Dit veld is verplicht!']"
-                variant="outlined"
-                required
-                auto-grow
-              ></v-textarea>
+              <RichEditor v-if="originalChallenge" :initialize-with="originalChallenge.contactInformation" @model-value-changed="(e)=>contactInformation = e"></RichEditor>
             </v-col>
           </v-row>
 
@@ -184,12 +169,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import Api from "@/Api";
+import RichEditor from "@/components/RichEditor.vue";
 import { Ref } from "vue";
 import { Challenge } from "@/models/Challenge";
 import { useRoute } from "vue-router";
 import { onMounted } from "vue";
 import router from "@/router";
-
 const originalChallenge: Ref<Challenge | null> = ref(null);
 const title = ref("");
 const summary = ref("");

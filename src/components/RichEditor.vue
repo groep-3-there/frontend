@@ -216,13 +216,17 @@ const emit = defineEmits(["modelValueChanged"]);
 const props = defineProps({
   placeholder: {
     type: String,
-    default: "Beschrijving.."
+    default: "<p>Beschrijving..</p>"
+  },
+  initializeWith:{
+    type: String,
+    default: null,
+    required: false
   }
 })
-
 const showError = ref(false);
 const editor = useEditor({
-  content: props.placeholder,
+  content: props.initializeWith ? props.initializeWith : props.placeholder,
   onFocus: () => {
     if (editor.value?.getHTML() == `<p>${props.placeholder}</p>`) {
       editor.value?.commands.setContent("");
@@ -240,6 +244,7 @@ const editor = useEditor({
   },
   extensions: [StarterKit, Underline],
 });
+
 const placeholderShowing = computed(() => {
   return editor.value?.getHTML() == `<p>${props.placeholder}</p>`;
 });
