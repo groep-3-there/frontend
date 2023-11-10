@@ -45,7 +45,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL + 'frontend/'),
+  history: createWebHistory(process.env.BASE_URL + '/frontend/'),
   routes,
 })
 
