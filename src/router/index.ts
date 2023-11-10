@@ -46,7 +46,7 @@ const routes = [
 
 const router = createRouter({
   
-  history: createWebHistory(process.env.BASE_NAME),
+  history: createWebHistory(process.env.BASE_URL),
   routes,
 })
 
@@ -54,7 +54,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   document.title = to.name as string
   const sessionStore = useSessionStore()
-  sessionStore.forceUpdate()
+  // sessionStore.forceUpdate()
   next()
 })
 
