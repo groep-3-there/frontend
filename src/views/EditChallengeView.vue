@@ -90,7 +90,7 @@
             </v-col>
           </v-row>
 
-          <v-row v-if="originalChallenge?.bannerImageId !== null">
+          <v-row v-if="originalChallenge?.bannerImageId !== null && banner.length == 0">
             <v-col>
               <div>
                 <v-img class="banner" :src="showBanner()">
@@ -98,7 +98,7 @@
                     class="delete-image"
                     size="x-small"
                     icon="mdi-trash-can-outline"
-                    @click="deleteImage"
+                    @click="deleteBanner"
                   ></v-btn>
                 </v-img>
               </div>
@@ -119,6 +119,22 @@
                 :rules="[(v) => (v.length < 9 && !v.some((i:any) => {return i.size > 10000000 })) || 'Er mogen maximaal 8 afbeeldingen van 10MB worden geüpload!']"
               >
               </v-file-input>
+            </v-col>
+          </v-row>
+
+          <v-row v-if="originalChallenge?.imageAttachments !== null">
+            <v-col v-for="img in originalChallenge?.imageAttachments"
+            :key="img.id">
+              <div >
+                <v-img class="banner" :src="img.getUrl()">
+                  <v-btn
+                    class="delete-image"
+                    size="x-small"
+                    icon="mdi-trash-can-outline"
+                    @click="deleteImage(img)"
+                  ></v-btn>
+                </v-img>
+              </div>
             </v-col>
           </v-row>
 
@@ -143,9 +159,7 @@
               <v-text-field
                 type="date"
                 label="Einddatum"
-                :rules="[(v) => !!v || 'Dit veld is verplicht!']"
                 variant="outlined"
-                required
                 v-model="date"
                 class="date"
               ></v-text-field>
@@ -232,17 +246,21 @@ onMounted(async () => {
       return item.codeName === originalChallenge.value.visibility;
     }
   })?.title;
-  //TODO images.value = originalChallenge.value.imageAttachmentsIds
   tags.value = originalChallenge.value.tags.split(",");
-  date.value = originalChallenge.value.endDate.toString().slice(0, 10);
+  date.value = originalChallenge.value.endDate.toISOString().slice(0, 10);
 });
 
 function showBanner() {
   return `${Api.BASEURL}image/${originalChallenge.value?.bannerImageId}`;
 }
 
-function deleteImage(){
+function deleteBanner(){
   originalChallenge.value!.bannerImageId = null
+}
+
+function deleteImage(img: any){
+  originalChallenge.value!.imageAttachments = originalChallenge.value!.imageAttachments.filter(item => item !== img);
+  
 }
 
 async function editChallenge() {
@@ -264,6 +282,9 @@ async function editChallenge() {
     const response = await Api.uploadImage(banner.value[0]);
     uploadedBannerId = response.id;
   }
+  else{
+    uploadedBannerId = originalChallenge.value!.bannerImageId;
+  }
 
   const attachmentImages: number[] = [];
   for (const toUpload of images.value) {
@@ -271,6 +292,7 @@ async function editChallenge() {
     attachmentImages.push(img.id);
   }
 
+  const attachmentsWithPreviousImages = originalChallenge.value!.imageAttachments.map((i)=> {return i.id}).concat(attachmentImages);
   const challenge = {
     id: id,
     title: title.value,
@@ -280,7 +302,7 @@ async function editChallenge() {
     contactInformation: contactInformation.value,
     status: "OPEN_VOOR_IDEEEN",
     endDate: date.value,
-    imageAttachmentsIds: attachmentImages,
+    imageAttachmentsIds: attachmentsWithPreviousImages ,
     tags: tagString,
     visibility: getVisibilityCodeName(visibility.value),
   };
