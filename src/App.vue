@@ -2,11 +2,11 @@
   <v-app>
     <v-main>
       <SnackbarContent />
-      <router-view >
+      <router-view v-if="ready">
       </router-view>
-      <!-- <template v-else>
+      <template v-else>
         Loading...
-      </template> -->
+      </template>
     </v-main>
   </v-app>
 </template>
@@ -28,8 +28,7 @@ import API from './Api';
 import { onMounted } from 'vue';
 
 const sessionStore = useSessionStore()
-// const ready = ref(true)
-
+const ready = ref(true)
   setInterval(()=>{
     sessionStore.forceUpdate();
   },10000)
