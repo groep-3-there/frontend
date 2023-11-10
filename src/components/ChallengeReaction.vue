@@ -8,8 +8,30 @@
       <p class="d-flex align-center">
         Het gekozen antwoord door : {{ challengeInput.challenge.company.name }}
       </p>
-      <v-divider></v-divider>
+      <v-divider>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </v-divider>
     </v-row>
+
+
+
+
+
+
+
 
     <v-row class="personalia">
       <v-col cols="6" class="image d-flex">
