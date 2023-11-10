@@ -2,11 +2,11 @@
   <v-app>
     <v-main>
       <SnackbarContent />
-      <router-view>
+      <router-view >
       </router-view>
-      <template v-else>
+      <!-- <template v-else>
         Loading...
-      </template>
+      </template> -->
     </v-main>
   </v-app>
 </template>
