@@ -52,7 +52,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   document.title = to.name as string
   const sessionStore = useSessionStore()
-  // sessionStore.forceUpdate()
+  sessionStore.forceUpdate()
   next()
 })
 
