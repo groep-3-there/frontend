@@ -126,7 +126,6 @@ import { onMounted } from "vue";
 import { Branch } from "@/models/Branch";
 
 const standardbranches: Ref<Branch[]> = ref([]);
-
 /**
  * @type {string} - search term in search bar
  * empty string is default
@@ -172,6 +171,7 @@ const page = ref(1);
 
 onMounted(async () => {
   let query = router.currentRoute.value.query;
+
   let searchTerm = query?.query as string;
   let companiesAsString = query?.company as string;
   let companies = companiesAsString?.split(",") as string[];
