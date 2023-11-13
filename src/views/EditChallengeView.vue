@@ -351,8 +351,4 @@ async function editChallenge() {
     max-width: fit-content;
     max-height: 0;
 }
-
-h1 {
-    padding: 4rem 0 0 0;
-}
 </style>

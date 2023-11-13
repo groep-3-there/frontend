@@ -110,7 +110,6 @@
     </div>
 
     <div>
-        page {{ page }}
         <v-pagination
             :length="challenges?.totalPages"
             :total-visible="7"

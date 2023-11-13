@@ -346,10 +346,6 @@ async function createChallenge() {
     max-width: fit-content;
 }
 
-h1 {
-    padding: 4rem 0 0 0;
-}
-
 .tooltip {
     margin: 0 2rem 0 0;
 }
