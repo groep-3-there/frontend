@@ -12,7 +12,7 @@ async function postRequest(url: string, bodyObject: {}) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "http://localhost:3000",
+      "Access-Control-Allow-Origin": API.BACKEND_URL,
     },
     mode: "cors",
     // credentials: "include",
@@ -26,7 +26,7 @@ async function putRequest(url: string, bodyObject: {}) {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "http://localhost:3000",
+      "Access-Control-Allow-Origin": API.BACKEND_URL,
     },
     mode: "cors",
     // credentials: "include",
