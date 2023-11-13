@@ -57,7 +57,8 @@ async function getRequest(url: string) {
 
 
 namespace API {
-  export const BASEURL = "http://localhost:8080/api/v1/";
+  export const BACKEND_URL = import.meta.env.PROD ? "http://161.35.84.133:3000" : "http://localhost:8080";
+  export const BASEURL = `${BACKEND_URL}/api/v1/`;
 
   export const headers = {
     "Content-Type": "application/json",
