@@ -43,6 +43,11 @@ const routes = [
                 name: "Edit Challenge",
                 component: () => import("@/views/EditChallengeView.vue"),
             },
+            {
+                path: "user-registration",
+                name: "Account aanmaken",
+                component: () => import("@/views/UserRegistrationView.vue"),
+            },
         ],
     },
 ];
