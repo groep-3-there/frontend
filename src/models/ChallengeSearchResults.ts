@@ -1,6 +1,6 @@
 import { Challenge } from "./Challenge";
 
-export class ChallengeSearchResults{
+export class ChallengeSearchResults {
     content: Challenge[];
     totalPages: number;
     totalElements: number;
@@ -9,5 +9,5 @@ export class ChallengeSearchResults{
         this.content = data.content;
         this.totalPages = data.totalPages;
         this.totalElements = data.totalElements;
-    }    
+    }
 }
