@@ -3,9 +3,9 @@
         <v-dialog v-model="opened" persistent width="auto">
             <v-card>
                 <v-card-title class="text-h5">
-                    Weet u zeker dat u de challenge wilt archiveren?
+                    {{ title }}
                 </v-card-title>
-                <v-card-text>De challenge is dan alleen nog zichtbaar voor beheerders van uw bedrijf.</v-card-text>
+                <v-card-text>{{ subtitle }}</v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="green-darken-1" variant="text" @click="close">

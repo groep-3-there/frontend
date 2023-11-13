@@ -1,22 +1,53 @@
 import { Company } from "./Company";
 import { Department } from "./Department";
 import { User } from "./User";
+import { Image } from "./Image"
 export class Challenge {
-    declare id: number;
-    declare author: User;
-    declare department: Department;
-    declare company: Company;
-    declare contactInformation: string;
-    declare title: string;
-    declare description: string;
-    declare bannerImageId: number;
-    declare concludingRemarks: string;
-    declare summary: string;
-    declare status: string;
-    declare createdAt: string;
-    declare endDate: string;
-    declare tags: string;
-    declare visibility: string;
-    declare imageAttachmentsIds : number[];
+    id: number;
+    author: User;
+    department: Department;
+    company: Company;
+    contactInformation: string;
+    title: string;
+    description: string;
+    bannerImageId: number | null;
+    banner : Image | null;
+    concludingRemarks: string | null;
+    summary: string;
+    status: string;
+    createdAt: Date;
+    endDate: Date;
+    tags: string;
+    visibility: string;
+    imageAttachments : Image[];
+    constructor(data: any) {
+        console.log(data)
+        this.id = data.id;
+        this.author = new User(data.author);
+        this.department = new Department(data.department);
+        this.company = new Company(data.company);
+        this.contactInformation = data.contactInformation;
+        this.title = data.title;
+        this.description = data.description;
+        this.bannerImageId = data.bannerImageId;
+        this.banner = data.bannerImageId ? new Image({id: data.bannerImageId}) : null
+
+        this.concludingRemarks = data.concludingRemarks;
+        this.summary = data.summary;
+        this.status = data.status;
+        this.createdAt = new Date(data.createdAt);
+        this.endDate = new Date(data.endDate);
+        this.tags = data.tags;
+        this.visibility = data.visibility;
+        this.imageAttachments = data.imageAttachmentsIds ? data.imageAttachmentsIds.map((d: any) => new Image({id:d})) : [];
+    }
+
+    getBannerOrDefaultImageUrl(){
+        if(this.banner){
+            return this.banner.getUrl()
+        }
+        return `/banner-default.jpg`;
+    }
+
 }
 
