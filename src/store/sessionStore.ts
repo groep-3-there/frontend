@@ -13,6 +13,15 @@ export const useSessionStore = defineStore('session', {
     },
     async logOut(){
       throw new Error("Not implemented yet")
+    },
+    async logIn(username: string, password: string){
+      const success = await API.firebaseLoginAndUseToken(username, password);
+      if(success){
+        await this.forceUpdate()
+      }
+      return success;
+
     }
+   
   }
 })

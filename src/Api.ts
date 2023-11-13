@@ -24,10 +24,7 @@ async function postRequest(url: string, bodyObject: {}) {
 async function putRequest(url: string, bodyObject: {}) {
   const res = await fetch(API.BASEURL + url, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": API.BACKEND_URL,
-    },
+    headers: API.getHeaders(),
     mode: "cors",
     // credentials: "include",
     body: JSON.stringify(bodyObject),
@@ -41,6 +38,7 @@ async function uploadFile(url: string, keyName: string, file: File) {
   const res = await fetch(API.BASEURL + url, {
     method: "POST",
     body: formData,
+    headers: API.getHeaders(),
   });
   return (await res.json());
 }
@@ -48,7 +46,7 @@ async function uploadFile(url: string, keyName: string, file: File) {
 async function getRequest(url: string) {
   const res = await fetch(API.BASEURL + url, {
     method: "GET",
-    headers: API.headers,
+    headers: API.getHeaders(),
     mode: "cors",
     // credentials: "include"
   });
@@ -60,9 +58,16 @@ namespace API {
   export const BACKEND_URL = import.meta.env.PROD ? "http://161.35.84.133:8080" : "http://localhost:8080";
   export const BASEURL = `${BACKEND_URL}/api/v1/`;
 
-  export const headers = {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": BACKEND_URL,
+  export const FIREBASE_PUBLIC_API_KEY = "AIzaSyCo7z9UVlNrdKMqtvfA-cEWWPqua3wDOkU";
+
+  let authToken = ""
+
+  export function getHeaders(){
+    return {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": BACKEND_URL,
+      "Authorization": "Bearer" + authToken
+    }
   };
 
   export async function createChallenge(ch: {}) {
@@ -153,6 +158,32 @@ namespace API {
     return data.map((d : any) => new Tag(d))
   }
   
+  export async function test(){
+    return getRequest("test")
+  }
+
+  //Login and save the token for furthur requests
+  export async function firebaseLoginAndUseToken(email : string, password : string){
+    const res =  await fetch("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + FIREBASE_PUBLIC_API_KEY, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+        returnSecureToken: true
+      })
+    })
+    const json = await res.json();
+    authToken = json.idToken;
+    if(authToken){
+      return true
+    }
+    return false
+  }
+
 }
+
 
 export default API;
