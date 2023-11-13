@@ -171,7 +171,7 @@ const page = ref(1);
 
 onMounted(async () => {
   let query = router.currentRoute.value.query;
-
+  
   let searchTerm = query?.query as string;
   let companiesAsString = query?.company as string;
   let companies = companiesAsString?.split(",") as string[];
