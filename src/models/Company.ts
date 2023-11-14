@@ -29,7 +29,6 @@ export class Company {
         this.ownerId = data.ownerId;
     }
 
-
     getProfileOrDefaultImageUrl() {
         if (this.profileImage) {
             return this.profileImage.getUrl();
@@ -37,7 +36,7 @@ export class Company {
         return `https://ui-avatars.com/api/?name=${this.querySafeName()}`;
     }
 
-     getBannerForCompany() {
+    getBannerForCompany() {
         if (this.bannerImage) {
             return this.bannerImage.getUrl();
         }

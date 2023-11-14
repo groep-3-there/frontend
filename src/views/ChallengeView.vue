@@ -14,7 +14,9 @@
         >
             <v-col cols="6" md="3" class="d-flex justify-center">
                 <img
-                    :src="challenge.department.parentCompany.getProfileOrDefaultImageUrl()"
+                    :src="
+                        challenge.department.parentCompany.getProfileOrDefaultImageUrl()
+                    "
                     class="company-logo"
                 />
             </v-col>

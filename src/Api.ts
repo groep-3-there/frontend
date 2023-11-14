@@ -120,17 +120,17 @@ namespace API {
         return getRequest("ping");
     }
 
-    export async function getCompany(id: number){
+    export async function getCompany(id: number) {
         const data = await getRequest(`company/${id}`);
         return new Company(data);
     }
 
-    export async function getDepartmentsForCompany(id: number){
-        const data = await getRequest(`department/company/${id}`)
+    export async function getDepartmentsForCompany(id: number) {
+        const data = await getRequest(`department/company/${id}`);
         return data as Department[];
     }
 
-    export async function getAllChallengesForCompany(id: number){
+    export async function getAllChallengesForCompany(id: number) {
         const data = await getRequest(`challenge/company/${id}`);
         console.log(data);
         return data as Challenge[];

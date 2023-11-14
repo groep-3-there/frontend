@@ -1,19 +1,34 @@
 <template>
     <template v-if="!company"> Loading... </template>
     <template v-if="company">
-        <v-row class="challenge-hero" :style="banner()" no-gutters justify="center" align="center">
-            <v-col cols="1"  md="5" class="d-flex flex-column justify-center align-center hero-text">
-                <img  :src="company.getProfileOrDefaultImageUrl()" class="company-logo rounded-circle"/>
+        <v-row
+            class="challenge-hero"
+            :style="banner()"
+            no-gutters
+            justify="center"
+            align="center"
+        >
+            <v-col
+                cols="1"
+                md="5"
+                class="d-flex flex-column justify-center align-center hero-text"
+            >
+                <img
+                    :src="company.getProfileOrDefaultImageUrl()"
+                    class="company-logo rounded-circle"
+                />
             </v-col>
-            <v-col cols="2"  md="5" class="d-flex hero-title flex-column flex-wrap justify-center align-start hero-text">
-                 <v-col>
-                    <h4 class="text-white">
-                                 Bedrijfsprofiel
-                     </h4>
+            <v-col
+                cols="2"
+                md="5"
+                class="d-flex hero-title flex-column flex-wrap justify-center align-start hero-text"
+            >
+                <v-col>
+                    <h4 class="text-white">Bedrijfsprofiel</h4>
                     <h1 class="text-white">
-                                 {{ company.name }}
+                        {{ company.name }}
                     </h1>
-                 </v-col>
+                </v-col>
             </v-col>
         </v-row>
         <v-row>
@@ -22,17 +37,17 @@
                     <Tag v-for="tag in company.tags.split(',')" :key="tag">{{
                         tag
                     }}</Tag>
-            </div>
-        </v-col>
-
-        <v-col cols="15" md="12" class="">
-                    <div  class="d-flex flex-wrap justify-center">
-                        {{ company.info }}
-                    </div>
+                </div>
             </v-col>
 
-        <v-divider class="mt-4"></v-divider>
-    </v-row>
+            <v-col cols="15" md="12" class="">
+                <div class="d-flex flex-wrap justify-center">
+                    {{ company.info }}
+                </div>
+            </v-col>
+
+            <v-divider class="mt-4"></v-divider>
+        </v-row>
         <v-row>
             <v-col cols="10" class="mx-auto">
                 <section>
@@ -47,11 +62,11 @@
             </v-col>
         </v-row>
         <v-row>
-             <v-col cols="15" md="12" class="">
-                        <div  class="d-flex flex-wrap justify-center">
-                            <h1 class="italic-title">Afdelingen</h1>
-                        </div>
-                </v-col>
+            <v-col cols="15" md="12" class="">
+                <div class="d-flex flex-wrap justify-center">
+                    <h1 class="italic-title">Afdelingen</h1>
+                </div>
+            </v-col>
         </v-row>
         <v-row class="challenge-hero">
             <li v-for="department in departments">
@@ -60,17 +75,17 @@
         </v-row>
         <v-divider class="mt-4"></v-divider>
         <v-row>
-                 <v-col cols="15" md="12" class="">
-                            <div  class="d-flex flex-wrap justify-center">
-                                <h1 class="italic-title">Challenges</h1>
-                            </div>
-                    </v-col>
-            </v-row>
-            <v-row class="challenge-hero">
-                <li v-for="challenge in challenges">
-                    {{ challenge }}
-                </li>
-            </v-row>
+            <v-col cols="15" md="12" class="">
+                <div class="d-flex flex-wrap justify-center">
+                    <h1 class="italic-title">Challenges</h1>
+                </div>
+            </v-col>
+        </v-row>
+        <v-row class="challenge-hero">
+            <li v-for="challenge in challenges">
+                {{ challenge }}
+            </li>
+        </v-row>
     </template>
 </template>
 
@@ -91,7 +106,7 @@
     height: 100px;
 }
 
-.reaction-options>v-select {
+.reaction-options > v-select {
     max-width: 100px;
 }
 
@@ -101,7 +116,7 @@
     border: 2px solid black;
 }
 
-.italic-title{
+.italic-title {
     font-style: italic;
 }
 
@@ -175,12 +190,12 @@ async function loadCompany() {
     company.value = await API.getCompany(parseInt(id));
 }
 
-async function getDepartmentsForCompany(){
+async function getDepartmentsForCompany() {
     console.log("Loading departments for company");
     departments.value = await API.getDepartmentsForCompany(parseInt(id));
 }
 
-async function getAllChallengesForCompany(){
+async function getAllChallengesForCompany() {
     console.log("Getting all the company challenges");
     challenges.value = await API.getAllChallengesForCompany(parseInt(id));
 }
@@ -193,7 +208,6 @@ onMounted(async () => {
     await getDepartmentsForCompany();
     await getAllChallengesForCompany();
 });
-
 
 function banner() {
     return {
