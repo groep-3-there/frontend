@@ -17,7 +17,10 @@ const props = defineProps({
 
 const color = ref("");
 
-switch (props.type.toLowerCase()) {
+switch (props.type.toLowerCase()) { 
+    case "branch":
+        color.value = "primary";
+        break;
     case "idea":
         color.value = "mmyellow";
         break;
@@ -28,7 +31,7 @@ switch (props.type.toLowerCase()) {
         color.value = "primary";
         break;
     default:
-        color.value = "primary";
+        color.value = "mmtaggreen";
         break;
 }
 </script>

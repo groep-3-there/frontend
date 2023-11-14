@@ -43,6 +43,11 @@ const routes = [
                 name: "Edit Challenge",
                 component: () => import("@/views/EditChallengeView.vue"),
             },
+            {
+                path: "request",
+                name: "Grade Request",
+                component: () => import("@/views/CompanyRequestView.vue"),
+            }
         ],
     },
 ];
