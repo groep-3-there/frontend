@@ -36,7 +36,7 @@ async function uploadFile(url: string, keyName: string, file: File) {
         headers: API.getHeaders(),
         body: formData,
     });
-    
+
     return await res.json();
 }
 

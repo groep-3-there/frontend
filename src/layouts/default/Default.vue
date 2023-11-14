@@ -14,7 +14,9 @@
                 <v-list>
                     <v-list-item
                         v-if="sessionStore.loggedInUser"
-                        :prepend-avatar="sessionStore.loggedInUser?.getAvatarOrDefaultUrl()"
+                        :prepend-avatar="
+                            sessionStore.loggedInUser?.getAvatarOrDefaultUrl()
+                        "
                         :title="sessionStore.loggedInUser?.name"
                         :subtitle="sessionStore.loggedInUser?.getSubtitle()"
                     ></v-list-item>
