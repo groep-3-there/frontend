@@ -17,7 +17,7 @@
                             ></v-text-field>
                         </v-col>
                     </v-row>
-                    
+
                     <v-row>
                         <v-col cols="12" md="6">
                             <v-autocomplete
@@ -64,7 +64,6 @@
                             Registreren
                         </v-btn>
                     </v-row>
-
                 </v-col>
             </v-row>
         </v-form>
@@ -79,7 +78,6 @@ import router from "@/router";
 
 onMounted(async () => {
     standardTags.value = await Api.getTags();
-    
 });
 
 const title = ref("");
@@ -95,11 +93,7 @@ const createCompanyRegistration = ref(null) as any;
 
 async function registerCompany() {
     const { valid } = await createCompanyRegistration.value.validate();
-    if (
-        !valid ||
-        title.value == null ||
-        branches.value == null
-    ) {
+    if (!valid || title.value == null || branches.value == null) {
         alert("Alle vereiste velden zijn nog niet ingevuld!");
         return;
     }
@@ -120,5 +114,4 @@ async function registerCompany() {
 
     router.push(`/Registercompany/${created?.id}`);
 }
-
 </script>
