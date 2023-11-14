@@ -10,10 +10,7 @@ import { Tag } from "./models/Tag";
 async function postRequest(url: string, bodyObject: {}) {
   const res = await fetch(API.BASEURL + url, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": API.BACKEND_URL,
-    },
+    headers: API.getHeaders(),
     mode: "cors",
     // credentials: "include",
     body: JSON.stringify(bodyObject),
@@ -62,12 +59,18 @@ namespace API {
 
   let authToken = ""
 
+  export function hasAuthToken(){
+    return authToken != ""
+  }
   export function getHeaders(){
-    return {
+    const headers : any =  {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": BACKEND_URL,
-      "Authorization": "Bearer" + authToken
     }
+    if (authToken){
+      headers["Authorization"] = `Bearer ${authToken}`
+    }
+    return headers
   };
 
   export async function createChallenge(ch: {}) {
@@ -158,8 +161,8 @@ namespace API {
     return data.map((d : any) => new Tag(d))
   }
   
-  export async function test(){
-    return getRequest("test")
+  export async function whoami(){
+    return await getRequest("whoami")
   }
 
   //Login and save the token for furthur requests

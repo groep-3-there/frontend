@@ -280,7 +280,12 @@ onMounted(async () => {
 
 async function loadChallenge() {
   console.log("Loading challenge");
-  challenge.value = await API.getChallengeById(parseInt(id));
+  try{
+    challenge.value = await API.getChallengeById(parseInt(id));
+  }
+  catch(e){
+    console.log(e)
+  }
 }
 
 async function updateReactions() {

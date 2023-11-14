@@ -9,6 +9,11 @@ export const useSessionStore = defineStore('session', {
   }),
   actions:{
     async forceUpdate(){
+      if(!API.hasAuthToken()) {
+        console.log("Can't force update for logged in user, no auth token")
+        return;
+      };
+      console.log("Forcing update for logged in user")
       this.loggedInUser = await API.getCurrentUser()
     },
     async logOut(){
@@ -17,7 +22,12 @@ export const useSessionStore = defineStore('session', {
     async logIn(username: string, password: string){
       const success = await API.firebaseLoginAndUseToken(username, password);
       if(success){
-        await this.forceUpdate()
+        try{
+          await this.forceUpdate()
+        }
+        catch(e){
+          console.warn(e)
+        }
       }
       return success;
 

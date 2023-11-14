@@ -13,10 +13,10 @@
       >
         <v-list>
           <v-list-item
-          v-if="user"
+          v-if="sessionStore.loggedInUser"
             prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
-            :title="user?.name"
-            :subtitle="user.getSubtitle()"
+            :title="sessionStore.loggedInUser?.name"
+            :subtitle="sessionStore.loggedInUser?.getSubtitle()"
           ></v-list-item>
         </v-list>
 
@@ -94,12 +94,12 @@ import { watch } from "vue";
 import { User } from "@/models/User";
 import { onMounted } from "vue";
 import API from "@/Api";
+import { useSessionStore } from "@/store/sessionStore";
 const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay();
-
-const user = ref() as Ref<User | null>;
+const sessionStore = useSessionStore();
 
 onMounted(async () => {
-  user.value = await API.getCurrentUser();
+  // user.value = await sessionStore.forceUpdate()
 });
 
 //Drawer size
