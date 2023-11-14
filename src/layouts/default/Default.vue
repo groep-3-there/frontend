@@ -59,6 +59,13 @@
                         title="Create Challenge"
                         value="create-challenge"
                     ></v-list-item>
+                    <v-list-item
+                        :key="6"
+                        @click="$router.push('/company-registration')"
+                        prepend-icon="mdi-folder"
+                        title="Company Registration"
+                        value="company-registration"
+                    ></v-list-item>
                 </v-list>
                 <v-divider></v-divider>
                 <v-list density="compact" nav>

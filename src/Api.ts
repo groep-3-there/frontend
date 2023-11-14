@@ -69,6 +69,10 @@ namespace API {
         const data = await postRequest("challenge", ch);
         return new Challenge(data);
     }
+    export async function registerCompany(ch: {}) {
+        const data = await postRequest("company", ch);
+        return new Challenge(data);
+    }
 
     /**
      * Get the current logged in user
