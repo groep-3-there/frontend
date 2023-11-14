@@ -28,5 +28,5 @@
 
 <script setup lang="ts">
 const registratieStappen = ["Account gegevens", "Naam", "Bedrijfscode"];
-console.log(registratieStappen[1])
+console.log(registratieStappen[1]);
 </script>
