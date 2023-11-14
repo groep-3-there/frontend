@@ -6,6 +6,7 @@ import { ChallengeSearchResults } from "./models/ChallengeSearchResults";
 import { Branch } from "./models/Branch";
 import { Tag } from "./models/Tag";
 import { Company } from "./models/Company";
+import { Department } from "./models/Department";
 
 async function postRequest(url: string, bodyObject: {}) {
     const res = await fetch(API.BASEURL + url, {
@@ -117,6 +118,22 @@ namespace API {
 
     export async function pingServer() {
         return getRequest("ping");
+    }
+
+    export async function getCompany(id: number){
+        const data = await getRequest(`company/${id}`);
+        return new Company(data);
+    }
+
+    export async function getDepartmentsForCompany(id: number){
+        const data = await getRequest(`department/company/${id}`)
+        return data as Department[];
+    }
+
+    export async function getAllChallengesForCompany(id: number){
+        const data = await getRequest(`challenge/company/${id}`);
+        console.log(data);
+        return data as Challenge[];
     }
 
     /**
