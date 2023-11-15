@@ -163,8 +163,8 @@ namespace API {
         return data.map((d: any) => new Tag(d));
     }
 
-    export async function getCompanyRequests(){
-        const data = await getRequest(`request`);
+    export async function getCompanyRequests(): Promise<CompanyRequests[]> {
+        const data = await getRequest(`company/request`);
         return data.map((d: any) => new CompanyRequests(d));
     }
 }

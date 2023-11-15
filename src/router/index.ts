@@ -44,7 +44,7 @@ const routes = [
                 component: () => import("@/views/EditChallengeView.vue"),
             },
             {
-                path: "request",
+                path: "company/request",
                 name: "Grade Request",
                 component: () => import("@/views/CompanyRequestView.vue"),
             }

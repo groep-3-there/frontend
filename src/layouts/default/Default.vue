@@ -61,7 +61,7 @@
                     ></v-list-item>
                     <v-list-item
                         :key="6"
-                        @click="$router.push('/request')"
+                        @click="$router.push('/company/request')"
                         prepend-icon="mdi-folder"
                         title="Bedrijfsaanvragen"
                         value="request">
