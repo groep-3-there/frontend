@@ -5,6 +5,7 @@ import { User } from "./models/User";
 import { ChallengeSearchResults } from "./models/ChallengeSearchResults";
 import { Branch } from "./models/Branch";
 import { Tag } from "./models/Tag";
+import { Company } from "./models/Company";
 
 async function postRequest(url: string, bodyObject: {}) {
     const res = await fetch(API.BASEURL + url, {
@@ -69,9 +70,9 @@ namespace API {
         const data = await postRequest("challenge", ch);
         return new Challenge(data);
     }
-    export async function registerCompany(ch: {}) {
-        const data = await postRequest("company", ch);
-        return new Challenge(data);
+    export async function registerCompany(company: {}) {
+        const data = await postRequest("company", company);
+        return new Company(data);
     }
 
     /**
