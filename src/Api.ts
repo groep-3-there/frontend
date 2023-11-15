@@ -107,7 +107,7 @@ namespace API {
     export async function getCompanyNames() {
         const data = await getRequest(`company/names`);
         return data;
-    }   
+    }
 
     export async function pingServer() {
         return getRequest("ping");
