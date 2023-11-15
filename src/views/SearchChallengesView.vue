@@ -59,7 +59,7 @@
                     multiple
                     v-model="selectedCompanies"
                     label="Bedrijven"
-                    :items="['Chippie', 'DUO', 'Mariene']"
+                    :items="registeredCompanies"
                     variant="outlined"
                 ></v-autocomplete>
             </v-col>
@@ -129,8 +129,10 @@ import { ChallengeSearchResults } from "@/models/ChallengeSearchResults";
 import router from "@/router";
 import { onMounted } from "vue";
 import { Branch } from "@/models/Branch";
+import { Company } from "@/models/Company";
 
 const standardbranches: Ref<Branch[]> = ref([]);
+const registeredCompanies: Ref<Company[]> = ref([]);
 /**
  * @type {string} - search term in search bar
  * empty string is default
@@ -193,6 +195,7 @@ onMounted(async () => {
     );
 
     standardbranches.value = await API.getBranches();
+    registeredCompanies.value = await API.getCompanyNames();
 });
 
 /**

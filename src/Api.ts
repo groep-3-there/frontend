@@ -5,6 +5,7 @@ import { User } from "./models/User";
 import { ChallengeSearchResults } from "./models/ChallengeSearchResults";
 import { Branch } from "./models/Branch";
 import { Tag } from "./models/Tag";
+import { Company } from "./models/Company";
 
 async function postRequest(url: string, bodyObject: {}) {
     const res = await fetch(API.BASEURL + url, {
@@ -103,6 +104,10 @@ namespace API {
         const data = await getRequest(`branch/all`);
         return data.map((d: any) => new Branch(d));
     }
+    export async function getCompanyNames() {
+        const data = await getRequest(`company/names`);
+        return data;
+    }   
 
     export async function pingServer() {
         return getRequest("ping");
