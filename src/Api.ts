@@ -35,7 +35,7 @@ async function uploadFile(url: string, keyName: string, file: File) {
     const res = await fetch(API.BASEURL + url, {
         method: "POST",
         headers: {
-            "Authorization" : API.getHeaders()["Authorization"]
+            Authorization: API.getHeaders()["Authorization"],
         },
         body: formData,
     });
