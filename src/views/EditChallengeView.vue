@@ -97,7 +97,6 @@
                     <v-row
                         v-if="
                             originalChallenge?.bannerImageId &&
-                            
                             banner.length == 0
                         "
                     >

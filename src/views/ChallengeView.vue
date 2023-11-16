@@ -10,7 +10,9 @@
         >
             <v-col cols="6" md="3" class="d-flex justify-center">
                 <img
-                    :src="challenge.department.parentCompany.getProfileOrDefaultImageUrl()"
+                    :src="
+                        challenge.department.parentCompany.getProfileOrDefaultImageUrl()
+                    "
                     class="company-logo"
                 />
             </v-col>
@@ -55,12 +57,14 @@
                     :subtitle="'De challenge is dan alleen nog zichtbaar voor beheerders van uw bedrijf.'"
                     :accept-word="'Archiveren'"
                 ></AreYouSurePopup>
-                <v-menu v-if="
-                            sessionStore.loggedInUser?.hasPermissionAtDepartment(
-                                'CHALLENGE_MANAGE',
-                                challenge?.department.id,
-                            )
-                        ">
+                <v-menu
+                    v-if="
+                        sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                            'CHALLENGE_MANAGE',
+                            challenge?.department.id,
+                        )
+                    "
+                >
                     <template v-slot:activator="{ props }">
                         <v-icon v-bind="props" size="48"
                             >mdi-dots-horizontal</v-icon
