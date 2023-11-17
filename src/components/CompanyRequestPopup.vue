@@ -42,9 +42,9 @@
                 >
                 <v-row
                     ><v-col cols="12" class="d-flex justify-space-around"
-                        ><v-btn color="red"
+                        ><v-btn @click="rejectCompanyRequest" color="red"
                             ><v-icon icon="mdi-delete"></v-icon>Afwijzen</v-btn
-                        ><v-btn color="green"
+                        ><v-btn @click="acceptCompanyRequest" color="green"
                             ><v-icon icon="mdi-check"></v-icon>Goedkeuren</v-btn
                         ></v-col
                     ></v-row
@@ -81,6 +81,8 @@
 
 <script setup lang="ts">
 import { CompanyRequests } from "@/models/CompanyRequests.js";
+import { defineEmits } from 'vue';
+import API from "@/Api";
 import Tag from "./Tag.vue";
 
 const props = defineProps({
@@ -89,4 +91,16 @@ const props = defineProps({
         required: true,
     },
 });
+
+const emit = defineEmits(["requestPopupClose"]);
+
+async function acceptCompanyRequest() {
+    await API.acceptCompanyRequest(props.companyRequest.id);
+    emit('requestPopupClose');
+}
+
+async function rejectCompanyRequest() {
+    await API.rejectCompanyRequest(props.companyRequest.id);
+    emit('requestPopupClose');
+}
 </script>

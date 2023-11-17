@@ -167,6 +167,14 @@ namespace API {
         const data = await getRequest(`company/request`);
         return data.map((d: any) => new CompanyRequests(d));
     }
+    export async function acceptCompanyRequest(id: number) {
+        const data = await postRequest(`company/request/${id}/accept`, {});
+        return new CompanyRequests(data);
+    }
+    export async function rejectCompanyRequest(id: number) {
+        const data = await postRequest(`company/request/${id}/reject`, {});
+        return new CompanyRequests(data);
+    }
 }
 
 export default API;
