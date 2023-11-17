@@ -68,12 +68,6 @@
                         title="Log uit"
                         value="shared"
                     ></v-list-item>
-                    <v-list-item
-                        @click="$router.push('/company-registration')"
-                        prepend-icon="mdi-folder"
-                        title="Company Registration"
-                        value="company-registration"
-                    ></v-list-item>
                 </v-list>
             </v-navigation-drawer>
 
