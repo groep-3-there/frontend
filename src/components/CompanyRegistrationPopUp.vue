@@ -93,10 +93,6 @@ import { Branch } from "@/models/Branch";
 import { Tag } from "@/models/Tag";
 import router from "@/router";
 
-onMounted(async () => {
-    standardTags.value = await Api.getTags();
-});
-
 const title = ref("");
 const branches = ref([]);
 const standardbranches: Ref<Branch[]> = ref([]);
@@ -107,6 +103,10 @@ const standardbranches: Ref<Branch[]> = ref([]);
 const standardTags: Ref<Tag[]> = ref([]);
 const tags: Ref<string[]> = ref([]);
 const createCompanyRegistration = ref(null) as any;
+
+onMounted(async () => {
+    standardTags.value = await Api.getTags();
+});
 
 async function registerCompany() {
     const { valid } = await createCompanyRegistration.value.validate();
