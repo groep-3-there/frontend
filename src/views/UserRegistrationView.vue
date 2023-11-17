@@ -4,5 +4,5 @@
 </template>
 
 <script setup lang="ts">
-import UserRegisterPopup from '@/components/UserRegisterPopup.vue';
+import UserRegisterPopup from "@/components/UserRegisterPopup.vue";
 </script>
