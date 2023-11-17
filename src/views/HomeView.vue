@@ -15,12 +15,16 @@
     {{ whoami }}
     <h3>Bedrijf registreren test</h3>
     <CompanyRegistrationPopUp />
+
+    <h3>gebruiker registreren test</h3>
+    <UserRegisterPopup/>
 </template>
 
 <script lang="ts" setup>
 import API from "@/Api";
 import HelloWorld from "@/components/HelloWorld.vue";
 import CompanyRegistrationPopUp from "@/components/CompanyRegistrationPopUp.vue";
+import UserRegisterPopup from "@/components/UserRegisterPopup.vue";
 import { useSessionStore } from "@/store/sessionStore";
 import { ref } from "vue";
 const sessionStore = useSessionStore();

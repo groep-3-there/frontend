@@ -1,7 +1,7 @@
 <template>
     <v-dialog max-width="50rem">
         <template v-slot:activator="{ props }">
-            <v-btn v-bind="props" text="registreer"> </v-btn>
+            <v-btn v-bind="props" text="Registreer een account" prepend-icon="mdi-account"> </v-btn>
         </template>
 
         <template v-slot:default="{ isActive }">
