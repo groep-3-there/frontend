@@ -20,7 +20,6 @@
     <br />
     {{ whoami }}
     <CompanyRegistrationPopUp />
-  
 </template>
 
 <script lang="ts" setup>
