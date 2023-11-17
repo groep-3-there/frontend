@@ -196,7 +196,7 @@ namespace API {
         const data = await postRequest(`user/create`, userData);
         return new User(data);
     }
-    
+
     export async function whoami() {
         return await getRequest("whoami");
     }
