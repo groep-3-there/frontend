@@ -1,14 +1,10 @@
 <template>
-    <v-dialog 
-    density="compact" 
-    persistent 
-    width="500">
-    <template v-slot:activator="{ props }">
-            <v-btn 
-            v-bind="props" 
-            prepend-icon="mdi-account"
-            >Bedrijfsregistratie</v-btn>
-    </template>
+    <v-dialog density="compact" persistent width="500">
+        <template v-slot:activator="{ props }">
+            <v-btn v-bind="props" prepend-icon="mdi-account"
+                >Bedrijfsregistratie</v-btn
+            >
+        </template>
         <template v-slot:default="{ isActive }">
             <v-card>
                 <v-card-title>
@@ -19,64 +15,78 @@
                         <v-form ref="createCompanyRegistration" @submit.prevent>
                             <v-row>
                                 <v-col cols="12" md="11">
-                                    <v-text-field 
-                                    v-model="title" 
-                                    label="Bedrijfsnaam" 
-                                    :rules="[
-                                        (v) => !!v || 'Dit veld is verplicht!',
-                                    ]" 
-                                    required 
-                                    variant="outlined"
+                                    <v-text-field
+                                        v-model="title"
+                                        label="Bedrijfsnaam"
+                                        :rules="[
+                                            (v) =>
+                                                !!v || 'Dit veld is verplicht!',
+                                        ]"
+                                        required
+                                        variant="outlined"
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
 
                             <v-row>
                                 <v-col cols="12" md="11">
-                                    <v-autocomplete 
-                                    clearable chips multiple 
-                                    v-model="branches" 
-                                    label="Branches"
-                                    :items="standardbranches.map((obj) => obj.name)" 
-                                    :rules="[
-                                    (v) => !!v || 'Dit veld is verplicht!',
-                                        ]" 
-                                    required 
-                                    variant="outlined"
+                                    <v-autocomplete
+                                        clearable
+                                        chips
+                                        multiple
+                                        v-model="branches"
+                                        label="Branches"
+                                        :items="
+                                            standardbranches.map(
+                                                (obj) => obj.name,
+                                            )
+                                        "
+                                        :rules="[
+                                            (v) =>
+                                                !!v || 'Dit veld is verplicht!',
+                                        ]"
+                                        required
+                                        variant="outlined"
                                     ></v-autocomplete>
                                 </v-col>
                             </v-row>
 
                             <v-row>
                                 <v-col cols="12" md="11">
-                                    <v-combobox 
-                                    label="Tags" 
-                                    v-model="tags" 
-                                    :items="standardTags.map((tag) => tag.name)"
-                                    variant="outlined" 
-                                    multiple chips clearable 
-                                    :rules="[
-                                    (v) =>
-                                        !v.some((i: string) => {
-                                            return i.includes(',');
-                                        }) || 'Invoer ongeldig',
-                                    ]">
+                                    <v-combobox
+                                        label="Tags"
+                                        v-model="tags"
+                                        :items="
+                                            standardTags.map((tag) => tag.name)
+                                        "
+                                        variant="outlined"
+                                        multiple
+                                        chips
+                                        clearable
+                                        :rules="[
+                                            (v) =>
+                                                !v.some((i: string) => {
+                                                    return i.includes(',');
+                                                }) || 'Invoer ongeldig',
+                                        ]"
+                                    >
                                     </v-combobox>
                                 </v-col>
                             </v-row>
 
                             <v-card-actions>
-                                <v-btn 
-                                @click="isActive.value = false"
-                                >Terug</v-btn>
+                                <v-btn @click="isActive.value = false"
+                                    >Terug</v-btn
+                                >
                                 <v-row class="d-flex justify-end">
-                                    <v-btn 
-                                    @click="registerCompany" 
-                                    size="large" 
-                                    variant="elevated" 
-                                    color="primary"
-                                    type="submit"
-                                    >Registreren</v-btn>
+                                    <v-btn
+                                        @click="registerCompany"
+                                        size="large"
+                                        variant="elevated"
+                                        color="primary"
+                                        type="submit"
+                                        >Registreren</v-btn
+                                    >
                                 </v-row>
                             </v-card-actions>
                         </v-form>
@@ -110,7 +120,7 @@ onMounted(async () => {
 
 async function registerCompany() {
     const { valid } = await createCompanyRegistration.value.validate();
-    console.log(branches.value.length)
+    console.log(branches.value.length);
     if (!valid || !title.value || branches.value.length == 0) {
         alert("Alle vereiste velden zijn nog niet ingevuld!");
         return;
