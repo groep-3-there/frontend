@@ -20,10 +20,10 @@
     "@tiptap/vue-3": "^2.1.12",
     "pinia": "^2.0.23",
     "roboto-fontface": "*",
+    "vue": "^3.3.7",
     "selenium-webdriver": "^4.15.0",
-    "vue": "^3.2.0",
     "vue-router": "^4.0.0",
-    "vuetify": "^3.0.0"
+    "vuetify": "^3.4.0"
   },
   "devDependencies": {
     "@babel/types": "^7.21.4",
