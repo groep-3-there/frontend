@@ -6,7 +6,6 @@ export class Challenge {
     id: number;
     author: User;
     department: Department;
-    company: Company;
     contactInformation: string;
     title: string;
     description: string;
@@ -25,7 +24,6 @@ export class Challenge {
         this.id = data.id;
         this.author = new User(data.author);
         this.department = new Department(data.department);
-        this.company = new Company(data.company);
         this.contactInformation = data.contactInformation;
         this.title = data.title;
         this.description = data.description;

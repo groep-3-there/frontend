@@ -10,10 +10,7 @@ import { Company } from "./models/Company";
 async function postRequest(url: string, bodyObject: {}) {
     const res = await fetch(API.BASEURL + url, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": API.BACKEND_URL,
-        },
+        headers: API.getHeaders(),
         mode: "cors",
         // credentials: "include",
         body: JSON.stringify(bodyObject),
@@ -24,10 +21,7 @@ async function postRequest(url: string, bodyObject: {}) {
 async function putRequest(url: string, bodyObject: {}) {
     const res = await fetch(API.BASEURL + url, {
         method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": API.BACKEND_URL,
-        },
+        headers: API.getHeaders(),
         mode: "cors",
         // credentials: "include",
         body: JSON.stringify(bodyObject),
@@ -40,15 +34,19 @@ async function uploadFile(url: string, keyName: string, file: File) {
     formData.append(keyName, file);
     const res = await fetch(API.BASEURL + url, {
         method: "POST",
+        headers: {
+            Authorization: API.getHeaders()["Authorization"],
+        },
         body: formData,
     });
+
     return await res.json();
 }
 
 async function getRequest(url: string) {
     const res = await fetch(API.BASEURL + url, {
         method: "GET",
-        headers: API.headers,
+        headers: API.getHeaders(),
         mode: "cors",
         // credentials: "include"
     });
@@ -61,10 +59,24 @@ namespace API {
         : "http://localhost:8080";
     export const BASEURL = `${BACKEND_URL}/api/v1/`;
 
-    export const headers = {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": BACKEND_URL,
-    };
+    export const FIREBASE_PUBLIC_API_KEY =
+        "AIzaSyCo7z9UVlNrdKMqtvfA-cEWWPqua3wDOkU";
+
+    let authToken = "";
+
+    export function hasAuthToken() {
+        return authToken != "";
+    }
+    export function getHeaders() {
+        const headers: any = {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": BACKEND_URL,
+        };
+        if (authToken) {
+            headers["Authorization"] = `Bearer ${authToken}`;
+        }
+        return headers;
+    }
 
     export async function createChallenge(ch: {}) {
         const data = await postRequest("challenge", ch);
@@ -97,6 +109,10 @@ namespace API {
     export async function getBranches() {
         const data = await getRequest(`branch/all`);
         return data.map((d: any) => new Branch(d));
+    }
+    export async function getCompanyNames() {
+        const data = await getRequest(`company/names`);
+        return data;
     }
 
     export async function pingServer() {
@@ -165,6 +181,36 @@ namespace API {
     export async function getTags() {
         const data = await getRequest(`tags`);
         return data.map((d: any) => new Tag(d));
+    }
+    export async function whoami() {
+        return await getRequest("whoami");
+    }
+    //Login and save the token for furthur requests
+    export async function firebaseLoginAndUseToken(
+        email: string,
+        password: string,
+    ) {
+        const res = await fetch(
+            "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" +
+                FIREBASE_PUBLIC_API_KEY,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                    returnSecureToken: true,
+                }),
+            },
+        );
+        const json = await res.json();
+        authToken = json.idToken;
+        if (authToken) {
+            return true;
+        }
+        return false;
     }
 }
 
