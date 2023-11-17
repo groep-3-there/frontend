@@ -27,6 +27,9 @@ switch (props.type.toLowerCase()) {
     case "question":
         color.value = "primary";
         break;
+    case "branch":
+        color.value = "green";
+        break;
     default:
         color.value = "primary";
         break;
