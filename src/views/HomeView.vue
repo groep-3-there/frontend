@@ -19,11 +19,13 @@
     <v-btn @click="test()">test</v-btn>
     <br />
     {{ whoami }}
+    <CompanyRegistrationPopUp />
 </template>
 
 <script lang="ts" setup>
 import API from "@/Api";
 import HelloWorld from "@/components/HelloWorld.vue";
+import CompanyRegistrationPopUp from "@/components/CompanyRegistrationPopUp.vue";
 import { useSessionStore } from "@/store/sessionStore";
 import { ref } from "vue";
 const sessionStore = useSessionStore();
