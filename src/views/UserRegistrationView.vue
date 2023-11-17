@@ -1,11 +1,8 @@
 <template>
     <h1>Hieronder hoort een stepper</h1>
-    <!-- <UserRegister></UserRegister> -->
-    <Stepper>
-    </Stepper>
+    <UserRegisterPopup></UserRegisterPopup>
 </template>
 
 <script setup lang="ts">
-import UserRegister from '@/components/UserRegister.vue'
-import Stepper from '@/components/stepper.vue'
+import UserRegisterPopup from '@/components/UserRegisterPopup.vue';
 </script>

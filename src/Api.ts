@@ -161,6 +161,20 @@ namespace API {
         const data = await getRequest(`tags`);
         return data.map((d: any) => new Tag(d));
     }
+
+    /**
+     * Create a new user
+     * @returns a new user
+     */
+    export async function postCreateUser(userData: {
+        email: string;
+        password: string;
+        name: string;
+        companyCode: string;
+    }) {
+        const data = await postRequest(`user/create`, userData);
+        return new User(data);
+    }
 }
 
 export default API;
