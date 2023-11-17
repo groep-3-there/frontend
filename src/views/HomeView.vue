@@ -5,20 +5,15 @@
         Voor debug mogelijkheden kan hier ingelogd worden met verschillende
         accounts
     </h2>
-    <v-btn class="mx-2" @click="loginAsChallenger"
-        >Login als user Challenger Eline</v-btn
-    >
+    <v-btn class="mx-2" @click="loginAsChallenger">Challenger Eline</v-btn>
+    <v-btn class="mx-2" @click="loginAsMedewerker">Medewerker Jelle</v-btn>
     <br />
     <br />
-    <v-btn class="mx-2" @click="loginAsMedewerker"
-        >Login als user Medewerker Jelle</v-btn
-    >
-    <br />
-    <br />
-
+    <h3>Firebase testdata ophalen</h3>
     <v-btn @click="test()">test</v-btn>
     <br />
     {{ whoami }}
+    <h3>Bedrijf registreren test</h3>
     <CompanyRegistrationPopUp />
 </template>
 
@@ -29,6 +24,7 @@ import CompanyRegistrationPopUp from "@/components/CompanyRegistrationPopUp.vue"
 import { useSessionStore } from "@/store/sessionStore";
 import { ref } from "vue";
 const sessionStore = useSessionStore();
+
 const whoami = ref({});
 async function loginAsMedewerker() {
     sessionStore.logIn("medewerker@kapper.nl", "kapper123123");

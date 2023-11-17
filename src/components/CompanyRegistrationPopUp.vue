@@ -116,6 +116,7 @@ const createCompanyRegistration = ref(null) as any;
 
 onMounted(async () => {
     standardTags.value = await Api.getTags();
+    standardbranches.value = await Api.getBranches();
 });
 
 async function registerCompany() {
