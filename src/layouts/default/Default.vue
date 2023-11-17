@@ -91,7 +91,7 @@
 
                 <v-divider></v-divider>
 
-                <v-list density="compact" nav>
+                <v-list density="compact" nav v-if="sessionStore.loggedInUser">
                     <v-list-item
                         @click="logOut()"
                         prepend-icon="mdi-account-multiple"
@@ -112,6 +112,7 @@
     margin-left: v-bind(widthPx);
     margin-right: v-bind(widthPx);
 }
+
 </style>
 
 <script setup lang="ts">
