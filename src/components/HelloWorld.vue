@@ -4,7 +4,7 @@
             <h2>Snack bericht maken</h2>
         </v-col>
     </v-row>
-    <v-row>
+    <!-- <v-row>
         <v-col>
             <code>
                 import { useSnackbarStore} from "@/store/Snackbar";<br />
@@ -18,11 +18,11 @@
             Opties zijn "info", "error", "warning", "success"<br />
             Zie /store/Snackbar.ts voor verdere opties
         </v-col>
-    </v-row>
+    </v-row> -->
     <v-row>
         <v-col>
             <v-btn @click="snackbarStore.createSimple('Test 1 2 3', 'error')">
-                Test
+                Test snack error
             </v-btn>
         </v-col>
     </v-row>

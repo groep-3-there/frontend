@@ -1,5 +1,9 @@
 <template>
-    <template v-if="!challenge"> Loading... </template>
+    <template v-if="!challenge"> 
+        <div>
+            <v-progress-circular indeterminate></v-progress-circular>
+        </div>
+    </template>
     <template v-if="challenge">
         <v-row
             class="challenge-hero"

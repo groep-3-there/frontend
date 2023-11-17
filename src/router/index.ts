@@ -19,11 +19,6 @@ const routes = [
                     ),
             },
             {
-                path: "vue-tutorial",
-                name: "Vue Tutorial",
-                component: () => import("@/views/TutorialView.vue"),
-            },
-            {
                 path: "challenges",
                 name: "Search Challanges",
                 component: () => import("@/views/SearchChallengesView.vue"),

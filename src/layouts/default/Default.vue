@@ -32,37 +32,45 @@
                         value="home"
                     ></v-list-item>
 
-                    <v-list-item
-                        :key="2"
-                        @click="$router.push('/vue-tutorial')"
-                        prepend-icon="mdi-folder"
-                        title="Data Pagina"
-                        value="data"
-                    ></v-list-item>
+             
 
                     <v-list-item
                         :key="3"
                         @click="$router.push('/challenge/1')"
-                        prepend-icon="mdi-folder"
-                        title="Challenge"
+                        prepend-icon="mdi-id-card"
+                        title="Challenge voorbeeld"
                         value="challenge"
                     ></v-list-item>
                     <v-list-item
                         :key="4"
                         @click="$router.push('/challenges')"
-                        prepend-icon="mdi-folder"
+                        prepend-icon="mdi-magnify"
                         title="Zoeken"
                         value="zoeken"
                     ></v-list-item>
+                    
+                </v-list>
+                <v-divider></v-divider>
+                <v-list density="compact" nav v-if="sessionStore.loggedInUser?.department">
+                    <p>{{ sessionStore.loggedInUser.department.parentCompany.name }}</p>
                     <v-list-item
+                        @click="$router.push(`/company/${sessionStore.loggedInUser?.department?.parentCompany.id}`)"
+                        :prepend-avatar="sessionStore.loggedInUser?.department?.parentCompany.getProfileOrDefaultImageUrl()"
+                        :title="sessionStore.loggedInUser?.department?.parentCompany.name"
+                        value="shared"
+                    ></v-list-item>
+                    <v-list-item
+                        v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment('CHALLENGE_MANAGE', sessionStore.loggedInUser?.department?.id)"
                         :key="5"
                         @click="$router.push('/create-challenge')"
-                        prepend-icon="mdi-folder"
-                        title="Create Challenge"
+                        prepend-icon="mdi-plus-box-outline"
+                        title="Challenge maken"
                         value="create-challenge"
                     ></v-list-item>
                 </v-list>
+
                 <v-divider></v-divider>
+
                 <v-list density="compact" nav>
                     <v-list-item
                         @click="logOut()"
