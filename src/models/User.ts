@@ -62,22 +62,23 @@ export class User {
         permission: string,
         departmentId: number | null | undefined,
     ) {
-        console.log(permission, " for " ,this.role, " at ", departmentId);
+        console.log(permission, " for ", this.role, " at ", departmentId);
         if (departmentId === null || departmentId === undefined) {
             return false;
         }
         if (!this.department || !this.role) {
-            console.log("no department or role")
+            console.log("no department or role");
             return false;
         }
         if (this.role.isMatchmaker) {
-
             return true;
         }
         if (this.department.id !== departmentId) {
-            console.log("Not correct department")
+            console.log("Not correct department");
             return false;
         }
-        return this.role.permissions.some((p: any) => p.codeName === permission);
+        return this.role.permissions.some(
+            (p: any) => p.codeName === permission,
+        );
     }
 }

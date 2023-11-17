@@ -188,8 +188,13 @@
                             color="primary"
                             type="submit"
                         >
-                            <template v-if="!inUploadProgress">Aanmaken</template>
-                            <v-progress-circular v-if="inUploadProgress" indeterminate></v-progress-circular>
+                            <template v-if="!inUploadProgress"
+                                >Aanmaken</template
+                            >
+                            <v-progress-circular
+                                v-if="inUploadProgress"
+                                indeterminate
+                            ></v-progress-circular>
                         </v-btn>
                     </v-row>
                 </v-col>
@@ -246,7 +251,7 @@ const visibility = ref(null);
 const banner = ref([]);
 const images = ref([]);
 const tags = ref([]);
-const inUploadProgress = ref(false)
+const inUploadProgress = ref(false);
 function newDescription(value: any) {
     description.value = value;
 }

@@ -6,7 +6,9 @@ export class ChallengeSearchResults {
     totalElements: number;
 
     constructor(data: any) {
-        this.content = data.content.map((challenge: any) => new Challenge(challenge));
+        this.content = data.content.map(
+            (challenge: any) => new Challenge(challenge),
+        );
 
         this.totalPages = data.totalPages;
         this.totalElements = data.totalElements;

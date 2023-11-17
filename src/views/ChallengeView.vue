@@ -1,5 +1,5 @@
 <template>
-    <template v-if="!challenge"> 
+    <template v-if="!challenge">
         <div>
             <v-progress-circular indeterminate></v-progress-circular>
         </div>

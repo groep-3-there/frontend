@@ -4,7 +4,9 @@
             <v-col cols="2" class="d-flex justify-center align-start">
                 <img
                     class="image"
-                    :src="challenge?.department.parentCompany.getProfileOrDefaultImageUrl()"
+                    :src="
+                        challenge?.department.parentCompany.getProfileOrDefaultImageUrl()
+                    "
                     alt="profielfoto van de challenger"
                 />
             </v-col>
@@ -19,7 +21,12 @@
                 </v-row>
 
                 <v-row no-gutters class="date-and-tags">
-                    <v-col v-if="challenge?.endDate" cols="12" md="4" class="d-flex align-center">
+                    <v-col
+                        v-if="challenge?.endDate"
+                        cols="12"
+                        md="4"
+                        class="d-flex align-center"
+                    >
                         <p>
                             <v-icon>mdi-calendar-blank</v-icon>
 
@@ -31,7 +38,8 @@
                         </p>
                     </v-col>
                     <v-col>
-                        <Tag v-if="challenge?.department.parentCompany.branch"
+                        <Tag
+                            v-if="challenge?.department.parentCompany.branch"
                             :type="'branch'"
                         >
                             {{ challenge.department.parentCompany.branch.name }}
@@ -60,11 +68,10 @@ defineProps({
 </script>
 
 <style scoped>
-
-.date-and-tags{
+.date-and-tags {
     margin-top: 1rem;
 }
-.challenge-info{
+.challenge-info {
     padding-bottom: 0;
 }
 .challenge-card {
@@ -73,7 +80,7 @@ defineProps({
     border-radius: 15px;
     box-shadow: 2px 2px darkgray;
 }
-.challenge-card:hover{
+.challenge-card:hover {
     cursor: pointer;
     box-shadow: 4px 4px darkgray;
 }
@@ -84,6 +91,6 @@ defineProps({
     border-radius: 50%;
     aspect-ratio: 1/1;
     object-fit: cover;
-    width:70%;
+    width: 70%;
 }
 </style>

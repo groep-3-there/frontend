@@ -32,8 +32,6 @@
                         value="home"
                     ></v-list-item>
 
-             
-
                     <v-list-item
                         :key="3"
                         @click="$router.push('/challenge/1')"
@@ -48,19 +46,41 @@
                         title="Zoeken"
                         value="zoeken"
                     ></v-list-item>
-                    
                 </v-list>
                 <v-divider></v-divider>
-                <v-list density="compact" nav v-if="sessionStore.loggedInUser?.department">
-                    <p>{{ sessionStore.loggedInUser.department.parentCompany.name }}</p>
+                <v-list
+                    density="compact"
+                    nav
+                    v-if="sessionStore.loggedInUser?.department"
+                >
+                    <p>
+                        {{
+                            sessionStore.loggedInUser.department.parentCompany
+                                .name
+                        }}
+                    </p>
                     <v-list-item
-                        @click="$router.push(`/company/${sessionStore.loggedInUser?.department?.parentCompany.id}`)"
-                        :prepend-avatar="sessionStore.loggedInUser?.department?.parentCompany.getProfileOrDefaultImageUrl()"
-                        :title="sessionStore.loggedInUser?.department?.parentCompany.name"
+                        @click="
+                            $router.push(
+                                `/company/${sessionStore.loggedInUser?.department?.parentCompany.id}`,
+                            )
+                        "
+                        :prepend-avatar="
+                            sessionStore.loggedInUser?.department?.parentCompany.getProfileOrDefaultImageUrl()
+                        "
+                        :title="
+                            sessionStore.loggedInUser?.department?.parentCompany
+                                .name
+                        "
                         value="shared"
                     ></v-list-item>
                     <v-list-item
-                        v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment('CHALLENGE_MANAGE', sessionStore.loggedInUser?.department?.id)"
+                        v-if="
+                            sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                                'CHALLENGE_MANAGE',
+                                sessionStore.loggedInUser?.department?.id,
+                            )
+                        "
                         :key="5"
                         @click="$router.push('/create-challenge')"
                         prepend-icon="mdi-plus-box-outline"
