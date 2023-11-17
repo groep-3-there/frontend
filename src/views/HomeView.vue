@@ -17,7 +17,7 @@
     <CompanyRegistrationPopUp />
 
     <h3>gebruiker registreren test</h3>
-    <UserRegisterPopup/>
+    <UserRegisterPopup />
 </template>
 
 <script lang="ts" setup>
