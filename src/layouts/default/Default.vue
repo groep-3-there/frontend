@@ -2,8 +2,8 @@
     <v-card>
         <v-app>
             <!--                 expand on hover, use hover
-                                      |            |            show permanent(dont hide on mobile)
-                                      \/           \/              \/               width of drawer       Do not make the sidebar scrollable -->
+                                        |            |            show permanent(dont hide on mobile)
+                                        \/           \/              \/               width of drawer       Do not make the sidebar scrollable -->
             <v-navigation-drawer
                 expand-on-hover
                 :rail="mdAndDown"
@@ -13,10 +13,12 @@
             >
                 <v-list>
                     <v-list-item
-                        v-if="user"
-                        prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
-                        :title="user?.name"
-                        :subtitle="user.getSubtitle()"
+                        v-if="sessionStore.loggedInUser"
+                        :prepend-avatar="
+                            sessionStore.loggedInUser?.getAvatarOrDefaultUrl()
+                        "
+                        :title="sessionStore.loggedInUser?.name"
+                        :subtitle="sessionStore.loggedInUser?.getSubtitle()"
                     ></v-list-item>
                 </v-list>
 
@@ -31,32 +33,58 @@
                     ></v-list-item>
 
                     <v-list-item
-                        :key="2"
-                        @click="$router.push('/vue-tutorial')"
-                        prepend-icon="mdi-folder"
-                        title="Data Pagina"
-                        value="data"
-                    ></v-list-item>
-
-                    <v-list-item
                         :key="3"
                         @click="$router.push('/challenge/1')"
-                        prepend-icon="mdi-folder"
-                        title="Challenge"
+                        prepend-icon="mdi-id-card"
+                        title="Challenge voorbeeld"
                         value="challenge"
                     ></v-list-item>
                     <v-list-item
                         :key="4"
                         @click="$router.push('/challenges')"
-                        prepend-icon="mdi-folder"
+                        prepend-icon="mdi-magnify"
                         title="Zoeken"
                         value="zoeken"
                     ></v-list-item>
+                </v-list>
+                <v-divider></v-divider>
+                <v-list
+                    density="compact"
+                    nav
+                    v-if="sessionStore.loggedInUser?.department"
+                >
+                    <p>
+                        {{
+                            sessionStore.loggedInUser.department.parentCompany
+                                .name
+                        }}
+                    </p>
                     <v-list-item
+                        @click="
+                            $router.push(
+                                `/company/${sessionStore.loggedInUser?.department?.parentCompany.id}`,
+                            )
+                        "
+                        :prepend-avatar="
+                            sessionStore.loggedInUser?.department?.parentCompany.getProfileOrDefaultImageUrl()
+                        "
+                        :title="
+                            sessionStore.loggedInUser?.department?.parentCompany
+                                .name
+                        "
+                        value="shared"
+                    ></v-list-item>
+                    <v-list-item
+                        v-if="
+                            sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                                'CHALLENGE_MANAGE',
+                                sessionStore.loggedInUser?.department?.id,
+                            )
+                        "
                         :key="5"
                         @click="$router.push('/create-challenge')"
-                        prepend-icon="mdi-folder"
-                        title="Create Challenge"
+                        prepend-icon="mdi-plus-box-outline"
+                        title="Challenge maken"
                         value="create-challenge"
                     ></v-list-item>
                     <v-list-item
@@ -67,7 +95,9 @@
                         value="Account aanmaken"
                     ></v-list-item>
                 </v-list>
+
                 <v-divider></v-divider>
+
                 <v-list density="compact" nav>
                     <v-list-item
                         @click="logOut()"
@@ -101,12 +131,12 @@ import { watch } from "vue";
 import { User } from "@/models/User";
 import { onMounted } from "vue";
 import API from "@/Api";
+import { useSessionStore } from "@/store/sessionStore";
 const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay();
-
-const user = ref() as Ref<User | null>;
+const sessionStore = useSessionStore();
 
 onMounted(async () => {
-    user.value = await API.getCurrentUser();
+    // user.value = await sessionStore.forceUpdate()
 });
 
 //Drawer size

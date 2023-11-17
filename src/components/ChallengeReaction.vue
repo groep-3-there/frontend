@@ -7,7 +7,7 @@
             <v-icon class="ml-2 my-2">mdi-bookmark</v-icon>
             <p class="d-flex align-center">
                 Het gekozen antwoord door :
-                {{ challengeInput.challenge.company.name }}
+                {{ challengeInput.challenge.department.parentCompany.name }}
             </p>
             <v-divider></v-divider>
         </v-row>
