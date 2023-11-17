@@ -112,7 +112,6 @@
     margin-left: v-bind(widthPx);
     margin-right: v-bind(widthPx);
 }
-
 </style>
 
 <script setup lang="ts">
