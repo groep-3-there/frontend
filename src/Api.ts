@@ -62,15 +62,13 @@ namespace API {
     export const FIREBASE_PUBLIC_API_KEY =
         "AIzaSyCo7z9UVlNrdKMqtvfA-cEWWPqua3wDOkU";
 
-
     let authToken = sessionStorage.getItem("authToken") || "";
 
     export function hasAuthToken() {
         return authToken != "";
     }
-    export function removeAuthToken(){
+    export function removeAuthToken() {
         sessionStorage.setItem("authToken", "");
-
     }
     export function getHeaders() {
         const headers: any = {
@@ -210,8 +208,7 @@ namespace API {
         email: string,
         password: string,
     ) {
-        try{
-
+        try {
             const res = await fetch(
                 "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" +
                     FIREBASE_PUBLIC_API_KEY,
@@ -227,7 +224,7 @@ namespace API {
                     }),
                 },
             );
-            if(res.status == 400){
+            if (res.status == 400) {
                 return false;
             }
             const json = await res.json();
@@ -237,8 +234,7 @@ namespace API {
                 return true;
             }
             return false;
-        }
-        catch(e){
+        } catch (e) {
             console.warn(e);
             return false;
         }

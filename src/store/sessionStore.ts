@@ -24,13 +24,12 @@ export const useSessionStore = defineStore("session", {
         },
         async logIn(username: string, password: string) {
             let success = false;
-            try{
+            try {
                 success = await API.firebaseLoginAndUseToken(
                     username,
                     password,
                 );
-            }
-            catch(e){
+            } catch (e) {
                 console.warn(e);
                 return false;
             }

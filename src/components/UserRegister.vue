@@ -228,7 +228,6 @@ async function onSubmit() {
         });
     emit("onClose");
     emit("onRequestLogin");
-    
 }
 </script>
 
