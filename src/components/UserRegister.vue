@@ -130,10 +130,6 @@
                             </v-col>
                         </v-row>
                     </v-container>
-
-                    <!-- <v-card-actions class="justify-end">
-                        <v-btn type="submit" color="primary">Registreer</v-btn>
-                    </v-card-actions> -->
                 </v-card>
             </template>
         </v-stepper>
@@ -193,10 +189,6 @@ async function onSubmit() {
         password.value == null ||
         name.value == null
     ) {
-        console.log(valid);
-        console.log(email.value);
-        console.log(password.value);
-        console.log(name.value);
         snackbarStore.createSimple(
             "Er is iets fout gegaan, controlleer als alle velden zijn correct ingevuld",
             "error",
@@ -226,14 +218,11 @@ async function onSubmit() {
             );
         })
         .catch((err) => {
-            console.log(err);
             snackbarStore.createSimple(
                 "Er is iets fout gegaan, probeer het later opnieuw",
                 "error",
             );
         });
-    // emit("onClose");
-    // emit("onRequestLogin");
 }
 </script>
 
