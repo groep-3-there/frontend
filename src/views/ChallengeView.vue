@@ -282,23 +282,6 @@ import Tag from "@/components/Tag.vue";
 import ChallengeReaction from "@/components/ChallengeReaction.vue";
 import ChallengeCreateReaction from "@/components/ChallengeCreateReaction.vue";
 import { ChallengeInput } from "@/models/ChallengeInput";
-import ConcludeChallengePopup from "@/components/ConcludeChallengePopup.vue";
-import AreYouSurePopup from "@/components/AreYouSurePopup.vue";
-import RichEditor from "@/components/RichEditor.vue";
-import { Ref, computed, ref } from "vue";
-import { Challenge } from "@/models/Challenge";
-import Tag from "@/components/Tag.vue";
-import ChallengeReaction from "@/components/ChallengeReaction.vue";
-import ChallengeCreateReaction from "@/components/ChallengeCreateReaction.vue";
-import { ChallengeInput } from "@/models/ChallengeInput";
-
-import { useRoute } from "vue-router";
-import { onMounted } from "vue";
-import API from "@/Api";
-import { Image } from "@/models/Image";
-import { useSessionStore } from "@/store/sessionStore";
-
-const sessionStore = useSessionStore();
 import { useRoute } from "vue-router";
 import { onMounted } from "vue";
 import API from "@/Api";
@@ -357,4 +340,3 @@ function openImage(imageUrl: string) {
     window.open(imageUrl, "_blank");
 }
 </script>
-

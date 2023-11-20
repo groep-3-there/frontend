@@ -206,10 +206,7 @@
 <script setup lang="ts">
 import { Ref, ref } from "vue";
 import { onMounted } from "vue";
-import { Ref, ref } from "vue";
-import { onMounted } from "vue";
 import Api from "@/Api";
-import router from "@/router";
 import router from "@/router";
 import { Challenge } from "@/models/Challenge";
 
@@ -285,17 +282,7 @@ const createChallengeForm = ref(null) as any;
  * default is false
  */
 const showBanner = ref(false);
-/**
- * show the tooltip for the banner
- * default is false
- */
-const showBanner = ref(false);
 
-/**
- * show the tooltip for the images
- * default is false
- */
-const showImages = ref(false);
 /**
  * show the tooltip for the images
  * default is false
