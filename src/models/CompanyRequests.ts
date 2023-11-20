@@ -1,7 +1,7 @@
 import { Branch } from "./Branch";
 import { User } from "./User";
 
-export class CompanyRequests{
+export class CompanyRequests {
     id: number;
     name: string;
     requestedAt: string;

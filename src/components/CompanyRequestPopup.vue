@@ -96,11 +96,11 @@ const emit = defineEmits(["requestPopupClose"]);
 
 async function acceptCompanyRequest() {
     await API.acceptCompanyRequest(props.companyRequest.id);
-    emit('requestPopupClose');
+    emit("requestPopupClose");
 }
 
 async function rejectCompanyRequest() {
     await API.rejectCompanyRequest(props.companyRequest.id);
-    emit('requestPopupClose');
+    emit("requestPopupClose");
 }
 </script>

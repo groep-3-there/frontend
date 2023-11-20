@@ -191,19 +191,15 @@ namespace API {
         return new CompanyRequestsResults(data);
     }
     export async function acceptCompanyRequest(id: number) {
-        try{
+        try {
             const data = await postRequest(`company/request/${id}/accept`, {});
-        }
-        catch(e){
-        }
+        } catch (e) {}
         return;
     }
     export async function rejectCompanyRequest(id: number) {
-        try{
+        try {
             const data = await postRequest(`company/request/${id}/reject`, {});
-        }
-        catch(e){
-        }
+        } catch (e) {}
         return;
     }
     /**

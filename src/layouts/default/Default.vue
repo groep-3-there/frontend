@@ -92,7 +92,8 @@
                         @click="$router.push('/company/request')"
                         prepend-icon="mdi-folder"
                         title="Bedrijfsaanvragen"
-                        value="request">
+                        value="request"
+                    >
                     </v-list-item>
                     <v-list-item
                         :key="7"

@@ -33,8 +33,8 @@ async function loginAsMedewerker() {
 async function loginAsChallenger() {
     sessionStore.logIn("challenger@kapper.nl", "kapper123123");
 }
-async function loginAsMatchMaker(){
-    sessionStore.logIn("matchmaker@mail.com", "matchmaker")
+async function loginAsMatchMaker() {
+    sessionStore.logIn("matchmaker@mail.com", "matchmaker");
 }
 async function test() {
     const r = await API.whoami();

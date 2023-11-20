@@ -17,7 +17,7 @@ const props = defineProps({
 
 const color = ref("");
 
-switch (props.type.toLowerCase()) { 
+switch (props.type.toLowerCase()) {
     case "branch":
         color.value = "primary";
         break;

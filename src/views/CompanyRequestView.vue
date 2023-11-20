@@ -2,21 +2,20 @@
     <v-container>
         <v-row>
             <v-col cols="12" md="9">
-                <h1 class="title d-flex justify-center">
-                    Bedrijfsaanvragen
-                </h1>
+                <h1 class="title d-flex justify-center">Bedrijfsaanvragen</h1>
             </v-col>
         </v-row>
-        
+
         <div v-for="companyRequest in requests?.content">
             <div class="padding-around">
                 <v-row>
                     <v-col cols="12" md="9">
-                        <CompanyRequest :companyRequest="companyRequest" @requestUpdateRequests="loadRequests" class="border"
-                            
+                        <CompanyRequest
+                            :companyRequest="companyRequest"
+                            @requestUpdateRequests="loadRequests"
+                            class="border"
                         ></CompanyRequest>
                     </v-col>
-                
                 </v-row>
             </div>
         </div>
