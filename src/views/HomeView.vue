@@ -1,6 +1,5 @@
 <template>
     <HelloWorld />
-
     <h2>
         Voor debug mogelijkheden kan hier ingelogd worden met verschillende
         accounts
@@ -25,6 +24,7 @@
 import API from "@/Api";
 import HelloWorld from "@/components/HelloWorld.vue";
 import CompanyRegistrationPopUp from "@/components/CompanyRegistrationPopUp.vue";
+import LoginPopup from "@/components/LoginPopup.vue";
 import UserRegisterPopup from "@/components/UserRegisterPopup.vue";
 import { useSessionStore } from "@/store/sessionStore";
 import { ref } from "vue";

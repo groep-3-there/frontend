@@ -1,6 +1,17 @@
 <template>
     <v-card>
         <v-app>
+            <LoginPopup
+                v-if="loginPopup"
+                @on-request-register="
+                    userRegisterPopup = true;
+                    loginPopup = false;
+                "
+                @on-close="loginPopup = false"
+            ></LoginPopup>
+            <v-dialog v-model="userRegisterPopup" max-width="50rem">
+                <UserRegister v-if="userRegisterPopup"></UserRegister>
+            </v-dialog>
             <!--                 expand on hover, use hover
                                         |            |            show permanent(dont hide on mobile)
                                         \/           \/              \/               width of drawer       Do not make the sidebar scrollable -->
@@ -20,6 +31,16 @@
                         :title="sessionStore.loggedInUser?.name"
                         :subtitle="sessionStore.loggedInUser?.getSubtitle()"
                     ></v-list-item>
+                    <v-list-item
+                        v-else
+                        :key="1"
+                        @click="loginPopup = true"
+                        color="primary"
+                        prepend-icon="mdi-account-plus"
+                        title="Login/Registreer"
+                        value="home"
+                    >
+                    </v-list-item>
                 </v-list>
 
                 <v-divider></v-divider>
@@ -53,12 +74,8 @@
                     nav
                     v-if="sessionStore.loggedInUser?.department"
                 >
-                    <p>
-                        {{
-                            sessionStore.loggedInUser.department.parentCompany
-                                .name
-                        }}
-                    </p>
+                    <v-list-subheader>Uw bedrijf</v-list-subheader>
+
                     <v-list-item
                         @click="
                             $router.push(
@@ -87,6 +104,7 @@
                         title="Challenge maken"
                         value="create-challenge"
                     ></v-list-item>
+
                     <v-list-item
                         :key="6"
                         @click="$router.push('/grade-companies')"
@@ -103,7 +121,6 @@
                         value="Account aanmaken"
                     ></v-list-item>
                 </v-list>
-
                 <v-divider></v-divider>
                 <v-list
                     density="compact"
@@ -179,10 +196,11 @@
 </style>
 
 <script setup lang="ts">
-import HelloWorld from "@/components/HelloWorld.vue";
-import { Ref, computed } from "vue";
+import { computed } from "vue";
 import { ref } from "vue";
 import { useDisplay } from "vuetify";
+import LoginPopup from "@/components/LoginPopup.vue";
+import UserRegister from "@/components/UserRegister.vue";
 import router from "@/router";
 import { watch } from "vue";
 import { User } from "@/models/User";
@@ -191,6 +209,8 @@ import API from "@/Api";
 import { useSessionStore } from "@/store/sessionStore";
 const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay();
 const sessionStore = useSessionStore();
+const loginPopup = ref(false);
+const userRegisterPopup = ref(false);
 
 onMounted(async () => {
     // user.value = await sessionStore.forceUpdate()
@@ -203,8 +223,6 @@ const widthPx = computed(() => {
 });
 
 function logOut() {
-    console.log("Not implemented yet");
+    sessionStore.logOut();
 }
-
-const bigScreen = ref(true);
 </script>
