@@ -1,5 +1,6 @@
 import { Department } from "./Department";
 import { Image } from "./Image";
+import { Image } from "./Image";
 import { Role } from "./Role";
 
 export class User {
