@@ -10,7 +10,10 @@
                 @on-close="loginPopup = false"
             ></LoginPopup>
             <v-dialog v-model="userRegisterPopup" max-width="50rem">
-                <UserRegister v-if="userRegisterPopup"></UserRegister>
+                <UserRegister
+                    v-if="userRegisterPopup"
+                    @on-close="userRegisterPopup = false"
+                ></UserRegister>
             </v-dialog>
             <!--                 expand on hover, use hover
                                         |            |            show permanent(dont hide on mobile)

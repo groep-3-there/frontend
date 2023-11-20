@@ -141,13 +141,12 @@
 </template>
 
 <script setup lang="ts">
-import { SnackMessage } from "@/store/Snackbar";
-import { templateElement } from "@babel/types";
 import { ref } from "vue";
-
-import { useSnackbarStore } from "@/store/Snackbar";
 import API from "@/Api";
+import { useSnackbarStore } from "@/store/Snackbar";
+import { useSessionStore } from "@/store/sessionStore";
 const snackbarStore = useSnackbarStore();
+const sessionStore = useSessionStore();
 const emit = defineEmits(["onClose", "onRequestLogin"]);
 const registerForm = ref(null) as any;
 
@@ -194,6 +193,10 @@ async function onSubmit() {
         password.value == null ||
         name.value == null
     ) {
+        console.log(valid);
+        console.log(email.value);
+        console.log(password.value);
+        console.log(name.value);
         snackbarStore.createSimple(
             "Er is iets fout gegaan, controlleer als alle velden zijn correct ingevuld",
             "error",
@@ -212,22 +215,25 @@ async function onSubmit() {
         name: name.value,
         companyCode: companyCode.value,
     };
-
+    
     await API.postCreateUser(userData)
         .then((res) => {
+            emit("onClose");
+            sessionStore.logIn(res.email, password.value)
             snackbarStore.createSimple(
                 "Uw account is aangemaakt, u kunt nu inloggen",
                 "success",
             );
         })
         .catch((err) => {
+            console.log(err);
             snackbarStore.createSimple(
                 "Er is iets fout gegaan, probeer het later opnieuw",
                 "error",
             );
         });
-    emit("onClose");
-    emit("onRequestLogin");
+    // emit("onClose");
+    // emit("onRequestLogin");
 }
 </script>
 

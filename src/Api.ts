@@ -215,7 +215,7 @@ namespace API {
         name: string;
         companyCode: string;
     }) {
-        const data = await postRequest(`user/create`, userData);
+        const data = await postRequest(`auth/create`, userData);
         return new User(data);
     }
 
