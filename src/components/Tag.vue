@@ -1,39 +1,37 @@
 <template>
-    <v-chip
-        variant="flat"
-        :color="color"
-        text-color="white"
-        class="ma-2"
-    >
+    <v-chip variant="flat" :color="color" text-color="white" class="ma-2">
         <slot></slot>
     </v-chip>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const props = defineProps({
     type: {
         type: String,
         required: false,
-        default: "default"
-    }
-})
+        default: "default",
+    },
+});
 
 const color = ref("");
 
 switch (props.type.toLowerCase()) {
     case "idea":
-        color.value = "mmyellow"
+        color.value = "mmyellow";
         break;
     case "feedback":
-        color.value = "primary"
+        color.value = "primary";
         break;
     case "question":
-        color.value = "primary"
+        color.value = "primary";
+        break;
+    case "branch":
+        color.value = "green";
         break;
     default:
-        color.value = "primary"
+        color.value = "primary";
         break;
 }
 </script>
