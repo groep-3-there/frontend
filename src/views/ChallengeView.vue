@@ -117,7 +117,7 @@
             </v-col>
         </v-row>
 
-    <v-divider class="mt-4"></v-divider>
+        <v-divider class="mt-4"></v-divider>
 
         <v-row>
             <v-col cols="10" class="mx-auto">
@@ -224,9 +224,9 @@
 }
 
 .new-reaction-input {
-  width: 100%;
-  min-height: 200px;
-  border: 2px solid black;
+    width: 100%;
+    min-height: 200px;
+    border: 2px solid black;
 }
 
 .post-heading {
@@ -236,13 +236,12 @@
 }
 
 .challenge-title {
-  font-size: 4rem;
-  font-weight: 1000;
+    font-size: 4rem;
+    font-weight: 1000;
 }
 
-
 .white-text {
-  color: white;
+    color: white;
 }
 
 .challenge-hero {
@@ -253,10 +252,10 @@
 }
 
 .company-logo {
-  max-width: min(80%, 25vw);
-  border-radius: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
+    max-width: min(80%, 25vw);
+    border-radius: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
 }
 
 .attachment-image {
@@ -270,7 +269,6 @@
     }
 }
 </style>
-
 
 <script lang="ts" setup>
 import ConcludeChallengePopup from "@/components/ConcludeChallengePopup.vue";
