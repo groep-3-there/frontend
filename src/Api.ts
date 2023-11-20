@@ -62,10 +62,15 @@ namespace API {
     export const FIREBASE_PUBLIC_API_KEY =
         "AIzaSyCo7z9UVlNrdKMqtvfA-cEWWPqua3wDOkU";
 
-    let authToken = "";
+
+    let authToken = sessionStorage.getItem("authToken") || "";
 
     export function hasAuthToken() {
         return authToken != "";
+    }
+    export function removeAuthToken(){
+        sessionStorage.setItem("authToken", "");
+
     }
     export function getHeaders() {
         const headers: any = {
@@ -205,27 +210,38 @@ namespace API {
         email: string,
         password: string,
     ) {
-        const res = await fetch(
-            "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" +
-                FIREBASE_PUBLIC_API_KEY,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
+        try{
+
+            const res = await fetch(
+                "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" +
+                    FIREBASE_PUBLIC_API_KEY,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password,
+                        returnSecureToken: true,
+                    }),
                 },
-                body: JSON.stringify({
-                    email: email,
-                    password: password,
-                    returnSecureToken: true,
-                }),
-            },
-        );
-        const json = await res.json();
-        authToken = json.idToken;
-        if (authToken) {
-            return true;
+            );
+            if(res.status == 400){
+                return false;
+            }
+            const json = await res.json();
+            authToken = json.idToken;
+            sessionStorage.setItem("authToken", authToken);
+            if (authToken) {
+                return true;
+            }
+            return false;
         }
-        return false;
+        catch(e){
+            console.warn(e);
+            return false;
+        }
     }
 }
 

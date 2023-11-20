@@ -19,18 +19,27 @@ export const useSessionStore = defineStore("session", {
             this.loggedInUser = await API.getCurrentUser();
         },
         async logOut() {
-            throw new Error("Not implemented yet");
+            API.removeAuthToken();
+            this.loggedInUser = null;
         },
         async logIn(username: string, password: string) {
-            const success = await API.firebaseLoginAndUseToken(
-                username,
-                password,
-            );
+            let success = false;
+            try{
+                success = await API.firebaseLoginAndUseToken(
+                    username,
+                    password,
+                );
+            }
+            catch(e){
+                console.warn(e);
+                return false;
+            }
             if (success) {
                 try {
                     await this.forceUpdate();
                 } catch (e) {
                     console.warn(e);
+                    return false;
                 }
             }
             return success;
