@@ -1,12 +1,12 @@
 <template>
     <HelloWorld />
-
     <h2>
         Voor debug mogelijkheden kan hier ingelogd worden met verschillende
         accounts
     </h2>
     <v-btn class="mx-2" @click="loginAsChallenger">Challenger Eline</v-btn>
     <v-btn class="mx-2" @click="loginAsMedewerker">Medewerker Jelle</v-btn>
+    <v-btn class="mx-2" @click="loginAsMatchMaker">MatchMaker</v-btn>
     <br />
     <br />
     <h3>Firebase testdata ophalen</h3>
@@ -24,6 +24,7 @@
 import API from "@/Api";
 import HelloWorld from "@/components/HelloWorld.vue";
 import CompanyRegistrationPopUp from "@/components/CompanyRegistrationPopUp.vue";
+import LoginPopup from "@/components/LoginPopup.vue";
 import UserRegisterPopup from "@/components/UserRegisterPopup.vue";
 import { useSessionStore } from "@/store/sessionStore";
 import { ref } from "vue";
@@ -35,6 +36,9 @@ async function loginAsMedewerker() {
 }
 async function loginAsChallenger() {
     sessionStore.logIn("challenger@kapper.nl", "kapper123123");
+}
+async function loginAsMatchMaker() {
+    sessionStore.logIn("matchmaker@mail.com", "matchmaker");
 }
 async function test() {
     const r = await API.whoami();

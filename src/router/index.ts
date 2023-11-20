@@ -44,6 +44,11 @@ const routes = [
                 component: () => import("@/views/UserRegistrationView.vue"),
             },
             {
+                path: "grade-companies",
+                name: "Grade Request",
+                component: () => import("@/views/CompanyRequestView.vue"),
+            },
+            {
                 path: "company/:id",
                 name: "Company",
                 component: () => import("@/views/CompanyView.vue"),
@@ -53,7 +58,7 @@ const routes = [
 ];
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
+    history: createWebHistory(import.meta.env.BASE_URL),
     routes,
 });
 

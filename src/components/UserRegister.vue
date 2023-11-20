@@ -148,7 +148,7 @@ import { ref } from "vue";
 import { useSnackbarStore } from "@/store/Snackbar";
 import API from "@/Api";
 const snackbarStore = useSnackbarStore();
-
+const emit = defineEmits(["onClose", "onRequestLogin"]);
 const registerForm = ref(null) as any;
 
 const email = ref("");
@@ -213,7 +213,7 @@ async function onSubmit() {
         companyCode: companyCode.value,
     };
 
-    API.postCreateUser(userData)
+    await API.postCreateUser(userData)
         .then((res) => {
             snackbarStore.createSimple(
                 "Uw account is aangemaakt, u kunt nu inloggen",
@@ -226,6 +226,8 @@ async function onSubmit() {
                 "error",
             );
         });
+    emit("onClose");
+    emit("onRequestLogin");
 }
 </script>
 
