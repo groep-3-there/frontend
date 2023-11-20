@@ -7,6 +7,7 @@
     </h2>
     <v-btn class="mx-2" @click="loginAsChallenger">Challenger Eline</v-btn>
     <v-btn class="mx-2" @click="loginAsMedewerker">Medewerker Jelle</v-btn>
+    <v-btn class="mx-2" @click="loginAsMatchMaker">MatchMaker</v-btn>
     <br />
     <br />
     <h3>Firebase testdata ophalen</h3>
@@ -35,6 +36,9 @@ async function loginAsMedewerker() {
 }
 async function loginAsChallenger() {
     sessionStore.logIn("challenger@kapper.nl", "kapper123123");
+}
+async function loginAsMatchMaker() {
+    sessionStore.logIn("matchmaker@mail.com", "matchmaker");
 }
 async function test() {
     const r = await API.whoami();

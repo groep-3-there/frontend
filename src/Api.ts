@@ -5,7 +5,10 @@ import { User } from "./models/User";
 import { ChallengeSearchResults } from "./models/ChallengeSearchResults";
 import { Branch } from "./models/Branch";
 import { Tag } from "./models/Tag";
+import { CompanyRequests } from "./models/CompanyRequests";
 import { Company } from "./models/Company";
+import { useSessionStore } from "@/store/sessionStore";
+import { CompanyRequestsResults } from "./models/CompanyRequestsResults";
 
 async function postRequest(url: string, bodyObject: {}) {
     const res = await fetch(API.BASEURL + url, {
@@ -183,6 +186,22 @@ namespace API {
         return data.map((d: any) => new Tag(d));
     }
 
+    export async function getCompanyRequests(): Promise<CompanyRequestsResults> {
+        const data = await getRequest(`company/request`);
+        return new CompanyRequestsResults(data);
+    }
+    export async function acceptCompanyRequest(id: number) {
+        try {
+            const data = await postRequest(`company/request/${id}/accept`, {});
+        } catch (e) {}
+        return;
+    }
+    export async function rejectCompanyRequest(id: number) {
+        try {
+            const data = await postRequest(`company/request/${id}/reject`, {});
+        } catch (e) {}
+        return;
+    }
     /**
      * Create a new user
      * @returns a new user
