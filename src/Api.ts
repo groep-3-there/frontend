@@ -7,6 +7,8 @@ import { Branch } from "./models/Branch";
 import { Tag } from "./models/Tag";
 import { CompanyRequests } from "./models/CompanyRequests";
 import { Company } from "./models/Company";
+import { useSessionStore } from "@/store/sessionStore";
+import { CompanyRequestsResults } from "./models/CompanyRequestsResults";
 
 async function postRequest(url: string, bodyObject: {}) {
     const res = await fetch(API.BASEURL + url, {
@@ -184,17 +186,25 @@ namespace API {
         return data.map((d: any) => new Tag(d));
     }
 
-    export async function getCompanyRequests(): Promise<CompanyRequests[]> {
+    export async function getCompanyRequests(): Promise<CompanyRequestsResults> {
         const data = await getRequest(`company/request`);
-        return data.map((d: any) => new CompanyRequests(d));
+        return new CompanyRequestsResults(data);
     }
     export async function acceptCompanyRequest(id: number) {
-        const data = await postRequest(`company/request/${id}/accept`, {});
-        return new CompanyRequests(data);
+        try{
+            const data = await postRequest(`company/request/${id}/accept`, {});
+        }
+        catch(e){
+        }
+        return;
     }
     export async function rejectCompanyRequest(id: number) {
-        const data = await postRequest(`company/request/${id}/reject`, {});
-        return new CompanyRequests(data);
+        try{
+            const data = await postRequest(`company/request/${id}/reject`, {});
+        }
+        catch(e){
+        }
+        return;
     }
     /**
      * Create a new user

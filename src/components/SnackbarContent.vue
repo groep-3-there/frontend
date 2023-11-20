@@ -54,6 +54,7 @@ function getStylingForType(type: string) {
     height: 200px;
     width: 500px;
     transform: translate(50%);
+    pointer-events: none;
 }
 
 .snack-item {

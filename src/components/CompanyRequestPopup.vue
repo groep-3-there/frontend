@@ -65,6 +65,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 50;
 }
 
 .popup {
@@ -81,7 +82,6 @@
 
 <script setup lang="ts">
 import { CompanyRequests } from "@/models/CompanyRequests.js";
-import { defineEmits } from 'vue';
 import API from "@/Api";
 import Tag from "./Tag.vue";
 
