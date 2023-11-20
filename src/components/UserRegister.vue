@@ -215,11 +215,11 @@ async function onSubmit() {
         name: name.value,
         companyCode: companyCode.value,
     };
-    
+
     await API.postCreateUser(userData)
         .then((res) => {
             emit("onClose");
-            sessionStore.logIn(res.email, password.value)
+            sessionStore.logIn(res.email, password.value);
             snackbarStore.createSimple(
                 "Uw account is aangemaakt, u kunt nu inloggen",
                 "success",
