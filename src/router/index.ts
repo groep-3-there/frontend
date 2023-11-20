@@ -44,7 +44,7 @@ const routes = [
                 component: () => import("@/views/UserRegistrationView.vue"),
             },
             {
-                path: "company/request",
+                path: "grade-companies",
                 name: "Grade Request",
                 component: () => import("@/views/CompanyRequestView.vue"),
             },
