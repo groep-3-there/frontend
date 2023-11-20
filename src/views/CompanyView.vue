@@ -62,7 +62,7 @@
                             :class="{
                                 'text-primary':
                                     department.name == departmentNameFilter,
-                                'text-coolgray': 
+                                'text-coolgray':
                                     department.name != departmentNameFilter,
                             }"
                             >{{ department.name }}</span
@@ -84,11 +84,11 @@
             </v-col>
         </v-row>
         <v-row class="challenge-hero d-flex justify-center">
-            <template v-for="challenge in filteredChallenges" :key="challenge.id">
-                <ChallengeCard
-                    :challenge="challenge"
-                    :company="company"
-                />
+            <template
+                v-for="challenge in filteredChallenges"
+                :key="challenge.id"
+            >
+                <ChallengeCard :challenge="challenge" :company="company" />
             </template>
             <template v-if="filteredChallenges.length == 0">
                 <div class="d-flex flex-wrap justify-center">
@@ -113,14 +113,13 @@
             </p>
         </v-row>
         <v-spacer class="mb-12"></v-spacer>
-        
     </template>
 </template>
 
 <style>
 .department-filter-option {
     cursor: pointer;
-    transition: color .2s;
+    transition: color 0.2s;
 }
 
 .italic-title {
@@ -199,7 +198,7 @@ const filteredChallenges = computed(() => {
     if (!challenges.value) return [];
     if (departmentNameFilter.value == "Alles") return challenges.value;
     return challenges.value.filter(
-        (challenge) => challenge.department.name == departmentNameFilter.value
+        (challenge) => challenge.department.name == departmentNameFilter.value,
     );
 });
 const departmentNameFilter = ref("Alles");

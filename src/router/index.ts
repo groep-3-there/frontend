@@ -49,9 +49,9 @@ const routes = [
                 component: () => import("@/views/CompanyView.vue"),
             },
             {
-                path:"/admin",
-                name:"Admin",
-                component: () => import("@/views/AdminView.vue")
+                path: "/admin",
+                name: "Admin",
+                component: () => import("@/views/AdminView.vue"),
             },
             {
                 path: "admin/grade-companies",
@@ -60,7 +60,6 @@ const routes = [
             },
         ],
     },
-    
 ];
 
 const router = createRouter({

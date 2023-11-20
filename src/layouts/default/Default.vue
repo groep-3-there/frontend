@@ -120,7 +120,6 @@
                         title="Bedrijfsaanvragen"
                         value="Bedrijfsaanvragen"
                     ></v-list-item>
-
                 </v-list>
                 <v-divider></v-divider>
 

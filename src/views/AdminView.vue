@@ -10,8 +10,7 @@
             justify="center"
             align="center"
         >
-            <v-col cols="6" md="3"
-             class="d-flex justify-center">
+            <v-col cols="6" md="3" class="d-flex justify-center">
                 <img
                     :src="
                         sessionStore.loggedInUser?.department?.parentCompany?.getProfileOrDefaultImageUrl()
