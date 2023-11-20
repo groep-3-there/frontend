@@ -127,13 +127,12 @@ namespace API {
 
     export async function getDepartmentsForCompany(id: number) {
         const data = await getRequest(`department/company/${id}`);
-        return data as Department[];
+        return data.map((d: any) => new Department(d));
     }
 
     export async function getAllChallengesForCompany(id: number) {
         const data = await getRequest(`challenge/company/${id}`);
-        console.log(data);
-        return data as Challenge[];
+        return data.map((d: any) => new Challenge(d));
     }
 
     /**

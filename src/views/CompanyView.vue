@@ -34,6 +34,9 @@
         <v-row>
             <v-col cols="15" md="12" class="">
                 <div class="d-flex flex-wrap justify-center">
+                    <Tag type="branch">
+                        {{ company.branch.name }}
+                    </Tag>
                     <Tag v-for="tag in company.tags.split(',')" :key="tag">{{
                         tag
                     }}</Tag>
@@ -49,17 +52,16 @@
             <v-divider class="mt-4"></v-divider>
         </v-row>
         <v-row>
-            <v-col cols="10" class="mx-auto">
-                <section>
-                    <h2 class="post-heading">Bedrijfsinformatie</h2>
-                    <p>{{ company.info }}</p>
-                </section>
-                <section>
-                    <h2 class="post-heading">Branche</h2>
-                    <p v-html="company.branch.name"></p>
-                </section>
-                <v-divider class="my-4"></v-divider>
+            <v-col cols="15" md="12" class="">
+                <div class="d-flex flex-wrap justify-center">
+                    <h1 class="italic-title">Challenges</h1>
+                </div>
             </v-col>
+        </v-row>
+        <v-row class="challenge-hero">
+            <div v-for="challenge in challenges" :key="challenge.id">
+                <ChallengeCard :challenge="challenge" :company="company" />
+            </div>
         </v-row>
         <v-row>
             <v-col cols="15" md="12" class="">
@@ -68,23 +70,10 @@
                 </div>
             </v-col>
         </v-row>
-        <v-row class="challenge-hero">
-            <li v-for="department in departments">
-                {{ department.name }}
-            </li>
-        </v-row>
-        <v-divider class="mt-4"></v-divider>
         <v-row>
-            <v-col cols="15" md="12" class="">
-                <div class="d-flex flex-wrap justify-center">
-                    <h1 class="italic-title">Challenges</h1>
-                </div>
-            </v-col>
-        </v-row>
-        <v-row class="challenge-hero">
-            <li v-for="challenge in challenges">
-                {{ challenge }}
-            </li>
+            <h4 class="mx-auto" v-for="department in departments">
+                {{ department.name }} ·
+            </h4>
         </v-row>
     </template>
 </template>
@@ -174,6 +163,8 @@ import Tag from "@/components/Tag.vue";
 import { useSessionStore } from "@/store/sessionStore";
 import { Department } from "@/models/Department";
 import { Challenge } from "@/models/Challenge";
+import ChallengeCard from "@/components/ChallengeCard.vue";
+
 const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay();
 
 const user = ref() as Ref<User | null>;

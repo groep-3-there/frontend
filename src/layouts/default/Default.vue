@@ -94,13 +94,6 @@
                         title="Account aanmaken"
                         value="Account aanmaken"
                     ></v-list-item>
-                    <v-list-item
-                        :key="8"
-                        @click="$router.push('/company/4')"
-                        prepend-icon="mdi-folder" 
-                        title="View Company"
-                        value="company"
-                    ></v-list-item>
                 </v-list>
 
                 <v-divider></v-divider>
