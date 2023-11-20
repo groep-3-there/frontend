@@ -9,6 +9,7 @@ import { CompanyRequests } from "./models/CompanyRequests";
 import { Company } from "./models/Company";
 import { useSessionStore } from "@/store/sessionStore";
 import { CompanyRequestsResults } from "./models/CompanyRequestsResults";
+import { Department } from "./models/Department";
 
 async function postRequest(url: string, bodyObject: {}) {
     const res = await fetch(API.BASEURL + url, {
@@ -123,6 +124,21 @@ namespace API {
 
     export async function pingServer() {
         return getRequest("ping");
+    }
+
+    export async function getCompany(id: number) {
+        const data = await getRequest(`company/${id}`);
+        return new Company(data);
+    }
+
+    export async function getDepartmentsForCompany(id: number) {
+        const data = await getRequest(`department/company/${id}`);
+        return data.map((d: any) => new Department(d));
+    }
+
+    export async function getAllChallengesForCompany(id: number) {
+        const data = await getRequest(`challenge/company/${id}`);
+        return data.map((d: any) => new Challenge(d));
     }
 
     /**
