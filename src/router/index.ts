@@ -39,11 +39,6 @@ const routes = [
                 component: () => import("@/views/EditChallengeView.vue"),
             },
             {
-                path: "user-registration",
-                name: "Account aanmaken",
-                component: () => import("@/views/UserRegistrationView.vue"),
-            },
-            {
                 path: "grade-companies",
                 name: "Grade Request",
                 component: () => import("@/views/CompanyRequestView.vue"),

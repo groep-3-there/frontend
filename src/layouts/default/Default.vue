@@ -116,13 +116,6 @@
                         value="request"
                     >
                     </v-list-item>
-                    <v-list-item
-                        :key="7"
-                        @click="$router.push('/user-registration')"
-                        prepend-icon="mdi-folder"
-                        title="Account aanmaken"
-                        value="Account aanmaken"
-                    ></v-list-item>
                 </v-list>
                 <v-divider></v-divider>
                 <v-list
