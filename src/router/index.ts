@@ -43,6 +43,11 @@ const routes = [
                 name: "Account aanmaken",
                 component: () => import("@/views/UserRegistrationView.vue"),
             },
+            {
+                path: "grade-companies",
+                name: "Grade Request",
+                component: () => import("@/views/CompanyRequestView.vue"),
+            },
         ],
     },
 ];
