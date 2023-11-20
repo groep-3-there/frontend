@@ -1,8 +1,14 @@
 <template>
-    <v-card class="mx-auto" max-width="344">
+    <v-card
+        @click="$router.push(`/challenge/${challenge.id}`)"
+        class="mx-2 card-outter"
+        width="350"
+        height="350"
+        hover
+    >
         <v-img
             :src="challenge.getBannerOrDefaultImageUrl()"
-            height="200px"
+            height="150px"
             cover
         ></v-img>
 
@@ -10,24 +16,51 @@
             {{ challenge.title }}
         </v-card-title>
 
-        <v-card-subtitle>
-            {{ company.branch.name }}
-        </v-card-subtitle>
+        <v-card-text class="shorten-text description">
+            {{ challenge.summary }}
+        </v-card-text>
 
-        <v-card-actions>
-            <v-btn
-                color="blue"
-                variant="text"
-                @click="() => $router.push(`/challenge/${challenge.id}`)"
-            >
-                Bekijken
-            </v-btn>
-
-            <v-spacer></v-spacer>
+        <v-card-actions class="card-actions">
+            <p class="author-name">
+                {{ challenge.department.name }} |
+                {{ challenge.department.parentCompany.name }}
+            </p>
+            <img
+                :src="
+                    challenge.department.parentCompany.getProfileOrDefaultImageUrl()
+                "
+                class="company-logo-small"
+            />
         </v-card-actions>
     </v-card>
 </template>
+<style>
+.author-name {
+    color: rgb(120, 120, 120);
+    font-size: small;
+}
 
+.description {
+    min-height: 100px;
+}
+
+.shorten-text {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.company-logo-small {
+    height: 36px;
+    border-radius: 100%;
+    margin-left: auto;
+}
+
+.card-actions {
+    margin-left: 10px;
+}
+</style>
 <script setup lang="ts">
 import { defineProps } from "vue";
 import { Challenge } from "@/models/Challenge";

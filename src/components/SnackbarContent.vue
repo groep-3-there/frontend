@@ -70,6 +70,7 @@ function getStylingForType(type: string) {
     padding-top: 15px;
     padding-bottom: 15px;
     margin-bottom: 10px;
+    pointer-events: all;
 }
 .snack-item:hover {
     cursor: pointer;

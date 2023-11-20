@@ -1,6 +1,6 @@
 <template>
-    <template v-if="!company"> Loading... </template>
-    <template v-if="company">
+    <template v-if="!company || !departments"> Loading... </template>
+    <template v-if="company && departments">
         <v-row
             class="challenge-hero"
             :style="banner()"
@@ -8,24 +8,20 @@
             justify="center"
             align="center"
         >
-            <v-col
-                cols="1"
-                md="5"
-                class="d-flex flex-column justify-center align-center hero-text"
-            >
+            <v-col cols="6" md="3" class="d-flex justify-center">
                 <img
                     :src="company.getProfileOrDefaultImageUrl()"
-                    class="company-logo rounded-circle"
+                    class="company-logo"
                 />
             </v-col>
             <v-col
-                cols="2"
-                md="5"
+                cols="10"
+                md="8"
                 class="d-flex hero-title flex-column flex-wrap justify-center align-start hero-text"
             >
                 <v-col>
                     <h4 class="text-white">Bedrijfsprofiel</h4>
-                    <h1 class="text-white">
+                    <h1 class="text-white challenge-title">
                         {{ company.name }}
                     </h1>
                 </v-col>
@@ -53,15 +49,52 @@
         </v-row>
         <v-row>
             <v-col cols="15" md="12" class="">
-                <div class="d-flex flex-wrap justify-center">
+                <div class="d-flex flex-wrap justify-center mt-8">
                     <h1 class="italic-title">Challenges</h1>
                 </div>
+                <div class="text-right mr-12">
+                    <p>
+                        <span
+                            v-for="department in departments"
+                            :key="department.id"
+                            class="department-filter-option"
+                            @click="departmentNameFilter = department.name"
+                            :class="{
+                                'text-primary':
+                                    department.name == departmentNameFilter,
+                                'text-coolgray': 
+                                    department.name != departmentNameFilter,
+                            }"
+                            >{{ department.name }}</span
+                        >
+                        &nbsp;
+                        <span
+                            class="department-filter-option"
+                            @click="departmentNameFilter = 'Alles'"
+                            :class="{
+                                'text-primary': 'Alles' == departmentNameFilter,
+                                'text-coolgray':
+                                    'Alles' != departmentNameFilter,
+                            }"
+                            >Alles</span
+                        >
+                    </p>
+                </div>
+                <v-spacer class="mb-4"></v-spacer>
             </v-col>
         </v-row>
-        <v-row class="challenge-hero">
-            <div v-for="challenge in challenges" :key="challenge.id">
-                <ChallengeCard :challenge="challenge" :company="company" />
-            </div>
+        <v-row class="challenge-hero d-flex justify-center">
+            <template v-for="challenge in filteredChallenges" :key="challenge.id">
+                <ChallengeCard
+                    :challenge="challenge"
+                    :company="company"
+                />
+            </template>
+            <template v-if="filteredChallenges.length == 0">
+                <div class="d-flex flex-wrap justify-center">
+                    <p class="italic-title">Geen challenges gevonden</p>
+                </div>
+            </template>
         </v-row>
         <v-row>
             <v-col cols="15" md="12" class="">
@@ -71,44 +104,28 @@
             </v-col>
         </v-row>
         <v-row>
-            <h4 class="mx-auto" v-for="department in departments">
+            <p
+                class="mx-auto"
+                v-for="department in departments"
+                :key="department.id"
+            >
                 {{ department.name }} ·
-            </h4>
+            </p>
         </v-row>
-        <v-divider class="mt-4"></v-divider>
-        <v-spacer></v-spacer>
+        <v-spacer class="mb-12"></v-spacer>
+        
     </template>
 </template>
 
 <style>
-.reaction-type-selector {
-    max-width: 200px !important;
-    width: 200px;
-    margin-right: 10px;
-    margin-top: auto;
-}
-
-.reaction-options {
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-    flex-wrap: wrap;
-    align-items: center;
-    height: 100px;
-}
-
-.reaction-options > v-select {
-    max-width: 100px;
-}
-
-.new-reaction-input {
-    width: 100%;
-    min-height: 200px;
-    border: 2px solid black;
+.department-filter-option {
+    cursor: pointer;
+    transition: color .2s;
 }
 
 .italic-title {
     font-style: italic;
+    font-weight: 400;
 }
 
 .post-heading {
@@ -177,6 +194,15 @@ let id = Array.isArray(idParam) ? idParam[0] : idParam;
 const company: Ref<Company | null> = ref(null);
 const departments: Ref<Department[] | null> = ref(null);
 const challenges: Ref<Challenge[] | null> = ref(null);
+
+const filteredChallenges = computed(() => {
+    if (!challenges.value) return [];
+    if (departmentNameFilter.value == "Alles") return challenges.value;
+    return challenges.value.filter(
+        (challenge) => challenge.department.name == departmentNameFilter.value
+    );
+});
+const departmentNameFilter = ref("Alles");
 
 async function loadCompany() {
     console.log("Loading company");
