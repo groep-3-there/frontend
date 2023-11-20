@@ -75,6 +75,8 @@
                 {{ department.name }} ·
             </h4>
         </v-row>
+        <v-divider class="mt-4"></v-divider>
+        <v-spacer></v-spacer>
     </template>
 </template>
 
