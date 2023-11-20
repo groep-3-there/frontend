@@ -1,14 +1,14 @@
 import { Challenge } from "./Challenge";
-import { User } from "./User"
+import { User } from "./User";
 
-export class ChallengeInput{
+export class ChallengeInput {
     id: number;
-    author: User; 
-    type : string;
-    text : string;
+    author: User;
+    type: string;
+    text: string;
     isChosenAnswer: boolean;
-    createdAt : Date;
-    challenge : Challenge;
+    createdAt: Date;
+    challenge: Challenge;
 
     constructor(data: any) {
         this.id = data.id;
@@ -20,15 +20,15 @@ export class ChallengeInput{
         this.challenge = new Challenge(data.challenge);
     }
 
-    getReactionTypeAsName(){
-        if(this.type === "QUESTION"){
-            return "Vraag"
+    getReactionTypeAsName() {
+        if (this.type === "QUESTION") {
+            return "Vraag";
         }
-        if(this.type === "FEEDBACK"){
-            return "Feedback"
+        if (this.type === "FEEDBACK") {
+            return "Feedback";
         }
-        if(this.type === "IDEA"){
-            return "Idee"
+        if (this.type === "IDEA") {
+            return "Idee";
         }
     }
 }

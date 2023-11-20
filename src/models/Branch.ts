@@ -1,4 +1,4 @@
-export class Branch{
+export class Branch {
     id: number;
     name: string;
 

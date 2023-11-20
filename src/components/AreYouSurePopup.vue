@@ -20,38 +20,33 @@
     </v-row>
 </template>
 <script setup lang="ts">
+import API from "@/Api";
+import { watch } from "vue";
+import { ref } from "vue";
 
-
-import API from '@/Api';
-import { watch } from 'vue';
-import { ref } from 'vue';
-
-const emit = defineEmits(['onAcceptAndClose', 'onClose'])
+const emit = defineEmits(["onAcceptAndClose", "onClose"]);
 const props = defineProps({
     title: {
         type: String,
-        required: true
+        required: true,
     },
-    subtitle:{
-        type: String,
-        required: false
-    },
-    acceptWord:{
+    subtitle: {
         type: String,
         required: false,
-        default: "Accepteren"
     },
-    }
-)
-const opened = ref(true)
+    acceptWord: {
+        type: String,
+        required: false,
+        default: "Accepteren",
+    },
+});
+const opened = ref(true);
 
-function close(){
-    emit('onClose')
+function close() {
+    emit("onClose");
 }
 
-async function send(){
-    emit('onAcceptAndClose')
-
+async function send() {
+    emit("onAcceptAndClose");
 }
-
 </script>
