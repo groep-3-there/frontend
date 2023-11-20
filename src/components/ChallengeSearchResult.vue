@@ -4,12 +4,14 @@
             <v-col cols="2" class="d-flex justify-center align-start">
                 <img
                     class="image"
-                    src="https://www.weertmagazine.com/wp-content/uploads/2019/11/D5D_0199.jpg"
+                    :src="
+                        challenge?.department.parentCompany.getProfileOrDefaultImageUrl()
+                    "
                     alt="profielfoto van de challenger"
                 />
             </v-col>
 
-            <v-col cols="10">
+            <v-col cols="10" class="challenge-info">
                 <v-row no-gutters>
                     <h3>{{ challenge?.title }}</h3>
                 </v-row>
@@ -18,10 +20,16 @@
                     {{ challenge?.summary }}
                 </v-row>
 
-                <v-row no-gutters>
-                    <v-col v-if="challenge?.endDate" cols="12" md="4">
+                <v-row no-gutters class="date-and-tags">
+                    <v-col
+                        v-if="challenge?.endDate"
+                        cols="12"
+                        md="4"
+                        class="d-flex align-center"
+                    >
                         <p>
-                            Einddatum:
+                            <v-icon>mdi-calendar-blank</v-icon>
+
                             {{
                                 new Date(challenge.endDate).toLocaleDateString(
                                     "nl-nl",
@@ -29,12 +37,20 @@
                             }}
                         </p>
                     </v-col>
-                    <v-col v-if="challenge?.tags">
+                    <v-col>
                         <Tag
-                            v-for="tag in challenge?.tags.split(',')"
-                            :key="tag"
-                            >{{ tag }}</Tag
+                            v-if="challenge?.department.parentCompany.branch"
+                            :type="'branch'"
                         >
+                            {{ challenge.department.parentCompany.branch.name }}
+                        </Tag>
+                        <template v-if="challenge?.tags">
+                            <Tag
+                                v-for="tag in challenge?.tags.split(',')"
+                                :key="tag"
+                                >{{ tag }}</Tag
+                            >
+                        </template>
                     </v-col>
                 </v-row>
             </v-col>
@@ -52,11 +68,21 @@ defineProps({
 </script>
 
 <style scoped>
+.date-and-tags {
+    margin-top: 1rem;
+}
+.challenge-info {
+    padding-bottom: 0;
+}
 .challenge-card {
     border: 1px solid black;
     margin: 1rem 0 0 0;
     border-radius: 15px;
     box-shadow: 2px 2px darkgray;
+}
+.challenge-card:hover {
+    cursor: pointer;
+    box-shadow: 4px 4px darkgray;
 }
 
 .image {
@@ -65,5 +91,6 @@ defineProps({
     border-radius: 50%;
     aspect-ratio: 1/1;
     object-fit: cover;
+    width: 70%;
 }
 </style>

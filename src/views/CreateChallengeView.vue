@@ -188,7 +188,13 @@
                             color="primary"
                             type="submit"
                         >
-                            Aanmaken
+                            <template v-if="!inUploadProgress"
+                                >Aanmaken</template
+                            >
+                            <v-progress-circular
+                                v-if="inUploadProgress"
+                                indeterminate
+                            ></v-progress-circular>
                         </v-btn>
                     </v-row>
                 </v-col>
@@ -245,7 +251,7 @@ const visibility = ref(null);
 const banner = ref([]);
 const images = ref([]);
 const tags = ref([]);
-
+const inUploadProgress = ref(false);
 function newDescription(value: any) {
     description.value = value;
 }
@@ -302,6 +308,7 @@ async function createChallenge() {
         });
     }
 
+    inUploadProgress.value = true;
     //upload banner
     let uploadedBannerId = null;
     console.log(banner.value);
@@ -344,10 +351,6 @@ async function createChallenge() {
 
 .dropdown {
     max-width: fit-content;
-}
-
-h1 {
-    padding: 4rem 0 0 0;
 }
 
 .tooltip {

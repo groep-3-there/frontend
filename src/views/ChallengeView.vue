@@ -1,5 +1,9 @@
 <template>
-    <template v-if="!challenge"> Loading... </template>
+    <template v-if="!challenge">
+        <div>
+            <v-progress-circular indeterminate></v-progress-circular>
+        </div>
+    </template>
     <template v-if="challenge">
         <v-row
             class="challenge-hero"
@@ -10,7 +14,9 @@
         >
             <v-col cols="6" md="3" class="d-flex justify-center">
                 <img
-                    :src="challenge.company.getProfileOrDefaultImageUrl()"
+                    :src="
+                        challenge.department.parentCompany.getProfileOrDefaultImageUrl()
+                    "
                     class="company-logo"
                 />
             </v-col>
@@ -55,20 +61,20 @@
                     :subtitle="'De challenge is dan alleen nog zichtbaar voor beheerders van uw bedrijf.'"
                     :accept-word="'Archiveren'"
                 ></AreYouSurePopup>
-                <v-menu>
+                <v-menu
+                    v-if="
+                        sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                            'CHALLENGE_MANAGE',
+                            challenge?.department.id,
+                        )
+                    "
+                >
                     <template v-slot:activator="{ props }">
                         <v-icon v-bind="props" size="48"
                             >mdi-dots-horizontal</v-icon
                         >
                     </template>
-                    <v-list
-                        v-if="
-                            sessionStore.loggedInUser!.hasPermissionAtDepartment(
-                                'CHALLENGE_MANAGE',
-                                challenge?.department.id,
-                            )
-                        "
-                    >
+                    <v-list>
                         <v-list-item
                             :value="1"
                             :key="1"

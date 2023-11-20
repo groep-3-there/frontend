@@ -31,7 +31,6 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <RouterLink :to="'/challenge' + challenge.id"> </RouterLink>
     </v-row>
 </template>
 

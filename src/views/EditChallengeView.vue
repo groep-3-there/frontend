@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container v-if="originalChallenge">
         <v-form ref="editChallengeForm" @submit.prevent>
             <v-row>
                 <v-col cols="12">
@@ -96,7 +96,7 @@
 
                     <v-row
                         v-if="
-                            originalChallenge?.bannerImageId !== null &&
+                            originalChallenge?.bannerImageId &&
                             banner.length == 0
                         "
                     >
@@ -325,7 +325,7 @@ async function editChallenge() {
         id: id,
         title: title.value,
         summary: summary.value,
-        description: summary.value,
+        description: description.value,
         bannerImageId: uploadedBannerId,
         contactInformation: contactInformation.value,
         status: "OPEN_VOOR_IDEEEN",
@@ -350,9 +350,5 @@ async function editChallenge() {
 .delete-image {
     max-width: fit-content;
     max-height: 0;
-}
-
-h1 {
-    padding: 4rem 0 0 0;
 }
 </style>

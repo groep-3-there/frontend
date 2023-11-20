@@ -19,11 +19,6 @@ const routes = [
                     ),
             },
             {
-                path: "vue-tutorial",
-                name: "Vue Tutorial",
-                component: () => import("@/views/TutorialView.vue"),
-            },
-            {
                 path: "challenges",
                 name: "Search Challanges",
                 component: () => import("@/views/SearchChallengesView.vue"),
@@ -44,10 +39,15 @@ const routes = [
                 component: () => import("@/views/EditChallengeView.vue"),
             },
             {
+                path: "user-registration",
+                name: "Account aanmaken",
+                component: () => import("@/views/UserRegistrationView.vue"),
+            },
+            {
                 path: "company/request",
                 name: "Grade Request",
                 component: () => import("@/views/CompanyRequestView.vue"),
-            }
+            },
         ],
     },
 ];
