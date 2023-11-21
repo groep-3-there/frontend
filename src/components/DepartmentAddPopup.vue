@@ -53,11 +53,13 @@
 
                         <template v-slot:item="{ props, item }">
                             <v-list-item
-                            v-bind="props"
-                            :prepend-avatar="item?.raw?.getAvatarOrDefaultUrl()"
-                            :title="item?.raw?.name"
-                            :is="item?.raw?.id"
-                            :subtitle="`${item?.raw?.role?.name} | ${item?.raw?.department?.name}`"
+                                v-bind="props"
+                                :prepend-avatar="
+                                    item?.raw?.getAvatarOrDefaultUrl()
+                                "
+                                :title="item?.raw?.name"
+                                :is="item?.raw?.id"
+                                :subtitle="`${item?.raw?.role?.name} | ${item?.raw?.department?.name}`"
                             ></v-list-item>
                         </template>
                     </v-autocomplete>
