@@ -101,6 +101,10 @@ namespace API {
         const data = await getRequest("auth/user");
         return new User(data);
     }
+    export async function getUserById(id: number) {
+        const data = await getRequest(`user/${id}`);
+        return new User(data);
+    }
     export async function getImagesByChallengeId(id: number) {
         const data = await getRequest(`image/challenge/${id}`);
         return data.map((d: any) => new Image(d));
@@ -121,6 +125,10 @@ namespace API {
         const data = await getRequest(`company/names`);
         return data;
     }
+    export async function getCompanyMembersByCompanyId(id: number) {
+        const data = await getRequest(`company/${id}/members`);
+        return data.map((d: any) => new User(d));
+    }
 
     export async function pingServer() {
         return getRequest("ping");
@@ -134,6 +142,23 @@ namespace API {
     export async function getDepartmentsForCompany(id: number) {
         const data = await getRequest(`department/company/${id}`);
         return data.map((d: any) => new Department(d));
+    }
+    export async function departmentExists(companyId: number, name: string) {
+        const data = await postRequest(`department/exists`, {
+            parentCompanyId: companyId,
+            name: name,
+        });
+        return data;
+    }
+    export async function createDepartment(
+        name: string,
+        targetAdminId: number,
+    ) {
+        const data = await postRequest(`department/create`, {
+            name: name,
+            adminId: targetAdminId,
+        });
+        return data;
     }
 
     export async function getAllChallengesForCompany(id: number) {
@@ -231,7 +256,7 @@ namespace API {
         name: string;
         companyCode: string;
     }) {
-        const data = await postRequest(`user/create`, userData);
+        const data = await postRequest(`auth/create`, userData);
         return new User(data);
     }
 

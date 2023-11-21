@@ -10,7 +10,10 @@
                 @on-close="loginPopup = false"
             ></LoginPopup>
             <v-dialog v-model="userRegisterPopup" max-width="50rem">
-                <UserRegister v-if="userRegisterPopup"></UserRegister>
+                <UserRegister
+                    v-if="userRegisterPopup"
+                    @on-close="userRegisterPopup = false"
+                ></UserRegister>
             </v-dialog>
             <!--                 expand on hover, use hover
                                         |            |            show permanent(dont hide on mobile)
@@ -110,22 +113,25 @@
                         title="Challenge maken"
                         value="create-challenge"
                     ></v-list-item>
-
-                    <v-list-subheader>Admin</v-list-subheader>
-                    <v-list-item
-                        :key="8"
-                        @click="$router.push('/admin')"
-                        prepend-icon="mdi-security"
-                        title="Admin"
-                        value="admin"
-                    ></v-list-item>
-                    <v-list-item
-                        :key="8"
-                        @click="$router.push('/admin/grade-companies')"
-                        prepend-icon="mdi-briefcase-check-outline"
-                        title="Bedrijfsaanvragen"
-                        value="Bedrijfsaanvragen"
-                    ></v-list-item>
+                    <template
+                        v-if="sessionStore.loggedInUser.role?.isMatchmaker"
+                    >
+                        <v-list-subheader>Admin</v-list-subheader>
+                        <v-list-item
+                            :key="8"
+                            @click="$router.push('/admin')"
+                            prepend-icon="mdi-security"
+                            title="Admin"
+                            value="admin"
+                        ></v-list-item>
+                        <v-list-item
+                            :key="8"
+                            @click="$router.push('/admin/grade-companies')"
+                            prepend-icon="mdi-briefcase-check-outline"
+                            title="Bedrijfsaanvragen"
+                            value="Bedrijfsaanvragen"
+                        ></v-list-item>
+                    </template>
                 </v-list>
                 <v-divider></v-divider>
 

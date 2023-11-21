@@ -130,10 +130,6 @@
                             </v-col>
                         </v-row>
                     </v-container>
-
-                    <!-- <v-card-actions class="justify-end">
-                        <v-btn type="submit" color="primary">Registreer</v-btn>
-                    </v-card-actions> -->
                 </v-card>
             </template>
         </v-stepper>
@@ -141,13 +137,12 @@
 </template>
 
 <script setup lang="ts">
-import { SnackMessage } from "@/store/Snackbar";
-import { templateElement } from "@babel/types";
 import { ref } from "vue";
-
-import { useSnackbarStore } from "@/store/Snackbar";
 import API from "@/Api";
+import { useSnackbarStore } from "@/store/Snackbar";
+import { useSessionStore } from "@/store/sessionStore";
 const snackbarStore = useSnackbarStore();
+const sessionStore = useSessionStore();
 const emit = defineEmits(["onClose", "onRequestLogin"]);
 const registerForm = ref(null) as any;
 
@@ -215,6 +210,8 @@ async function onSubmit() {
 
     await API.postCreateUser(userData)
         .then((res) => {
+            emit("onClose");
+            sessionStore.logIn(res.email, password.value);
             snackbarStore.createSimple(
                 "Uw account is aangemaakt, u kunt nu inloggen",
                 "success",
@@ -226,8 +223,6 @@ async function onSubmit() {
                 "error",
             );
         });
-    emit("onClose");
-    emit("onRequestLogin");
 }
 </script>
 

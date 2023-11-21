@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 const props = defineProps({
     type: {
@@ -15,26 +15,18 @@ const props = defineProps({
     },
 });
 
-const color = ref("");
-
-switch (props.type.toLowerCase()) {
-    case "branch":
-        color.value = "primary";
-        break;
-    case "idea":
-        color.value = "mmyellow";
-        break;
-    case "feedback":
-        color.value = "primary";
-        break;
-    case "question":
-        color.value = "primary";
-        break;
-    case "branch":
-        color.value = "green";
-        break;
-    default:
-        color.value = "mmtaggreen";
-        break;
-}
+const color = computed(() => {
+    switch (props.type.toLowerCase()) {
+        case "branch":
+            return "primary";
+        case "idea":
+            return "mmyellow";
+        case "feedback":
+            return "primary";
+        case "question":
+            return "primary";
+        default:
+            return "darkgreen";
+    }
+});
 </script>

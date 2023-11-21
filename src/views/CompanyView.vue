@@ -67,7 +67,6 @@
                             }"
                             >{{ department.name }}</span
                         >
-                        &nbsp;
                         <span
                             class="department-filter-option"
                             @click="departmentNameFilter = 'Alles'"
@@ -104,13 +103,34 @@
             </v-col>
         </v-row>
         <v-row>
-            <p
-                class="mx-auto"
-                v-for="department in departments"
-                :key="department.id"
-            >
-                {{ department.name }} ·
+            <p class="mx-auto">
+                <span v-for="department in departments" :key="department.id">
+                    {{ department.name }} ·
+                </span>
             </p>
+        </v-row>
+        <v-spacer class="mb-4"></v-spacer>
+        <v-row
+            v-if="
+                sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                    'DEPARTMENT_CREATE',
+                    sessionStore.loggedInUser.department?.id,
+                )
+            "
+        >
+            <DepartmentAddPopup
+                v-if="showAddDepartmentPopup"
+                @requestUpdateDepartments="getDepartmentsForCompany"
+                @on-close="showAddDepartmentPopup = false"
+            >
+            </DepartmentAddPopup>
+            <v-btn
+                class="mx-auto"
+                color="primary"
+                prepend-icon="mdi-plus"
+                @click="showAddDepartmentPopup = true"
+                >Afdeling toevoegen</v-btn
+            >
         </v-row>
         <v-spacer class="mb-12"></v-spacer>
     </template>
@@ -120,6 +140,7 @@
 .department-filter-option {
     cursor: pointer;
     transition: color 0.2s;
+    margin-left: 10px;
 }
 
 .italic-title {
@@ -182,7 +203,7 @@ import { useSessionStore } from "@/store/sessionStore";
 import { Department } from "@/models/Department";
 import { Challenge } from "@/models/Challenge";
 import ChallengeCard from "@/components/ChallengeCard.vue";
-
+import DepartmentAddPopup from "@/components/DepartmentAddPopup.vue";
 const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay();
 
 const user = ref() as Ref<User | null>;
@@ -193,6 +214,7 @@ let id = Array.isArray(idParam) ? idParam[0] : idParam;
 const company: Ref<Company | null> = ref(null);
 const departments: Ref<Department[] | null> = ref(null);
 const challenges: Ref<Challenge[] | null> = ref(null);
+const showAddDepartmentPopup = ref(false);
 
 const filteredChallenges = computed(() => {
     if (!challenges.value) return [];
