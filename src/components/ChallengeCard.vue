@@ -53,6 +53,8 @@
 
 .company-logo-small {
     height: 36px;
+    width: 36px;
+    object-fit: cover;
     border-radius: 100%;
     margin-left: auto;
 }

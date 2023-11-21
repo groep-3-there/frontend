@@ -23,7 +23,6 @@ const color = computed(() => {
             return "mmyellow";
         case "feedback":
             return "primary";
-            break;
         case "question":
             return "primary";
         default:
