@@ -56,7 +56,7 @@
                             :prepend-avatar="item?.raw?.getAvatarOrDefaultUrl()"
                             :title="item?.raw?.name"
                             :is="item?.raw?.id"
-                            :subtitle="`Huidige afdeling: ${item?.raw?.department?.name}`"
+                            :subtitle="`${item?.raw?.role?.name} | ${item?.raw?.department?.name}`"
                             ></v-list-item>
                         </template>
                 </v-autocomplete>
@@ -138,7 +138,7 @@ const companyMembers : Ref<User[]> = ref([]); //everyone in the company
 //filter out yourself and department admins (they can't be transfered to another department, since its current department will not have a admin anymore)
 const companyMembersFiltered = computed(() => {
     return companyMembers.value.filter((member) => {
-        return member.id != sessionStore.loggedInUser?.id && member.role?.isDeparmentAdmin == false;
+        return member.id != sessionStore.loggedInUser?.id && member.role?.isDepartmentAdmin == false;
     });
 });
 

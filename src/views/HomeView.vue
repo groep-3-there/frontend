@@ -6,6 +6,9 @@
     </h2>
     <v-btn class="mx-2" @click="loginAsChallenger">Challenger Eline</v-btn>
     <v-btn class="mx-2" @click="loginAsMedewerker">Medewerker Jelle</v-btn>
+    <v-btn class="mx-2" @click="loginAsAdminKapper">Admin Eline</v-btn>
+
+
     <v-btn class="mx-2" @click="loginAsMatchMaker">MatchMaker</v-btn>
     <br />
     <br />
@@ -36,6 +39,9 @@ async function loginAsMedewerker() {
 }
 async function loginAsChallenger() {
     sessionStore.logIn("challenger@kapper.nl", "kapper123123");
+}
+async function loginAsAdminKapper(){
+    sessionStore.logIn("admin@kapper.nl", "kapper123123");
 }
 async function loginAsMatchMaker() {
     sessionStore.logIn("matchmaker@mail.com", "matchmaker");
