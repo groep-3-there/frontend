@@ -22,7 +22,6 @@
 import API from "@/Api";
 import { Challenge } from "@/models/Challenge";
 import { Company } from "@/models/Company";
-import { on } from "events";
 import { ref, onMounted } from "vue";
 import ChallengeCard from "./ChallengeCard.vue";
 

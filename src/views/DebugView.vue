@@ -22,8 +22,6 @@
 import API from "@/Api";
 import HelloWorld from "@/components/HelloWorld.vue";
 import CompanyRegistrationPopUp from "@/components/CompanyRegistrationPopUp.vue";
-import LoginPopup from "@/components/LoginPopup.vue";
-import UserRegisterPopup from "@/components/UserRegisterPopup.vue";
 import { useSessionStore } from "@/store/sessionStore";
 import { ref } from "vue";
 const sessionStore = useSessionStore();
