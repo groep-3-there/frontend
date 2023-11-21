@@ -15,8 +15,8 @@ const props = defineProps({
     },
 });
 
-const color = computed(()=>{
-    switch (props.type.toLowerCase()) { 
+const color = computed(() => {
+    switch (props.type.toLowerCase()) {
         case "branch":
             return "primary";
         case "idea":
@@ -29,6 +29,5 @@ const color = computed(()=>{
         default:
             return "darkgreen";
     }
-
 });
 </script>
