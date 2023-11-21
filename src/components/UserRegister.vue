@@ -173,7 +173,7 @@ const passwordRules = [
         /[0-9]/.test(v) || "Wachtwoord moet minimaal 1 cijfer bevatten",
 ];
 
-const newDepartmentName = ref("");
+const name = ref("");
 const nameRules = [
     (v: string) => !!v || "Naam is verplicht",
     (v: string) => v.length >= 2 || "Naam moet minimaal 2 tekens lang zijn",
@@ -192,7 +192,7 @@ async function onSubmit() {
         !valid ||
         email.value == null ||
         password.value == null ||
-        newDepartmentName.value == null
+        name.value == null
     ) {
         snackbarStore.createSimple(
             "Er is iets fout gegaan, controlleer als alle velden zijn correct ingevuld",
@@ -209,7 +209,7 @@ async function onSubmit() {
     } = {
         email: email.value,
         password: password.value,
-        name: newDepartmentName.value,
+        name: name.value,
         companyCode: companyCode.value,
     };
 
