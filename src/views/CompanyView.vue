@@ -28,7 +28,7 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col cols="15" md="12" class="">
+            <v-col cols="12" md="12" class="">
                 <div class="d-flex flex-wrap justify-center">
                     <Tag type="branch">
                         {{ company.branch.name }}
@@ -39,7 +39,7 @@
                 </div>
             </v-col>
 
-            <v-col cols="15" md="12" class="">
+            <v-col cols="12" class="">
                 <div class="d-flex flex-wrap justify-center">
                     {{ company.info }}
                 </div>
@@ -48,7 +48,7 @@
             <v-divider class="mt-4"></v-divider>
         </v-row>
         <v-row>
-            <v-col cols="15" md="12" class="">
+            <v-col cols="12" class="">
                 <div class="d-flex flex-wrap justify-center mt-8">
                     <h1 class="italic-title">Challenges</h1>
                 </div>
@@ -97,7 +97,7 @@
             </template>
         </v-row>
         <v-row>
-            <v-col cols="15" md="12" class="">
+            <v-col cols="12" class="">
                 <div class="d-flex flex-wrap justify-center">
                     <h1 class="italic-title">Afdelingen</h1>
                 </div>
