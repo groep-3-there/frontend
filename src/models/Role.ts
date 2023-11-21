@@ -8,7 +8,7 @@ export class Role {
     createdAt: Date;
     isMatchmaker: boolean;
     permissions: Permission[];
-    isDeparmentAdmin : boolean;
+    isDeparmentAdmin: boolean;
 
     constructor(data: any) {
         this.id = data.id;

@@ -145,7 +145,10 @@ async function login() {
         return;
     }
     try {
-        result = await sessionStore.logIn(newDepartmentName.value, password.value);
+        result = await sessionStore.logIn(
+            newDepartmentName.value,
+            password.value,
+        );
     } catch {
         error.value = "Er ging iets mis";
     }
