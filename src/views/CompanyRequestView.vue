@@ -6,7 +6,10 @@
             </v-col>
         </v-row>
 
-        <div v-for="companyRequest in requests?.content">
+        <div
+            v-for="companyRequest in requests?.content"
+            :key="companyRequest.id"
+        >
             <div class="padding-around">
                 <v-row>
                     <v-col cols="12" md="9">

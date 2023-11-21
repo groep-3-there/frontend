@@ -40,7 +40,7 @@ export class Company {
         if (this.bannerImage) {
             return this.bannerImage.getUrl();
         }
-        return `https://ui-avatars.com/api/?name=${this.querySafeName()}`;
+        return `/banners/banner-1.jpg`;
     }
 
     querySafeName() {
