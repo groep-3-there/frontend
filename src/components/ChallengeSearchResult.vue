@@ -1,7 +1,10 @@
 <template>
     <v-container class="challenge-card">
-        <v-row class="d-flex justify-center align-start">
-            <v-col cols="2" class="d-flex justify-center align-start">
+        <v-row class="d-flex justify-center">
+            <v-col
+                cols="2"
+                class="d-flex justify-center align-start image-section"
+            >
                 <img
                     class="image"
                     :src="
@@ -11,7 +14,7 @@
                 />
             </v-col>
 
-            <v-col cols="10" class="challenge-info">
+            <v-col cols="10" class="challenge-info d-flex flex-column">
                 <v-row no-gutters>
                     <h3>{{ challenge?.title }}</h3>
                 </v-row>
@@ -20,7 +23,7 @@
                     {{ challenge?.summary }}
                 </v-row>
 
-                <v-row no-gutters class="date-and-tags">
+                <v-row no-gutters class="date-and-tags align-self-end">
                     <v-col
                         v-if="challenge?.endDate"
                         cols="12"
@@ -38,18 +41,51 @@
                         </p>
                     </v-col>
                     <v-col>
-                        <Tag
-                            v-if="challenge?.department.parentCompany.branch"
-                            :type="'branch'"
-                        >
-                            {{ challenge.department.parentCompany.branch.name }}
-                        </Tag>
-                        <template v-if="challenge?.tags">
-                            <Tag
-                                v-for="tag in challenge?.tags.split(',')"
-                                :key="tag"
-                                >{{ tag }}</Tag
+                        <template v-if="challenge?.status == 'AFGEROND'">
+                            <v-tooltip
+                                class="tooltip-marker"
+                                text="De challenge is afgerond, maar u kunt het resultaat bekijken"
+                                :location="'right'"
                             >
+                                <template v-slot:activator="{ props }">
+                                    <p v-bind="props" class="afgerond-marker">
+                                        <Tag :type="'idea'">Afgerond</Tag>
+                                    </p>
+                                </template>
+                            </v-tooltip>
+                        </template>
+                        <v-tooltip
+                            text="Branch van het bedrijf"
+                            :location="'top'"
+                        >
+                            <template v-slot:activator="{ props }">
+                                <Tag
+                                    v-bind="props"
+                                    v-if="
+                                        challenge?.department.parentCompany
+                                            .branch
+                                    "
+                                    :type="'branch'"
+                                >
+                                    {{
+                                        challenge.department.parentCompany
+                                            .branch.name
+                                    }}
+                                </Tag>
+                            </template>
+                        </v-tooltip>
+                        <template v-if="challenge?.tags">
+                            <v-tooltip
+                                v-for="tag in challenge?.tags.split(',')"
+                                text="Tags van deze challenge"
+                                :location="'top'"
+                            >
+                                <template v-slot:activator="{ props }">
+                                    <Tag v-bind="props" :key="tag">{{
+                                        tag
+                                    }}</Tag>
+                                </template>
+                            </v-tooltip>
                         </template>
                     </v-col>
                 </v-row>
@@ -68,8 +104,12 @@ defineProps({
 </script>
 
 <style scoped>
+.image-section {
+    position: relative;
+}
 .date-and-tags {
     margin-top: 1rem;
+    width: 100%;
 }
 .challenge-info {
     padding-bottom: 0;
