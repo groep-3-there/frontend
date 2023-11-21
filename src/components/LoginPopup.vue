@@ -112,7 +112,7 @@ import UserRegisterPopup from "./UserRegisterPopup.vue";
 import { useSessionStore } from "@/store/sessionStore";
 const sessionStore = useSessionStore();
 const emit = defineEmits(["onClose", "onRequestRegister"]);
-const name = ref("");
+const newDepartmentName = ref("");
 const password = ref("");
 const showPassword = ref(false);
 const opened = ref(true);
@@ -139,13 +139,13 @@ function register() {
 async function login() {
     loading.value = true;
     let result = false;
-    if (name.value == "" || password.value == "") {
+    if (newDepartmentName.value == "" || password.value == "") {
         error.value = "Vul alstublieft uw email en wachtwoord in";
         loading.value = false;
         return;
     }
     try {
-        result = await sessionStore.logIn(name.value, password.value);
+        result = await sessionStore.logIn(newDepartmentName.value, password.value);
     } catch {
         error.value = "Er ging iets mis";
     }
