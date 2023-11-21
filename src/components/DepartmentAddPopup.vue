@@ -21,8 +21,7 @@
                         class="text-field mx-auto"
                         :rules="[
                             (v: string) =>
-                                (v.length > 1) ||
-                                'Vul alstublieft een naam in',
+                                v.length > 1 || 'Vul alstublieft een naam in',
                         ]"
                         label="Afdeling naam"
                         prepend-icon="mdi-book-multiple-outline"
@@ -31,7 +30,7 @@
                     </v-text-field>
                     <v-autocomplete
                         class="text-field mx-auto mt-4"
-                        @update:model-value="(e:any)=>selectMember(e)"
+                        @update:model-value="(e: any) => selectMember(e)"
                         :items="companyMembersFiltered"
                         chips
                         variant="underlined"
@@ -41,12 +40,14 @@
                         item-title="name"
                         item-value="id"
                         label="Beheerder van de nieuwe afdeling"
-                        >
+                    >
                         <template v-slot:chip="{ props, item }">
                             <v-chip
-                            v-bind="props"
-                            :prepend-avatar="item.raw.getAvatarOrDefaultUrl()"
-                            :text="item.raw.name"
+                                v-bind="props"
+                                :prepend-avatar="
+                                    item.raw.getAvatarOrDefaultUrl()
+                                "
+                                :text="item.raw.name"
                             ></v-chip>
                         </template>
 
@@ -59,8 +60,7 @@
                             :subtitle="`${item?.raw?.role?.name} | ${item?.raw?.department?.name}`"
                             ></v-list-item>
                         </template>
-                </v-autocomplete>
-                    
+                    </v-autocomplete>
                 </v-form>
                 <v-spacer class="my-2"></v-spacer>
 
@@ -77,10 +77,7 @@
                         ></v-progress-circular>
                     </template>
                 </v-btn>
-                <p @click="close" class="register mx-auto mb-2">
-                    Annuleren
-                    
-                </p>
+                <p @click="close" class="register mx-auto mb-2">Annuleren</p>
             </v-card>
             <v-card> </v-card>
         </v-dialog>
@@ -133,12 +130,15 @@ const emit = defineEmits(["onClose", "requestUpdateDepartments"]);
 const newDepartmentName = ref("");
 const targetAdminId = ref(-1);
 
-const companyMembers : Ref<User[]> = ref([]); //everyone in the company
+const companyMembers: Ref<User[]> = ref([]); //everyone in the company
 
 //filter out yourself and department admins (they can't be transfered to another department, since its current department will not have a admin anymore)
 const companyMembersFiltered = computed(() => {
     return companyMembers.value.filter((member) => {
-        return member.id != sessionStore.loggedInUser?.id && member.role?.isDepartmentAdmin == false;
+        return (
+            member.id != sessionStore.loggedInUser?.id &&
+            member.role?.isDeparmentAdmin == false
+        );
     });
 });
 
@@ -160,49 +160,52 @@ function close() {
     emit("onClose");
 }
 
-function selectMember(e:any){
+function selectMember(e: any) {
     targetAdminId.value = e;
 }
 
-
-onMounted(()=>{
+onMounted(() => {
     getCompanyMembers();
-})
-async function getCompanyMembers(){
-    if(!sessionStore.loggedInUser?.department){
+});
+async function getCompanyMembers() {
+    if (!sessionStore.loggedInUser?.department) {
         console.warn("User has no department, and should not be here");
         return;
     }
-    companyMembers.value = await API.getCompanyMembersByCompanyId(sessionStore.loggedInUser.department.parentCompany.id)
+    companyMembers.value = await API.getCompanyMembersByCompanyId(
+        sessionStore.loggedInUser.department.parentCompany.id,
+    );
 }
 async function createDepartment() {
     loading.value = true;
     error.value = "";
-    const result = await API.departmentExists(sessionStore.loggedInUser!.department!.parentCompany.id, newDepartmentName.value)
-    if(targetAdminId.value == -1){
+    const result = await API.departmentExists(
+        sessionStore.loggedInUser!.department!.parentCompany.id,
+        newDepartmentName.value,
+    );
+    if (targetAdminId.value == -1) {
         error.value = "Selecteer een beheerder";
     }
-    if(result){
+    if (result) {
         error.value = "Die afdeling naam bestaat al";
     }
-    if(error.value != ""){
+    if (error.value != "") {
         loading.value = false;
         return;
     }
     //No errors
-    try{
+    try {
         const newDepartment = await API.createDepartment(
             newDepartmentName.value,
-            targetAdminId.value
+            targetAdminId.value,
         );
-        if(!newDepartment){
+        if (!newDepartment) {
             error.value = "Er is iets misgegaan";
             loading.value = false;
             return;
         }
-    }
-    catch(e){
-        console.log(e)
+    } catch (e) {
+        console.log(e);
         error.value = "Er is iets misgegaan";
         loading.value = false;
         return;
@@ -213,7 +216,5 @@ async function createDepartment() {
     setTimeout(() => {
         close();
     }, 500);
-
-
 }
 </script>

@@ -104,18 +104,33 @@
         </v-row>
         <v-row>
             <p class="mx-auto">
-                <span v-for="department in departments"
-                    :key="department.id">
+                <span v-for="department in departments" :key="department.id">
                     {{ department.name }} ·
                 </span>
             </p>
         </v-row>
         <v-spacer class="mb-4"></v-spacer>
-        <v-row v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment('DEPARTMENT_CREATE', sessionStore.loggedInUser.department?.id)">
-            <DepartmentAddPopup v-if="showAddDepartmentPopup" @requestUpdateDepartments="getDepartmentsForCompany" @on-close="showAddDepartmentPopup = false">
-
+        <v-row
+            v-if="
+                sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                    'DEPARTMENT_CREATE',
+                    sessionStore.loggedInUser.department?.id,
+                )
+            "
+        >
+            <DepartmentAddPopup
+                v-if="showAddDepartmentPopup"
+                @requestUpdateDepartments="getDepartmentsForCompany"
+                @on-close="showAddDepartmentPopup = false"
+            >
             </DepartmentAddPopup>
-            <v-btn class="mx-auto" color="primary" prepend-icon="mdi-plus" @click="showAddDepartmentPopup = true">Afdeling toevoegen</v-btn>
+            <v-btn
+                class="mx-auto"
+                color="primary"
+                prepend-icon="mdi-plus"
+                @click="showAddDepartmentPopup = true"
+                >Afdeling toevoegen</v-btn
+            >
         </v-row>
         <v-spacer class="mb-12"></v-spacer>
     </template>
