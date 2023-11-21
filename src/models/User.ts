@@ -37,8 +37,10 @@ export class User {
             : null;
         this.email = data.email;
         this.phoneNumber = data.phoneNumber;
-        this.role = new Role(data.role);
-        this.department = new Department(data.department);
+        this.role = data.role ? new Role(data.role) : null;
+        this.department = data.department
+            ? new Department(data.department)
+            : null;
     }
 
     getAvatarOrDefaultUrl() {

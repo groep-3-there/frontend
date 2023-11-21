@@ -28,7 +28,7 @@ const sessionStore = useSessionStore();
 const ready = ref(true);
 setInterval(() => {
     sessionStore.forceUpdate();
-}, 10000);
+}, 300000);
 
 const snackbar = useSnackbarStore();
 onMounted(async () => {
@@ -38,6 +38,6 @@ onMounted(async () => {
         } catch (error: any) {
             snackbar.createSimple("We konden de server niet bereiken", "error");
         }
-    }, 10000);
+    }, 300000);
 });
 </script>
