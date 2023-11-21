@@ -5,7 +5,11 @@ import { User } from "./models/User";
 import { ChallengeSearchResults } from "./models/ChallengeSearchResults";
 import { Branch } from "./models/Branch";
 import { Tag } from "./models/Tag";
+import { CompanyRequests } from "./models/CompanyRequests";
 import { Company } from "./models/Company";
+import { useSessionStore } from "@/store/sessionStore";
+import { CompanyRequestsResults } from "./models/CompanyRequestsResults";
+import { Department } from "./models/Department";
 
 async function postRequest(url: string, bodyObject: {}) {
     const res = await fetch(API.BASEURL + url, {
@@ -62,10 +66,13 @@ namespace API {
     export const FIREBASE_PUBLIC_API_KEY =
         "AIzaSyCo7z9UVlNrdKMqtvfA-cEWWPqua3wDOkU";
 
-    let authToken = "";
+    let authToken = sessionStorage.getItem("authToken") || "";
 
     export function hasAuthToken() {
         return authToken != "";
+    }
+    export function removeAuthToken() {
+        sessionStorage.setItem("authToken", "");
     }
     export function getHeaders() {
         const headers: any = {
@@ -118,9 +125,45 @@ namespace API {
         const data = await getRequest(`company/names`);
         return data;
     }
+    export async function getCompanyMembersByCompanyId(id: number) {
+        const data = await getRequest(`company/${id}/members`);
+        return data.map((d: any) => new User(d));
+    }
 
     export async function pingServer() {
         return getRequest("ping");
+    }
+
+    export async function getCompany(id: number) {
+        const data = await getRequest(`company/${id}`);
+        return new Company(data);
+    }
+
+    export async function getDepartmentsForCompany(id: number) {
+        const data = await getRequest(`department/company/${id}`);
+        return data.map((d: any) => new Department(d));
+    }
+    export async function departmentExists(companyId: number, name: string) {
+        const data = await postRequest(`department/exists`, {
+            parentCompanyId: companyId,
+            name: name,
+        });
+        return data;
+    }
+    export async function createDepartment(
+        name: string,
+        targetAdminId: number,
+    ) {
+        const data = await postRequest(`department/create`, {
+            name: name,
+            adminId: targetAdminId,
+        });
+        return data;
+    }
+
+    export async function getAllChallengesForCompany(id: number) {
+        const data = await getRequest(`challenge/company/${id}`);
+        return data.map((d: any) => new Challenge(d));
     }
 
     /**
@@ -187,6 +230,22 @@ namespace API {
         return data.map((d: any) => new Tag(d));
     }
 
+    export async function getCompanyRequests(): Promise<CompanyRequestsResults> {
+        const data = await getRequest(`company/request`);
+        return new CompanyRequestsResults(data);
+    }
+    export async function acceptCompanyRequest(id: number) {
+        try {
+            const data = await postRequest(`company/request/${id}/accept`, {});
+        } catch (e) {}
+        return;
+    }
+    export async function rejectCompanyRequest(id: number) {
+        try {
+            const data = await postRequest(`company/request/${id}/reject`, {});
+        } catch (e) {}
+        return;
+    }
     /**
      * Create a new user
      * @returns a new user
@@ -209,27 +268,36 @@ namespace API {
         email: string,
         password: string,
     ) {
-        const res = await fetch(
-            "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" +
-                FIREBASE_PUBLIC_API_KEY,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
+        try {
+            const res = await fetch(
+                "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" +
+                    FIREBASE_PUBLIC_API_KEY,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password,
+                        returnSecureToken: true,
+                    }),
                 },
-                body: JSON.stringify({
-                    email: email,
-                    password: password,
-                    returnSecureToken: true,
-                }),
-            },
-        );
-        const json = await res.json();
-        authToken = json.idToken;
-        if (authToken) {
-            return true;
+            );
+            if (res.status == 400) {
+                return false;
+            }
+            const json = await res.json();
+            authToken = json.idToken;
+            sessionStorage.setItem("authToken", authToken);
+            if (authToken) {
+                return true;
+            }
+            return false;
+        } catch (e) {
+            console.warn(e);
+            return false;
         }
-        return false;
     }
 }
 

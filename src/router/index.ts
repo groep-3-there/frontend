@@ -48,12 +48,27 @@ const routes = [
                 name: "Profiel",
                 component: () => import("@/views/UserProfileView.vue"),
             },
+            {
+                path: "company/:id",
+                name: "Company",
+                component: () => import("@/views/CompanyView.vue"),
+            },
+            {
+                path: "/admin",
+                name: "Admin",
+                component: () => import("@/views/AdminView.vue"),
+            },
+            {
+                path: "admin/grade-companies",
+                name: "Grade Request",
+                component: () => import("@/views/CompanyRequestView.vue"),
+            },
         ],
     },
 ];
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
+    history: createWebHistory(import.meta.env.BASE_URL),
     routes,
 });
 
