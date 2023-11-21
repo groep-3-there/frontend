@@ -119,7 +119,8 @@ h1 {
 }
 
 .impact-row {
-    background-color: #084e6b;
+    background-color: rgba(8,78,107,0.8);
+    
 }
 
 .impact-row h2 {
