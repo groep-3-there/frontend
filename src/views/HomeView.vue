@@ -13,6 +13,9 @@
     <br />
     <h3>Firebase testdata ophalen</h3>
     <v-btn @click="test()">test</v-btn>
+    <RouterLink :to="`/user/${sessionStore.loggedInUser?.id}`"
+        >mijn profiel</RouterLink
+    >
     <br />
     {{ whoami }}
     <h3>Bedrijf registreren test</h3>

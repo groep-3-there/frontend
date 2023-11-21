@@ -39,6 +39,11 @@ const routes = [
                 component: () => import("@/views/EditChallengeView.vue"),
             },
             {
+                path: "user/:id",
+                name: "Profiel",
+                component: () => import("@/views/UserProfileView.vue"),
+            },
+            {
                 path: "company/:id",
                 name: "Company",
                 component: () => import("@/views/CompanyView.vue"),

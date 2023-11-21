@@ -107,22 +107,25 @@
                         title="Challenge maken"
                         value="create-challenge"
                     ></v-list-item>
-
-                    <v-list-subheader>Admin</v-list-subheader>
-                    <v-list-item
-                        :key="8"
-                        @click="$router.push('/admin')"
-                        prepend-icon="mdi-security"
-                        title="Admin"
-                        value="admin"
-                    ></v-list-item>
-                    <v-list-item
-                        :key="8"
-                        @click="$router.push('/admin/grade-companies')"
-                        prepend-icon="mdi-briefcase-check-outline"
-                        title="Bedrijfsaanvragen"
-                        value="Bedrijfsaanvragen"
-                    ></v-list-item>
+                    <template
+                        v-if="sessionStore.loggedInUser.role?.isMatchmaker"
+                    >
+                        <v-list-subheader>Admin</v-list-subheader>
+                        <v-list-item
+                            :key="8"
+                            @click="$router.push('/admin')"
+                            prepend-icon="mdi-security"
+                            title="Admin"
+                            value="admin"
+                        ></v-list-item>
+                        <v-list-item
+                            :key="8"
+                            @click="$router.push('/admin/grade-companies')"
+                            prepend-icon="mdi-briefcase-check-outline"
+                            title="Bedrijfsaanvragen"
+                            value="Bedrijfsaanvragen"
+                        ></v-list-item>
+                    </template>
                 </v-list>
                 <v-divider></v-divider>
 

@@ -101,6 +101,10 @@ namespace API {
         const data = await getRequest("auth/user");
         return new User(data);
     }
+    export async function getUserById(id: number) {
+        const data = await getRequest(`user/${id}`);
+        return new User(data);
+    }
     export async function getImagesByChallengeId(id: number) {
         const data = await getRequest(`image/challenge/${id}`);
         return data.map((d: any) => new Image(d));
