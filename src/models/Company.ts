@@ -10,7 +10,7 @@ export class Company {
     bannerImage: Image | null;
     tags: string;
     branch: Branch;
-    createdAt: string;
+    createdAt: Date;
     ownerId: number;
 
     constructor(data: any) {
@@ -34,6 +34,13 @@ export class Company {
             return this.profileImage.getUrl();
         }
         return `https://ui-avatars.com/api/?name=${this.querySafeName()}`;
+    }
+
+    getBannerForCompany() {
+        if (this.bannerImage) {
+            return this.bannerImage.getUrl();
+        }
+        return `/banners/banner-1.jpg`;
     }
 
     querySafeName() {

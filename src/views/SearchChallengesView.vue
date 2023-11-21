@@ -193,7 +193,7 @@ function buildQuery() {
         query.query = searchTerm.value;
     }
     if (selectedCompanies.value.length) {
-        query.company = selectedCompanies.value.join(",");
+        query.department.parentCompany = selectedCompanies.value.join(",");
     }
     if (selectedBranches.value.length) {
         query.branche = selectedBranches.value.join(",");

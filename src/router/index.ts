@@ -39,7 +39,22 @@ const routes = [
                 component: () => import("@/views/EditChallengeView.vue"),
             },
             {
-                path: "grade-companies",
+                path: "user-registration",
+                name: "Account aanmaken",
+                component: () => import("@/views/UserRegistrationView.vue"),
+            },
+            {
+                path: "company/:id",
+                name: "Company",
+                component: () => import("@/views/CompanyView.vue"),
+            },
+            {
+                path: "/admin",
+                name: "Admin",
+                component: () => import("@/views/AdminView.vue"),
+            },
+            {
+                path: "admin/grade-companies",
                 name: "Grade Request",
                 component: () => import("@/views/CompanyRequestView.vue"),
             },

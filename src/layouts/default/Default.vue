@@ -41,7 +41,7 @@
                         color="primary"
                         prepend-icon="mdi-account-plus"
                         title="Login/Registreer"
-                        value="home"
+                        value="home-login"
                     >
                     </v-list-item>
                 </v-list>
@@ -53,7 +53,7 @@
                         @click="$router.push('/')"
                         prepend-icon="mdi-home"
                         title="Home"
-                        value="home"
+                        value="home-home"
                     ></v-list-item>
 
                     <v-list-item
@@ -108,64 +108,22 @@
                         value="create-challenge"
                     ></v-list-item>
 
+                    <v-list-subheader>Admin</v-list-subheader>
                     <v-list-item
-                        :key="6"
-                        @click="$router.push('/grade-companies')"
-                        prepend-icon="mdi-folder"
+                        :key="8"
+                        @click="$router.push('/admin')"
+                        prepend-icon="mdi-security"
+                        title="Admin"
+                        value="admin"
+                    ></v-list-item>
+                    <v-list-item
+                        :key="8"
+                        @click="$router.push('/admin/grade-companies')"
+                        prepend-icon="mdi-briefcase-check-outline"
                         title="Bedrijfsaanvragen"
-                        value="request"
-                    >
-                    </v-list-item>
-                </v-list>
-                <v-divider></v-divider>
-                <v-list
-                    density="compact"
-                    nav
-                    v-if="sessionStore.loggedInUser?.department"
-                >
-                    <p>
-                        {{
-                            sessionStore.loggedInUser.department.parentCompany
-                                .name
-                        }}
-                    </p>
-                    <v-list-item
-                        @click="
-                            $router.push(
-                                `/company/${sessionStore.loggedInUser?.department?.parentCompany.id}`,
-                            )
-                        "
-                        :prepend-avatar="
-                            sessionStore.loggedInUser?.department?.parentCompany.getProfileOrDefaultImageUrl()
-                        "
-                        :title="
-                            sessionStore.loggedInUser?.department?.parentCompany
-                                .name
-                        "
-                        value="shared"
-                    ></v-list-item>
-                    <v-list-item
-                        v-if="
-                            sessionStore.loggedInUser?.hasPermissionAtDepartment(
-                                'CHALLENGE_MANAGE',
-                                sessionStore.loggedInUser?.department?.id,
-                            )
-                        "
-                        :key="5"
-                        @click="$router.push('/create-challenge')"
-                        prepend-icon="mdi-plus-box-outline"
-                        title="Challenge maken"
-                        value="create-challenge"
-                    ></v-list-item>
-                    <v-list-item
-                        :key="7"
-                        @click="$router.push('/user-registration')"
-                        prepend-icon="mdi-folder"
-                        title="Account aanmaken"
-                        value="Account aanmaken"
+                        value="Bedrijfsaanvragen"
                     ></v-list-item>
                 </v-list>
-
                 <v-divider></v-divider>
 
                 <v-list density="compact" nav v-if="sessionStore.loggedInUser">
