@@ -104,7 +104,9 @@
                         title="Challenge maken"
                         value="create-challenge"
                     ></v-list-item>
-                    <template v-if="sessionStore.loggedInUser.role?.isMatchmaker">
+                    <template
+                        v-if="sessionStore.loggedInUser.role?.isMatchmaker"
+                    >
                         <v-list-subheader>Admin</v-list-subheader>
                         <v-list-item
                             :key="8"
@@ -120,7 +122,6 @@
                             title="Bedrijfsaanvragen"
                             value="Bedrijfsaanvragen"
                         ></v-list-item>
-
                     </template>
                 </v-list>
                 <v-divider></v-divider>
