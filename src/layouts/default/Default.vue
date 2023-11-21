@@ -38,7 +38,7 @@
                         color="primary"
                         prepend-icon="mdi-account-plus"
                         title="Login/Registreer"
-                        value="home"
+                        value="home-login"
                     >
                     </v-list-item>
                 </v-list>
@@ -50,7 +50,7 @@
                         @click="$router.push('/')"
                         prepend-icon="mdi-home"
                         title="Home"
-                        value="home"
+                        value="home-home"
                     ></v-list-item>
 
                     <v-list-item
@@ -105,20 +105,20 @@
                         value="create-challenge"
                     ></v-list-item>
 
+                    <v-list-subheader>Admin</v-list-subheader>
                     <v-list-item
-                        :key="6"
-                        @click="$router.push('/grade-companies')"
-                        prepend-icon="mdi-folder"
+                        :key="8"
+                        @click="$router.push('/admin')"
+                        prepend-icon="mdi-security"
+                        title="Admin"
+                        value="admin"
+                    ></v-list-item>
+                    <v-list-item
+                        :key="8"
+                        @click="$router.push('/admin/grade-companies')"
+                        prepend-icon="mdi-briefcase-check-outline"
                         title="Bedrijfsaanvragen"
-                        value="request"
-                    >
-                    </v-list-item>
-                    <v-list-item
-                        :key="7"
-                        @click="$router.push('/user-registration')"
-                        prepend-icon="mdi-folder"
-                        title="Account aanmaken"
-                        value="Account aanmaken"
+                        value="Bedrijfsaanvragen"
                     ></v-list-item>
                 </v-list>
                 <v-divider></v-divider>
