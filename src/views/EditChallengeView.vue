@@ -72,7 +72,40 @@
                             ></v-select>
                         </v-col>
                     </v-row>
-
+                    <v-row>
+                        <v-col>
+                            <div>
+                                <v-card
+                                    v-if="
+                                        originalChallenge?.bannerImageId &&
+                                        banner.length == 0
+                                    "
+                                    class="banner"
+                                >
+                                    <v-img
+                                        :src="showBanner()"
+                                        gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                                        height="200px"
+                                        cover
+                                    >
+                                    </v-img>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-card-text class="text-black"
+                                            >Huidige banner</v-card-text
+                                        >
+                                        <v-btn
+                                            size="small"
+                                            color="surface-variant"
+                                            variant="text"
+                                            icon="mdi-trash-can-outline"
+                                            @click="deleteBanner"
+                                        ></v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </div>
+                        </v-col>
+                    </v-row>
                     <v-row>
                         <v-col>
                             <v-file-input
@@ -91,26 +124,6 @@
                                 ]"
                             >
                             </v-file-input>
-                        </v-col>
-                    </v-row>
-
-                    <v-row
-                        v-if="
-                            originalChallenge?.bannerImageId &&
-                            banner.length == 0
-                        "
-                    >
-                        <v-col>
-                            <div>
-                                <v-img class="banner" :src="showBanner()">
-                                    <v-btn
-                                        class="delete-image"
-                                        size="x-small"
-                                        icon="mdi-trash-can-outline"
-                                        @click="deleteBanner"
-                                    ></v-btn>
-                                </v-img>
-                            </div>
                         </v-col>
                     </v-row>
 
@@ -139,19 +152,31 @@
                     </v-row>
 
                     <v-row v-if="originalChallenge?.imageAttachments !== null">
-                        <v-col
-                            v-for="img in originalChallenge?.imageAttachments"
-                            :key="img.id"
-                        >
-                            <div>
-                                <v-img class="banner" :src="img.getUrl()">
-                                    <v-btn
-                                        class="delete-image"
-                                        size="x-small"
-                                        icon="mdi-trash-can-outline"
-                                        @click="deleteImage(img)"
-                                    ></v-btn>
-                                </v-img>
+                        <v-col class="d-flex flex-wrap">
+                            <div
+                                v-for="img in originalChallenge?.imageAttachments"
+                                :key="img.id"
+                            >
+                                <v-card class="attatchment-image-card">
+                                    <v-img
+                                        :src="img.getUrl()"
+                                        gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                                        class="attatchment-image"
+                                        cover
+                                    >
+                                    </v-img>
+
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-card-text> Bijlage </v-card-text>
+                                        <v-btn
+                                            size="big"
+                                            color="surface-variant"
+                                            icon="mdi-trash-can-outline"
+                                            @click="deleteImage(img)"
+                                        ></v-btn>
+                                    </v-card-actions>
+                                </v-card>
                             </div>
                         </v-col>
                     </v-row>
@@ -161,7 +186,7 @@
                             <v-combobox
                                 label="Tags"
                                 v-model="tags"
-                                :items="['Item1', 'Item2']"
+                                :items="standardTags.map((tag) => tag.name)"
                                 variant="outlined"
                                 multiple
                                 chips
@@ -213,6 +238,7 @@ import { Challenge } from "@/models/Challenge";
 import { useRoute } from "vue-router";
 import { onMounted } from "vue";
 import router from "@/router";
+import { Tag } from "@/models/Tag";
 const originalChallenge: Ref<Challenge | null> = ref(null);
 const title = ref("");
 const summary = ref("");
@@ -241,6 +267,7 @@ const visibilityItems = [
     },
 ];
 const visibility = ref();
+const standardTags: Ref<Tag[]> = ref([]);
 const banner = ref([]);
 const images = ref([]);
 const tags = ref([] as any);
@@ -271,6 +298,7 @@ onMounted(async () => {
     })?.title;
     tags.value = originalChallenge.value.tags.split(",");
     date.value = originalChallenge.value.endDate.toISOString().slice(0, 10);
+    standardTags.value = await Api.getTags();
 });
 
 function showBanner() {
@@ -344,11 +372,20 @@ async function editChallenge() {
 }
 
 .banner {
-    max-width: 10rem;
+    max-width: 12rem;
 }
 
 .delete-image {
     max-width: fit-content;
     max-height: 0;
+}
+
+.attatchment-image-card {
+    width: 12rem;
+    margin: 1rem;
+}
+
+.attatchment-image {
+    max-height: fit-content;
 }
 </style>
