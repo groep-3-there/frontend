@@ -21,7 +21,7 @@ export default createVuetify({
                     secondary: "#5CBBF6",
                     mmgreen: "#85B77B",
                     mmyellow: "F0B45B",
-                    mmtaggreen: "#50856F",
+                    darkgreen: "#50856F",
                 },
             },
         },
