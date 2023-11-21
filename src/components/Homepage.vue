@@ -6,10 +6,10 @@
             </v-col>
         </v-row>
         <ListNewestChallenges
-        :company="sessionStore.loggedInUser?.department?.parentCompany"
+            :company="sessionStore.loggedInUser?.department?.parentCompany"
         ></ListNewestChallenges>
-        <hr class="mt-5"/>
-        <ListFavoriteChallenges></ListFavoriteChallenges> 
+        <hr class="mt-5" />
+        <ListFavoriteChallenges></ListFavoriteChallenges>
     </v-container>
 </template>
 

@@ -1,9 +1,9 @@
 <template>
     <div v-if="!sessionStore.loggedInUser">
-        <LandingPage/>
+        <LandingPage />
     </div>
     <div v-else-if="sessionStore.loggedInUser">
-        <Homepage/>
+        <Homepage />
     </div>
 </template>
 

@@ -15,7 +15,6 @@
     {{ whoami }}
     <h3>Bedrijf registreren test</h3>
     <CompanyRegistrationPopUp />
-
 </template>
 
 <script lang="ts" setup>
