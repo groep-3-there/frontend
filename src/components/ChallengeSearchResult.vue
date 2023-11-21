@@ -37,7 +37,7 @@
                                         day: "numeric",
                                         month: "long",
                                         year: "numeric",
-                                    }
+                                    },
                                 )
                             }}
                         </p>

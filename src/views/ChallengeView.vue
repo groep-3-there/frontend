@@ -35,12 +35,13 @@
         <v-row>
             <v-col md="3" class="d-flex align-center justify-center">
                 <v-icon>mdi-calendar-blank</v-icon>
-                {{ challenge.createdAt.toLocaleDateString("nl-nl",
-                {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                }) }}
+                {{
+                    challenge.createdAt.toLocaleDateString("nl-nl", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                    })
+                }}
             </v-col>
             <v-col cols="12" md="6" class="">
                 <div class="d-flex flex-wrap justify-center">
@@ -151,12 +152,13 @@
                     <h2 class="post-heading">Einddatum</h2>
                     <p>
                         <v-icon>mdi-calendar-blank</v-icon>
-                        {{ challenge.endDate.toLocaleDateString("nl-nl",
-                        {
-                            day: "numeric",
-                            month: "long",
-                            year: "numeric",
-                        }) }}
+                        {{
+                            challenge.endDate.toLocaleDateString("nl-nl", {
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric",
+                            })
+                        }}
                     </p>
                 </section>
                 <section v-if="challenge.imageAttachments.length > 0">
