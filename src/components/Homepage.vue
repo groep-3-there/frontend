@@ -8,6 +8,7 @@
         <NewestChallenges
         :company="sessionStore.loggedInUser?.department?.parentCompany"
         ></NewestChallenges>
+        <hr class="mt-5"/>
     </v-container>
 </template>
 
