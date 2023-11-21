@@ -11,6 +11,7 @@
     <br />
     <h3>Firebase testdata ophalen</h3>
     <v-btn @click="test()">test</v-btn>
+    <RouterLink to="/user/1">mijn profiel</RouterLink>
     <br />
     {{ whoami }}
     <h3>Bedrijf registreren test</h3>

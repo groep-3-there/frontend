@@ -43,6 +43,11 @@ const routes = [
                 name: "Account aanmaken",
                 component: () => import("@/views/UserRegistrationView.vue"),
             },
+            {
+                path: "user/:id",
+                name: "Profiel",
+                component: () => import("@/views/UserProfileView.vue"),
+            },
         ],
     },
 ];
