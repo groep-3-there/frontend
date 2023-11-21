@@ -36,6 +36,11 @@
                             {{
                                 new Date(challenge.endDate).toLocaleDateString(
                                     "nl-nl",
+                                    {
+                                        day: "numeric",
+                                        month: "long",
+                                        year: "numeric",
+                                    },
                                 )
                             }}
                         </p>

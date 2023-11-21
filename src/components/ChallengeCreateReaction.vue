@@ -9,7 +9,7 @@
                 variant="outlined"
                 v-model="newReactionType"
                 label="Type Reactie"
-                :items="['Idee', 'Question', 'Feedback']"
+                :items="['Idee', 'Vraag', 'Feedback']"
                 >Type</v-select
             >
         </div>
@@ -33,7 +33,7 @@ const newReactionTypedFormatted = computed(() => {
     switch (newReactionType.value) {
         case "Idee":
             return "IDEA";
-        case "Question":
+        case "Vraag":
             return "QUESTION";
         case "Feedback":
             return "FEEDBACK";
