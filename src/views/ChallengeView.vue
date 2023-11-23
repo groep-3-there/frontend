@@ -1,8 +1,6 @@
 <template>
     <tempalte v-if="notFound">
-        <NotFound>
-            Deze challenge bestaat niet
-        </NotFound>
+        <NotFound> Deze challenge bestaat niet </NotFound>
     </tempalte>
     <template v-if="!challenge && !notFound">
         <div>
@@ -332,10 +330,9 @@ onMounted(async () => {
 
 async function loadChallenge() {
     console.log("Loading challenge");
-    try{
+    try {
         challenge.value = await API.getChallengeById(parseInt(id));
-    }
-    catch(e){
+    } catch (e) {
         notFound.value = true;
     }
 }

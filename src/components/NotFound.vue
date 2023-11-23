@@ -1,27 +1,17 @@
 <template>
-    <v-row
-        class="hero"
-        no-gutters
-        justify="center"
-        align="center"
-    >
-        
+    <v-row class="hero" no-gutters justify="center" align="center">
         <v-col
             cols="12"
             md="12"
             class="d-flex hero-title flex-column justify-center align-start hero-text ml-4"
         >
-            <h3 class="text mx-auto">
-                Error
-            </h3>
+            <h3 class="text mx-auto">Error</h3>
             <h1 class="text challenge-title mx-auto"><slot></slot></h1>
         </v-col>
     </v-row>
-     
 </template>
 
 <style>
-
 .challenge-title {
     font-size: 4rem;
     font-weight: 1000;

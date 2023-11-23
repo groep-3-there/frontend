@@ -91,11 +91,7 @@
                     ></v-list-item>
                 </v-list>
                 <v-divider></v-divider>
-                <v-list
-                    density="compact"
-                    nav
-                    v-if="sessionStore.loggedInUser"
-                >
+                <v-list density="compact" nav v-if="sessionStore.loggedInUser">
                     <v-list-subheader>Uw bedrijf</v-list-subheader>
                     <v-list-item
                         v-if="!sessionStore.loggedInUser.department"
@@ -111,7 +107,6 @@
                     >
                     </CompanyRegistrationPopUp>
                     <template v-if="sessionStore.loggedInUser?.department">
-                    
                         <v-list-item
                             @click="
                                 $router.push(
@@ -122,8 +117,8 @@
                                 sessionStore.loggedInUser?.department?.parentCompany.getProfileOrDefaultImageUrl()
                             "
                             :title="
-                                sessionStore.loggedInUser?.department?.parentCompany
-                                    .name
+                                sessionStore.loggedInUser?.department
+                                    ?.parentCompany.name
                             "
                             value="shared"
                         ></v-list-item>

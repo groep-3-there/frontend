@@ -4,17 +4,17 @@
             <v-col cols="6" md="6">
                 <h2 class="padding-left">{{ props.companyRequest.name }}</h2>
                 <Tag type="branch">{{ props.companyRequest.branch.name }}</Tag>
-                
             </v-col>
             <v-col cols="3" md="3" class="d-flex justify-center align-center">
-                {{ new Date($props.companyRequest.requestedAt).toLocaleDateString(
-                                    "nl-nl",
-                                    {
-                                        day: "numeric",
-                                        month: "long",
-                                        year: "numeric",
-                                    },
-                                ) }}
+                {{
+                    new Date(
+                        $props.companyRequest.requestedAt,
+                    ).toLocaleDateString("nl-nl", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                    })
+                }}
             </v-col>
             <v-col cols="3" md="3" class="text-right">
                 <v-icon
@@ -34,11 +34,11 @@
 </template>
 
 <style>
-.item{
+.item {
     transition: box-shadow 0.4s;
     max-width: 1200px;
 }
-.item:hover{
+.item:hover {
     cursor: pointer;
     box-shadow: 4px 4px darkgray;
 }

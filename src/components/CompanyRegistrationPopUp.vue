@@ -91,7 +91,7 @@ const snackStore = useSnackbarStore();
 const companyName = ref("");
 const branchString: Ref<string | null> = ref("");
 const standardbranches: Ref<Branch[]> = ref([]);
-const showPopUp = ref(true)
+const showPopUp = ref(true);
 const emit = defineEmits(["onClose"]);
 
 /**
@@ -102,7 +102,7 @@ const standardTags: Ref<Tag[]> = ref([]);
 const tags: Ref<string[]> = ref([]);
 const createCompanyRegistration = ref(null) as any;
 
-function close(){
+function close() {
     emit("onClose");
 }
 
@@ -111,12 +111,11 @@ onMounted(async () => {
     standardbranches.value = await Api.getBranches();
 });
 
-
-watch(showPopUp, ()=>{
-    if(!showPopUp.value){
+watch(showPopUp, () => {
+    if (!showPopUp.value) {
         close();
     }
-})
+});
 
 async function registerCompany() {
     const branch = standardbranches.value.find(
