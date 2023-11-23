@@ -213,7 +213,7 @@ async function onSubmit() {
             emit("onClose");
             sessionStore.logIn(res.email, password.value);
             snackbarStore.createSimple(
-                "Uw account is aangemaakt, u kunt nu inloggen",
+                "Uw account is aangemaakt, u bent ingelogd",
                 "success",
             );
         })

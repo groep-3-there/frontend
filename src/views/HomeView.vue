@@ -19,7 +19,7 @@
     <br />
     {{ whoami }}
     <h3>Bedrijf registreren test</h3>
-    <CompanyRegistrationPopUp />
+    <!-- <CompanyRegistrationPopUp /> -->
 
     <h3>gebruiker registreren test</h3>
     <UserRegisterPopup />

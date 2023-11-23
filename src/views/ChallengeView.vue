@@ -1,5 +1,10 @@
 <template>
-    <template v-if="!challenge">
+    <tempalte v-if="notFound">
+        <NotFound>
+            Deze challenge bestaat niet
+        </NotFound>
+    </tempalte>
+    <template v-if="!challenge && !notFound">
         <div>
             <v-progress-circular indeterminate></v-progress-circular>
         </div>
@@ -297,12 +302,14 @@ import { onMounted } from "vue";
 import API from "@/Api";
 import { Image } from "@/models/Image";
 import { useSessionStore } from "@/store/sessionStore";
+import NotFound from "@/components/NotFound.vue";
 
 const sessionStore = useSessionStore();
 
 const concludePopup = ref(false);
 const archivePopup = ref(false);
 const challenge: Ref<Challenge | null> = ref(null);
+const notFound = ref(false);
 
 const challengeInputs: Ref<ChallengeInput[]> = ref([]);
 const inputsHaveChosenAnswer = computed(() =>
@@ -325,7 +332,12 @@ onMounted(async () => {
 
 async function loadChallenge() {
     console.log("Loading challenge");
-    challenge.value = await API.getChallengeById(parseInt(id));
+    try{
+        challenge.value = await API.getChallengeById(parseInt(id));
+    }
+    catch(e){
+        notFound.value = true;
+    }
 }
 
 async function updateReactions() {
