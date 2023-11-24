@@ -1,7 +1,7 @@
 <template>
     <v-card>
         <v-app>
-        <InviteListener @request-register="userRegisterPopup = true" />
+            <InviteListener @request-register="userRegisterPopup = true" />
 
             <LoginPopup
                 v-if="loginPopup"
@@ -109,7 +109,7 @@
                         title="Registreer uw bedrijf"
                         value="Registreer uw bedrijf"
                     ></v-list-item>
-                    
+
                     <v-list-item
                         v-if="!sessionStore.loggedInUser.department"
                         :key="9"
@@ -118,7 +118,10 @@
                         title="Sluit u aan bij bedrijf"
                         value="Sluit u aan bij bedrijf"
                     ></v-list-item>
-                    <JoinCompanyPopup v-if="joinCompanyPopup" @on-close="joinCompanyPopup = false" ></JoinCompanyPopup>
+                    <JoinCompanyPopup
+                        v-if="joinCompanyPopup"
+                        @on-close="joinCompanyPopup = false"
+                    ></JoinCompanyPopup>
                     <CompanyRegistrationPopUp
                         v-if="companyRegisterPopup"
                         @on-close="companyRegisterPopup = false"

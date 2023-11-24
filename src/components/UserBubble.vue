@@ -1,12 +1,15 @@
 <template>
     <v-tooltip :text="user.name" :location="'top'">
         <template v-slot:activator="{ props }">
-            <img v-bind="props" :src="user.getAvatarOrDefaultUrl()" class="user-logo-small mx-1 my-1" />
+            <img
+                v-bind="props"
+                :src="user.getAvatarOrDefaultUrl()"
+                class="user-logo-small mx-1 my-1"
+            />
         </template>
     </v-tooltip>
 </template>
 <style>
-
 .user-logo-small {
     height: 64px;
     width: 64px;
