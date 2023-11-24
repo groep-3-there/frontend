@@ -101,6 +101,16 @@
                         title="Registreer uw bedrijf"
                         value="Registreer uw bedrijf"
                     ></v-list-item>
+                    
+                    <v-list-item
+                        v-if="!sessionStore.loggedInUser.department"
+                        :key="9"
+                        prepend-icon="mdi-briefcase-check-outline"
+                        @click="joinCompanyPopup = true"
+                        title="Sluit u aan bij bedrijf"
+                        value="Sluit u aan bij bedrijf"
+                    ></v-list-item>
+                    <JoinCompanyPopup v-if="joinCompanyPopup" @on-close="joinCompanyPopup = false" ></JoinCompanyPopup>
                     <CompanyRegistrationPopUp
                         v-if="companyRegisterPopup"
                         @on-close="companyRegisterPopup = false"
@@ -218,6 +228,7 @@ import { User } from "@/models/User";
 import { onMounted } from "vue";
 import API from "@/Api";
 import CompanyRegistrationPopUp from "@/components/CompanyRegistrationPopUp.vue";
+import JoinCompanyPopup from "@/components/JoinCompanyPopup.vue";
 import { useSessionStore } from "@/store/sessionStore";
 const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay();
 const sessionStore = useSessionStore();
@@ -225,6 +236,7 @@ const loginPopup = ref(false);
 const userRegisterPopup = ref(false);
 const sidebarVisibleOnSmallDevice = ref(true);
 const companyRegisterPopup = ref(false);
+const joinCompanyPopup = ref(false);
 
 onMounted(async () => {
     console.log(mdAndDown.value);

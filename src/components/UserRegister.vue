@@ -67,7 +67,7 @@
                     <v-spacer class="mt-8"></v-spacer>
                     <v-text-field
                         :prepend-inner-icon="
-                            joinDepartment ? 'mdi-check' : 'mdi-close'
+                            codeIcon
                         "
                         label="Bedrijfscode (optioneel)"
                         :color="joinDepartment ? 'green' : 'gray'"
@@ -178,12 +178,24 @@ const codeParam = useRoute().query.invite;
 const joinDepartment: Ref<Department | null> = ref(null);
 const companyCode = ref("");
 let _thresholdSearchDepartment: any = null;
+const checkingInProgress = ref(false)
+
+const codeIcon = computed(()=>{
+    if(checkingInProgress.value){
+        return "mdi-loading mdi-spin";
+    }
+    if(joinDepartment.value){
+        return "mdi-check";
+    }
+    return "mdi-close";
+});
 
 watch(companyCode, async (newVal) => {
     if (!newVal) return;
     if (_thresholdSearchDepartment) {
         return;
     }
+    checkingInProgress.value = true;
 
     _thresholdSearchDepartment = setTimeout(async () => {
         joinDepartment.value = null;
@@ -194,6 +206,9 @@ watch(companyCode, async (newVal) => {
         }
         catch(err){
            console.log("Invalid code")
+        }
+        finally{
+            checkingInProgress.value = false;
         }
     }, 1000);
 });
