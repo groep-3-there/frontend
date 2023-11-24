@@ -90,7 +90,7 @@ namespace API {
         return new Challenge(data);
     }
     export async function registerCompany(company: {}) {
-        const data = await postRequest("company", company);
+        const data = await postRequest("company/request", company);
         return new Company(data);
     }
 

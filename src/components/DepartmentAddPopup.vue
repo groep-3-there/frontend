@@ -139,7 +139,7 @@ const companyMembersFiltered = computed(() => {
     return companyMembers.value.filter((member) => {
         return (
             member.id != sessionStore.loggedInUser?.id &&
-            member.role?.isDeparmentAdmin == false
+            member.role?.isDepartmentAdmin == false
         );
     });
 });
