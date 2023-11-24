@@ -173,7 +173,7 @@ namespace API {
      * @param branche - branche names to filter for
      * @param sort - sort by newest_first, deadline_closest_first
      * @param page - page number
-     * @returns
+     * @returns a list of challenges + pagination info
      */
     export async function getChallengesBySearch(
         query?: string,
