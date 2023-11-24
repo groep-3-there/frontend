@@ -1,7 +1,7 @@
 <template>
-    <tempalte v-if="notFound">
+    <template v-if="notFound">
         <NotFound> Deze challenge bestaat niet </NotFound>
-    </tempalte>
+    </template>
     <template v-if="!challenge && !notFound">
         <div>
             <v-progress-circular indeterminate></v-progress-circular>

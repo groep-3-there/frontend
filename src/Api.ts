@@ -10,6 +10,7 @@ import { Company } from "./models/Company";
 import { useSessionStore } from "@/store/sessionStore";
 import { CompanyRequestsResults } from "./models/CompanyRequestsResults";
 import { Department } from "./models/Department";
+import { DepartmentCode } from "./models/DepartmentCode";
 
 async function postRequest(url: string, bodyObject: {}) {
     const res = await fetch(API.BASEURL + url, {
@@ -105,6 +106,10 @@ namespace API {
         const data = await getRequest(`user/${id}`);
         return new User(data);
     }
+    export async function isEmailRegistered(email: string) {
+        const data = await getRequest(`user/exist/${email}`);
+        return data;
+    }
     export async function getImagesByChallengeId(id: number) {
         const data = await getRequest(`image/challenge/${id}`);
         return data.map((d: any) => new Image(d));
@@ -143,6 +148,10 @@ namespace API {
         const data = await getRequest(`department/company/${id}`);
         return data.map((d: any) => new Department(d));
     }
+    export async function getDepartmentByCode(code: string) {
+        const data = await getRequest(`department/code/${code}`);
+        return new Department(data);
+    }
     export async function departmentExists(companyId: number, name: string) {
         const data = await postRequest(`department/exists`, {
             parentCompanyId: companyId,
@@ -150,6 +159,16 @@ namespace API {
         });
         return data;
     }
+    export async function joinDepartment(code : string){
+        const data = await postRequest(`department/join/${code}`, {});
+        return data;
+    }
+
+    export async function getOrGenerateDepartmentCode(departmentId : number){
+        const data = await getRequest(`departmentcode/${departmentId}`);
+        return new DepartmentCode(data);
+    }
+
     export async function createDepartment(
         name: string,
         targetAdminId: number,

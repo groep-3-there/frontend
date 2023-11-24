@@ -1,5 +1,6 @@
 <template>
     <HelloWorld />
+    <InviteListener />
     <h2>
         Voor debug mogelijkheden kan hier ingelogd worden met verschillende
         accounts
@@ -33,6 +34,7 @@ import LoginPopup from "@/components/LoginPopup.vue";
 import UserRegisterPopup from "@/components/UserRegisterPopup.vue";
 import { useSessionStore } from "@/store/sessionStore";
 import { ref } from "vue";
+import InviteListener from "@/components/InviteListener.vue";
 const sessionStore = useSessionStore();
 
 const whoami = ref({});
