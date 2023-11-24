@@ -23,6 +23,18 @@
                         ></v-col
                     ></v-row
                 >
+                <v-row no-gutters class="ml-2 mt-2">
+                    <v-icon>mdi-calendar-blank</v-icon>
+                    {{
+                        new Date(
+                            $props.companyRequest.requestedAt,
+                        ).toLocaleDateString("nl-nl", {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric",
+                        })
+                    }}
+                </v-row>
                 <v-row
                     ><v-col cols="12"
                         ><h3>Beheerder</h3>

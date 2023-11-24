@@ -4,7 +4,7 @@
     </template>
     <template v-else>
         <v-row
-            class="challenge-hero"
+            class="hero"
             :style="banner()"
             no-gutters
             justify="center"
@@ -15,7 +15,7 @@
                     :src="
                         sessionStore.loggedInUser?.department?.parentCompany?.getProfileOrDefaultImageUrl()
                     "
-                    class="company-logo"
+                    class="hero-logo"
                 />
             </v-col>
             <v-col
@@ -62,14 +62,14 @@
     color: white;
 }
 
-.challenge-hero {
+.hero {
     background-size: cover;
     background-position: 0;
     min-height: 400px;
     max-height: fit-content;
 }
 
-.company-logo {
+.hero-logo {
     max-width: min(80%, 25vw);
     border-radius: 100%;
     aspect-ratio: 1 / 1;
