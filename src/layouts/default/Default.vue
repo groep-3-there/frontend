@@ -76,7 +76,13 @@
                         title="Home"
                         value="home-home"
                     ></v-list-item>
-
+                    <v-list-item
+                        :key="1"
+                        @click="$router.push('/debug')"
+                        prepend-icon="mdi-bug"
+                        title="Debug"
+                        value="debug"
+                    ></v-list-item>
                     <v-list-item
                         :key="3"
                         @click="$router.push('/challenge/1')"
