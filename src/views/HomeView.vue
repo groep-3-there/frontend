@@ -9,7 +9,6 @@
 
 <script lang="ts" setup>
 import { useSessionStore } from "@/store/sessionStore";
-const sessionStore = useSessionStore();
 import LandingPage from "@/components/LandingPage.vue";
 import Homepage from "@/components/Homepage.vue";
 
