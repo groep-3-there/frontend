@@ -1,6 +1,8 @@
 <template>
     <v-card>
         <v-app>
+        <InviteListener @request-register="userRegisterPopup = true" />
+
             <LoginPopup
                 v-if="loginPopup"
                 @on-request-register="
@@ -229,6 +231,7 @@ import { onMounted } from "vue";
 import API from "@/Api";
 import CompanyRegistrationPopUp from "@/components/CompanyRegistrationPopUp.vue";
 import JoinCompanyPopup from "@/components/JoinCompanyPopup.vue";
+import InviteListener from "@/components/InviteListener.vue";
 import { useSessionStore } from "@/store/sessionStore";
 const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay();
 const sessionStore = useSessionStore();
@@ -239,7 +242,6 @@ const companyRegisterPopup = ref(false);
 const joinCompanyPopup = ref(false);
 
 onMounted(async () => {
-    console.log(mdAndDown.value);
     if (mdAndDown.value) {
         sidebarVisibleOnSmallDevice.value = false;
     }

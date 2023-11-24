@@ -52,23 +52,29 @@ import { Ref } from 'vue';
 import { onMounted, ref } from 'vue';
 import { useSessionStore } from '@/store/sessionStore';
 import { useRoute } from 'vue-router';
+import router from '@/router';
 const queryContainsInvite = ref(false);
 const department : Ref<Department | null> = ref(null);
 const codeParam = useRoute().query.invite;
 const sessionStore = useSessionStore();
+const emit = defineEmits(["requestRegister"]);
 
 const allowInvitePopup = computed(()=>{
-    return queryContainsInvite.value && department.value != null && !sessionStore.loggedInUser?.department;
+    return queryContainsInvite.value && department.value != null && sessionStore.loggedInUser && !sessionStore.loggedInUser?.department;
 });
 
 onMounted(async() => {
-    console.log(codeParam);
     if(!codeParam) {
         return;
     }
     let code = Array.isArray(codeParam) ? codeParam[0] as string : codeParam as string;
     department.value = await API.getDepartmentByCode(code);
     queryContainsInvite.value = true;
+    if(queryContainsInvite.value && !sessionStore.loggedInUser){
+        emit("requestRegister")
+        
+    }
+
 });
 
 function close(){

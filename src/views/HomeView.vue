@@ -1,6 +1,5 @@
 <template>
     <HelloWorld />
-    <InviteListener />
     <h2>
         Voor debug mogelijkheden kan hier ingelogd worden met verschillende
         accounts
