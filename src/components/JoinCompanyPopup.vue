@@ -32,7 +32,7 @@
                 <v-btn color="green-darken-1" variant="text" @click="close">
                     Annuleren
                 </v-btn>
-                <v-btn color="green-darken-1" variant="text" @click="send">
+                <v-btn color="green-darken-1" variant="text" @click="accept">
                     Versturen
                 </v-btn>
             </v-card-actions>
@@ -45,10 +45,13 @@ import { Department } from "@/models/Department";
 import { computed } from "vue";
 import { Ref, watch } from "vue";
 import { ref } from "vue";
+import { useSnackbarStore } from "@/store/Snackbar";
+import { useSessionStore } from "@/store/sessionStore";
 const companyCode = ref("");
-const emit = defineEmits(["onAcceptAndClose", "onClose"]);
+const emit = defineEmits(["onClose"]);
 const checkingInProgress = ref(false);
-
+const snackbarStore = useSnackbarStore();
+const sessionStore = useSessionStore();
 let _thresholdSearchDepartment: any = null;
 const icon = computed(()=>{
     if(checkingInProgress.value){
@@ -96,8 +99,18 @@ function close() {
     emit("onClose");
 }
 
-async function send() {
-    emit("onAcceptAndClose");
+async function accept() {
+    const success = await API.joinDepartment(companyCode.value);
+    if(success){
+        snackbarStore.createSimple("U bent succesvol toegevoegd aan het bedrijf", "success")
+        sessionStore.forceUpdate();
+        close();
+    }
+    else{
+        snackbarStore.createSimple("Er is iets misgegaan of de code is fout", "error")
+        close();
+    }
+
 }
 </script>
 <style scoped>
