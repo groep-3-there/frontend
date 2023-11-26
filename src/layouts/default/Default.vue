@@ -1,7 +1,7 @@
 <template>
     <v-card>
         <v-app>
-        <InviteListener @request-register="userRegisterPopup = true" />
+            <InviteListener @request-register="userRegisterPopup = true" />
 
             <LoginPopup
                 v-if="loginPopup"
@@ -12,20 +12,20 @@
                 @on-close="loginPopup = false"
             ></LoginPopup>
             <v-dialog v-model="userRegisterPopup" max-width="50rem">
-                <UserRegister
+                <UserRegister2
                     v-if="userRegisterPopup"
                     @on-close="userRegisterPopup = false"
-                ></UserRegister>
+                ></UserRegister2>
             </v-dialog>
 
             <!-- On small screens, the sidebar is hidden, an can be toggled with this button -->
-            <div class="sidebar-toggle-wrap">
+            <div
+                class="sidebar-toggle-wrap"
+                @click="openSidebar"
+                v-if="mdAndDown"
+            >
                 <v-btn class="sidebar-toggle-btn">
-                    <v-icon
-                        class="sidebar-toggle-icon"
-                        @click="openSidebar"
-                        v-if="mdAndDown"
-                        color="primary"
+                    <v-icon class="sidebar-toggle-icon" color="primary"
                         >mdi-menu</v-icon
                     >
                 </v-btn>
@@ -103,7 +103,7 @@
                         title="Registreer uw bedrijf"
                         value="Registreer uw bedrijf"
                     ></v-list-item>
-                    
+
                     <v-list-item
                         v-if="!sessionStore.loggedInUser.department"
                         :key="9"
@@ -112,7 +112,10 @@
                         title="Sluit u aan bij bedrijf"
                         value="Sluit u aan bij bedrijf"
                     ></v-list-item>
-                    <JoinCompanyPopup v-if="joinCompanyPopup" @on-close="joinCompanyPopup = false" ></JoinCompanyPopup>
+                    <JoinCompanyPopup
+                        v-if="joinCompanyPopup"
+                        @on-close="joinCompanyPopup = false"
+                    ></JoinCompanyPopup>
                     <CompanyRegistrationPopUp
                         v-if="companyRegisterPopup"
                         @on-close="companyRegisterPopup = false"
@@ -224,6 +227,8 @@ import { ref } from "vue";
 import { useDisplay } from "vuetify";
 import LoginPopup from "@/components/LoginPopup.vue";
 import UserRegister from "@/components/UserRegister.vue";
+import UserRegister2 from "@/components/UserRegister2.vue";
+
 import router from "@/router";
 import { watch } from "vue";
 import { User } from "@/models/User";
