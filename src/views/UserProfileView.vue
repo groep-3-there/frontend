@@ -8,9 +8,7 @@
         <Banner
             :banner-src="'/banners/banner-1.jpg'"
             :darken="true"
-            :logo-src="
-                user?.getAvatarOrDefaultUrl()
-            "
+            :logo-src="user?.getAvatarOrDefaultUrl()"
             :title="user?.name"
             :subtitle="'Persoonsprofiel'"
         />
