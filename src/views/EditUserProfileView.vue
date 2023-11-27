@@ -138,7 +138,6 @@
                             <v-switch
                                 label="Publiek e-mail"
                                 v-model="isEmailPublic"
-                                :model-value="isEmailPublic"
                                 color="primary"
                                 hide-details
                             ></v-switch>
@@ -150,7 +149,6 @@
                             <v-switch
                                 label="Publiek telefoon nummer"
                                 v-model="isPhoneNumberPublic"
-                                :model-value="isPhoneNumberPublic"
                                 color="primary"
                                 hide-details
                             ></v-switch>
@@ -254,7 +252,7 @@ async function editUser() {
 }
 </script>
 <style scoped>
-.banner {
+.avatar {
     max-width: 12rem;
 }
 </style>

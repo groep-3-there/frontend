@@ -9,7 +9,7 @@
             :banner-src="'/banners/banner-1.jpg'"
             :darken="true"
             :logo-src="
-                user?.department?.parentCompany?.getProfileOrDefaultImageUrl()
+                user?.getAvatarOrDefaultUrl()
             "
             :title="user?.name"
             :subtitle="'Persoonsprofiel'"
@@ -57,7 +57,7 @@
 
         <v-row no-gutters>
             <v-col cols="10" class="mx-auto user-information">
-                <p class="text-center">{{ user.info }}</p>
+                <p class="text-center" v-html="user.info"></p>
             </v-col>
         </v-row>
 
