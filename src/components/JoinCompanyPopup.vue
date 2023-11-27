@@ -76,10 +76,10 @@ watch(companyCode, async (newVal) => {
             const department = await API.getDepartmentByCode(newVal as string);
             joinDepartment.value = department;
         } catch (err) {
-          snackbarStore.createSimple(
-              "Er is iets misgegaan of de bedrijfscode is fout",
-              "error",
-          );
+            snackbarStore.createSimple(
+                "Er is iets misgegaan of de bedrijfscode is fout",
+                "error",
+            );
         } finally {
             checkingInProgress.value = false;
         }
