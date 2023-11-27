@@ -13,6 +13,7 @@ export const useSessionStore = defineStore("session", {
             if (!API.hasAuthToken()) {
                 return;
             }
+
             try{
                 this.loggedInUser = await API.getCurrentUser();
             }
@@ -21,6 +22,7 @@ export const useSessionStore = defineStore("session", {
                 useSnackbarStore().createSimple("U bent uitgelogd, log opnieuw in", "warning");
                 console.warn(e);
             }
+
         },
         async logOut() {
             API.removeAuthToken();
