@@ -95,6 +95,10 @@
                 </div>
             </template>
         </v-row>
+        <v-row class="d-flex justify-center flex-wrap user-bubbles mx-auto">
+            <UserBubble v-for="user in members" :user="user" :key="user.id" />
+        </v-row>
+        <v-divider class="my-8"></v-divider>
         <v-row>
             <v-col cols="12" class="">
                 <div class="d-flex flex-wrap justify-center">
@@ -109,7 +113,8 @@
                 </span>
             </p>
         </v-row>
-        <v-spacer class="mb-4"></v-spacer>
+        <v-spacer class="mt-7"></v-spacer>
+
         <v-row
             v-if="
                 sessionStore.loggedInUser?.hasPermissionAtDepartment(
@@ -133,10 +138,77 @@
             >
         </v-row>
         <v-spacer class="mb-12"></v-spacer>
+
+        <v-row>
+            <v-col cols="12" class="">
+                <div class="d-flex flex-wrap justify-center mb-8">
+                    <h1 class="italic-title">
+                        Uw afdeling :
+                        {{ sessionStore.loggedInUser?.department?.name }}
+                    </h1>
+                </div>
+                <v-row>
+                    <v-btn
+                        v-if="
+                            !inviteCode &&
+                            sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                                'DEPARTMENT_MANAGE',
+                                sessionStore.loggedInUser.department?.id,
+                            )
+                        "
+                        class="mx-auto my-4"
+                        color="primary"
+                        prepend-icon="mdi-plus"
+                        @click="getDepartmentInviteCode"
+                        >Uitnodigingscode ophalen</v-btn
+                    >
+                </v-row>
+                <div class="d-flex justify-center" v-if="inviteCode">
+                    <div class="invite-box">
+                        <p class="text-center">
+                            Deel deze link met uw medewerkers, zodat zij bij
+                            deze afdeling komen.
+                        </p>
+                        <div class="code-field">
+                            <v-text-field
+                                @focus="(e: any) => copyCode()"
+                                v-model="inviteLink"
+                                :label="
+                                    inviteLinkCopied
+                                        ? 'Gekopieerd!'
+                                        : 'Uitnodigingslink'
+                                "
+                                :color="
+                                    inviteLinkCopied ? 'success' : 'primary'
+                                "
+                                readonly
+                                variant="underlined"
+                                class="mx-auto mt-4"
+                                prepend-inner-icon="mdi-content-copy"
+                            ></v-text-field>
+                        </div>
+                    </div>
+                </div>
+                <v-spacer class="mt-8"></v-spacer>
+
+                <v-spacer class="mt-8"></v-spacer>
+            </v-col>
+        </v-row>
     </template>
 </template>
 
 <style>
+.user-bubbles {
+    max-width: 70%;
+}
+.invite-box {
+    width: 600px;
+}
+.code-field {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
 .department-filter-option {
     cursor: pointer;
     transition: color 0.2s;
@@ -204,6 +276,7 @@ import { Department } from "@/models/Department";
 import { Challenge } from "@/models/Challenge";
 import ChallengeCard from "@/components/ChallengeCard.vue";
 import DepartmentAddPopup from "@/components/DepartmentAddPopup.vue";
+import UserBubble from "@/components/UserBubble.vue";
 const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay();
 
 const user = ref() as Ref<User | null>;
@@ -215,6 +288,11 @@ const company: Ref<Company | null> = ref(null);
 const departments: Ref<Department[] | null> = ref(null);
 const challenges: Ref<Challenge[] | null> = ref(null);
 const showAddDepartmentPopup = ref(false);
+const members: Ref<User[]> = ref([]);
+
+const inviteCode = ref("");
+const inviteLink = ref("");
+const inviteLinkCopied = ref(false);
 
 const filteredChallenges = computed(() => {
     if (!challenges.value) return [];
@@ -229,7 +307,9 @@ async function loadCompany() {
     console.log("Loading company");
     company.value = await API.getCompany(parseInt(id));
 }
-
+async function loadUsers() {
+    members.value = await API.getCompanyMembersByCompanyId(parseInt(id));
+}
 async function getDepartmentsForCompany() {
     console.log("Loading departments for company");
     departments.value = await API.getDepartmentsForCompany(parseInt(id));
@@ -247,8 +327,21 @@ onMounted(async () => {
     await loadCompany();
     await getDepartmentsForCompany();
     await getAllChallengesForCompany();
+    await loadUsers();
 });
-
+async function getDepartmentInviteCode() {
+    const code = await API.getOrGenerateDepartmentCode(parseInt(id));
+    inviteCode.value = code.code;
+    const cleanUrl = window.location.href.split("/")[2];
+    inviteLink.value = `${cleanUrl}?invite=${code.code}`;
+}
+function copyCode() {
+    navigator.clipboard.writeText(inviteLink.value);
+    inviteLinkCopied.value = true;
+    setTimeout(() => {
+        inviteLinkCopied.value = false;
+    }, 2500);
+}
 function banner() {
     return {
         "background-image": `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url("${company.value?.getBannerForCompany()}")`,
