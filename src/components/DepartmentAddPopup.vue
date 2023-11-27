@@ -205,7 +205,6 @@ async function createDepartment() {
             return;
         }
     } catch (e) {
-        console.log(e);
         error.value = "Er is iets misgegaan";
         loading.value = false;
         return;

@@ -335,7 +335,6 @@ async function createChallenge() {
         tags: tagString,
         visibility: getVisibilityCodeName(visibility.value),
     };
-    console.log("Creating challenge", challenge);
     const created = await Api.createChallenge(challenge);
 
     router.push(`/challenge/${created?.id}`);
