@@ -11,7 +11,6 @@ import { useSessionStore } from "@/store/sessionStore";
 import { CompanyRequestsResults } from "./models/CompanyRequestsResults";
 import { Department } from "./models/Department";
 import { DepartmentCode } from "./models/DepartmentCode";
-import { at } from "vitest/dist/reporters-5f784f42";
 
 async function postRequest(url: string, bodyObject: {}) {
     const res = await fetch(API.BASEURL + url, {
