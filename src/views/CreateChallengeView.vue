@@ -311,11 +311,9 @@ async function createChallenge() {
     inUploadProgress.value = true;
     //upload banner
     let uploadedBannerId = null;
-    console.log(banner.value);
+
     if (banner.value?.length) {
-        console.log("Uploading banner");
         const response = await Api.uploadImage(banner.value[0]);
-        console.log(response);
         uploadedBannerId = response.id;
     }
 
@@ -337,7 +335,6 @@ async function createChallenge() {
         tags: tagString,
         visibility: getVisibilityCodeName(visibility.value),
     };
-    console.log("Creating challenge", challenge);
     const created = await Api.createChallenge(challenge);
 
     router.push(`/challenge/${created?.id}`);

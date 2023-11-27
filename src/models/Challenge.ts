@@ -20,7 +20,6 @@ export class Challenge {
     visibility: string;
     imageAttachments: Image[];
     constructor(data: any) {
-        console.log(data);
         this.id = data.id;
         this.author = new User(data.author);
         this.department = new Department(data.department);
