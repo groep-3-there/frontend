@@ -41,7 +41,7 @@
                         <v-list-item
                             :value="1"
                             :key="1"
-                            @click="$router.push(`/edit-profile/${user?.id}`)"
+                            @click="$router.push(`/user/${user?.id}/edit`)"
                         >
                             <v-list-item-title
                                 ><v-icon class="mr-1" size="24"

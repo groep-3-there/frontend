@@ -44,14 +44,14 @@ const routes = [
                 component: () => import("@/views/CreateChallengeView.vue"),
             },
             {
-                path: "edit-profile/:id",
-                name: "Profiel bewerken",
-                component: () => import("@/views/EditUserProfileView.vue"),
-            },
-            {
                 path: "user/:id",
                 name: "Profiel",
                 component: () => import("@/views/UserProfileView.vue"),
+            },
+            {
+                path: "user/:id/edit",
+                name: "Profiel bewerken",
+                component: () => import("@/views/EditUserProfileView.vue"),
             },
             {
                 path: "user/:id",
