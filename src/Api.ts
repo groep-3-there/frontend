@@ -163,7 +163,6 @@ namespace API {
         const data = await postRequest(`department/join/${code}`, {});
         return data;
     }
-
     export async function getOrGenerateDepartmentCode(departmentId : number){
         const data = await getRequest(`departmentcode/${departmentId}`);
         return new DepartmentCode(data);

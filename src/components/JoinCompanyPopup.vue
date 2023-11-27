@@ -32,8 +32,8 @@
                 <v-btn color="green-darken-1" variant="text" @click="close">
                     Annuleren
                 </v-btn>
-                <v-btn color="green-darken-1" variant="text" @click="accept" :disabled="!joinDepartment">
-                    Aansluiten
+                <v-btn color="green-darken-1" variant="text" @click="accept">
+                    Versturen
                 </v-btn>
             </v-card-actions>
         </v-card>
@@ -53,11 +53,11 @@ const checkingInProgress = ref(false);
 const snackbarStore = useSnackbarStore();
 const sessionStore = useSessionStore();
 let _thresholdSearchDepartment: any = null;
-const icon = computed(()=>{
-    if(checkingInProgress.value){
+const icon = computed(() => {
+    if (checkingInProgress.value) {
         return "mdi-loading mdi-spin";
     }
-    if(joinDepartment.value){
+    if (joinDepartment.value) {
         return "mdi-check";
     }
     return "mdi-close";
@@ -77,9 +77,7 @@ watch(companyCode, async (newVal) => {
             joinDepartment.value = department;
         } catch (err) {
             console.log("Invalid code");
-
-        }
-        finally{
+        } finally {
             checkingInProgress.value = false;
         }
     }, 1000);
@@ -101,16 +99,20 @@ function close() {
 
 async function accept() {
     const success = await API.joinDepartment(companyCode.value);
-    if(success){
-        snackbarStore.createSimple("U bent succesvol toegevoegd aan het bedrijf", "success")
+    if (success) {
+        snackbarStore.createSimple(
+            "U bent succesvol toegevoegd aan het bedrijf",
+            "success",
+        );
         sessionStore.forceUpdate();
         close();
-    }
-    else{
-        snackbarStore.createSimple("Er is iets misgegaan of de code is fout", "error")
+    } else {
+        snackbarStore.createSimple(
+            "Er is iets misgegaan of de code is fout",
+            "error",
+        );
         close();
     }
-
 }
 </script>
 <style scoped>
