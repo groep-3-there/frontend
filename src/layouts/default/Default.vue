@@ -206,12 +206,13 @@
     position: fixed;
     bottom: 2%;
     left: 2%;
-    width: 64px !important;
-    height: 64px !important;
+    width: 72px !important;
+    height: 72px !important;
     z-index: 100;
     border-radius: 100%;
     padding: 0;
     margin: 0;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
 }
 
 .sidebar-toggle-icon {
