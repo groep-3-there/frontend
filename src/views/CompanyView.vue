@@ -355,7 +355,6 @@ const inviteLink = ref("");
 const inviteLinkCopied = ref(false);
 const members: Ref<User[]> = ref([]);
 
-
 const filteredChallenges = computed(() => {
     if (!challenges.value) return [];
     if (departmentNameFilter.value == "Alles") return challenges.value;
