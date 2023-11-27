@@ -129,6 +129,7 @@ import router from "@/router";
 import { onMounted } from "vue";
 import { Branch } from "@/models/Branch";
 import { Company } from "@/models/Company";
+import Banner from "@/components/Banner.vue";
 
 const standardbranches: Ref<Branch[]> = ref([]);
 const registeredCompanies: Ref<Company[]> = ref([]);

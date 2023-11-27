@@ -2,6 +2,7 @@
 import API from "@/Api";
 import { User } from "@/models/User";
 import { defineStore } from "pinia";
+import { useSnackbarStore } from "./Snackbar";
 
 export const useSessionStore = defineStore("session", {
     state: () => ({
@@ -12,7 +13,16 @@ export const useSessionStore = defineStore("session", {
             if (!API.hasAuthToken()) {
                 return;
             }
-            this.loggedInUser = await API.getCurrentUser();
+
+            try{
+                this.loggedInUser = await API.getCurrentUser();
+            }
+            catch(e){
+                API.removeAuthToken();
+                useSnackbarStore().createSimple("U bent uitgelogd, log opnieuw in", "warning");
+                console.warn(e);
+            }
+
         },
         async logOut() {
             API.removeAuthToken();
