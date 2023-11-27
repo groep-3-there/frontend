@@ -232,14 +232,9 @@ import { computed } from "vue";
 import { ref } from "vue";
 import { useDisplay } from "vuetify";
 import LoginPopup from "@/components/LoginPopup.vue";
-import UserRegister from "@/components/UserRegister.vue";
 import UserRegister2 from "@/components/UserRegister2.vue";
 
-import router from "@/router";
-import { watch } from "vue";
-import { User } from "@/models/User";
 import { onMounted } from "vue";
-import API from "@/Api";
 import CompanyRegistrationPopUp from "@/components/CompanyRegistrationPopUp.vue";
 import JoinCompanyPopup from "@/components/JoinCompanyPopup.vue";
 import InviteListener from "@/components/InviteListener.vue";

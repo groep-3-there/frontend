@@ -12,9 +12,6 @@
                     <v-alert type="error" v-if="emailIsTaken">
                         Dit email adres is al in gebruik
                     </v-alert>
-                    <v-alert type="error" v-if="emailIsTaken">
-                        Dit email adres is al in gebruik
-                    </v-alert>
                     <v-text-field
                         label="E-mailadres"
                         v-model="email"
@@ -68,24 +65,9 @@
                         </h2>
                     </div>
                     <v-spacer class="mt-8"></v-spacer>
-                    <div v-if="joinDepartment" class="d-flex header">
-                        <img
-                            class="invite-logo"
-                            :src="
-                                joinDepartment?.parentCompany?.getProfileOrDefaultImageUrl()
-                            "
-                            alt="logo"
-                        />
-                        <h2 class="text-center invite-title ml-2">
-                            Uitnodiging van
-                            {{ joinDepartment?.parentCompany?.name }}
-                        </h2>
-                    </div>
-                    <v-spacer class="mt-8"></v-spacer>
                     <v-text-field
                         :prepend-inner-icon="codeIcon"
                         label="Bedrijfscode (optioneel)"
-                        :color="joinDepartment ? 'green' : 'gray'"
                         :color="joinDepartment ? 'green' : 'gray'"
                         v-model="companyCode"
                         type="text"
@@ -163,7 +145,6 @@
                             <v-col class="d-flex justify-center align-center">
                                 <v-btn
                                     :disabled="disableRegister"
-                                    :disabled="disableRegister"
                                     color="primary"
                                     type="submit"
                                     @click="onSubmit"
@@ -185,16 +166,12 @@
 
 <script setup lang="ts">
 import { Ref, onMounted, ref, watch } from "vue";
-import { Ref, onMounted, ref, watch } from "vue";
 import API from "@/Api";
 import { useSnackbarStore } from "@/store/Snackbar";
 import { useSessionStore } from "@/store/sessionStore";
-import { useRoute } from "vue-router";
-import { Department } from "@/models/Department";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { Department } from "@/models/Department";
-import { computed } from "vue";
 const snackbarStore = useSnackbarStore();
 const sessionStore = useSessionStore();
 const emit = defineEmits(["onClose", "onRequestLogin"]);

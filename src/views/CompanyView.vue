@@ -117,7 +117,6 @@
                 </span>
             </p>
         </v-row>
-        <v-spacer class="mt-7"></v-spacer>
 
         <v-spacer class="mt-7"></v-spacer>
 
@@ -339,7 +338,6 @@ import { Challenge } from "@/models/Challenge";
 import ChallengeCard from "@/components/ChallengeCard.vue";
 import DepartmentAddPopup from "@/components/DepartmentAddPopup.vue";
 import UserBubble from "@/components/UserBubble.vue";
-import UserBubble from "@/components/UserBubble.vue";
 const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay();
 
 const user = ref() as Ref<User | null>;
@@ -351,16 +349,12 @@ const company: Ref<Company | null> = ref(null);
 const departments: Ref<Department[] | null> = ref(null);
 const challenges: Ref<Challenge[] | null> = ref(null);
 const showAddDepartmentPopup = ref(false);
-const members: Ref<User[]> = ref([]);
 
 const inviteCode = ref("");
 const inviteLink = ref("");
 const inviteLinkCopied = ref(false);
 const members: Ref<User[]> = ref([]);
 
-const inviteCode = ref("");
-const inviteLink = ref("");
-const inviteLinkCopied = ref(false);
 
 const filteredChallenges = computed(() => {
     if (!challenges.value) return [];
@@ -374,9 +368,6 @@ const departmentNameFilter = ref("Alles");
 async function loadCompany() {
     console.log("Loading company");
     company.value = await API.getCompany(parseInt(id));
-}
-async function loadUsers() {
-    members.value = await API.getCompanyMembersByCompanyId(parseInt(id));
 }
 async function loadUsers() {
     members.value = await API.getCompanyMembersByCompanyId(parseInt(id));
