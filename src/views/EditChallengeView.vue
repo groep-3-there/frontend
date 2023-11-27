@@ -280,6 +280,10 @@ function visibilityProperties(item: any) {
         title: item.title,
         subtitle: item.subtitle,
     };
+    return {
+        title: item.title,
+        subtitle: item.subtitle,
+    };
 }
 function getVisibilityCodeName(title: string) {
     return visibilityItems.find((item) => item.title === title)?.codeName;

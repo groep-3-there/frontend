@@ -19,6 +19,11 @@ const routes = [
                     ),
             },
             {
+                path: "debug",
+                name: "Debug",
+                component: () => import("@/views/DebugView.vue"),
+            },
+            {
                 path: "challenges",
                 name: "Search Challanges",
                 component: () => import("@/views/SearchChallengesView.vue"),

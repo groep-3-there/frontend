@@ -1,5 +1,8 @@
 <template>
-    <template v-if="!challenge">
+    <template v-if="notFound">
+        <NotFound> Deze challenge bestaat niet </NotFound>
+    </template>
+    <template v-if="!challenge && !notFound">
         <div>
             <v-progress-circular indeterminate></v-progress-circular>
         </div>
@@ -195,7 +198,6 @@
                         @updateReactions="updateReactions"
                     />
                 </section>
-
                 <v-divider class="my-4"></v-divider>
 
                 <!-- Custom component voor reacties -->
@@ -297,12 +299,14 @@ import { onMounted } from "vue";
 import API from "@/Api";
 import { Image } from "@/models/Image";
 import { useSessionStore } from "@/store/sessionStore";
+import NotFound from "@/components/NotFound.vue";
 
 const sessionStore = useSessionStore();
 
 const concludePopup = ref(false);
 const archivePopup = ref(false);
 const challenge: Ref<Challenge | null> = ref(null);
+const notFound = ref(false);
 
 const challengeInputs: Ref<ChallengeInput[]> = ref([]);
 const inputsHaveChosenAnswer = computed(() =>
@@ -324,12 +328,14 @@ onMounted(async () => {
 });
 
 async function loadChallenge() {
-    console.log("Loading challenge");
-    challenge.value = await API.getChallengeById(parseInt(id));
+    try {
+        challenge.value = await API.getChallengeById(parseInt(id));
+    } catch (e) {
+        notFound.value = true;
+    }
 }
 
 async function updateReactions() {
-    console.log("Updating reactions");
     challengeInputs.value = await API.getChallengeInputs(parseInt(id));
 }
 
