@@ -304,19 +304,16 @@ const filteredChallenges = computed(() => {
 const departmentNameFilter = ref("Alles");
 
 async function loadCompany() {
-    console.log("Loading company");
     company.value = await API.getCompany(parseInt(id));
 }
 async function loadUsers() {
     members.value = await API.getCompanyMembersByCompanyId(parseInt(id));
 }
 async function getDepartmentsForCompany() {
-    console.log("Loading departments for company");
     departments.value = await API.getDepartmentsForCompany(parseInt(id));
 }
 
 async function getAllChallengesForCompany() {
-    console.log("Getting all the company challenges");
     challenges.value = await API.getAllChallengesForCompany(parseInt(id));
 }
 

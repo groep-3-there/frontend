@@ -121,7 +121,6 @@ onMounted(async () => {
 });
 
 async function loadRequests() {
-    console.log("loading requests");
     requests.value = await API.getCompanyRequests();
 }
 function banner() {

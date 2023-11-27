@@ -343,7 +343,6 @@ onMounted(async () => {
 });
 
 async function loadChallenge() {
-    console.log("Loading challenge");
     try {
         challenge.value = await API.getChallengeById(parseInt(id));
     } catch (e) {
@@ -352,7 +351,6 @@ async function loadChallenge() {
 }
 
 async function updateReactions() {
-    console.log("Updating reactions");
     challengeInputs.value = await API.getChallengeInputs(parseInt(id));
 }
 

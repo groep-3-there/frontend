@@ -203,7 +203,7 @@ watch(companyCode, async (newVal) => {
             const department = await API.getDepartmentByCode(newVal as string);
             joinDepartment.value = department;
         } catch (err) {
-            console.log("Invalid code");
+          // de department is niet gevonden
         } finally {
             checkingInProgress.value = false;
         }
@@ -235,7 +235,6 @@ watch(email, async () => {
 
         const result = await API.isEmailRegistered(email.value);
         if (result) {
-            console.log("taken");
             emailIsTaken.value = true;
         }
     }, 500);
