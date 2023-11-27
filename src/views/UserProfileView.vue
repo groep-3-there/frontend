@@ -42,7 +42,9 @@
                         <v-list-item
                             :value="1"
                             :key="1"
-                            @click="$router.push(`/niks`)"
+                            @click="
+                                $router.push(`/edit-profile/${user?.id}`)
+                            "
                         >
                             <v-list-item-title
                                 ><v-icon class="mr-1" size="24"
