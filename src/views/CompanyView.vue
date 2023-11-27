@@ -195,7 +195,6 @@
                     </div>
                 </div>
                 <v-spacer class="mt-8"></v-spacer>
-
             </v-col>
         </v-row>
 
@@ -353,7 +352,6 @@ const inviteCode = ref("");
 const inviteLink = ref("");
 const inviteLinkCopied = ref(false);
 const members: Ref<User[]> = ref([]);
-
 
 const filteredChallenges = computed(() => {
     if (!challenges.value) return [];
