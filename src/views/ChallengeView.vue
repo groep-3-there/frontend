@@ -183,21 +183,6 @@
                     </v-row>
                     <v-divider class="my-4"></v-divider>
                 </section>
-
-                <section v-if="sessionStore.loggedInUser">
-                    <h2 class="post-heading">Ideeënbus</h2>
-                    <v-alert
-                        type="info"
-                        v-if="challenge.status == 'IN_UITVOERING'"
-                        >U kunt geen reactie meer achterlaten, er is al een
-                        antwoord gekozen.</v-alert
-                    >
-                    <ChallengeCreateReaction
-                        v-if="challenge.status == 'OPEN_VOOR_IDEEEN'"
-                        :targetChallenge="challenge"
-                        @updateReactions="updateReactions"
-                    />
-                </section>
                 <section v-if="sessionStore.loggedInUser">
                     <h2 class="post-heading">Ideeënbus</h2>
                     <v-alert
