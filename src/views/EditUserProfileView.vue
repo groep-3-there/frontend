@@ -65,9 +65,7 @@
                             <v-text-field
                                 v-model="name"
                                 label="Naam"
-                                :rules="[
-                                    (v) => !!v || 'Dit veld is verplicht!',
-                                ]"
+                                :rules="nameRules"
                                 required
                                 variant="outlined"
                             ></v-text-field>
@@ -79,9 +77,7 @@
                             <v-text-field
                                 v-model="email"
                                 label="E-mail"
-                                :rules="[
-                                    (v) => !!v || 'Dit veld is verplicht!',
-                                ]"
+                                :rules="emailRules"
                                 required
                                 variant="outlined"
                             ></v-text-field>
@@ -202,6 +198,16 @@ function showAvatar() {
 function deleteAvatar() {
     originalUser.value!.avatarImageId = null;
 }
+const emailRules = [
+    (v: string) => !!v || "E-mail is verplicht",
+    (v: string) =>
+        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+        "E-mail moet geldig zijn",
+];
+const nameRules = [
+    (v: string) => !!v || "Naam is verplicht",
+    (v: string) => v.length >= 2 || "Naam moet minimaal 2 tekens lang zijn",
+];
 
 onMounted(async () => {
     originalUser.value = await Api.getUserById(id);

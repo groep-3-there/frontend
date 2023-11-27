@@ -1,5 +1,5 @@
 <template>
-    <template v-if="!user">
+    <template v-if="!user || user.id !== sessionStore.loggedInUser?.id">
         <div>
             <v-progress-circular indeterminate></v-progress-circular>
         </div>
