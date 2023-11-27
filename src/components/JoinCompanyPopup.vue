@@ -118,7 +118,7 @@ async function accept() {
 <style scoped>
 .dialog-card {
     padding: 10px;
-    min-width: 400px;
+    min-width: min(400px, 100%);
 }
 .invite-title {
     display: flex;
