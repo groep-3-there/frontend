@@ -52,7 +52,7 @@ function getStylingForType(type: string) {
     right: 50%;
     z-index: 100;
     height: 200px;
-    width:100%;
+    width: 100%;
     max-width: 500px;
     transform: translate(50%);
     pointer-events: none;
