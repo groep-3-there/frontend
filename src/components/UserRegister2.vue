@@ -125,9 +125,7 @@
                                 <v-col cols="12" md="6">
                                     <p>Bedrijf</p>
                                     <p v-if="joinDepartment">
-                                        {{
-                                            joinDepartment.parentCompany.name
-                                        }}
+                                        {{ joinDepartment.parentCompany.name }}
                                         |
                                         {{ joinDepartment.name }}
                                     </p>
