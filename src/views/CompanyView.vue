@@ -99,6 +99,12 @@
             <UserBubble v-for="user in members" :user="user" :key="user.id" />
         </v-row>
         <v-divider class="my-8"></v-divider>
+
+        <v-row class="d-flex justify-center flex-wrap user-bubbles mx-auto">
+            <UserBubble v-for="user in members" :user="user" :key="user.id" />
+        </v-row>
+        <v-divider class="my-8"></v-divider>
+
         <v-row>
             <v-col cols="12" class="">
                 <div class="d-flex flex-wrap justify-center">
@@ -113,6 +119,7 @@
                 </span>
             </p>
         </v-row>
+
         <v-spacer class="mt-7"></v-spacer>
 
         <v-row
@@ -288,11 +295,11 @@ const company: Ref<Company | null> = ref(null);
 const departments: Ref<Department[] | null> = ref(null);
 const challenges: Ref<Challenge[] | null> = ref(null);
 const showAddDepartmentPopup = ref(false);
-const members: Ref<User[]> = ref([]);
 
 const inviteCode = ref("");
 const inviteLink = ref("");
 const inviteLinkCopied = ref(false);
+const members: Ref<User[]> = ref([]);
 
 const filteredChallenges = computed(() => {
     if (!challenges.value) return [];

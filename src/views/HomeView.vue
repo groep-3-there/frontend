@@ -11,7 +11,6 @@
 import { useSessionStore } from "@/store/sessionStore";
 import LandingPage from "@/components/LandingPage.vue";
 import Homepage from "@/components/Homepage.vue";
-
 const sessionStore = useSessionStore();
 </script>
 
