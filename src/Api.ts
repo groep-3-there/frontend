@@ -74,6 +74,7 @@ namespace API {
     }
     export function removeAuthToken() {
         sessionStorage.setItem("authToken", "");
+        authToken = "";
     }
     export function getHeaders() {
         const headers: any = {
