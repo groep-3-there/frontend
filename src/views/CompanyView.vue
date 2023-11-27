@@ -196,7 +196,6 @@
                 </div>
                 <v-spacer class="mt-8"></v-spacer>
 
-                <v-spacer class="mt-8"></v-spacer>
             </v-col>
         </v-row>
 
@@ -389,7 +388,6 @@ onMounted(async () => {
     await loadCompany();
     await getDepartmentsForCompany();
     await getAllChallengesForCompany();
-    await loadUsers();
     await loadUsers();
 });
 async function getDepartmentInviteCode() {
