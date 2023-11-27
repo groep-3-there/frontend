@@ -99,6 +99,10 @@
             <UserBubble v-for="user in members" :user="user" :key="user.id" />
         </v-row>
         <v-divider class="my-8"></v-divider>
+        <v-row class="d-flex justify-center flex-wrap user-bubbles mx-auto">
+            <UserBubble v-for="user in members" :user="user" :key="user.id" />
+        </v-row>
+        <v-divider class="my-8"></v-divider>
         <v-row>
             <v-col cols="12" class="">
                 <div class="d-flex flex-wrap justify-center">
@@ -113,6 +117,7 @@
                 </span>
             </p>
         </v-row>
+
         <v-spacer class="mt-7"></v-spacer>
 
         <v-row
@@ -138,6 +143,62 @@
             >
         </v-row>
         <v-spacer class="mb-12"></v-spacer>
+
+        <v-row>
+            <v-col cols="12" class="">
+                <div class="d-flex flex-wrap justify-center mb-8">
+                    <h1 class="italic-title">
+                        Uw afdeling :
+                        {{ sessionStore.loggedInUser?.department?.name }}
+                    </h1>
+                </div>
+                <v-row>
+                    <v-btn
+                        v-if="
+                            !inviteCode &&
+                            sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                                'DEPARTMENT_MANAGE',
+                                sessionStore.loggedInUser.department?.id,
+                            )
+                        "
+                        class="mx-auto my-4"
+                        color="primary"
+                        prepend-icon="mdi-plus"
+                        @click="getDepartmentInviteCode"
+                        >Uitnodigingscode ophalen</v-btn
+                    >
+                </v-row>
+                <div class="d-flex justify-center" v-if="inviteCode">
+                    <div class="invite-box">
+                        <p class="text-center">
+                            Deel deze link met uw medewerkers, zodat zij bij
+                            deze afdeling komen.
+                        </p>
+                        <div class="code-field">
+                            <v-text-field
+                                @focus="(e: any) => copyCode()"
+                                v-model="inviteLink"
+                                :label="
+                                    inviteLinkCopied
+                                        ? 'Gekopieerd!'
+                                        : 'Uitnodigingslink'
+                                "
+                                :color="
+                                    inviteLinkCopied ? 'success' : 'primary'
+                                "
+                                readonly
+                                variant="underlined"
+                                class="mx-auto mt-4"
+                                prepend-inner-icon="mdi-content-copy"
+                            ></v-text-field>
+                        </div>
+                    </div>
+                </div>
+                <v-spacer class="mt-8"></v-spacer>
+
+                <v-spacer class="mt-8"></v-spacer>
+            </v-col>
+        </v-row>
 
         <v-row>
             <v-col cols="12" class="">
@@ -288,11 +349,11 @@ const company: Ref<Company | null> = ref(null);
 const departments: Ref<Department[] | null> = ref(null);
 const challenges: Ref<Challenge[] | null> = ref(null);
 const showAddDepartmentPopup = ref(false);
-const members: Ref<User[]> = ref([]);
 
 const inviteCode = ref("");
 const inviteLink = ref("");
 const inviteLinkCopied = ref(false);
+const members: Ref<User[]> = ref([]);
 
 const filteredChallenges = computed(() => {
     if (!challenges.value) return [];
@@ -327,6 +388,7 @@ onMounted(async () => {
     await loadCompany();
     await getDepartmentsForCompany();
     await getAllChallengesForCompany();
+    await loadUsers();
     await loadUsers();
 });
 async function getDepartmentInviteCode() {
