@@ -107,10 +107,6 @@
                                     {{ joinDepartment.parentCompany.name }} |
                                     {{ joinDepartment.name }}
                                 </p>
-                                <p v-if="joinDepartment">
-                                    {{ joinDepartment.parentCompany.name }} |
-                                    {{ joinDepartment.name }}
-                                </p>
                                 <p v-else>U heeft geen bedrijfscode ingevuld</p>
                             </v-col>
                         </v-row>

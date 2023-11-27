@@ -234,7 +234,6 @@ import { ref } from "vue";
 import { useDisplay } from "vuetify";
 import LoginPopup from "@/components/LoginPopup.vue";
 import UserRegister2 from "@/components/UserRegister2.vue";
-
 import { onMounted } from "vue";
 import CompanyRegistrationPopUp from "@/components/CompanyRegistrationPopUp.vue";
 import JoinCompanyPopup from "@/components/JoinCompanyPopup.vue";
