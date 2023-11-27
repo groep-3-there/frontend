@@ -296,12 +296,10 @@ const departments: Ref<Department[] | null> = ref(null);
 const challenges: Ref<Challenge[] | null> = ref(null);
 const showAddDepartmentPopup = ref(false);
 
-
 const inviteCode = ref("");
 const inviteLink = ref("");
 const inviteLinkCopied = ref(false);
 const members: Ref<User[]> = ref([]);
-
 
 const filteredChallenges = computed(() => {
     if (!challenges.value) return [];
