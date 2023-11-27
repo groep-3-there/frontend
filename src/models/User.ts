@@ -9,7 +9,7 @@ export class User {
     tags: string;
     createdAt: Date;
     lastSeen: Date;
-    avatarImageId : number | null;
+    avatarImageId: number | null;
     avatar: Image | null;
     isEmailPublic: boolean;
     isPhoneNumberPublic: boolean;

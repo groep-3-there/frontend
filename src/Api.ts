@@ -199,7 +199,7 @@ namespace API {
     }
 
     export async function updateUser(ch: User | {}) {
-        console.log("TESTTTTTTT",ch);
+        console.log("TESTTTTTTT", ch);
         const data = await putRequest("user/update", ch);
         return new User(data);
     }

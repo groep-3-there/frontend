@@ -88,7 +88,7 @@
                         </v-col>
                     </v-row>
 
-                    <v-row>  
+                    <v-row>
                         <v-col>
                             <v-text-field
                                 v-model="phoneNumber"
@@ -168,8 +168,7 @@
                             Profiel bewerken
                         </v-btn>
                     </v-row>
-
-                </v-col> 
+                </v-col>
             </v-row>
         </v-form>
     </v-container>
@@ -238,7 +237,7 @@ async function editUser() {
     } else {
         uploadedAvatarId = originalUser.value!.avatarImageId;
     }
-    
+
     const user = {
         id: id,
         name: name.value,
@@ -247,7 +246,7 @@ async function editUser() {
         isEmailPublic: isEmailPublic.value,
         isPhoneNumberPublic: isPhoneNumberPublic.value,
         avatarImageId: uploadedAvatarId,
-        email: email.value, 
+        email: email.value,
         phoneNumber: phoneNumber.value,
     };
     await Api.updateUser(user);
