@@ -1,7 +1,11 @@
 <template>
     <v-tooltip :text="user.name" :location="'top'">
         <template v-slot:activator="{ props }">
-            <div v-bind="props" class="d-flex flex-row justify-center align-center user-box"  @click="$router.push('/user/' + user.id)">
+            <div
+                v-bind="props"
+                class="d-flex flex-row justify-center align-center user-box"
+                @click="$router.push('/user/' + user.id)"
+            >
                 <img
                     :src="user.getAvatarOrDefaultUrl()"
                     class="user-logo-small mr-2"
@@ -28,7 +32,7 @@
     border-radius: 100%;
     margin-left: auto;
 }
-.user-box{
+.user-box {
     padding: 8px;
     border-radius: 5px;
     border: 1px solid transparent;

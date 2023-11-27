@@ -45,7 +45,11 @@
                 <v-list>
                     <v-list-item
                         v-if="sessionStore.loggedInUser"
-                        @click="$router.push('/user/' + sessionStore.loggedInUser.id)"
+                        @click="
+                            $router.push(
+                                '/user/' + sessionStore.loggedInUser.id,
+                            )
+                        "
                         :prepend-avatar="
                             sessionStore.loggedInUser?.getAvatarOrDefaultUrl()
                         "

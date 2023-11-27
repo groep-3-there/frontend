@@ -8,12 +8,14 @@
         </div>
     </template>
     <template v-if="challenge">
-        <Banner 
-        :logo-src="challenge.department.parentCompany.getProfileOrDefaultImageUrl()"
-        :banner-src="challenge.getBannerOrDefaultImageUrl()"
-        :title="challenge.title"
-        :subtitle="'Challenge'"
-        :darken="true"
+        <Banner
+            :logo-src="
+                challenge.department.parentCompany.getProfileOrDefaultImageUrl()
+            "
+            :banner-src="challenge.getBannerOrDefaultImageUrl()"
+            :title="challenge.title"
+            :subtitle="'Challenge'"
+            :darken="true"
         />
 
         <v-row>
@@ -108,10 +110,7 @@
         </v-row>
         <v-row>
             <v-col cols="12" class="d-flex justify-center align-center">
-                <UserBubble
-                    :size="36"
-                    :user="challenge.author"
-                ></UserBubble>
+                <UserBubble :size="36" :user="challenge.author"></UserBubble>
             </v-col>
         </v-row>
         <v-divider class="mt-4"></v-divider>
@@ -205,11 +204,10 @@
 </template>
 
 <style>
-.small-text{
+.small-text {
     font-size: 0.8em;
-
 }
-.author-info-text{
+.author-info-text {
     line-height: 1.3em;
 }
 .reaction-type-selector {

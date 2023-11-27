@@ -5,13 +5,14 @@
         </div>
     </template>
     <template v-if="user">
-        <Banner 
-        :banner-src="'/banners/banner-1.jpg'"
-        :darken="true"
-        :logo-src="user?.department?.parentCompany?.getProfileOrDefaultImageUrl()"
-        :title="user?.name"
-        :subtitle="'Persoonsprofiel'"
-        
+        <Banner
+            :banner-src="'/banners/banner-1.jpg'"
+            :darken="true"
+            :logo-src="
+                user?.department?.parentCompany?.getProfileOrDefaultImageUrl()
+            "
+            :title="user?.name"
+            :subtitle="'Persoonsprofiel'"
         />
         <v-row>
             <v-col md="3" class="d-flex align-center justify-center">
@@ -24,7 +25,7 @@
                     })
                 }}
             </v-col>
-            <v-col cols="12" md="6"  class="d-flex flex-wrap justify-center">
+            <v-col cols="12" md="6" class="d-flex flex-wrap justify-center">
                 <Tag v-for="tag in user.tags.split(',')" :key="tag">{{
                     tag
                 }}</Tag>
@@ -53,7 +54,7 @@
             </v-col>
         </v-row>
         <v-spacer class="my-12"></v-spacer>
-        
+
         <v-row no-gutters>
             <v-col cols="10" class="mx-auto user-information">
                 <p class="text-center">{{ user.info }}</p>
@@ -76,7 +77,8 @@
                             class="company-logo"
                         />
                         <p class="ml-5">
-                            {{ user.department?.name  }} | {{ user.department?.parentCompany.name }}
+                            {{ user.department?.name }} |
+                            {{ user.department?.parentCompany.name }}
                         </p>
                     </div>
                 </div>
@@ -100,7 +102,6 @@
 </template>
 
 <style>
-
 .company-logo {
     max-width: min(80%, 25vw);
     border-radius: 100%;

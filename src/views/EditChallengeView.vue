@@ -1,12 +1,13 @@
 <template>
-    <Banner 
-    v-if="originalChallenge"
-    :title="'Bewerk challenge'"
-    :subtitle="'Maak aanpassingen naar wens'"
-    :banner-src="'/banners/werkplaats.jpg'"
-    :darken="true"
-    :logo-src="originalChallenge.department.parentCompany.getProfileOrDefaultImageUrl()"
-
+    <Banner
+        v-if="originalChallenge"
+        :title="'Bewerk challenge'"
+        :subtitle="'Maak aanpassingen naar wens'"
+        :banner-src="'/banners/werkplaats.jpg'"
+        :darken="true"
+        :logo-src="
+            originalChallenge.department.parentCompany.getProfileOrDefaultImageUrl()
+        "
     />
     <v-container v-if="originalChallenge">
         <v-form ref="editChallengeForm" @submit.prevent>

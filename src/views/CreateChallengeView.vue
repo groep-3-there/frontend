@@ -1,11 +1,15 @@
 <template>
-    <Banner 
-    :title="'Challenge maken'"
-    :subtitle="'Creeër een nieuwe challenge voor ' + sessionStore.loggedInUser?.department?.parentCompany.name"
-    :banner-src="'/banners/werkplaats.jpg'"
-    :darken="true"
-    :logo-src="sessionStore.loggedInUser?.department?.parentCompany.getProfileOrDefaultImageUrl()"
-
+    <Banner
+        :title="'Challenge maken'"
+        :subtitle="
+            'Creeër een nieuwe challenge voor ' +
+            sessionStore.loggedInUser?.department?.parentCompany.name
+        "
+        :banner-src="'/banners/werkplaats.jpg'"
+        :darken="true"
+        :logo-src="
+            sessionStore.loggedInUser?.department?.parentCompany.getProfileOrDefaultImageUrl()
+        "
     />
     <v-container>
         <v-spacer class="my-8"></v-spacer>
