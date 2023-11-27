@@ -32,8 +32,8 @@
                 <v-btn color="green-darken-1" variant="text" @click="close">
                     Annuleren
                 </v-btn>
-                <v-btn color="green-darken-1" variant="text" @click="accept">
-                    Versturen
+                <v-btn color="green-darken-1" variant="text" @click="accept" :disabled="!joinDepartment">
+                    Aansluiten
                 </v-btn>
             </v-card-actions>
         </v-card>
