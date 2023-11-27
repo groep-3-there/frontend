@@ -159,11 +159,11 @@ namespace API {
         });
         return data;
     }
-    export async function joinDepartment(code : string){
+    export async function joinDepartment(code: string) {
         const data = await postRequest(`department/join/${code}`, {});
         return data;
     }
-    export async function getOrGenerateDepartmentCode(departmentId : number){
+    export async function getOrGenerateDepartmentCode(departmentId: number) {
         const data = await getRequest(`departmentcode/${departmentId}`);
         return new DepartmentCode(data);
     }

@@ -1,17 +1,24 @@
 <template>
     <v-stepper v-model="stepperStep">
         <v-stepper-header>
-            <v-stepper-item :rules="stepOneRules" title="Account gegevens" value="1"></v-stepper-item>
+            <v-stepper-item
+                :rules="stepOneRules"
+                title="Account gegevens"
+                value="1"
+            ></v-stepper-item>
 
             <v-divider></v-divider>
 
             <v-stepper-item :rules="stepTwoRules" title="Naam" value="2">
             </v-stepper-item>
 
-
             <v-divider></v-divider>
 
-            <v-stepper-item title="Bedrijfscode" subtitle="Optioneel" value="3"></v-stepper-item>
+            <v-stepper-item
+                title="Bedrijfscode"
+                subtitle="Optioneel"
+                value="3"
+            ></v-stepper-item>
 
             <v-divider></v-divider>
 
@@ -25,35 +32,65 @@
                     <v-alert type="error" v-if="emailIsTaken">
                         Dit email adres is al in gebruik
                     </v-alert>
-                    <v-text-field label="E-mailadres" v-model="email" type="text" class="mt-2" variant="outlined"
-                        :rules="emailRules">
+                    <v-text-field
+                        label="E-mailadres"
+                        v-model="email"
+                        type="text"
+                        class="mt-2"
+                        variant="outlined"
+                        :rules="emailRules"
+                    >
                     </v-text-field>
-                    <v-text-field label="Wachtwoord" v-model="password" class="mt-2" variant="outlined"
-                        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'" :type="showPassword ? 'text' : 'password'"
-                        @click:append="showPassword = !showPassword" :rules="passwordRules">
+                    <v-text-field
+                        label="Wachtwoord"
+                        v-model="password"
+                        class="mt-2"
+                        variant="outlined"
+                        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                        :type="showPassword ? 'text' : 'password'"
+                        @click:append="showPassword = !showPassword"
+                        :rules="passwordRules"
+                    >
                     </v-text-field>
                 </v-stepper-window-item>
                 <v-stepper-window-item value="2">
                     <v-card flat class="mt-2">
-                        <v-text-field label="Naam" v-model="name" type="text" class="mt-2" variant="outlined"
-                            :rules="nameRules">
+                        <v-text-field
+                            label="Naam"
+                            v-model="name"
+                            type="text"
+                            class="mt-2"
+                            variant="outlined"
+                            :rules="nameRules"
+                        >
                         </v-text-field>
                     </v-card>
                 </v-stepper-window-item>
                 <v-stepper-window-item value="3">
                     <v-card flat class="mt-2">
                         <div v-if="joinDepartment" class="d-flex header">
-                            <img class="invite-logo" :src="joinDepartment?.parentCompany?.getProfileOrDefaultImageUrl()
-                                " alt="logo" />
+                            <img
+                                class="invite-logo"
+                                :src="
+                                    joinDepartment?.parentCompany?.getProfileOrDefaultImageUrl()
+                                "
+                                alt="logo"
+                            />
                             <h2 class="text-center invite-title ml-2">
                                 Uitnodiging van
                                 {{ joinDepartment?.parentCompany?.name }}
                             </h2>
                         </div>
                         <v-spacer class="mt-8"></v-spacer>
-                        <v-text-field :prepend-inner-icon="codeIcon
-                            " label="Bedrijfscode (optioneel)" :color="joinDepartment ? 'green' : 'gray'"
-                            v-model="companyCode" type="text" class="mt-2" variant="outlined">
+                        <v-text-field
+                            :prepend-inner-icon="codeIcon"
+                            label="Bedrijfscode (optioneel)"
+                            :color="joinDepartment ? 'green' : 'gray'"
+                            v-model="companyCode"
+                            type="text"
+                            class="mt-2"
+                            variant="outlined"
+                        >
                         </v-text-field>
                     </v-card>
                 </v-stepper-window-item>
@@ -64,27 +101,39 @@
                                 <v-col cols="12" md="6">
                                     <p>E-mailadres</p>
                                     <p v-if="email">{{ email }}</p>
-                                    <p v-else class="text-red">Vul een geldig email adres in!</p>
-                                    <p v-if="emailIsTaken" class="text-red mt-0">Dit email adres is al in gebruik!</p>
-    
+                                    <p v-else class="text-red">
+                                        Vul een geldig email adres in!
+                                    </p>
+                                    <p
+                                        v-if="emailIsTaken"
+                                        class="text-red mt-0"
+                                    >
+                                        Dit email adres is al in gebruik!
+                                    </p>
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-col cols="12" md="6">
                                     <p>Volledige naam</p>
                                     <p v-if="name">{{ name }}</p>
-                                    <p v-else class="text-red">Vul uw naam in!</p>
-    
+                                    <p v-else class="text-red">
+                                        Vul uw naam in!
+                                    </p>
                                 </v-col>
                             </v-row>
                             <v-row>
                                 <v-col cols="12" md="6">
                                     <p>Bedrijf</p>
                                     <p v-if="joinDepartment">
-                                        {{ joinDepartment.parentCompany.name }} |
+                                        {{
+                                            joinDepartment.parentCompany.name
+                                        }}
+                                        |
                                         {{ joinDepartment.name }}
                                     </p>
-                                    <p v-else>U heeft geen bedrijfscode ingevuld</p>
+                                    <p v-else>
+                                        U heeft geen bedrijfscode ingevuld
+                                    </p>
                                 </v-col>
                             </v-row>
                             <v-row>
@@ -94,10 +143,17 @@
                                             <div>
                                                 Ik ga akkoord met de
                                                 <v-tooltip location="top">
-                                                    <template v-slot:activator="{ props }">
-                                                        <a target="_blank"
+                                                    <template
+                                                        v-slot:activator="{
+                                                            props,
+                                                        }"
+                                                    >
+                                                        <a
+                                                            target="_blank"
                                                             href="https://blog.basetis.com/sites/default/files/media/imatge_header/spooning.png"
-                                                            v-bind="props" @click.stop>
+                                                            v-bind="props"
+                                                            @click.stop
+                                                        >
                                                             algememe voorwaarden
                                                         </a>
                                                     </template>
@@ -108,23 +164,37 @@
                                     </v-checkbox>
                                 </v-col>
                             </v-row>
-    
+
                             <v-row>
-                                <v-col class="d-flex justify-center align-center">
-                                    <v-btn :disabled="disableRegister" color="primary" type="submit" @click="onSubmit"
-                                        size="large" variant="elevated" prepend-icon="mdi-account-plus" class="px-4">
+                                <v-col
+                                    class="d-flex justify-center align-center"
+                                >
+                                    <v-btn
+                                        :disabled="disableRegister"
+                                        color="primary"
+                                        type="submit"
+                                        @click="onSubmit"
+                                        size="large"
+                                        variant="elevated"
+                                        prepend-icon="mdi-account-plus"
+                                        class="px-4"
+                                    >
                                         Registreer
                                     </v-btn>
                                 </v-col>
                             </v-row>
-    
                         </v-container>
                     </v-card>
                 </v-stepper-window-item>
             </v-stepper-window>
-
         </v-form>
-        <v-stepper-actions :disabled="disableStepperAction" v-bind:prev-text="'Vorige'" v-bind:next-text="nextText" @click:next="stepperStep++" @click:prev="stepperStep--">
+        <v-stepper-actions
+            :disabled="disableStepperAction"
+            v-bind:prev-text="'Vorige'"
+            v-bind:next-text="nextText"
+            @click:next="stepperStep++"
+            @click:prev="stepperStep--"
+        >
         </v-stepper-actions>
     </v-stepper>
 </template>
@@ -148,7 +218,7 @@ const codeParam = useRoute().query.invite;
 const joinDepartment: Ref<Department | null> = ref(null);
 const companyCode = ref("");
 let _thresholdSearchDepartment: any = null;
-const checkingInProgress = ref(false)
+const checkingInProgress = ref(false);
 
 const codeIcon = computed(() => {
     if (checkingInProgress.value) {
@@ -173,48 +243,67 @@ watch(companyCode, async (newVal) => {
         try {
             const department = await API.getDepartmentByCode(newVal as string);
             joinDepartment.value = department;
-        }
-        catch (err) {
-            console.log("Invalid code")
-        }
-        finally {
+        } catch (err) {
+            console.log("Invalid code");
+        } finally {
             checkingInProgress.value = false;
         }
     }, 1000);
 });
 
-const nextText = computed(()=>{
-    if(stepperStep.value == 2){
-        return 'Overslaan'
+const nextText = computed(() => {
+    if (stepperStep.value == 2) {
+        return "Overslaan";
     }
-    return 'Volgende'
-})
+    return "Volgende";
+});
 
-const disableStepperAction = computed(()=>{
-    if(stepperStep.value == 0){
-        return stepOneRules.some((rule)=>{return !rule()}) ? 'next' : false
+const disableStepperAction = computed(() => {
+    if (stepperStep.value == 0) {
+        return stepOneRules.some((rule) => {
+            return !rule();
+        })
+            ? "next"
+            : false;
     }
-    if(stepperStep.value == 1){
-        return stepTwoRules.some((rule)=>{return !rule()}) ? 'next' : false
+    if (stepperStep.value == 1) {
+        return stepTwoRules.some((rule) => {
+            return !rule();
+        })
+            ? "next"
+            : false;
     }
-    if(stepperStep.value == 2){
-        return false
+    if (stepperStep.value == 2) {
+        return false;
     }
-    if(stepperStep.value == 3){
-        return 'next'
+    if (stepperStep.value == 3) {
+        return "next";
     }
-    return false
-
-})
+    return false;
+});
 
 const stepOneRules = [
-    ()=>{return !emailIsTaken.value},
-    ()=>{return !emailRules.some((rule)=>{return !rule(email.value)})},
-    ()=>{return !passwordRules.some((rule)=>{return !rule(password.value)})},
-]
+    () => {
+        return !emailIsTaken.value;
+    },
+    () => {
+        return !emailRules.some((rule) => {
+            return !rule(email.value);
+        });
+    },
+    () => {
+        return !passwordRules.some((rule) => {
+            return !rule(password.value);
+        });
+    },
+];
 const stepTwoRules = [
-    ()=>{return !nameRules.some((rule)=>{return rule(name.value) !== true})},
-]
+    () => {
+        return !nameRules.some((rule) => {
+            return rule(name.value) !== true;
+        });
+    },
+];
 
 const email = ref("");
 const emailRules = [
@@ -224,7 +313,7 @@ const emailRules = [
         "E-mail moet geldig zijn",
 ];
 let _throttleEmailExist: any = null;
-const emailIsTaken = ref(false)
+const emailIsTaken = ref(false);
 watch(email, async () => {
     if (!email.value) {
         return;
@@ -241,12 +330,11 @@ watch(email, async () => {
 
         const result = await API.isEmailRegistered(email.value);
         if (result) {
-            console.log('taken');
+            console.log("taken");
             emailIsTaken.value = true;
         }
     }, 500);
-})
-
+});
 
 const password = ref("");
 const showPassword = ref(false);
@@ -335,7 +423,7 @@ async function onSubmit() {
     align-items: center;
     font-weight: 400;
 }
-*{
+* {
 }
 .invite-logo {
     width: 48px;
@@ -348,7 +436,7 @@ async function onSubmit() {
     padding: 2rem 0 2rem 0;
 }
 
-.data-container>* {
+.data-container > * {
     padding: 0 0 0 1rem;
 }
 
@@ -366,7 +454,7 @@ async function onSubmit() {
 }
 
 @media screen and (min-width: 700px) {
-    .data-container>* {
+    .data-container > * {
         padding: 0 0 0 8vw;
     }
 }

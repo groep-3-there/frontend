@@ -260,7 +260,7 @@
 </template>
 
 <style>
-.user-bubbles{
+.user-bubbles {
     max-width: 70%;
 }
 .invite-box {

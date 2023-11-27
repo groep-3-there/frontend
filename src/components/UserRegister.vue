@@ -83,9 +83,7 @@
                     </div>
                     <v-spacer class="mt-8"></v-spacer>
                     <v-text-field
-                        :prepend-inner-icon="
-                            codeIcon
-                        "
+                        :prepend-inner-icon="codeIcon"
                         label="Bedrijfscode (optioneel)"
                         :color="joinDepartment ? 'green' : 'gray'"
                         :color="joinDepartment ? 'green' : 'gray'"
@@ -105,9 +103,12 @@
                             <v-col cols="12" md="6">
                                 <p>E-mailadres</p>
                                 <p v-if="email">{{ email }}</p>
-                                <p v-else class="text-red">Vul een geldig email adres in!</p>
-                                <p v-if="emailIsTaken" class="text-red mt-0">Dit email adres is al in gebruik!</p>
-                                
+                                <p v-else class="text-red">
+                                    Vul een geldig email adres in!
+                                </p>
+                                <p v-if="emailIsTaken" class="text-red mt-0">
+                                    Dit email adres is al in gebruik!
+                                </p>
                             </v-col>
                         </v-row>
                         <v-row>
@@ -115,7 +116,6 @@
                                 <p>Volledige naam</p>
                                 <p v-if="name">{{ name }}</p>
                                 <p v-else class="text-red">Vul uw naam in!</p>
-                                
                             </v-col>
                         </v-row>
                         <v-row>
@@ -176,7 +176,6 @@
                                 </v-btn>
                             </v-col>
                         </v-row>
-                        
                     </v-container>
                 </v-card>
             </template>
@@ -205,13 +204,13 @@ const codeParam = useRoute().query.invite;
 const joinDepartment: Ref<Department | null> = ref(null);
 const companyCode = ref("");
 let _thresholdSearchDepartment: any = null;
-const checkingInProgress = ref(false)
+const checkingInProgress = ref(false);
 
-const codeIcon = computed(()=>{
-    if(checkingInProgress.value){
+const codeIcon = computed(() => {
+    if (checkingInProgress.value) {
         return "mdi-loading mdi-spin";
     }
-    if(joinDepartment.value){
+    if (joinDepartment.value) {
         return "mdi-check";
     }
     return "mdi-close";
@@ -227,14 +226,12 @@ watch(companyCode, async (newVal) => {
     _thresholdSearchDepartment = setTimeout(async () => {
         joinDepartment.value = null;
         _thresholdSearchDepartment = null;
-        try{
+        try {
             const department = await API.getDepartmentByCode(newVal as string);
             joinDepartment.value = department;
-        }
-        catch(err){
-           console.log("Invalid code")
-        }
-        finally{
+        } catch (err) {
+            console.log("Invalid code");
+        } finally {
             checkingInProgress.value = false;
         }
     }, 1000);
@@ -247,30 +244,29 @@ const emailRules = [
         /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
         "E-mail moet geldig zijn",
 ];
-let _throttleEmailExist : any = null;
-const emailIsTaken = ref(false)
-watch(email, async()=>{
-    if(!email.value){
+let _throttleEmailExist: any = null;
+const emailIsTaken = ref(false);
+watch(email, async () => {
+    if (!email.value) {
         return;
     }
-    if(!emailRules[1](email.value)){
+    if (!emailRules[1](email.value)) {
         return;
     }
-    if(_throttleEmailExist){
+    if (_throttleEmailExist) {
         return;
     }
-    _throttleEmailExist = setTimeout(async ()=>{
+    _throttleEmailExist = setTimeout(async () => {
         _throttleEmailExist = null;
         emailIsTaken.value = false;
 
         const result = await API.isEmailRegistered(email.value);
-        if(result){
-            console.log('taken');
+        if (result) {
+            console.log("taken");
             emailIsTaken.value = true;
         }
     }, 500);
-})
-
+});
 
 const password = ref("");
 const showPassword = ref(false);
