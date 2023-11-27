@@ -1,5 +1,8 @@
 <template>
-    <template v-if="!challenge">
+    <template v-if="notFound">
+        <NotFound> Deze challenge bestaat niet </NotFound>
+    </template>
+    <template v-if="!challenge && !notFound">
         <div>
             <v-progress-circular indeterminate></v-progress-circular>
         </div>
@@ -35,7 +38,13 @@
         <v-row>
             <v-col md="3" class="d-flex align-center justify-center">
                 <v-icon>mdi-calendar-blank</v-icon>
-                {{ challenge.createdAt.toLocaleDateString("nl-nl") }}
+                {{
+                    challenge.createdAt.toLocaleDateString("nl-nl", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                    })
+                }}
             </v-col>
             <v-col cols="12" md="6" class="">
                 <div class="d-flex flex-wrap justify-center">
@@ -146,7 +155,13 @@
                     <h2 class="post-heading">Einddatum</h2>
                     <p>
                         <v-icon>mdi-calendar-blank</v-icon>
-                        {{ challenge.endDate.toLocaleDateString("nl-nl") }}
+                        {{
+                            challenge.endDate.toLocaleDateString("nl-nl", {
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric",
+                            })
+                        }}
                     </p>
                 </section>
                 <section v-if="challenge.imageAttachments.length > 0">
@@ -169,6 +184,20 @@
                     <v-divider class="my-4"></v-divider>
                 </section>
 
+                <section v-if="sessionStore.loggedInUser">
+                    <h2 class="post-heading">Ideeënbus</h2>
+                    <v-alert
+                        type="info"
+                        v-if="challenge.status == 'IN_UITVOERING'"
+                        >U kunt geen reactie meer achterlaten, er is al een
+                        antwoord gekozen.</v-alert
+                    >
+                    <ChallengeCreateReaction
+                        v-if="challenge.status == 'OPEN_VOOR_IDEEEN'"
+                        :targetChallenge="challenge"
+                        @updateReactions="updateReactions"
+                    />
+                </section>
                 <section v-if="sessionStore.loggedInUser">
                     <h2 class="post-heading">Ideeënbus</h2>
                     <v-alert
@@ -285,12 +314,14 @@ import { onMounted } from "vue";
 import API from "@/Api";
 import { Image } from "@/models/Image";
 import { useSessionStore } from "@/store/sessionStore";
+import NotFound from "@/components/NotFound.vue";
 
 const sessionStore = useSessionStore();
 
 const concludePopup = ref(false);
 const archivePopup = ref(false);
 const challenge: Ref<Challenge | null> = ref(null);
+const notFound = ref(false);
 
 const challengeInputs: Ref<ChallengeInput[]> = ref([]);
 const inputsHaveChosenAnswer = computed(() =>
@@ -313,7 +344,11 @@ onMounted(async () => {
 
 async function loadChallenge() {
     console.log("Loading challenge");
-    challenge.value = await API.getChallengeById(parseInt(id));
+    try {
+        challenge.value = await API.getChallengeById(parseInt(id));
+    } catch (e) {
+        notFound.value = true;
+    }
 }
 
 async function updateReactions() {

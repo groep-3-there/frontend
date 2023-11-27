@@ -19,6 +19,11 @@ const routes = [
                     ),
             },
             {
+                path: "debug",
+                name: "Debug",
+                component: () => import("@/views/DebugView.vue"),
+            },
+            {
                 path: "challenges",
                 name: "Search Challanges",
                 component: () => import("@/views/SearchChallengesView.vue"),
@@ -39,16 +44,36 @@ const routes = [
                 component: () => import("@/views/EditChallengeView.vue"),
             },
             {
-                path: "user-registration",
-                name: "Account aanmaken",
-                component: () => import("@/views/UserRegistrationView.vue"),
+                path: "user/:id",
+                name: "Profiel",
+                component: () => import("@/views/UserProfileView.vue"),
+            },
+            {
+                path: "user/:id",
+                name: "Profiel",
+                component: () => import("@/views/UserProfileView.vue"),
+            },
+            {
+                path: "company/:id",
+                name: "Company",
+                component: () => import("@/views/CompanyView.vue"),
+            },
+            {
+                path: "/admin",
+                name: "Admin",
+                component: () => import("@/views/AdminView.vue"),
+            },
+            {
+                path: "admin/grade-companies",
+                name: "Grade Request",
+                component: () => import("@/views/CompanyRequestView.vue"),
             },
         ],
     },
 ];
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
+    history: createWebHistory(import.meta.env.BASE_URL),
     routes,
 });
 

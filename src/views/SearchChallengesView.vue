@@ -132,39 +132,23 @@ import { Company } from "@/models/Company";
 
 const standardbranches: Ref<Branch[]> = ref([]);
 const registeredCompanies: Ref<Company[]> = ref([]);
-/**
- * @type {string} - search term in search bar
- * empty string is default
- */
+
+/**@type {string} - search term in search bar, empty string is default */
 const searchTerm = ref("");
 
-/**
- * show (true) or hide (false) the div with filters,
- * hide is default
- */
+/** show (true) or hide (false) the div with filters, hide is default */
 const showfilters = ref(false);
 
-/**
- * @type {string[]} - selected branches to filter on
- * empty array is default
- */
+/** @type {string[]} - selected branches to filter on, empty array is default */
 const selectedBranches = ref([]);
 
-/**
- * @type {string[]} - selected companies to filter on
- * empty array is default
- */
+/** @type {string[]} - selected companies to filter on, empty array is default */
 const selectedCompanies = ref([]);
 
-/**
- * @type {string} - sort order for challenges, newest_first is default
- * choose between newest_first or deadline_closest_first
- */
+/** @type {string} - sort order for challenges, newest_first is default, choose between newest_first or deadline_closest_first */
 const sort = ref("newest_first");
 
-/**
- * @type {ChallengeSearchResults} - challenges[] + total pages + total elements
- */
+/** @type {ChallengeSearchResults} - challenges[] + total pages + total elements */
 const challenges = ref<ChallengeSearchResults>();
 
 /**
@@ -209,7 +193,7 @@ function buildQuery() {
         query.query = searchTerm.value;
     }
     if (selectedCompanies.value.length) {
-        query.company = selectedCompanies.value.join(",");
+        query.department.parentCompany = selectedCompanies.value.join(",");
     }
     if (selectedBranches.value.length) {
         query.branche = selectedBranches.value.join(",");

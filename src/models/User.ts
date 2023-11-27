@@ -37,8 +37,10 @@ export class User {
             : null;
         this.email = data.email;
         this.phoneNumber = data.phoneNumber;
-        this.role = new Role(data.role);
-        this.department = new Department(data.department);
+        this.role = data.role ? new Role(data.role) : null;
+        this.department = data.department
+            ? new Department(data.department)
+            : null;
     }
 
     getAvatarOrDefaultUrl() {
@@ -62,19 +64,19 @@ export class User {
         permission: string,
         departmentId: number | null | undefined,
     ) {
-        console.log(permission, " for ", this.role, " at ", departmentId);
+        // console.log(permission, " for ", this.role, " at ", departmentId);
         if (departmentId === null || departmentId === undefined) {
             return false;
         }
         if (!this.department || !this.role) {
-            console.log("no department or role");
+            // console.log("no department or role");
             return false;
         }
         if (this.role.isMatchmaker) {
             return true;
         }
         if (this.department.id !== departmentId) {
-            console.log("Not correct department");
+            // console.log("Not correct department");
             return false;
         }
         return this.role.permissions.some(

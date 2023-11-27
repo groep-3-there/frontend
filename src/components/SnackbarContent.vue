@@ -54,6 +54,7 @@ function getStylingForType(type: string) {
     height: 200px;
     width: 500px;
     transform: translate(50%);
+    pointer-events: none;
 }
 
 .snack-item {
@@ -69,6 +70,7 @@ function getStylingForType(type: string) {
     padding-top: 15px;
     padding-bottom: 15px;
     margin-bottom: 10px;
+    pointer-events: all;
 }
 .snack-item:hover {
     cursor: pointer;
