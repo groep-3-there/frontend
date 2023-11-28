@@ -11,6 +11,7 @@ import { useSessionStore } from "@/store/sessionStore";
 import { CompanyRequestsResults } from "./models/CompanyRequestsResults";
 import { Department } from "./models/Department";
 import { DepartmentCode } from "./models/DepartmentCode";
+import { Role } from "./models/Role";
 
 async function postRequest(url: string, bodyObject: {}) {
     const res = await fetch(API.BASEURL + url, {
@@ -317,6 +318,14 @@ namespace API {
             console.warn(e);
             return false;
         }
+    }
+    export async function LoadUsersFromDepartment(departmentId: number) {
+        const data = await getRequest(`department/${departmentId}/members`);
+        return data.map((d: any) => new User(d));
+    }
+    export async function LoadAssignableRoles() {
+        const data = await getRequest(`role/assignable`);
+        return data.map((d: any) => new Role(d));
     }
 }
 
