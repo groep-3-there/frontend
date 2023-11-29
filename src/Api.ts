@@ -218,6 +218,11 @@ namespace API {
         return new Challenge(data);
     }
 
+    export async function updateUser(ch: User | { id: number }) {
+        const data = await putRequest(`user/${ch.id}`, ch);
+        return new User(data);
+    }
+
     export async function uploadImage(img: File) {
         const data = await uploadFile("image/upload", "image", img);
         return new Image(data);

@@ -4,11 +4,13 @@
     </template>
     <template v-else>
         <Banner
-        :banner-src="'/banners/companytower.jpg'"
-        :darken="true"
-        :logo-src="sessionStore.loggedInUser?.department?.parentCompany?.getProfileOrDefaultImageUrl()"
-        :title="'Bedrijfsaanvragen'"
-        :subtitle="'Admin paneel'"
+            :banner-src="'/banners/companytower.jpg'"
+            :darken="true"
+            :logo-src="
+                sessionStore.loggedInUser?.department?.parentCompany?.getProfileOrDefaultImageUrl()
+            "
+            :title="'Bedrijfsaanvragen'"
+            :subtitle="'Admin paneel'"
         />
         <template
             v-for="companyRequest in requests?.content"

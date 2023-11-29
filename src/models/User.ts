@@ -9,7 +9,7 @@ export class User {
     tags: string;
     createdAt: Date;
     lastSeen: Date;
-    // avatarImageId : number | null;
+    avatarImageId: number | null;
     avatar: Image | null;
     isEmailPublic: boolean;
     isPhoneNumberPublic: boolean;
@@ -26,7 +26,7 @@ export class User {
         this.tags = data.tags;
         this.createdAt = new Date(data.createdAt);
         this.lastSeen = new Date(data.lastSeen);
-        // this.avatarImageId = data.avatarImageId;
+        this.avatarImageId = data.avatarImageId;
         this.avatar = data.avatarImageId
             ? new Image({ id: data.avatarImageId })
             : null;

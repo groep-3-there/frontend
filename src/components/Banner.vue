@@ -7,12 +7,7 @@
         align="center"
     >
         <v-col cols="6" md="3" class="d-flex justify-center">
-            <img
-                v-if="logoSrc"
-                :src="logoSrc"
-                alt="logo"
-                class="hero-logo"
-            />
+            <img v-if="logoSrc" :src="logoSrc" alt="logo" class="hero-logo" />
         </v-col>
         <v-col
             cols="10 "
@@ -46,37 +41,34 @@
 }
 .hero-logo {
     width: min(40%, 25vw);
-    
+
     border-radius: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
 }
-
 </style>
 <script setup lang="ts">
-import { computed } from 'vue';
-
+import { computed } from "vue";
 
 const props = defineProps({
     bannerSrc: String,
     logoSrc: String,
     title: String,
     subtitle: String,
-    darken:{
+    darken: {
         type: Boolean,
         default: false,
-    }
+    },
 });
 
 const bannerStyling = computed(() => {
-    if(props.darken){
+    if (props.darken) {
         return {
             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url("${props.bannerSrc}")`,
-    };
+        };
     }
     return {
         backgroundImage: `url(${props.bannerSrc})`,
     };
 });
-
 </script>

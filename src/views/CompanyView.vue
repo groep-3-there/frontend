@@ -1,12 +1,11 @@
 <template>
     <template v-if="!company || !departments"> Loading... </template>
     <template v-if="company && departments">
-        <Banner 
-        :logo-src="company.getProfileOrDefaultImageUrl()"
-        :title="company.name"
-        :subtitle="'Bedrijfsprofiel'"
-        :banner-src="company.getBannerForCompany()"
-
+        <Banner
+            :logo-src="company.getProfileOrDefaultImageUrl()"
+            :title="company.name"
+            :subtitle="'Bedrijfsprofiel'"
+            :banner-src="company.getBannerForCompany()"
         />
         <v-row>
             <v-col cols="12" md="12" class="">
@@ -78,7 +77,12 @@
         </v-row>
 
         <v-row class="d-flex justify-center flex-wrap user-bubbles mx-auto">
-            <UserBubble v-for="user in members" :with-name="false" :user="user" :key="user.id" />
+            <UserBubble
+                v-for="user in members"
+                :with-name="false"
+                :user="user"
+                :key="user.id"
+            />
         </v-row>
         <v-divider class="my-8"></v-divider>
 

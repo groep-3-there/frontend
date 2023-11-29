@@ -14,15 +14,16 @@ export const useSessionStore = defineStore("session", {
                 return;
             }
 
-            try{
+            try {
                 this.loggedInUser = await API.getCurrentUser();
-            }
-            catch(e){
+            } catch (e) {
                 API.removeAuthToken();
-                useSnackbarStore().createSimple("U bent uitgelogd, log opnieuw in", "warning");
+                useSnackbarStore().createSimple(
+                    "U bent uitgelogd, log opnieuw in",
+                    "warning",
+                );
                 console.warn(e);
             }
-
         },
         async logOut() {
             API.removeAuthToken();
