@@ -6,8 +6,8 @@
         justify="center"
         align="center"
     >
-        <v-col cols="6" md="3" class="d-flex justify-center">
-            <img v-if="logoSrc" :src="logoSrc" alt="logo" class="hero-logo" />
+        <v-col cols="6" md="3" class="d-flex justify-center" @click="$router.push(logoClickSrc)">
+            <img v-if="logoSrc" :src="logoSrc" alt="logo" class="hero-logo" :class="{'logo-hover':logoClickSrc !== ''}" />
         </v-col>
         <v-col
             cols="10 "
@@ -20,6 +20,10 @@
     </v-row>
 </template>
 <style scoped>
+.logo-hover:hover{
+    cursor: pointer;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.386);
+}
 .hero {
     background-size: cover;
     background-position: 0;
@@ -58,6 +62,10 @@ const props = defineProps({
     darken: {
         type: Boolean,
         default: false,
+    },
+    logoClickSrc: {
+        type: String,
+        default: '',
     },
 });
 

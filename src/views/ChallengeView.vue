@@ -16,6 +16,7 @@
             :title="challenge.title"
             :subtitle="'Challenge'"
             :darken="true"
+            :logo-click-src="`/company/${challenge.department.parentCompany.id}`"
         />
 
         <v-row>
@@ -285,7 +286,7 @@ const inputsHaveChosenAnswer = computed(() =>
     challengeInputs.value.some((input) => input.isChosenAnswer),
 );
 const userCanMarkAnswer = computed(() =>
-    sessionStore.loggedInUser!.hasPermissionAtDepartment(
+    sessionStore.loggedInUser?.hasPermissionAtDepartment(
         "CHALLENGE_MANAGE",
         challenge.value?.department.id,
     ),
