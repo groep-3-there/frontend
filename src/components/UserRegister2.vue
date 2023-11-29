@@ -297,6 +297,9 @@ const stepOneRules = [
 ];
 const stepTwoRules = [
     () => {
+        if(stepperStep.value == 0) {
+            return true; //otherwise the default value is red
+        }
         return !nameRules.some((rule) => {
             return rule(name.value) !== true;
         });
