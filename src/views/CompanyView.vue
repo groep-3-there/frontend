@@ -101,9 +101,10 @@
         </v-row>
 
         <v-spacer class="mt-7"></v-spacer>
-
+        <pre></pre>
         <v-row
             v-if="
+            sessionStore.loggedInUser?.department?.parentCompany.id == company.id &&
                 sessionStore.loggedInUser?.hasPermissionAtDepartment(
                     'DEPARTMENT_CREATE',
                     sessionStore.loggedInUser.department?.id,
@@ -128,7 +129,7 @@
 
         <v-row>
             <v-col cols="12" class="">
-                <div class="d-flex flex-wrap justify-center mb-8">
+                <div class="d-flex flex-wrap justify-center mb-8" v-if="sessionStore.loggedInUser?.department?.parentCompany.id == company.id">
                     <h1 class="italic-title">
                         Uw afdeling :
                         {{ sessionStore.loggedInUser?.department?.name }}
@@ -138,6 +139,7 @@
                     <v-btn
                         v-if="
                             !inviteCode &&
+                            sessionStore.loggedInUser?.department?.parentCompany.id == company.id &&
                             sessionStore.loggedInUser?.hasPermissionAtDepartment(
                                 'DEPARTMENT_MANAGE',
                                 sessionStore.loggedInUser.department?.id,
