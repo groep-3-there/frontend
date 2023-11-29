@@ -60,7 +60,7 @@ async function getRequest(url: string) {
 
 namespace API {
     export const BACKEND_URL = import.meta.env.PROD
-        ? "http://161.35.84.133:8080"
+        ? "http://matchmakergroep3.nl:8080"
         : "http://localhost:8080";
     export const BASEURL = `${BACKEND_URL}/api/v1/`;
 

@@ -12,8 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { useSnackbarStore, SnackMessage } from "@/store/Snackbar";
+import { useSnackbarStore } from "@/store/Snackbar";
 
 const snackbarStore = useSnackbarStore();
 

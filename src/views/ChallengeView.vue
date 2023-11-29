@@ -302,7 +302,6 @@
 <script lang="ts" setup>
 import ConcludeChallengePopup from "@/components/ConcludeChallengePopup.vue";
 import AreYouSurePopup from "@/components/AreYouSurePopup.vue";
-import RichEditor from "@/components/RichEditor.vue";
 import { Ref, computed, ref } from "vue";
 import { Challenge } from "@/models/Challenge";
 import Tag from "@/components/Tag.vue";
@@ -312,7 +311,6 @@ import { ChallengeInput } from "@/models/ChallengeInput";
 import { useRoute } from "vue-router";
 import { onMounted } from "vue";
 import API from "@/Api";
-import { Image } from "@/models/Image";
 import { useSessionStore } from "@/store/sessionStore";
 import NotFound from "@/components/NotFound.vue";
 

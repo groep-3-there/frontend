@@ -99,10 +99,6 @@
             <UserBubble v-for="user in members" :user="user" :key="user.id" />
         </v-row>
         <v-divider class="my-8"></v-divider>
-        <v-row class="d-flex justify-center flex-wrap user-bubbles mx-auto">
-            <UserBubble v-for="user in members" :user="user" :key="user.id" />
-        </v-row>
-        <v-divider class="my-8"></v-divider>
         <v-row>
             <v-col cols="12" class="">
                 <div class="d-flex flex-wrap justify-center">
