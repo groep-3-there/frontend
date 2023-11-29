@@ -259,12 +259,11 @@ async function editUser() {
         email: email.value,
         phoneNumber: phoneNumber.value,
     };
-    try{
+    try {
         await Api.updateUser(user);
-    }
-    catch(e){
-        snackbar.createSimple("Er is iets mis gegaan", "error")
-        return
+    } catch (e) {
+        snackbar.createSimple("Er is iets mis gegaan", "error");
+        return;
     }
     snackbar.createSimple("Uw profiel is succesvol bijgewerkt", "success");
     router.push(`/user/${id}`);

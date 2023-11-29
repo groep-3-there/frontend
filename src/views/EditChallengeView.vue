@@ -379,13 +379,12 @@ async function editChallenge() {
         imageAttachmentsIds: attachmentsWithPreviousImages,
         tags: tagString,
         visibility: getVisibilityCodeName(visibility.value),
-    };    
-    try{
+    };
+    try {
         await Api.updateChallenge(challenge);
-    }
-    catch(e){
-        snackbar.createSimple("Er is iets mis gegaan", "error")
-        return
+    } catch (e) {
+        snackbar.createSimple("Er is iets mis gegaan", "error");
+        return;
     }
     snackbar.createSimple("De challenge is succesvol bijgewerkt", "success");
     router.push(`/challenge/${id}`);
