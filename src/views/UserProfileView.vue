@@ -29,7 +29,7 @@
                 }}</Tag>
             </v-col>
             <v-col cols="12" md="3" class="d-flex justify-center align-center">
-                <v-menu>
+                <v-menu v-if="user.id === sessionStore.loggedInUser?.id">
                     <template v-slot:activator="{ props }">
                         <v-icon v-bind="props" size="48" class=""
                             >mdi-dots-horizontal</v-icon
