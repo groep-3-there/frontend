@@ -191,7 +191,7 @@
             v-bind:prev-text="'Vorige'"
             v-bind:next-text="nextText"
             @click:next="stepperStep++"
-            @click:prev="stepperStep = Math.max(stepperStep-1, 0)"
+            @click:prev="stepperStep = Math.max(stepperStep - 1, 0)"
         >
         </v-stepper-actions>
     </v-stepper>
@@ -262,7 +262,7 @@ const disableStepperAction = computed(() => {
             return !rule();
         })
             ? true
-            : 'prev';
+            : "prev";
     }
     if (stepperStep.value == 1) {
         return stepTwoRules.some((rule) => {
