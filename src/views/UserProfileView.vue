@@ -1,5 +1,5 @@
 <template>
-    <template v-if="!user || user.id !== sessionStore.loggedInUser?.id">
+    <template v-if="!user">
         <div>
             <v-progress-circular indeterminate></v-progress-circular>
         </div>
@@ -29,7 +29,7 @@
                 }}</Tag>
             </v-col>
             <v-col cols="12" md="3" class="d-flex justify-center align-center">
-                <v-menu>
+                <v-menu v-if="user.id === sessionStore.loggedInUser?.id">
                     <template v-slot:activator="{ props }">
                         <v-icon v-bind="props" size="48" class=""
                             >mdi-dots-horizontal</v-icon
@@ -67,7 +67,10 @@
                     <h2 class="post-heading">Bedrijf</h2>
                     <v-spacer class="my-2"></v-spacer>
 
-                    <div class="companyicon">
+                    <div class="company-icon company-hover"
+                    @click="$router.push(`/company/${user.department?.parentCompany.id}`)"
+                    
+                    >
                         <img
                             :src="
                                 user.department?.parentCompany.getProfileOrDefaultImageUrl()
@@ -100,6 +103,10 @@
 </template>
 
 <style>
+.company-hover:hover{
+    cursor: pointer;
+    box-shadow: 0 0 4px 2px rgba(67, 67, 67, 0.386);
+}
 .company-logo {
     max-width: min(80%, 25vw);
     border-radius: 100%;
@@ -107,27 +114,24 @@
     object-fit: cover;
 }
 
-.companyicon {
+.company-icon {
     display: flex;
+    border-radius: 10px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-color: transparent;
     align-items: center;
 }
 </style>
 
 <script lang="ts" setup>
-import ConcludeChallengePopup from "@/components/ConcludeChallengePopup.vue";
-import AreYouSurePopup from "@/components/AreYouSurePopup.vue";
-import RichEditor from "@/components/RichEditor.vue";
-import { Ref, computed, ref } from "vue";
-import { Challenge } from "@/models/Challenge";
+import { Ref, ref } from "vue";
 import Tag from "@/components/Tag.vue";
-import ChallengeReaction from "@/components/ChallengeReaction.vue";
-import ChallengeCreateReaction from "@/components/ChallengeCreateReaction.vue";
-import { ChallengeInput } from "@/models/ChallengeInput";
-
 import { useRoute } from "vue-router";
 import { onMounted } from "vue";
 import API from "@/Api";
-import { Image } from "@/models/Image";
 import { useSessionStore } from "@/store/sessionStore";
 import { User } from "@/models/User";
 import Banner from "@/components/Banner.vue";

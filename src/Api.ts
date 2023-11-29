@@ -67,13 +67,13 @@ namespace API {
     export const FIREBASE_PUBLIC_API_KEY =
         "AIzaSyCo7z9UVlNrdKMqtvfA-cEWWPqua3wDOkU";
 
-    let authToken = sessionStorage.getItem("authToken") || "";
+    let authToken = localStorage.getItem("authToken") || "";
 
     export function hasAuthToken() {
         return authToken != "";
     }
     export function removeAuthToken() {
-        sessionStorage.setItem("authToken", "");
+        localStorage.setItem("authToken", "");
         authToken = "";
     }
     export function getHeaders() {
@@ -314,7 +314,7 @@ namespace API {
             }
             const json = await res.json();
             authToken = json.idToken;
-            sessionStorage.setItem("authToken", authToken);
+            localStorage.setItem("authToken", authToken);
             if (authToken) {
                 return true;
             }
