@@ -148,7 +148,6 @@
                                                     >
                                                         <a
                                                             target="_blank"
-                                                            href="https://blog.basetis.com/sites/default/files/media/imatge_header/spooning.png"
                                                             v-bind="props"
                                                             @click.stop
                                                         >
