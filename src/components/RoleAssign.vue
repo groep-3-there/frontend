@@ -6,8 +6,9 @@
                     {{ props.user.name }}
                     <v-select
                         label="Select"
-                        :items="props.roles"
-                        v-model=selectedRole
+                        :items="roles.map((obj) => obj.name)"
+                        v-model="selectedRole"
+                        @update:model-value="(e) => updateRole(e)"
                     ></v-select>
                 </p>
             </v-col>
@@ -27,12 +28,18 @@ const props = defineProps({
         required: true,
     },
     roles: {
-        type: Role[],
+        type: Array as () => Role[],
         required: true,
     },
 });
 
 const selectedRole = ref<string | null>(props.user.role?.name || null);
+const emit = defineEmits(["update"]);
 
+function updateRole(newRole : any){
+    console.log(newRole)
+    const roleId = props.roles.find((obj) => obj.name === newRole)?.id
+    emit("update", { userId: props.user.id, roleId: roleId })
+}
 
 </script>
