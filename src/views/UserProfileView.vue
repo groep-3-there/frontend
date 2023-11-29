@@ -1,40 +1,37 @@
 <template>
-    <template v-if="!user">
+    <template v-if="!user || user.id !== sessionStore.loggedInUser?.id">
         <div>
             <v-progress-circular indeterminate></v-progress-circular>
         </div>
     </template>
     <template v-if="user">
-        <v-row
-            class="user-hero"
-            no-gutters
-            :style="banner()"
-            justify="center"
-            align="center"
-        >
-            <v-col cols="6" md="3" class="d-flex justify-center">
-                <img
-                    :src="user?.getAvatarOrDefaultUrl()"
-                    class="company-logo"
-                />
+        <Banner
+            :banner-src="'/banners/banner-1.jpg'"
+            :darken="true"
+            :logo-src="user?.getAvatarOrDefaultUrl()"
+            :title="user?.name"
+            :subtitle="'Persoonsprofiel'"
+        />
+        <v-row>
+            <v-col md="3" class="d-flex align-center justify-center">
+                <v-icon>mdi-calendar-blank</v-icon>
+                {{
+                    user.createdAt.toLocaleDateString("nl-nl", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                    })
+                }}
             </v-col>
-            <v-col
-                cols="7"
-                md="8"
-                class="d-flex hero-title flex-column justify-center align-start hero-text ml-4"
-            >
-                <h3 class="white-text">Persoonsprofiel</h3>
-                <h1 class="white-text">{{ user.name }}</h1>
-                <div class="d-flex flex-wrap justify-center">
-                    <Tag v-for="tag in user.tags.split(',')" :key="tag">{{
-                        tag
-                    }}</Tag>
-                </div>
+            <v-col cols="12" md="6" class="d-flex flex-wrap justify-center">
+                <Tag v-for="tag in user.tags.split(',')" :key="tag">{{
+                    tag
+                }}</Tag>
             </v-col>
-            <v-col>
+            <v-col cols="12" md="3" class="d-flex justify-center align-center">
                 <v-menu>
                     <template v-slot:activator="{ props }">
-                        <v-icon v-bind="props" size="48" class="white-text"
+                        <v-icon v-bind="props" size="48" class=""
                             >mdi-dots-horizontal</v-icon
                         >
                     </template>
@@ -42,7 +39,7 @@
                         <v-list-item
                             :value="1"
                             :key="1"
-                            @click="$router.push(`/niks`)"
+                            @click="$router.push(`/user/${user?.id}/edit`)"
                         >
                             <v-list-item-title
                                 ><v-icon class="mr-1" size="24"
@@ -54,22 +51,22 @@
                 </v-menu>
             </v-col>
         </v-row>
+        <v-spacer class="my-12"></v-spacer>
 
         <v-row no-gutters>
-            <v-col cols="10" class="mx-auto">
-                <section>
-                    <h2 class="post-heading">Informatie</h2>
-                    <p>{{ user.info }}</p>
-                </section>
+            <v-col cols="10" class="mx-auto user-information">
+                <p class="text-center" v-html="user.info"></p>
             </v-col>
         </v-row>
 
-        <v-divider class="mt-14"></v-divider>
+        <v-divider class="my-8"></v-divider>
 
         <v-row>
             <v-col cols="12" md="6" class="d-flex justify-center">
                 <div>
                     <h2 class="post-heading">Bedrijf</h2>
+                    <v-spacer class="my-2"></v-spacer>
+
                     <div class="companyicon">
                         <img
                             :src="
@@ -78,6 +75,7 @@
                             class="company-logo"
                         />
                         <p class="ml-5">
+                            {{ user.department?.name }} |
                             {{ user.department?.parentCompany.name }}
                         </p>
                     </div>
@@ -86,12 +84,13 @@
             <v-col cols="12" md="6">
                 <div>
                     <h2 class="post-heading">Contact</h2>
+                    <v-spacer class="my-2"></v-spacer>
                     <div v-if="user.isEmailPublic">
-                        <v-icon> mdi-email-outline </v-icon>
+                        <v-icon size="32"> mdi-email-outline </v-icon>
                         {{ user.email }}
                     </div>
                     <div v-if="user.isPhoneNumberPublic">
-                        <v-icon> mdi-phone </v-icon>
+                        <v-icon size="32"> mdi-phone </v-icon>
                         {{ user.phoneNumber }}
                     </div>
                 </div>
@@ -101,23 +100,6 @@
 </template>
 
 <style>
-.post-heading {
-    font-size: 1.6em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-
-.white-text {
-    color: white;
-}
-
-.user-hero {
-    background-size: cover;
-    background-position: 0;
-    padding-top: 6rem;
-    max-height: fit-content;
-}
-
 .company-logo {
     max-width: min(80%, 25vw);
     border-radius: 100%;
@@ -148,6 +130,7 @@ import API from "@/Api";
 import { Image } from "@/models/Image";
 import { useSessionStore } from "@/store/sessionStore";
 import { User } from "@/models/User";
+import Banner from "@/components/Banner.vue";
 
 const sessionStore = useSessionStore();
 

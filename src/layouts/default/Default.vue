@@ -45,6 +45,11 @@
                 <v-list>
                     <v-list-item
                         v-if="sessionStore.loggedInUser"
+                        @click="
+                            $router.push(
+                                '/user/' + sessionStore.loggedInUser.id,
+                            )
+                        "
                         :prepend-avatar="
                             sessionStore.loggedInUser?.getAvatarOrDefaultUrl()
                         "
@@ -82,13 +87,6 @@
                         prepend-icon="mdi-bug"
                         title="Debug"
                         value="debug"
-                    ></v-list-item>
-                    <v-list-item
-                        :key="3"
-                        @click="$router.push('/challenge/1')"
-                        prepend-icon="mdi-id-card"
-                        title="Challenge voorbeeld"
-                        value="challenge"
                     ></v-list-item>
                     <v-list-item
                         :key="4"
@@ -232,9 +230,11 @@ import { computed } from "vue";
 import { ref } from "vue";
 import { useDisplay } from "vuetify";
 import LoginPopup from "@/components/LoginPopup.vue";
+
 import UserRegister2 from "@/components/UserRegister2.vue";
 
 import { onMounted } from "vue";
+
 import CompanyRegistrationPopUp from "@/components/CompanyRegistrationPopUp.vue";
 import JoinCompanyPopup from "@/components/JoinCompanyPopup.vue";
 import InviteListener from "@/components/InviteListener.vue";

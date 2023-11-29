@@ -164,6 +164,7 @@ namespace API {
         const data = await postRequest(`department/join/${code}`, {});
         return data;
     }
+
     export async function getOrGenerateDepartmentCode(departmentId: number) {
         const data = await getRequest(`departmentcode/${departmentId}`);
         return new DepartmentCode(data);
@@ -215,6 +216,11 @@ namespace API {
     export async function updateChallenge(ch: Challenge | {}) {
         const data = await putRequest("challenge/update", ch);
         return new Challenge(data);
+    }
+
+    export async function updateUser(ch: User | { id: number }) {
+        const data = await putRequest(`user/${ch.id}`, ch);
+        return new User(data);
     }
 
     export async function uploadImage(img: File) {

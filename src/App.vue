@@ -16,7 +16,6 @@
 }
 </style>
 <script setup lang="ts">
-import HelloWorld from "@/components/HelloWorld.vue";
 import { ref } from "vue";
 import { useSessionStore } from "./store/sessionStore";
 import { useSnackbarStore } from "./store/Snackbar";
@@ -34,7 +33,7 @@ const snackbar = useSnackbarStore();
 onMounted(async () => {
     setInterval(async () => {
         try {
-            console.log(await API.pingServer());
+            await API.pingServer();
         } catch (error: any) {
             snackbar.createSimple("We konden de server niet bereiken", "error");
         }

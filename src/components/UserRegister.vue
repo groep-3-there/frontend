@@ -107,10 +107,6 @@
                                     {{ joinDepartment.parentCompany.name }} |
                                     {{ joinDepartment.name }}
                                 </p>
-                                <p v-if="joinDepartment">
-                                    {{ joinDepartment.parentCompany.name }} |
-                                    {{ joinDepartment.name }}
-                                </p>
                                 <p v-else>U heeft geen bedrijfscode ingevuld</p>
                             </v-col>
                         </v-row>
@@ -169,9 +165,11 @@ import { Ref, onMounted, ref, watch } from "vue";
 import API from "@/Api";
 import { useSnackbarStore } from "@/store/Snackbar";
 import { useSessionStore } from "@/store/sessionStore";
+
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { Department } from "@/models/Department";
+
 const snackbarStore = useSnackbarStore();
 const sessionStore = useSessionStore();
 const emit = defineEmits(["onClose", "onRequestLogin"]);
@@ -207,7 +205,7 @@ watch(companyCode, async (newVal) => {
             const department = await API.getDepartmentByCode(newVal as string);
             joinDepartment.value = department;
         } catch (err) {
-            console.log("Invalid code");
+            // de department is niet gevonden
         } finally {
             checkingInProgress.value = false;
         }
@@ -239,7 +237,6 @@ watch(email, async () => {
 
         const result = await API.isEmailRegistered(email.value);
         if (result) {
-            console.log("taken");
             emailIsTaken.value = true;
         }
     }, 500);
