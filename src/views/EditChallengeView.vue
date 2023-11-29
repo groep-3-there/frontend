@@ -1,4 +1,14 @@
 <template>
+    <Banner
+        v-if="originalChallenge"
+        :title="'Bewerk challenge'"
+        :subtitle="'Maak aanpassingen naar wens'"
+        :banner-src="'/banners/werkplaats.jpg'"
+        :darken="true"
+        :logo-src="
+            originalChallenge.department.parentCompany.getProfileOrDefaultImageUrl()
+        "
+    />
     <v-container v-if="originalChallenge">
         <v-form ref="editChallengeForm" @submit.prevent>
             <v-row>
@@ -239,6 +249,7 @@ import { useRoute } from "vue-router";
 import { onMounted } from "vue";
 import router from "@/router";
 import { Tag } from "@/models/Tag";
+import Banner from "@/components/Banner.vue";
 const originalChallenge: Ref<Challenge | null> = ref(null);
 const title = ref("");
 const summary = ref("");

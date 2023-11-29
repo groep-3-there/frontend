@@ -3,30 +3,15 @@
         U bent niet ingelogd
     </template>
     <template v-else>
-        <v-row
-            class="hero"
-            :style="banner()"
-            no-gutters
-            justify="center"
-            align="center"
-        >
-            <v-col cols="6" md="3" class="d-flex justify-center">
-                <img
-                    :src="
-                        sessionStore.loggedInUser?.department?.parentCompany?.getProfileOrDefaultImageUrl()
-                    "
-                    class="hero-logo"
-                />
-            </v-col>
-            <v-col
-                cols="10 "
-                md="8"
-                class="d-flex hero-title flex-column justify-center align-start hero-text ml-4"
-            >
-                <h3 class="white-text">Admin paneel</h3>
-                <h1 class="white-text challenge-title">Bedrijfsaanvragen</h1>
-            </v-col>
-        </v-row>
+        <Banner
+            :banner-src="'/banners/companytower.jpg'"
+            :darken="true"
+            :logo-src="
+                sessionStore.loggedInUser?.department?.parentCompany?.getProfileOrDefaultImageUrl()
+            "
+            :title="'Bedrijfsaanvragen'"
+            :subtitle="'Admin paneel'"
+        />
         <template
             v-for="companyRequest in requests?.content"
             :key="companyRequest.id"
@@ -112,6 +97,7 @@ import { CompanyRequestsResults } from "@/models/CompanyRequestsResults";
 import { onMounted } from "vue";
 import { Ref, ref } from "vue";
 import { useSessionStore } from "@/store/sessionStore";
+import Banner from "@/components/Banner.vue";
 
 const sessionStore = useSessionStore();
 const requests = ref<CompanyRequestsResults>();
@@ -121,7 +107,6 @@ onMounted(async () => {
 });
 
 async function loadRequests() {
-    console.log("loading requests");
     requests.value = await API.getCompanyRequests();
 }
 function banner() {

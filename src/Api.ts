@@ -60,7 +60,7 @@ async function getRequest(url: string) {
 
 namespace API {
     export const BACKEND_URL = import.meta.env.PROD
-        ? "http://161.35.84.133:8080"
+        ? "http://matchmakergroep3.nl:8080"
         : "http://localhost:8080";
     export const BASEURL = `${BACKEND_URL}/api/v1/`;
 
@@ -216,6 +216,11 @@ namespace API {
     export async function updateChallenge(ch: Challenge | {}) {
         const data = await putRequest("challenge/update", ch);
         return new Challenge(data);
+    }
+
+    export async function updateUser(ch: User | { id: number }) {
+        const data = await putRequest(`user/${ch.id}`, ch);
+        return new User(data);
     }
 
     export async function uploadImage(img: File) {

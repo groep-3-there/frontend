@@ -1,32 +1,12 @@
 <template>
     <template v-if="!company || !departments"> Loading... </template>
     <template v-if="company && departments">
-        <v-row
-            class="challenge-hero"
-            :style="banner()"
-            no-gutters
-            justify="center"
-            align="center"
-        >
-            <v-col cols="6" md="3" class="d-flex justify-center">
-                <img
-                    :src="company.getProfileOrDefaultImageUrl()"
-                    class="company-logo"
-                />
-            </v-col>
-            <v-col
-                cols="10"
-                md="8"
-                class="d-flex hero-title flex-column flex-wrap justify-center align-start hero-text"
-            >
-                <v-col>
-                    <h4 class="text-white">Bedrijfsprofiel</h4>
-                    <h1 class="text-white challenge-title">
-                        {{ company.name }}
-                    </h1>
-                </v-col>
-            </v-col>
-        </v-row>
+        <Banner
+            :logo-src="company.getProfileOrDefaultImageUrl()"
+            :title="company.name"
+            :subtitle="'Bedrijfsprofiel'"
+            :banner-src="company.getBannerForCompany()"
+        />
         <v-row>
             <v-col cols="12" md="12" class="">
                 <div class="d-flex flex-wrap justify-center">
@@ -95,16 +75,16 @@
                 </div>
             </template>
         </v-row>
-        <v-row class="d-flex justify-center flex-wrap user-bubbles mx-auto">
-            <UserBubble v-for="user in members" :user="user" :key="user.id" />
-        </v-row>
-        <v-divider class="my-8"></v-divider>
 
         <v-row class="d-flex justify-center flex-wrap user-bubbles mx-auto">
-            <UserBubble v-for="user in members" :user="user" :key="user.id" />
+            <UserBubble
+                v-for="user in members"
+                :with-name="false"
+                :user="user"
+                :key="user.id"
+            />
         </v-row>
         <v-divider class="my-8"></v-divider>
-
         <v-row>
             <v-col cols="12" class="">
                 <div class="d-flex flex-wrap justify-center">
@@ -284,6 +264,7 @@ import { Challenge } from "@/models/Challenge";
 import ChallengeCard from "@/components/ChallengeCard.vue";
 import DepartmentAddPopup from "@/components/DepartmentAddPopup.vue";
 import UserBubble from "@/components/UserBubble.vue";
+import Banner from "@/components/Banner.vue";
 const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay();
 
 const user = ref() as Ref<User | null>;
@@ -311,19 +292,16 @@ const filteredChallenges = computed(() => {
 const departmentNameFilter = ref("Alles");
 
 async function loadCompany() {
-    console.log("Loading company");
     company.value = await API.getCompany(parseInt(id));
 }
 async function loadUsers() {
     members.value = await API.getCompanyMembersByCompanyId(parseInt(id));
 }
 async function getDepartmentsForCompany() {
-    console.log("Loading departments for company");
     departments.value = await API.getDepartmentsForCompany(parseInt(id));
 }
 
 async function getAllChallengesForCompany() {
-    console.log("Getting all the company challenges");
     challenges.value = await API.getAllChallengesForCompany(parseInt(id));
 }
 

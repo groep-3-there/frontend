@@ -8,32 +8,15 @@
         </div>
     </template>
     <template v-if="challenge">
-        <v-row
-            class="challenge-hero"
-            :style="banner()"
-            no-gutters
-            justify="center"
-            align="center"
-        >
-            <v-col cols="6" md="3" class="d-flex justify-center">
-                <img
-                    :src="
-                        challenge.department.parentCompany.getProfileOrDefaultImageUrl()
-                    "
-                    class="company-logo"
-                />
-            </v-col>
-            <v-col
-                cols="10 "
-                md="8"
-                class="d-flex hero-title flex-column justify-center align-start hero-text ml-4"
-            >
-                <h3 class="white-text">Challenge</h3>
-                <h1 class="white-text challenge-title">
-                    {{ challenge.title }}
-                </h1>
-            </v-col>
-        </v-row>
+        <Banner
+            :logo-src="
+                challenge.department.parentCompany.getProfileOrDefaultImageUrl()
+            "
+            :banner-src="challenge.getBannerOrDefaultImageUrl()"
+            :title="challenge.title"
+            :subtitle="'Challenge'"
+            :darken="true"
+        />
 
         <v-row>
             <v-col md="3" class="d-flex align-center justify-center">
@@ -88,7 +71,7 @@
                             :value="1"
                             :key="1"
                             @click="
-                                $router.push(`/edit-challenge/${challenge?.id}`)
+                                $router.push(`/challenge/${challenge?.id}/edit`)
                             "
                         >
                             <v-list-item-title
@@ -125,7 +108,11 @@
                 </v-menu>
             </v-col>
         </v-row>
-
+        <v-row>
+            <v-col cols="12" class="d-flex justify-center align-center">
+                <UserBubble :size="36" :user="challenge.author"></UserBubble>
+            </v-col>
+        </v-row>
         <v-divider class="mt-4"></v-divider>
 
         <v-row>
@@ -217,6 +204,12 @@
 </template>
 
 <style>
+.small-text {
+    font-size: 0.8em;
+}
+.author-info-text {
+    line-height: 1.3em;
+}
 .reaction-type-selector {
     max-width: 200px !important;
     width: 200px;
@@ -249,29 +242,9 @@
     margin-bottom: 1em;
 }
 
-.challenge-title {
-    font-size: 4rem;
-    font-weight: 1000;
-}
-
 .white-text {
     color: white;
 }
-
-.challenge-hero {
-    background-size: cover;
-    background-position: 0;
-    min-height: 400px;
-    max-height: fit-content;
-}
-
-.company-logo {
-    max-width: min(80%, 25vw);
-    border-radius: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-}
-
 .attachment-image {
     max-height: 200px;
     max-width: 100%;
@@ -287,7 +260,6 @@
 <script lang="ts" setup>
 import ConcludeChallengePopup from "@/components/ConcludeChallengePopup.vue";
 import AreYouSurePopup from "@/components/AreYouSurePopup.vue";
-import RichEditor from "@/components/RichEditor.vue";
 import { Ref, computed, ref } from "vue";
 import { Challenge } from "@/models/Challenge";
 import Tag from "@/components/Tag.vue";
@@ -297,10 +269,10 @@ import { ChallengeInput } from "@/models/ChallengeInput";
 import { useRoute } from "vue-router";
 import { onMounted } from "vue";
 import API from "@/Api";
-import { Image } from "@/models/Image";
 import { useSessionStore } from "@/store/sessionStore";
 import NotFound from "@/components/NotFound.vue";
-
+import Banner from "@/components/Banner.vue";
+import UserBubble from "@/components/UserBubble.vue";
 const sessionStore = useSessionStore();
 
 const concludePopup = ref(false);
@@ -328,7 +300,6 @@ onMounted(async () => {
 });
 
 async function loadChallenge() {
-    console.log("Loading challenge");
     try {
         challenge.value = await API.getChallengeById(parseInt(id));
     } catch (e) {
@@ -337,7 +308,6 @@ async function loadChallenge() {
 }
 
 async function updateReactions() {
-    console.log("Updating reactions");
     challengeInputs.value = await API.getChallengeInputs(parseInt(id));
 }
 
@@ -346,12 +316,6 @@ function archive() {
         challenge.value.status = "GEARCHIVEERD";
         API.updateChallenge(challenge.value);
     }
-}
-
-function banner() {
-    return {
-        "background-image": `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url("${challenge.value?.getBannerOrDefaultImageUrl()}")`,
-    };
 }
 
 function openImage(imageUrl: string) {

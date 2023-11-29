@@ -138,7 +138,7 @@ async function registerCompany() {
         branch: branch,
         tags: tagString,
     };
-    console.log("Registering Company", company);
+
     try {
         const created = await Api.registerCompany(company);
     } catch (e) {

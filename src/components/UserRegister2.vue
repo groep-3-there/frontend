@@ -191,7 +191,7 @@
             v-bind:prev-text="'Vorige'"
             v-bind:next-text="nextText"
             @click:next="stepperStep++"
-            @click:prev="stepperStep--"
+            @click:prev="stepperStep = Math.max(stepperStep - 1, 0)"
         >
         </v-stepper-actions>
     </v-stepper>
@@ -261,8 +261,8 @@ const disableStepperAction = computed(() => {
         return stepOneRules.some((rule) => {
             return !rule();
         })
-            ? "next"
-            : false;
+            ? true
+            : "prev";
     }
     if (stepperStep.value == 1) {
         return stepTwoRules.some((rule) => {
@@ -291,7 +291,7 @@ const stepOneRules = [
     },
     () => {
         return !passwordRules.some((rule) => {
-            return !rule(password.value);
+            return rule(password.value) !== true;
         });
     },
 ];

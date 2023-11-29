@@ -102,7 +102,11 @@
 
     <hr />
 
-    <div v-for="challenge in challenges?.content" :key="challenge.id">
+    <div
+        v-for="challenge in challenges?.content"
+        :key="challenge.id"
+        class="d-flex justify-center mx-2"
+    >
         <ChallengeSearchResult
             @click="() => router.push(`/challenge/${challenge.id}`)"
             :challenge="challenge as Challenge"
@@ -129,6 +133,7 @@ import router from "@/router";
 import { onMounted } from "vue";
 import { Branch } from "@/models/Branch";
 import { Company } from "@/models/Company";
+import Banner from "@/components/Banner.vue";
 
 const standardbranches: Ref<Branch[]> = ref([]);
 const registeredCompanies: Ref<Company[]> = ref([]);

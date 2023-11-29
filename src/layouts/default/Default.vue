@@ -45,6 +45,11 @@
                 <v-list>
                     <v-list-item
                         v-if="sessionStore.loggedInUser"
+                        @click="
+                            $router.push(
+                                '/user/' + sessionStore.loggedInUser.id,
+                            )
+                        "
                         :prepend-avatar="
                             sessionStore.loggedInUser?.getAvatarOrDefaultUrl()
                         "
@@ -82,13 +87,6 @@
                         prepend-icon="mdi-bug"
                         title="Debug"
                         value="debug"
-                    ></v-list-item>
-                    <v-list-item
-                        :key="3"
-                        @click="$router.push('/challenge/1')"
-                        prepend-icon="mdi-id-card"
-                        title="Challenge voorbeeld"
-                        value="challenge"
                     ></v-list-item>
                     <v-list-item
                         :key="4"
