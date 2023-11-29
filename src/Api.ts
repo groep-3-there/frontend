@@ -218,8 +218,8 @@ namespace API {
         return new Challenge(data);
     }
 
-    export async function updateUser(ch: User | { id: number }) {
-        const data = await putRequest(`user/${ch.id}`, ch);
+    export async function updateUser(us: User | { id: number }) {
+        const data = await putRequest(`user/${us.id}`, us);
         return new User(data);
     }
 

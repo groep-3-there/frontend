@@ -131,10 +131,11 @@
 
                     <v-row>
                         <v-col>
+                            <h4>Publiek e-mailadres</h4>
                             <v-switch
-                                label="Publiek e-mail"
+                                label="Laat het e-mailadres op uw persoonlijke pagina zien"
                                 v-model="isEmailPublic"
-                                color="primary"
+                                color="success"
                                 hide-details
                             ></v-switch>
                         </v-col>
@@ -142,10 +143,11 @@
 
                     <v-row>
                         <v-col>
+                            <h4>Publiek telefoonnummer</h4>
                             <v-switch
-                                label="Publiek telefoon nummer"
+                                label="Laat het telefoonnummer op uw persoonlijke pagina zien"
                                 v-model="isPhoneNumberPublic"
-                                color="primary"
+                                color="success"
                                 hide-details
                             ></v-switch>
                         </v-col>
@@ -163,6 +165,7 @@
                         </v-btn>
                     </v-row>
                 </v-col>
+                <v-col></v-col>
             </v-row>
         </v-form>
     </v-container>
@@ -177,6 +180,8 @@ import { onMounted } from "vue";
 import router from "@/router";
 import { Tag } from "@/models/Tag";
 import { User } from "@/models/User";
+import { useSnackbarStore } from "@/store/Snackbar";
+const snackbar = useSnackbarStore();
 const originalUser: Ref<User | null> = ref(null);
 const name = ref("");
 const info = ref("");
@@ -210,6 +215,7 @@ const nameRules = [
 ];
 
 onMounted(async () => {
+    standardTags.value = await Api.getTags();
     originalUser.value = await Api.getUserById(id);
     name.value = originalUser.value.name;
     info.value = originalUser.value.info;
@@ -253,7 +259,13 @@ async function editUser() {
         email: email.value,
         phoneNumber: phoneNumber.value,
     };
-    await Api.updateUser(user);
+    try {
+        await Api.updateUser(user);
+    } catch (e) {
+        snackbar.createSimple("Er is iets mis gegaan", "error");
+        return;
+    }
+    snackbar.createSimple("Uw profiel is succesvol bijgewerkt", "success");
     router.push(`/user/${id}`);
 }
 </script>

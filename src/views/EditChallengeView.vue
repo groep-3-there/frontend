@@ -235,6 +235,7 @@
                         </v-btn>
                     </v-row>
                 </v-col>
+                <v-col></v-col>
             </v-row>
         </v-form>
     </v-container>
@@ -250,6 +251,8 @@ import { onMounted } from "vue";
 import router from "@/router";
 import { Tag } from "@/models/Tag";
 import Banner from "@/components/Banner.vue";
+import { useSnackbarStore } from "@/store/Snackbar";
+const snackbar = useSnackbarStore();
 const originalChallenge: Ref<Challenge | null> = ref(null);
 const title = ref("");
 const summary = ref("");
@@ -377,7 +380,13 @@ async function editChallenge() {
         tags: tagString,
         visibility: getVisibilityCodeName(visibility.value),
     };
-    await Api.updateChallenge(challenge);
+    try {
+        await Api.updateChallenge(challenge);
+    } catch (e) {
+        snackbar.createSimple("Er is iets mis gegaan", "error");
+        return;
+    }
+    snackbar.createSimple("De challenge is succesvol bijgewerkt", "success");
     router.push(`/challenge/${id}`);
 }
 </script>
