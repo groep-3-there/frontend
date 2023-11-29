@@ -147,11 +147,12 @@
                                                         }"
                                                     >
                                                         <a
+                                                            href="about#blank"
                                                             target="_blank"
                                                             v-bind="props"
                                                             @click.stop
                                                         >
-                                                            algememe voorwaarden
+                                                            algemene voorwaarden
                                                         </a>
                                                     </template>
                                                     open een niew tabblad
