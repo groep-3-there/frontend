@@ -100,8 +100,13 @@ namespace API {
      * Get the current logged in user
      */
     export async function getCurrentUser() {
-        const data = await getRequest("auth/user");
-        return new User(data);
+        try{
+            const data = await getRequest("auth/user");
+            return new User(data);
+        }
+        catch{
+            return null;
+        }
     }
     export async function getUserById(id: number) {
         const data = await getRequest(`user/${id}`);
