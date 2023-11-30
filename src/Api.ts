@@ -339,14 +339,8 @@ namespace API {
         return data.map((d: any) => new Role(d));
     }
     export async function updateRoles(departmentId: number, updates: { userId: number, roleId: number }[]) {
-        try{
-            const data = await putRequest(`department/${departmentId}/updateroles`, { updates });
-            return new User(data);
-        }
-        catch(e){
-            console.warn(e);
-            return false;
-        }
+        const data = await putRequest(`department/${departmentId}/updateroles`, { updates });
+        return data;
     }
 }
 

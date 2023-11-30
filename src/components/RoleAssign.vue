@@ -1,20 +1,30 @@
 <template>
     <v-container>
         <v-row>
-            <v-col>
-                <p>
-                    {{ props.user.name }}
-                    <v-select
-                        label="Select"
-                        :items="roles.map((obj) => obj.name)"
-                        v-model="selectedRole"
-                        @update:model-value="(e) => updateRole(e)"
-                    ></v-select>
-                </p>
+            <v-col class="d-flex align-center gap">
+                <p>{{ props.user.name }}</p>
+                <v-select
+                    label="Rol" 
+                    :items="roles.map((obj) => obj.name)" 
+                    v-model="selectedRole" 
+                    density="comfortable"
+                    @update:model-value="(e) => updateRole(e)"
+                    class="custom-width-select">
+                </v-select>
             </v-col>
         </v-row>
     </v-container>
 </template>
+
+<style>
+.gap {
+    gap: 10rem;
+}
+.custom-width-select {
+    max-width: 30rem;
+}
+
+</style>
 
 <script lang="ts" setup>
 
