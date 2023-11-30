@@ -12,20 +12,20 @@
                 @on-close="loginPopup = false"
             ></LoginPopup>
             <v-dialog v-model="userRegisterPopup" max-width="50rem">
-                <UserRegister
+                <UserRegister2
                     v-if="userRegisterPopup"
                     @on-close="userRegisterPopup = false"
-                ></UserRegister>
+                ></UserRegister2>
             </v-dialog>
 
             <!-- On small screens, the sidebar is hidden, an can be toggled with this button -->
-            <div class="sidebar-toggle-wrap">
+            <div
+                class="sidebar-toggle-wrap"
+                @click="openSidebar"
+                v-if="mdAndDown"
+            >
                 <v-btn class="sidebar-toggle-btn">
-                    <v-icon
-                        class="sidebar-toggle-icon"
-                        @click="openSidebar"
-                        v-if="mdAndDown"
-                        color="primary"
+                    <v-icon class="sidebar-toggle-icon" color="primary"
                         >mdi-menu</v-icon
                     >
                 </v-btn>
@@ -45,6 +45,11 @@
                 <v-list>
                     <v-list-item
                         v-if="sessionStore.loggedInUser"
+                        @click="
+                            $router.push(
+                                '/user/' + sessionStore.loggedInUser.id,
+                            )
+                        "
                         :prepend-avatar="
                             sessionStore.loggedInUser?.getAvatarOrDefaultUrl()
                         "
@@ -82,13 +87,6 @@
                         prepend-icon="mdi-bug"
                         title="Debug"
                         value="debug"
-                    ></v-list-item>
-                    <v-list-item
-                        :key="3"
-                        @click="$router.push('/challenge/1')"
-                        prepend-icon="mdi-id-card"
-                        title="Challenge voorbeeld"
-                        value="challenge"
                     ></v-list-item>
                     <v-list-item
                         :key="4"
@@ -242,12 +240,11 @@ import { computed } from "vue";
 import { ref } from "vue";
 import { useDisplay } from "vuetify";
 import LoginPopup from "@/components/LoginPopup.vue";
-import UserRegister from "@/components/UserRegister.vue";
-import router from "@/router";
-import { watch } from "vue";
-import { User } from "@/models/User";
+
+import UserRegister2 from "@/components/UserRegister2.vue";
+
 import { onMounted } from "vue";
-import API from "@/Api";
+
 import CompanyRegistrationPopUp from "@/components/CompanyRegistrationPopUp.vue";
 import JoinCompanyPopup from "@/components/JoinCompanyPopup.vue";
 import InviteListener from "@/components/InviteListener.vue";

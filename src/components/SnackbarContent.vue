@@ -12,8 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { useSnackbarStore, SnackMessage } from "@/store/Snackbar";
+import { useSnackbarStore } from "@/store/Snackbar";
 
 const snackbarStore = useSnackbarStore();
 
@@ -52,7 +51,8 @@ function getStylingForType(type: string) {
     right: 50%;
     z-index: 100;
     height: 200px;
-    width: 500px;
+    width: 100%;
+    max-width: 500px;
     transform: translate(50%);
     pointer-events: none;
 }

@@ -14,13 +14,11 @@
     <br />
     {{ whoami }}
     <h3>Bedrijf registreren test</h3>
-    <CompanyRegistrationPopUp />
 </template>
 
 <script lang="ts" setup>
 import API from "@/Api";
 import HelloWorld from "@/components/HelloWorld.vue";
-import CompanyRegistrationPopUp from "@/components/CompanyRegistrationPopUp.vue";
 import { useSessionStore } from "@/store/sessionStore";
 import { ref } from "vue";
 const sessionStore = useSessionStore();

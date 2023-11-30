@@ -61,20 +61,21 @@ async function getRequest(url: string) {
 
 namespace API {
     export const BACKEND_URL = import.meta.env.PROD
-        ? "http://161.35.84.133:8080"
+        ? "http://matchmakergroep3.nl:8080"
         : "http://localhost:8080";
     export const BASEURL = `${BACKEND_URL}/api/v1/`;
 
     export const FIREBASE_PUBLIC_API_KEY =
         "AIzaSyCo7z9UVlNrdKMqtvfA-cEWWPqua3wDOkU";
 
-    let authToken = sessionStorage.getItem("authToken") || "";
+    let authToken = localStorage.getItem("authToken") || "";
 
     export function hasAuthToken() {
         return authToken != "";
     }
     export function removeAuthToken() {
-        sessionStorage.setItem("authToken", "");
+        localStorage.setItem("authToken", "");
+        authToken = "";
     }
     export function getHeaders() {
         const headers: any = {
@@ -100,8 +101,13 @@ namespace API {
      * Get the current logged in user
      */
     export async function getCurrentUser() {
-        const data = await getRequest("auth/user");
-        return new User(data);
+        try{
+            const data = await getRequest("auth/user");
+            return new User(data);
+        }
+        catch{
+            return null;
+        }
     }
     export async function getUserById(id: number) {
         const data = await getRequest(`user/${id}`);
@@ -218,6 +224,11 @@ namespace API {
         return new Challenge(data);
     }
 
+    export async function updateUser(us: User | { id: number }) {
+        const data = await putRequest(`user/${us.id}`, us);
+        return new User(data);
+    }
+
     export async function uploadImage(img: File) {
         const data = await uploadFile("image/upload", "image", img);
         return new Image(data);
@@ -309,7 +320,7 @@ namespace API {
             }
             const json = await res.json();
             authToken = json.idToken;
-            sessionStorage.setItem("authToken", authToken);
+            localStorage.setItem("authToken", authToken);
             if (authToken) {
                 return true;
             }

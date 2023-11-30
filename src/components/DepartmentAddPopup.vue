@@ -151,10 +151,8 @@ const loading = ref(false);
 const success = ref(false);
 
 watch(opened, (newVal) => {
-    console.log(opened.value);
     if (newVal == false) {
         close();
-        console.log("closing");
         opened.value = true;
     }
 });
@@ -207,7 +205,6 @@ async function createDepartment() {
             return;
         }
     } catch (e) {
-        console.log(e);
         error.value = "Er is iets misgegaan";
         loading.value = false;
         return;

@@ -1,4 +1,14 @@
 <template>
+    <Banner
+        v-if="originalChallenge"
+        :title="'Bewerk challenge'"
+        :subtitle="'Maak aanpassingen naar wens'"
+        :banner-src="'/banners/werkplaats.jpg'"
+        :darken="true"
+        :logo-src="
+            originalChallenge.department.parentCompany.getProfileOrDefaultImageUrl()
+        "
+    />
     <v-container v-if="originalChallenge">
         <v-form ref="editChallengeForm" @submit.prevent>
             <v-row>
@@ -225,6 +235,7 @@
                         </v-btn>
                     </v-row>
                 </v-col>
+                <v-col></v-col>
             </v-row>
         </v-form>
     </v-container>
@@ -239,6 +250,9 @@ import { useRoute } from "vue-router";
 import { onMounted } from "vue";
 import router from "@/router";
 import { Tag } from "@/models/Tag";
+import Banner from "@/components/Banner.vue";
+import { useSnackbarStore } from "@/store/Snackbar";
+const snackbar = useSnackbarStore();
 const originalChallenge: Ref<Challenge | null> = ref(null);
 const title = ref("");
 const summary = ref("");
@@ -276,6 +290,10 @@ const editChallengeForm = ref(null) as any;
 const idParam = useRoute().params.id;
 let id = parseInt(Array.isArray(idParam) ? idParam[0] : idParam);
 function visibilityProperties(item: any) {
+    return {
+        title: item.title,
+        subtitle: item.subtitle,
+    };
     return {
         title: item.title,
         subtitle: item.subtitle,
@@ -362,7 +380,13 @@ async function editChallenge() {
         tags: tagString,
         visibility: getVisibilityCodeName(visibility.value),
     };
-    await Api.updateChallenge(challenge);
+    try {
+        await Api.updateChallenge(challenge);
+    } catch (e) {
+        snackbar.createSimple("Er is iets mis gegaan", "error");
+        return;
+    }
+    snackbar.createSimple("De challenge is succesvol bijgewerkt", "success");
     router.push(`/challenge/${id}`);
 }
 </script>

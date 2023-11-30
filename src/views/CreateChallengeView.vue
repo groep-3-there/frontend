@@ -1,9 +1,21 @@
 <template>
+    <Banner
+        :title="'Challenge maken'"
+        :subtitle="
+            'Creeër een nieuwe challenge voor ' +
+            sessionStore.loggedInUser?.department?.parentCompany.name
+        "
+        :banner-src="'/banners/werkplaats.jpg'"
+        :darken="true"
+        :logo-src="
+            sessionStore.loggedInUser?.department?.parentCompany.getProfileOrDefaultImageUrl()
+        "
+    />
     <v-container>
+        <v-spacer class="my-8"></v-spacer>
         <v-form ref="createChallengeForm" @submit.prevent>
             <v-row>
                 <v-col cols="12">
-                    <h1 class="my-2">Challenge maken</h1>
                     <v-row>
                         <v-col>
                             <v-text-field
@@ -213,7 +225,10 @@ import { Challenge } from "@/models/Challenge";
 import RichEditor from "@/components/RichEditor.vue";
 
 import { Tag } from "@/models/Tag";
+import Banner from "@/components/Banner.vue";
+import { useSessionStore } from "@/store/sessionStore";
 
+const sessionStore = useSessionStore();
 /**
  * funtion
  * */
@@ -311,11 +326,9 @@ async function createChallenge() {
     inUploadProgress.value = true;
     //upload banner
     let uploadedBannerId = null;
-    console.log(banner.value);
+
     if (banner.value?.length) {
-        console.log("Uploading banner");
         const response = await Api.uploadImage(banner.value[0]);
-        console.log(response);
         uploadedBannerId = response.id;
     }
 
@@ -337,7 +350,6 @@ async function createChallenge() {
         tags: tagString,
         visibility: getVisibilityCodeName(visibility.value),
     };
-    console.log("Creating challenge", challenge);
     const created = await Api.createChallenge(challenge);
 
     router.push(`/challenge/${created?.id}`);

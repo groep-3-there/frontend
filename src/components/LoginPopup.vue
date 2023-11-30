@@ -122,10 +122,8 @@ const loading = ref(false);
 const success = ref(false);
 
 watch(opened, (newVal) => {
-    console.log(opened.value);
     if (newVal == false) {
         close();
-        console.log("closing");
         opened.value = true;
     }
 });
