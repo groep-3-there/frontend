@@ -25,15 +25,19 @@
             </v-row>
         </template>
 
-        <template v-if="updates.values.length === 0 && showError">
-            <p style="color: red">Er is geen rol geselecteerd om te updaten.</p>
-        </template>
+        <v-row v-if="updates.values.length === 0 && showError">
+            <v-col class="d-flex justify-center">
+                <p style="color: red">Er is geen rol geselecteerd om te updaten.</p>
+            </v-col>
+        </v-row>
 
-        <template v-if="showRoleError">
-            <p style="color: red">
-                Een afdeling heeft altijd een beheerder nodig
-            </p>
-        </template>
+        <v-row v-if="showRoleError">
+            <v-col class="d-flex justify-center">
+                <p style="color: red">
+                    Een afdeling heeft altijd een beheerder nodig
+                </p>
+            </v-col>
+        </v-row>
 
         <v-row>
             <v-col class="d-flex justify-center">
