@@ -154,6 +154,16 @@
                             title="Challenge maken"
                             value="create-challenge"
                         ></v-list-item>
+                        <v-list-item
+                            v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                                'DEPARTMENT_MANAGE',
+                                sessionStore.loggedInUser?.department?.id,
+                            )"
+                            @click="$router.push(`/settings/${sessionStore.loggedInUser?.department?.id}`)"
+                            prepend-icon="mdi-cog-outline"
+                            title="Instellingen"
+                            value="settings"
+                        ></v-list-item>
                         <template
                             v-if="sessionStore.loggedInUser.role?.isMatchmaker"
                         >

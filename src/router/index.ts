@@ -73,6 +73,11 @@ const routes = [
                 name: "Grade Request",
                 component: () => import("@/views/CompanyRequestView.vue"),
             },
+            {
+                path: "settings/:id",
+                name: "Settings",
+                component: () => import("@/views/DepartmentSettingsView.vue"),
+            }
         ],
     },
 ];
