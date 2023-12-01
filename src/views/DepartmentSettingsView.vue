@@ -1,37 +1,48 @@
 <template>
-    <h1>Instellingen voor {{ sessionStore.loggedInUser?.department?.name }}</h1>
-        <v-container>
+    <v-container>
+        <v-row>
+            <v-col>
+                <h1>
+                    Instellingen voor
+                    {{ sessionStore.loggedInUser?.department?.name }}
+                </h1>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col>
+                <h2>Rollen aanpassen</h2>
+            </v-col>
+        </v-row>
+        <template v-for="userInDepartment in users" :key="userInDepartment.id">
             <v-row>
                 <v-col>
-                    <h3>Rollen aanpassen</h3>
-                </v-col>
-            </v-row>
-            <template v-for="userInDepartment in users" :key="userInDepartment.id">
-                <v-row>
-                    <v-col md="9" cols="12">
-                        <RoleAssign
-                        @update="(e)=>addToUpdates(e.userId, e.roleId)"
+                    <RoleAssign
+                        @update="(e) => addToUpdates(e.userId, e.roleId)"
                         :roles="assignableRoles || []"
                         :user="userInDepartment"
-                        ></RoleAssign>
-                    </v-col>
-                </v-row>
-            </template>
-            
-            <template v-if="updates.values.length === 0 && showError">
-                <p style="color: red;">Er is geen rol geselecteerd om te updaten.</p>
-            </template>
-            
-            <template v-if="showRoleError">
-                <p style="color: red;">Een afdeling heeft altijd een beheerder nodig</p>
-            </template>
-            
-            <v-row>
-                <v-col>
-                    <v-btn color="primary" variant="elevated" @click="updateRoles">Update Rollen</v-btn>
+                    ></RoleAssign>
                 </v-col>
             </v-row>
-        </v-container>
+        </template>
+
+        <template v-if="updates.values.length === 0 && showError">
+            <p style="color: red">Er is geen rol geselecteerd om te updaten.</p>
+        </template>
+
+        <template v-if="showRoleError">
+            <p style="color: red">
+                Een afdeling heeft altijd een beheerder nodig
+            </p>
+        </template>
+
+        <v-row>
+            <v-col class="d-flex justify-center">
+                <v-btn color="primary" variant="elevated" @click="updateRoles"
+                    >Update Rollen</v-btn
+                >
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script lang="ts" setup>
@@ -57,10 +68,12 @@ const assignableRoles: Ref<Role[]> = ref([]);
 let showError = ref(false);
 let showRoleError = ref(false);
 
-const updates: Ref<{ userId: number, roleId: number }[]> = ref([]);
+const updates: Ref<{ userId: number; roleId: number }[]> = ref([]);
 
 function addToUpdates(userId: number, roleId: number) {
-    const existingUpdate = updates.value.find(update => update.userId === userId);
+    const existingUpdate = updates.value.find(
+        (update) => update.userId === userId,
+    );
     if (existingUpdate) {
         existingUpdate.roleId = roleId;
     } else {
@@ -78,7 +91,9 @@ async function LoadAssignableRoles() {
 }
 
 async function LoadUsers() {
-    users.value = await API.LoadUsersFromDepartment(sessionStore.loggedInUser?.department?.id ?? 0);
+    users.value = await API.LoadUsersFromDepartment(
+        sessionStore.loggedInUser?.department?.id ?? 0,
+    );
 }
 
 async function updateRoles() {
@@ -102,10 +117,15 @@ async function updateRoles() {
     }
 
     //if there is no department admin in the update, check if atleast 1 of the current admins is still an admin
-    const currentAdmins = users.value?.filter(user => user.role?.id === 3) ?? [];
+    const currentAdmins =
+        users.value?.filter((user) => user.role?.id === 3) ?? [];
     if (!hasDepartmentAdmin) {
         for (const currentAdmin of currentAdmins) {
-            if (!updates.value.some(update => update.userId === currentAdmin.id)) {
+            if (
+                !updates.value.some(
+                    (update) => update.userId === currentAdmin.id,
+                )
+            ) {
                 hasDepartmentAdmin = true;
                 break;
             }
@@ -120,7 +140,10 @@ async function updateRoles() {
 
     //send to api
     try {
-        await API.updateRoles(sessionStore.loggedInUser?.department?.id ?? 0, updates.value);
+        await API.updateRoles(
+            sessionStore.loggedInUser?.department?.id ?? 0,
+            updates.value,
+        );
         snackbar.createSimple("De rollen zijn succesvol geupdate", "success");
     } catch (e) {
         snackbar.createSimple("Er is iets mis gegaan", "error");
@@ -131,3 +154,13 @@ async function updateRoles() {
     updates.value = [];
 }
 </script>
+
+<style scoped>
+h1 {
+    margin: 4rem 0 0 0;
+}
+
+h1, h2 {
+    margin: 0 0 0 3rem
+}
+</style>

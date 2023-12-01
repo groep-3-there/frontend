@@ -1,8 +1,10 @@
 <template>
     <v-container>
         <v-row>
-            <v-col class="d-flex align-center gap">
+            <v-col cols="12" md="6" class="d-flex justify-start align-center">
                 <p>{{ props.user.name }}</p>
+            </v-col>
+            <v-col cols="12" md="6" class="d-flex justify-center align-center">
                 <v-select
                     label="Rol" 
                     :items="roles.map((obj) => obj.name)" 
@@ -13,16 +15,11 @@
                 </v-select>
             </v-col>
         </v-row>
+        <hr>
     </v-container>
 </template>
 
 <style>
-.gap {
-    gap: 10rem;
-}
-.custom-width-select {
-    max-width: 30rem;
-}
 
 </style>
 
