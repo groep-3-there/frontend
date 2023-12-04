@@ -29,9 +29,6 @@
         <v-form @submit.prevent ref="registerForm">
             <v-stepper-window>
                 <v-stepper-window-item value="1">
-                    <v-alert type="error" v-if="emailIsTaken">
-                        Dit email adres is al in gebruik
-                    </v-alert>
                     <v-text-field
                         label="E-mailadres"
                         v-model="email"
@@ -312,6 +309,7 @@ const emailRules = [
     (v: string) =>
         /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
         "E-mail moet geldig zijn",
+    (v: string) => !emailIsTaken.value || "E-mail is al in gebruik"
 ];
 let _throttleEmailExist: any = null;
 const emailIsTaken = ref(false);
