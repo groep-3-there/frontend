@@ -5,10 +5,10 @@
                 <h2 class="padding-left d-flex align-center">
                     <SmallCountryFlag
                         class="mr-2"
-                        :country="props.companyRequest.country"
+                        :country="props.companyRequest?.country"
                     ></SmallCountryFlag>
-                    {{ props.companyRequest.name }}</h2>
-                <Tag type="branch">{{ props.companyRequest.branch.name }}</Tag>
+                    {{ props.companyRequest?.name }}</h2>
+                <Tag type="branch">{{ props.companyRequest?.branch?.name }}</Tag>
             </v-col>
             <v-col cols="3" md="3" class="d-flex justify-center align-center">
                 {{
@@ -52,7 +52,7 @@
 }
 
 .border-icon {
-    border: 1px solid gray;
+    border: 1px solid grey;
     border-radius: 10px;
     padding: 30px;
     background-color: rgb(232, 232, 232);
