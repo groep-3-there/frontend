@@ -12,6 +12,7 @@ import { CompanyRequestsResults } from "./models/CompanyRequestsResults";
 import { Department } from "./models/Department";
 import { DepartmentCode } from "./models/DepartmentCode";
 import { Role } from "./models/Role";
+import { Country } from "./models/Country";
 
 async function postRequest(url: string, bodyObject: {}) {
     const res = await fetch(API.BASEURL + url, {
@@ -117,6 +118,10 @@ namespace API {
         const data = await getRequest(`user/exist/${email}`);
         return data;
     }
+    export async function isPhoneNumberRegistered(phoneNumber: string) {
+        const data = await getRequest(`user/exist/${phoneNumber}`);
+        return data;
+    }
     export async function getImagesByChallengeId(id: number) {
         const data = await getRequest(`image/challenge/${id}`);
         return data.map((d: any) => new Image(d));
@@ -132,6 +137,10 @@ namespace API {
     export async function getBranches() {
         const data = await getRequest(`branch/all`);
         return data.map((d: any) => new Branch(d));
+    }
+    export async function getCountries(){
+        const data = await getRequest(`country/all`);
+        return data.map((d: any) => new Country(d));
     }
     export async function getCompanyNames() {
         const data = await getRequest(`company/names`);

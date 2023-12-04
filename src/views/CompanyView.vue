@@ -8,7 +8,14 @@
             :banner-src="company.getBannerForCompany()"
         />
         <v-row>
-            <v-col cols="12" md="12" class="">
+            <v-col md="3" class="d-flex align-center justify-center">
+                <SmallCountryFlag :country="company.country" class="mr-2" />
+                <p>
+                    {{ company.country.name }}
+
+                </p>
+            </v-col>
+            <v-col cols="12" md="6" class="">
                 <div class="d-flex flex-wrap justify-center">
                     <Tag type="branch">
                         {{ company.branch.name }}
@@ -18,6 +25,43 @@
                     }}</Tag>
                 </div>
             </v-col>
+            <v-col cols="12" md="3" class="d-flex justify-center align-center">
+                <v-menu
+                    v-if="
+                        sessionStore.loggedInUser?.department?.parentCompany
+                            .id == company.id &&
+                        sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                            'COMPANY_MANAGE',
+                            sessionStore.loggedInUser?.department?.id,
+                        )
+                    "
+                >
+                    <template v-slot:activator="{ props }">
+                        <v-icon v-bind="props" size="48"
+                            >mdi-dots-horizontal</v-icon
+                        >
+                    </template>
+                    <v-list>
+                        <v-list-item
+                            :value="1"
+                            :key="1"
+                            @click="
+                                $router.push(`/company/${company?.id}/edit`)
+                            "
+                        >
+                            <v-list-item-title
+                                ><v-icon class="mr-1" size="24"
+                                    >mdi-pencil</v-icon
+                                >Bewerken</v-list-item-title
+                            >
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
+            </v-col>
+        </v-row>
+        <v-row>
+            
+            
 
             <v-col cols="12" class="">
                 <div class="d-flex flex-wrap justify-center">
@@ -104,7 +148,8 @@
         <pre></pre>
         <v-row
             v-if="
-            sessionStore.loggedInUser?.department?.parentCompany.id == company.id &&
+                sessionStore.loggedInUser?.department?.parentCompany.id ==
+                    company.id &&
                 sessionStore.loggedInUser?.hasPermissionAtDepartment(
                     'DEPARTMENT_CREATE',
                     sessionStore.loggedInUser.department?.id,
@@ -129,7 +174,13 @@
 
         <v-row>
             <v-col cols="12" class="">
-                <div class="d-flex flex-wrap justify-center mb-8" v-if="sessionStore.loggedInUser?.department?.parentCompany.id == company.id">
+                <div
+                    class="d-flex flex-wrap justify-center mb-8"
+                    v-if="
+                        sessionStore.loggedInUser?.department?.parentCompany
+                            .id == company.id
+                    "
+                >
                     <h1 class="italic-title">
                         Uw afdeling :
                         {{ sessionStore.loggedInUser?.department?.name }}
@@ -139,7 +190,8 @@
                     <v-btn
                         v-if="
                             !inviteCode &&
-                            sessionStore.loggedInUser?.department?.parentCompany.id == company.id &&
+                            sessionStore.loggedInUser?.department?.parentCompany
+                                .id == company.id &&
                             sessionStore.loggedInUser?.hasPermissionAtDepartment(
                                 'DEPARTMENT_MANAGE',
                                 sessionStore.loggedInUser.department?.id,
@@ -267,6 +319,7 @@ import ChallengeCard from "@/components/ChallengeCard.vue";
 import DepartmentAddPopup from "@/components/DepartmentAddPopup.vue";
 import UserBubble from "@/components/UserBubble.vue";
 import Banner from "@/components/Banner.vue";
+import SmallCountryFlag from "@/components/SmallCountryFlag.vue";
 const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay();
 
 const user = ref() as Ref<User | null>;

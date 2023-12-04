@@ -1,4 +1,5 @@
 import { Branch } from "./Branch";
+import { Country } from "./Country";
 import { User } from "./User";
 
 export class CompanyRequests {
@@ -8,6 +9,7 @@ export class CompanyRequests {
     tags: string;
     owner: User;
     branch: Branch;
+    country: Country;
 
     constructor(data: any) {
         this.id = data.id;
@@ -16,5 +18,6 @@ export class CompanyRequests {
         this.tags = data.tags;
         this.owner = data.owner;
         this.branch = data.branch;
+        this.country = new Country(data.country);
     }
 }
