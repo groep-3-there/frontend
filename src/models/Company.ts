@@ -1,4 +1,5 @@
 import { Branch } from "./Branch";
+import { Country } from "./Country";
 import { Image } from "./Image";
 import { User } from "./User";
 
@@ -12,6 +13,7 @@ export class Company {
     branch: Branch;
     createdAt: Date;
     ownerId: number;
+    country: Country;
 
     constructor(data: any) {
         this.id = data.id;
@@ -27,6 +29,7 @@ export class Company {
         this.branch = data.branch;
         this.createdAt = data.createdAt;
         this.ownerId = data.ownerId;
+        this.country = new Country(data.country);
     }
 
     getProfileOrDefaultImageUrl() {

@@ -1,64 +1,69 @@
 <template>
-    <v-container>
+    <Banner
+        title="Rollen"
+        :subtitle="'Instellingen'"
+        :banner-src="company?.getBannerForCompany()"
+        :logo-src="company?.getProfileOrDefaultImageUrl()"
+    />
+    <v-row>
+        <v-col>
+            <h2 class="mx-auto text-center settings-title">
+                Rollen voor medewerkers van
+                {{ sessionStore.loggedInUser?.department?.name }}
+            </h2>
+        </v-col>
+    </v-row>
+    <template v-for="userInDepartment in users" :key="userInDepartment.id">
         <v-row>
             <v-col>
-                <h1>
-                    Instellingen voor
-                    {{ sessionStore.loggedInUser?.department?.name }}
-                </h1>
+                <RoleAssign
+                    @update="(e) => addToUpdates(e.userId, e.roleId)"
+                    :roles="assignableRoles || []"
+                    :user="userInDepartment"
+                ></RoleAssign>
             </v-col>
         </v-row>
-        <v-row>
-            <v-col>
-                <h2>Rollen aanpassen</h2>
-            </v-col>
-        </v-row>
-        <template v-for="userInDepartment in users" :key="userInDepartment.id">
-            <v-row>
-                <v-col>
-                    <RoleAssign
-                        @update="(e) => addToUpdates(e.userId, e.roleId)"
-                        :roles="assignableRoles || []"
-                        :user="userInDepartment"
-                    ></RoleAssign>
-                </v-col>
-            </v-row>
-        </template>
+    </template>
 
-        <v-row v-if="updates.values.length === 0 && showError">
-            <v-col class="d-flex justify-center">
-                <p style="color: red">Er is geen rol geselecteerd om te updaten.</p>
-            </v-col>
-        </v-row>
+    <v-row v-if="updates.values.length === 0 && showError">
+        <v-col class="d-flex justify-center">
+            <p style="color: red">Er is geen rol geselecteerd om te updaten.</p>
+        </v-col>
+    </v-row>
 
-        <v-row v-if="showRoleError">
-            <v-col class="d-flex justify-center">
-                <p style="color: red">
-                    Een afdeling heeft altijd een beheerder nodig
-                </p>
-            </v-col>
-        </v-row>
+    <v-row v-if="showRoleError">
+        <v-col class="d-flex justify-center">
+            <p style="color: red">
+                Een afdeling heeft altijd een beheerder nodig
+            </p>
+        </v-col>
+    </v-row>
 
-        <v-row>
-            <v-col class="d-flex justify-center">
-                <v-btn color="primary" variant="elevated" @click="updateRoles"
-                    >Update Rollen</v-btn
-                >
-            </v-col>
-        </v-row>
-    </v-container>
+    <v-row>
+        <v-col class="d-flex justify-center">
+            <v-btn color="primary" variant="elevated" @click="updateRoles"
+                >Update Rollen</v-btn
+            >
+        </v-col>
+    </v-row>
 </template>
+<style scoped>
+.settings-title{
+    font-weight: 400;
+}
 
+</style>
 <script lang="ts" setup>
 import API from "@/Api";
 import RoleAssign from "@/components/RoleAssign.vue";
 import { useSessionStore } from "@/store/sessionStore";
-import { Ref, onMounted } from "vue";
+import { Ref, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { ref } from "vue";
 import { User } from "@/models/User";
 import { Role } from "@/models/Role";
 import { useSnackbarStore } from "@/store/Snackbar";
+import Banner from "@/components/Banner.vue";
 
 const snackbar = useSnackbarStore();
 
@@ -71,6 +76,10 @@ const assignableRoles: Ref<Role[]> = ref([]);
 
 let showError = ref(false);
 let showRoleError = ref(false);
+
+const company = computed(
+    () => sessionStore.loggedInUser?.department?.parentCompany,
+);
 
 const updates: Ref<{ userId: number; roleId: number }[]> = ref([]);
 
@@ -164,7 +173,8 @@ h1 {
     margin: 4rem 0 0 0;
 }
 
-h1, h2 {
-    margin: 0 0 0 3rem
+h1,
+h2 {
+    margin: 0 0 0 3rem;
 }
 </style>

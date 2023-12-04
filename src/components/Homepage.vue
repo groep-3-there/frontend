@@ -6,6 +6,7 @@
             </v-col>
         </v-row>
         <ListNewestChallenges
+            v-if="sessionStore.loggedInUser?.department?.parentCompany"
             :company="sessionStore.loggedInUser?.department?.parentCompany"
         ></ListNewestChallenges>
         <hr class="mt-5" />

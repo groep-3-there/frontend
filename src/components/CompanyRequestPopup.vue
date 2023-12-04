@@ -47,11 +47,23 @@
                 >
                 <v-row no-gutters
                     ><v-col cols="12" class="no-maringin-first-child"
-                        ><Tag v-for="tag in companyRequest.tags.split(',')">
+                        ><Tag v-for="tag in companyRequest.tags.split(',')" :key="tag">
                             {{ tag }}
                         </Tag>
                     </v-col></v-row
                 >
+                <v-row no-gutters>
+                    <v-col cols="12"><h3>Land</h3></v-col>
+
+                </v-row>
+                <v-row no-gutters
+                    ><v-col cols="12" class="no-maringin-first-child d-flex align-center"
+                        ><SmallCountryFlag
+                            class="mr-2"
+                            :country="companyRequest.country"
+                        ></SmallCountryFlag> 
+                        {{ companyRequest.country.name}}</v-col>
+                </v-row>
                 <v-row
                     ><v-col cols="12" class="d-flex justify-space-around"
                         ><v-btn @click="rejectCompanyRequest" color="red"
@@ -94,6 +106,7 @@
 
 <script setup lang="ts">
 import { CompanyRequests } from "@/models/CompanyRequests.js";
+import SmallCountryFlag from "@/components/SmallCountryFlag.vue";
 import API from "@/Api";
 import Tag from "./Tag.vue";
 

@@ -1,8 +1,8 @@
 <template>
     <v-container>
         <v-row>
-            <v-col cols="12" md="6" class="d-flex justify-start align-center">
-                <p>{{ props.user.name }}</p>
+            <v-col cols="12" md="6" class="d-flex justify-center align-center">
+                <user-bubble v-bind:user="props.user" :with-name="true" :size="48" :with-subtitle="false"></user-bubble>
             </v-col>
             <v-col cols="12" md="6" class="d-flex justify-center align-center">
                 <v-select
@@ -28,6 +28,7 @@
 import { Role } from "@/models/Role";
 import { User } from "@/models/User";
 import { PropType, ref } from "vue";
+import UserBubble from "./UserBubble.vue";
 
 const props = defineProps({
     user: {
