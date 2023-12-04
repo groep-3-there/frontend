@@ -64,8 +64,6 @@ export class User {
         permission: string,
         departmentId: number | null | undefined,
     ) {
-        console.log(this.role)
-        console.log(departmentId)
         if (departmentId === null || departmentId === undefined) {
             return false;
         }
