@@ -230,29 +230,6 @@ const phoneNumberRules = [
         /(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{10}$)/.test(v) ||
         "Telefoon moet geldig zijn"
 ];
-let _throttlePhoneNumberExist: any = null;
-const phoneNumberIsTaken = ref(false);
-watch(phoneNumber, async () => {
-    if (!phoneNumber.value) {
-        return;
-    }
-    if (!phoneNumberRules[1](phoneNumber.value)) {
-        return;
-    }
-    if (_throttlePhoneNumberExist) {
-        return;
-    }
-    _throttlePhoneNumberExist = setTimeout(async () => {
-        _throttlePhoneNumberExist = null;
-        phoneNumberIsTaken.value = false;
-
-        const result = await Api.isPhoneNumberRegistered(phoneNumber.value);
-        if (result && originalUser.value!.phoneNumber != phoneNumber.value) {
-            console.log("taken");
-            phoneNumberIsTaken.value = true;
-        }
-    }, 500);
-});
 function showAvatar() {
     return `${Api.BASEURL}image/${originalUser.value?.avatarImageId}`;
 }
