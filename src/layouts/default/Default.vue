@@ -31,9 +31,6 @@
                 </v-btn>
             </div>
 
-            <!--                 expand on hover, use hover
-                                        |            |            show permanent(dont hide on mobile)
-                                        \/           \/              \/               width of drawer       Do not make the sidebar scrollable -->
             <v-navigation-drawer
                 v-model="sidebarVisibleOnSmallDevice"
                 @update:model-value="sidebarVisibleOnSmallDevice = $event"

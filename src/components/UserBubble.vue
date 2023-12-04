@@ -31,6 +31,7 @@
     object-fit: cover;
     border-radius: 100%;
     margin-left: auto;
+    aspect-ratio: 1/1;
 }
 .user-box {
     padding: 8px;
