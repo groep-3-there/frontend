@@ -89,9 +89,7 @@
                             <v-text-field
                                 v-model="phoneNumber"
                                 label="Telefoonnummer"
-                                :rules="[
-                                    (v) => !!v || 'Dit veld is verplicht!',
-                                ]"
+                                :rules="phoneNumberRules"
                                 required
                                 variant="outlined"
                             ></v-text-field>
@@ -171,7 +169,7 @@
     </v-container>
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import Api from "@/Api";
 import RichEditor from "@/components/RichEditor.vue";
 import { Ref } from "vue";
@@ -196,19 +194,48 @@ const editUserForm = ref(null) as any;
 const idParam = useRoute().params.id;
 let id = parseInt(Array.isArray(idParam) ? idParam[0] : idParam);
 
-function showAvatar() {
-    return `${Api.BASEURL}image/${originalUser.value?.avatarImageId}`;
-}
-
-function deleteAvatar() {
-    originalUser.value!.avatarImageId = null;
-}
 const emailRules = [
     (v: string) => !!v || "E-mail is verplicht",
     (v: string) =>
         /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
         "E-mail moet geldig zijn",
+    (v: string) => !emailIsTaken.value || "E-mail is al in gebruik"
 ];
+let _throttleEmailExist: any = null;
+const emailIsTaken = ref(false);
+watch(email, async () => {
+    if (!email.value) {
+        return;
+    }
+    if (!emailRules[1](email.value)) {
+        return;
+    }
+    if (_throttleEmailExist) {
+        return;
+    }
+    _throttleEmailExist = setTimeout(async () => {
+        _throttleEmailExist = null;
+        emailIsTaken.value = false;
+
+        const result = await Api.isEmailRegistered(email.value);
+        if (result && originalUser.value!.email != email.value) {
+            console.log("taken");
+            emailIsTaken.value = true;
+        }
+    }, 500);
+});
+const phoneNumberRules = [
+    (v: string) => !!v || "Telefoonnummer is verplicht",
+    (v: string) =>
+        /(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{10}$)/.test(v) ||
+        "Telefoon moet geldig zijn"
+];
+function showAvatar() {
+    return `${Api.BASEURL}image/${originalUser.value?.avatarImageId}`;
+}
+function deleteAvatar() {
+    originalUser.value!.avatarImageId = null;
+}
 const nameRules = [
     (v: string) => !!v || "Naam is verplicht",
     (v: string) => v.length >= 2 || "Naam moet minimaal 2 tekens lang zijn",

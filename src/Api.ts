@@ -117,6 +117,10 @@ namespace API {
         const data = await getRequest(`user/exist/${email}`);
         return data;
     }
+    export async function isPhoneNumberRegistered(phoneNumber: string) {
+        const data = await getRequest(`user/exist/${phoneNumber}`);
+        return data;
+    }
     export async function getImagesByChallengeId(id: number) {
         const data = await getRequest(`image/challenge/${id}`);
         return data.map((d: any) => new Image(d));
