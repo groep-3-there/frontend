@@ -17,7 +17,7 @@
                     <h2>
                         {{ user.name }}
                     </h2>
-                    <p class="small-text text-coolgray">
+                    <p v-if="withSubtitle" class="small-text text-coolgray">
                         {{ user.getSubtitle() }}
                     </p>
                 </div>
@@ -60,6 +60,10 @@ const props = defineProps({
         type: Boolean,
         default: true,
     },
+    withSubtitle:{
+        type: Boolean,
+        default: true,
+    }
 });
 
 const sizePx = computed(() => {

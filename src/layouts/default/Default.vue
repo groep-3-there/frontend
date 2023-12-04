@@ -30,7 +30,6 @@
                     >
                 </v-btn>
             </div>
-
             <v-navigation-drawer
                 v-model="sidebarVisibleOnSmallDevice"
                 @update:model-value="sidebarVisibleOnSmallDevice = $event"
@@ -146,10 +145,10 @@
                                 )
                             "
                             :key="5"
-                            @click="$router.push('/create-challenge')"
+                            @click="$router.push('/challenge/new')"
                             prepend-icon="mdi-plus-box-outline"
                             title="Challenge maken"
-                            value="create-challenge"
+                            value="challenge-new"
                         ></v-list-item>
                         <v-list-item
                             v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment(
