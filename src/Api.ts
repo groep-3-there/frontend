@@ -261,8 +261,10 @@ namespace API {
         return data.map((d: any) => new Tag(d));
     }
 
-    export async function getCompanyRequests(): Promise<CompanyRequestsResults> {
-        const data = await getRequest(`company/request`);
+    export async function getCompanyRequests(page?: number): Promise<CompanyRequestsResults> {
+        let urlstring = "company/request?";
+        if (page) urlstring += `page=${page}&`;
+        const data = await getRequest(urlstring);
         return new CompanyRequestsResults(data);
     }
     export async function acceptCompanyRequest(id: number) {
