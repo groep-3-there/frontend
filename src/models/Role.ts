@@ -9,6 +9,7 @@ export class Role {
     isMatchmaker: boolean;
     permissions: Permission[];
     isDepartmentAdmin: boolean;
+    isAssignable: boolean;
 
     constructor(data: any) {
         this.id = data.id;
@@ -17,5 +18,6 @@ export class Role {
         this.isMatchmaker = data.isMatchmaker;
         this.permissions = data.permissions.map((d: any) => new Permission(d));
         this.isDepartmentAdmin = data.isDepartmentAdmin || false;
+        this.isAssignable = data.isAssignable || false;
     }
 }
