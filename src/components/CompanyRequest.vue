@@ -2,8 +2,8 @@
     <v-container class="item">
         <v-row @click="showPopup = true">
             <v-col cols="6" md="6">
-                <h2 class="padding-left">{{ props.companyRequest.name }}</h2>
-                <Tag type="branch">{{ props.companyRequest.branch.name }}</Tag>
+                <h2 class="padding-left">{{ props.companyRequest?.name }}</h2>
+                <Tag type="branch">{{ props.companyRequest?.branch?.name }}</Tag>
             </v-col>
             <v-col cols="3" md="3" class="d-flex justify-center align-center">
                 {{
@@ -47,7 +47,7 @@
 }
 
 .border-icon {
-    border: 1px solid gray;
+    border: 1px solid grey;
     border-radius: 10px;
     padding: 30px;
     background-color: rgb(232, 232, 232);
