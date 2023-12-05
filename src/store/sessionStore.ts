@@ -31,6 +31,7 @@ export const useSessionStore = defineStore("session", {
         },
         async logIn(username: string, password: string) {
             let success = false;
+            API.removeAuthToken();
             try {
                 success = await API.firebaseLoginAndUseToken(
                     username,

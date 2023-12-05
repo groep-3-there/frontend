@@ -26,13 +26,14 @@
                 </v-col>
             </v-row>
         </template>
+
         <v-row>
             <v-col cols="12" md="9" class="mx-auto">
                 <v-pagination
                     v-if="requests"
                     v-model="page"
                     :length="requests.totalPages"
-                    @input="loadRequests"
+                    @click="getPage()"
                     :totalVisible="7"
                 ></v-pagination>
             </v-col>
@@ -98,20 +99,35 @@ import { onMounted } from "vue";
 import { Ref, ref } from "vue";
 import { useSessionStore } from "@/store/sessionStore";
 import Banner from "@/components/Banner.vue";
+import router from "@/router";
 
 const sessionStore = useSessionStore();
 const requests = ref<CompanyRequestsResults>();
 
+/** @type {number} - current page, 1 is default
+ * important to subtract 1 when calling the API,
+ * because the API starts counting at 0 for pages and Vue starts counting at 1 */
+const page = ref(1);
+
 onMounted(async () => {
-    await loadRequests();
+    await loadRequests(page.value);
 });
 
-async function loadRequests() {
-    requests.value = await API.getCompanyRequests();
+async function loadRequests(page: number) {
+    API.getCompanyRequests(page - 1).then((result) => {
+        requests.value = result;
+    });
 }
 function banner() {
     return `background-image: url(${sessionStore.loggedInUser?.department?.parentCompany.getBannerForCompany()});`;
 }
 
-const page = ref(1);
+async function getPage() {
+    router.push({
+        path: "grade-companies",
+        query: { page: page.value },
+    });
+
+    await loadRequests(page.value);
+}
 </script>

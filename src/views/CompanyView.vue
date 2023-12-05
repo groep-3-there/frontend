@@ -74,7 +74,7 @@
         <v-row>
             <v-col cols="12" class="">
                 <div class="d-flex flex-wrap justify-center mt-8">
-                    <h1 class="italic-title">Challenges</h1>
+                    <h1 class="title">Challenges</h1>
                 </div>
                 <div class="text-right mr-12">
                     <p>
@@ -115,7 +115,7 @@
             </template>
             <template v-if="filteredChallenges.length == 0">
                 <div class="d-flex flex-wrap justify-center">
-                    <p class="italic-title">Geen challenges gevonden</p>
+                    <p class="title">Geen challenges gevonden</p>
                 </div>
             </template>
         </v-row>
@@ -132,14 +132,14 @@
         <v-row>
             <v-col cols="12" class="">
                 <div class="d-flex flex-wrap justify-center">
-                    <h1 class="italic-title">Afdelingen</h1>
+                    <h1 class="title">Afdelingen</h1>
                 </div>
             </v-col>
         </v-row>
         <v-row>
             <p class="mx-auto">
                 <span v-for="department in departments" :key="department.id">
-                    {{ department.name }} ·
+                    {{ department.name }}
                 </span>
             </p>
         </v-row>
@@ -181,7 +181,7 @@
                             .id == company.id
                     "
                 >
-                    <h1 class="italic-title">
+                    <h1 class="title">
                         Uw afdeling :
                         {{ sessionStore.loggedInUser?.department?.name }}
                     </h1>
