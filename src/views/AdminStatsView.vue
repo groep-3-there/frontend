@@ -39,7 +39,8 @@
               <apexchart :options="ChallengeInputChartOptions" :series="ChallengeInputChartSeries"></apexchart>
             </v-col>
             <v-col>
-                <v-btn @click="rerender()">Hallo</v-btn>
+                <div>{{ totalChallenges }}</div>
+                <div>{{ challengesWithMonth }}</div>
             </v-col>
         </v-row>
     </div>
@@ -52,24 +53,18 @@ import Banner from "@/components/Banner.vue";
 import { onMounted } from "vue";
 import Api from "@/Api";
 import { ref } from "vue";
-import { title } from "process";
 
 const sessionStore = useSessionStore();
 const totalChallenges = ref(0);
+const challengesWithMonth= ref([])
+const today = new Date().toISOString().split('T')[0] 
+console.log(today)
 let colorPalette = ['#00D8B6','#008FFB',  '#FEB019', '#FF4560', '#775DD0']
 
-function rerender(){
-  e.ChallengeChartoptions.title.text = totalChallenges.value;
-  console.log("klik")
-
-}
-
 onMounted(async () => {
-  totalChallenges.value = await Api.getGraphChallenges();
-  console.log(totalChallenges.value + "getal")
+    totalChallenges.value = await Api.getGraphChallenges()
+    challengesWithMonth.value = await Api.getGraphChallengesWithMonth("2000-01-01", today.toString())
 })
-
-console.log(totalChallenges + "totaal")
 
 let ChallengeChartoptions = {
     chart: {
@@ -80,15 +75,22 @@ let ChallengeChartoptions = {
     sparkline: {
       enabled: true
     },
-    methods:{
-      rerender(e){
-        this.challengeChartoptions = {
-          title:{
-            text: e.value}
+  },
+  methods:{
+      updateChart(){
+        ChallengeChartoptions = {
+          ...ChallengeChartoptions, ...{
+          title: {
+            text: totalChallenges.value,
+            offsetX: 30,
+            offsetY: 5,
+            style: {
+              fontSize: '24px',
+            }
+          },
         }
+      }
         }
-      
-    }
   },
   stroke: {
     curve: 'straight'
@@ -96,12 +98,11 @@ let ChallengeChartoptions = {
   fill: {
     opacity: 1,
   },
-  labels: [...Array(24).keys()].map(n => `2018-09-0${n+1}`),
   yaxis: {
     min: 0
   },
   xaxis: {
-    type: 'datetime',
+    type: 'month',
   },
   colors: ['#DCE6EC'],
   title: {
@@ -121,10 +122,15 @@ let ChallengeChartoptions = {
     }
   }
 }
-
 let ChallengeChartSeries = [{
-          data: [30, 40, 45, 50, 49, 60, 70, 81]
+          data: ["JANUARY":30, 40, 45, 50, 49, 60, 70, 81]
         }];
+
+challengesWithMonth.value.forEach((challenge: any) => {
+  ChallengeChartSeries.push({
+    data: [challenge.count],
+  })
+})
 
 let UserChartoptions = {
     chart: {
