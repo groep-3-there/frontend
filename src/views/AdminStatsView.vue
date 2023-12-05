@@ -14,32 +14,32 @@
             :subtitle="'Admin paneel'"
         >
         </Banner>
-        <div style="background-color:aliceblue;" class="dflex justify-space-around">
+        <div style="background-color:aliceblue;">
         <v-row>
             <v-col>
-                <apexchart width="300" type="area" :options="ChallengeChartoptions" :series="ChallengeChartseries"></apexchart>
+                <apexchart :options="ChallengeChartoptions" :series="ChallengeChartSeries"></apexchart>
             </v-col>
             <v-col>
-                <apexchart width="300" type="area" :options="UserChartoptions" :series="UserChartseries"></apexchart>
+                <apexchart :options="UserChartoptions" :series="UserChartSeries"></apexchart>
             </v-col>
             <v-col>
-                <apexchart width="300" type="area" :options="CompanyChartoptions" :series="CompanyChartseries"></apexchart>
+                <apexchart :options="CompanyChartoptions" :series="CompanyChartSeries"></apexchart>
             </v-col>
         </v-row>
         <v-row>
             <v-col>
-                <apexchart width="450" type="line" :options="ChallengeTimeChartOptions" :series="ChallengeTimeChartseries"></apexchart>
+                <apexchart :options="ChallengeTimeChartOptions" :series="ChallengeTimeChartSeries"></apexchart>
             </v-col>
             <v-col>
-                <apexchart width="450" type="donut" :options="ChallengeStatusChartOptions" :series="ChallengeStatusChartseries"></apexchart>
+                <apexchart :options="ChallengeStatusChartOptions" :series="ChallengeStatusChartSeries"></apexchart>
             </v-col>
         </v-row>
         <v-row>
             <v-col>
-                
+              <apexchart :options="ChallengeInputChartOptions" :series="ChallengeInputChartSeries"></apexchart>
             </v-col>
             <v-col>
-                
+                <v-btn @click="rerender()">Hallo</v-btn>
             </v-col>
         </v-row>
     </div>
@@ -50,17 +50,45 @@
 import { useSessionStore } from "@/store/sessionStore";
 import Banner from "@/components/Banner.vue";
 import { onMounted } from "vue";
+import Api from "@/Api";
+import { ref } from "vue";
+import { title } from "process";
+
 const sessionStore = useSessionStore();
+const totalChallenges = ref(0);
 let colorPalette = ['#00D8B6','#008FFB',  '#FEB019', '#FF4560', '#775DD0']
+
+function rerender(){
+  e.ChallengeChartoptions.title.text = totalChallenges.value;
+  console.log("klik")
+
+}
+
+onMounted(async () => {
+  totalChallenges.value = await Api.getGraphChallenges();
+  console.log(totalChallenges.value + "getal")
+})
+
+console.log(totalChallenges + "totaal")
 
 let ChallengeChartoptions = {
     chart: {
     id: 'challengechart',
-    height: 160,
+    type: 'area',
+    width: '100%',
     background: '#fff',
     sparkline: {
       enabled: true
     },
+    methods:{
+      rerender(e){
+        this.challengeChartoptions = {
+          title:{
+            text: e.value}
+        }
+        }
+      
+    }
   },
   stroke: {
     curve: 'straight'
@@ -77,7 +105,7 @@ let ChallengeChartoptions = {
   },
   colors: ['#DCE6EC'],
   title: {
-    text: '4269',
+    text: totalChallenges.value,
     offsetX: 30,
     offsetY: 5,
     style: {
@@ -94,14 +122,15 @@ let ChallengeChartoptions = {
   }
 }
 
-let ChallengeChartseries = [{
+let ChallengeChartSeries = [{
           data: [30, 40, 45, 50, 49, 60, 70, 81]
         }];
 
 let UserChartoptions = {
     chart: {
     id: 'userchart',
-    height: 160,
+    type: 'area',
+    width: '100%',
     background: '#fff',
     sparkline: {
       enabled: true
@@ -139,14 +168,15 @@ let UserChartoptions = {
   }
 }
 
-let UserChartseries = [{
+let UserChartSeries = [{
           data: [30, 40, 45, 50, 49, 60, 70, 81]
         }];
 
 let CompanyChartoptions = {
     chart: {
     id: 'companychart',
-    height: 160,
+    type: 'area',
+    width: '100%',
     background: '#fff',
     sparkline: {
       enabled: true
@@ -184,13 +214,15 @@ let CompanyChartoptions = {
   }
 }
 
-let CompanyChartseries = [{
+let CompanyChartSeries = [{
           data: [30, 40, 45, 50, 49, 60, 70, 81]
         }];
 
 let ChallengeTimeChartOptions = {
   chart: {
-    height: 340,
+    id: 'challengeTimeChart',
+    type: 'line',
+    width: '100%',
     background: '#fff',
     zoom: {
       enabled: true
@@ -230,13 +262,13 @@ let ChallengeTimeChartOptions = {
   },
   xaxis: {
     labels: {
-      show: false
+      show: true
     },
     axisTicks: {
       show: false
     },
     tooltip: {
-      enabled: false
+      enabled: true
     }
   },
   yaxis: {
@@ -260,26 +292,28 @@ let ChallengeTimeChartOptions = {
   }
 }
 
-let ChallengeTimeChartseries = [{
-    data: [
+let ChallengeTimeChartSeries = [
+    
     {
       name: "Day Time",
-      data: trigoSeries(52, 20)
+      data: trigoSeries(21, 20)
     },
     {
       name: "Night Time",
-      data: trigoSeries(52, 27)
-    }]
-}];
+      data: trigoSeries(21, 27)
+    }
+    
+];
 
 let ChallengeStatusChartOptions = {
   chart: {
+      id: 'challengeStatusChart',
+      type: 'donut',
       width: '100%',
-      height: 400,
       background: '#fff'
   },
   dataLabels: {
-    enabled: false,
+    enabled: true,
   },
   plotOptions: {
     pie: {
@@ -287,7 +321,7 @@ let ChallengeStatusChartOptions = {
       donut: {
         size: '75%',
       },
-      offsetY: 20,
+      
     },
     stroke: {
       colors: undefined
@@ -304,13 +338,63 @@ let ChallengeStatusChartOptions = {
   legend: {
     position: 'left',
     offsetY: 80
-  }
+  },
 };
 
-let ChallengeStatusChartseries = [{
-    data: 
-        [21, 23, 19, 14],
-}]; 
+let ChallengeStatusChartSeries = [21, 23, 19, 14]; 
+
+var ChallengeInputChartOptions = {
+  chart: {
+    type: 'bar',
+    width: '100%',
+    background: '#fff',
+    stacked: true,
+  },
+  plotOptions: {
+    bar: {
+      columnWidth: '45%',
+    }
+  },
+  colors: colorPalette,
+  labels: ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Aug','Sep','Okt','Nov','Dec'],
+  xaxis: {
+    labels: {
+      show: true
+    },
+    axisBorder: {
+      show: false
+    },
+    axisTicks: {
+      show: false
+    },
+  },
+  yaxis: {
+    axisBorder: {
+      show: false
+    },
+    axisTicks: {
+      show: false
+    },
+    labels: {
+      style: {
+        colors: '#78909c'
+      }
+    }
+  },
+  title: {
+    text: 'Reacties op challenges',
+    align: 'left',
+    style: {
+      fontSize: '18px'
+    }
+  }
+
+}
+
+let ChallengeInputChartSeries = [{
+  name: "Reacties",
+    data: [42, 52, 16, 55, 59, 51, 45, 32, 26, 33, 44, 51],
+}]
 
 // async function updateChart() {
 //    const max = 90;
@@ -324,9 +408,6 @@ let ChallengeStatusChartseries = [{
 //    }]
 // }
 
-onMounted(async () => {
-    //updateChart();
-})
 
 function trigoSeries(cnt: number, strength: number) {
   var data = [];

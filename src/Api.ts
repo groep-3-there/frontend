@@ -342,6 +342,11 @@ namespace API {
         const data = await putRequest(`department/${departmentId}/updateroles`, { updates });
         return data;
     }
+
+    export async function getGraphChallenges() {
+        const data = await getRequest(`graph-data/challenges/total`);
+        return data;
+    }
 }
 
 export default API;
