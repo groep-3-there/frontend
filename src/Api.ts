@@ -349,7 +349,7 @@ namespace API {
     }
 
     export async function getGraphChallengesWithMonth(from : string, till : string) {
-        const data = await getRequest(`graph-data/challenges/filter/date?from=${from}&till=${till}`);
+        const data : any = await getRequest(`graph-data/challenges/filter/date?from=${from}&till=${till}`);
         return data;
     }
 }
