@@ -20,9 +20,12 @@
                     <Tag type="branch">
                         {{ company.branch.name }}
                     </Tag>
+                    <template v-if="company.tags">
                     <Tag v-for="tag in company.tags.split(',')" :key="tag">{{
                         tag
                     }}</Tag>
+
+                    </template>
                 </div>
             </v-col>
             <v-col cols="12" md="3" class="d-flex justify-center align-center">
@@ -64,8 +67,8 @@
             
 
             <v-col cols="12" class="">
-                <div class="d-flex flex-wrap justify-center">
-                    {{ company.info }}
+                <div class="d-flex flex-wrap justify-center" v-html="company.info">
+                    
                 </div>
             </v-col>
 
@@ -132,7 +135,7 @@
         <v-row>
             <v-col cols="12" class="">
                 <div class="d-flex flex-wrap justify-center">
-                    <h1 class="title">Afdelingen</h1>
+                <h2 class="title">Afdelingen</h2>
                 </div>
             </v-col>
         </v-row>
@@ -181,10 +184,10 @@
                             .id == company.id
                     "
                 >
-                    <h1 class="title">
+                <h2 class="title">
                         Uw afdeling :
                         {{ sessionStore.loggedInUser?.department?.name }}
-                    </h1>
+                    </h2>
                 </div>
                 <v-row>
                     <v-btn

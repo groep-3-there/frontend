@@ -237,7 +237,11 @@ namespace API {
         const data = await putRequest(`user/${us.id}`, us);
         return new User(data);
     }
-
+    export async function updateCompany(cp: Company | { id: number }) {
+        const data = await putRequest(`company/${cp.id}`, cp);
+        console.log(data);
+        return new Company(data);
+    }
     export async function uploadImage(img: File) {
         const data = await uploadFile("image/upload", "image", img);
         return new Image(data);

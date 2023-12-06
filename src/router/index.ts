@@ -64,6 +64,11 @@ const routes = [
                 component: () => import("@/views/CompanyView.vue"),
             },
             {
+                path: "company/:id/edit",
+                name: "Bedrijf bewerken",
+                component: () => import("@/views/EditCompanyProfile.vue"),
+            },
+            {
                 path: "/admin",
                 name: "Admin",
                 component: () => import("@/views/AdminView.vue"),
