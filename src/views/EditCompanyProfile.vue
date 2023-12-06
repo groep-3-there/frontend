@@ -133,20 +133,20 @@
                     </v-row>
 
                     <v-row>
-                            <v-col cols="12" md="11">
-                                <v-autocomplete
-                                    v-model="branch"
-                                    label="Branch"
-                                    :items="
-                                        standardBranches.map((obj) => obj.name)
-                                    "
-                                    :rules="[
-                                        (v) => !!v || 'Dit veld is verplicht!',
-                                    ]"
-                                    required
-                                    variant="outlined"
-                                ></v-autocomplete>
-                            </v-col>
+                        <v-col>
+                            <v-autocomplete
+                                v-model="branch"
+                                label="Branch"
+                                :items="
+                                    standardBranches.map((obj) => obj.name)
+                                "
+                                :rules="[
+                                    (v) => !!v || 'Dit veld is verplicht!',
+                                ]"
+                                required
+                                variant="outlined"
+                            ></v-autocomplete>
+                        </v-col>
                     </v-row>
 
                     <v-row>
@@ -167,6 +167,48 @@
                                 ]"
                             >
                             </v-combobox>
+                        </v-col>
+                    </v-row>
+                    
+                    <v-row>
+                        <v-col>
+                            <v-autocomplete
+                                    v-model="country"
+                                    @update:model-value="
+                                        (e: any) => country = (e)
+                                    "
+                                    :rules="[
+                                        (v) => !!v || 'Dit veld is verplicht!',
+                                    ]"
+                                    :items="standardCountries"
+                                    variant="outlined"
+                                    color="blue-grey-lighten-2"
+                                    item-title="name"
+                                    item-value="code"
+                                    label="Landen"
+                                >
+                                    <template v-slot:chip="{ props, item }">
+                                        <v-chip
+                                            v-bind="props"
+                                            :prepend-avatar="
+                                                item.raw.getImageUrl()
+                                            "
+                                            :text="item.raw.name"
+                                        ></v-chip>
+                                    </template>
+
+                                    <template v-slot:item="{ props, item }">
+                                        <v-list-item
+                                            v-bind="props"
+                                            :prepend-avatar="
+                                                item?.raw?.getImageUrl()
+                                            "
+                                            :title="item?.raw?.name"
+                                            :is="item?.raw?.code"
+                                            :subtitle="`${item?.raw?.code}`"
+                                        ></v-list-item>
+                                    </template>
+                                </v-autocomplete>
                         </v-col>
                     </v-row>
 
@@ -199,16 +241,20 @@ import { Tag } from "@/models/Tag";
 import { useSnackbarStore } from "@/store/Snackbar";
 import { Company } from "@/models/Company";
 import { Branch } from "@/models/Branch";
+import { Country } from "@/models/Country";
 const snackbar = useSnackbarStore();
 const originalCompany: Ref<Company | null> = ref(null);
 const name = ref("");
 const info = ref("");
 const profileImage = ref([]);
 const banner = ref([]);
-const standardTags: Ref<Tag[]> = ref([]);
-const standardBranches: Ref<Tag[]> = ref([]);
+
+const country: Ref<Country | null> = ref(null);
+const standardCountries: Ref<Country[]> = ref([]);
 const tags = ref([] as any);
+const standardTags: Ref<Tag[]> = ref([]);
 const branch :Ref<string | null> = ref(null);
+const standardBranches: Ref<Branch[]> = ref([]);
 const editCompanyForm = ref(null) as any;
 const idParam = useRoute().params.id;
 let id = parseInt(Array.isArray(idParam) ? idParam[0] : idParam);
@@ -233,11 +279,13 @@ const nameRules = [
 onMounted(async () => {
     standardTags.value = await Api.getTags();
     standardBranches.value = await Api.getBranches();
+    standardCountries.value = await Api.getCountries();
     originalCompany.value = await Api.getCompany(id);
     name.value = originalCompany.value.name;
     info.value = originalCompany.value.info;
     tags.value = originalCompany.value.tags == "" ? [] : originalCompany.value.tags.split(",");
     branch.value = originalCompany.value.branch.name;
+    country.value = originalCompany.value.country;
 });
 
 async function editCompany() {
@@ -276,8 +324,9 @@ async function editCompany() {
         info: info.value,
         tags: tagString,
         branch: standardBranches.value.find((b: Branch) => b.name == branch.value),
+        country: country.value,
         profileImageId: uploadedProfileId,
-        bannerImageId: uploadedBannerId,
+        bannerImageId: uploadedBannerId
     };
     try {
         await Api.updateCompany(company);
