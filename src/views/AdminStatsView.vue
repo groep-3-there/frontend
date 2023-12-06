@@ -3,11 +3,9 @@
         U bent niet ingelogd
     </template>
     <template v-else>
-        <Banner :banner-src="
-            sessionStore.loggedInUser?.department?.parentCompany.getBannerForCompany()
-        " :logo-src="
-    sessionStore.loggedInUser?.department?.parentCompany?.getProfileOrDefaultImageUrl()
-" :title="'Statistieken'" :subtitle="'Admin paneel'">
+        <Banner :banner-src="sessionStore.loggedInUser?.department?.parentCompany.getBannerForCompany()
+            " :logo-src="sessionStore.loggedInUser?.department?.parentCompany?.getProfileOrDefaultImageUrl()
+        " :title="'Statistieken'" :subtitle="'Admin paneel'">
         </Banner>
         <div style="background-color: aliceblue;">
             <v-row>
@@ -40,14 +38,14 @@
                 </v-col>
             </v-row>
             <v-row>
-                <v-col>
+                <v-col cols="12" md="6">
                     <v-card>
-                        <apexchart :options="ChallengeInputChartOptions" :series="ChallengeInputChartSeries"></apexchart>
+                        <apexchart :options="CompanyBranchChartOptions" :series="CompanyBranchChartSeries"></apexchart>
                     </v-card>
                 </v-col>
-                <v-col>
+                <v-col cols="12" md="6">
                     <v-card>
-                    <apexchart :options="CompanyRequestChartOptions" :series="CompanyRequestChartSeries"></apexchart>
+                        <apexchart :options="ChallengeInputChartOptions" :series="ChallengeInputChartSeries"></apexchart>
                     </v-card>
                 </v-col>
             </v-row>
@@ -64,6 +62,11 @@ import { ref } from "vue";
 
 const sessionStore = useSessionStore();
 const totalChallenges = ref(0);
+const totalUsers = ref(0);
+const totalCompanies = ref(0);
+const challengesTotalWithMonth: Ref<any> = ref({});
+const usersTotalWithMonth: Ref<any> = ref({});
+const companiesTotalWithMonth: Ref<any> = ref({});
 const challengesWithMonth: Ref<any> = ref({});
 const challengesInputsWithMonth: Ref<any> = ref({});
 const today = new Date().toISOString().split("T")[0];
@@ -71,12 +74,28 @@ let colorPalette = ["#00D8B6", "#008FFB", "#FEB019", "#FF4560", "#775DD0"];
 
 onMounted(async () => {
     totalChallenges.value = await Api.getGraphChallenges();
-    challengesWithMonth.value = await Api.getGraphChallengesWithMonth(
-        "2021-01-01",
+    challengesTotalWithMonth.value = await Api.getGraphChallengesTotalWithMonth(
+        "2023-01-01",
         today.toString(),
     );
+    totalUsers.value = await Api.getGraphUsers();
+    usersTotalWithMonth.value = await Api.getGraphUsersTotalWithMonth(
+        "2019-01-01",
+        today.toString(),
+    );
+    totalCompanies.value = await Api.getGraphCompanies();
+    companiesTotalWithMonth.value = await Api.getGraphCompaniesTotalWithMonth(
+        "2019-01-01",
+        today.toString(),
+    );
+
+    challengesWithMonth.value = await Api.getGraphChallengesWithMonth(
+        "2019-01-01",
+        today.toString(),
+    );
+
     challengesInputsWithMonth.value = await Api.getGraphChallengesInputsWithMonth(
-        "2021-01-01",
+        "2023-01-01",
         today.toString(),
     );
 });
@@ -98,16 +117,16 @@ const ChallengeChartOptions = computed(() => {
         fill: {
             opacity: 1,
         },
+        labels: Object.entries(challengesTotalWithMonth.value).map(
+            ([month, value]) => month.toLowerCase(),
+        ),
         yaxis: {
             min: 0,
             show: false,
         },
         xaxis: {
-            type: "month",
+
         },
-        labels: Object.entries(challengesWithMonth.value).map(
-            ([month, value]) => month.toLowerCase(),
-        ),
         colors: ["#DCE6EC"],
         title: {
             text: totalChallenges.value,
@@ -129,7 +148,8 @@ const ChallengeChartOptions = computed(() => {
 const ChallengeChartSeries = computed(() => {
     return [
         {
-            data: Object.entries(challengesWithMonth.value).map(
+            name: "Aantal",
+            data: Object.entries(challengesTotalWithMonth.value).map(
                 ([month, value]) => value
             ),
         },
@@ -153,17 +173,19 @@ const UserChartOptions = computed(() => {
         fill: {
             opacity: 1,
         },
-        labels: [...Array(24).keys()].map((n) => `2018-09-0${n + 1}`),
+        labels: Object.entries(usersTotalWithMonth.value).map(
+            ([month, value]) => month.toLowerCase(),
+        ),
         yaxis: {
             min: 0,
             show: false,
         },
         xaxis: {
-            type: "datetime",
+
         },
         colors: ["#DCE6EC"],
         title: {
-            text: "74324",
+            text: totalUsers.value,
             offsetX: 30,
             offsetY: 5,
             style: {
@@ -183,7 +205,10 @@ const UserChartOptions = computed(() => {
 const UserChartSeries = computed(() => {
     return [
         {
-            data: [30, 40, 45, 50, 49, 60, 70, 81],
+            name: "Aantal",
+            data: Object.entries(usersTotalWithMonth.value).map(
+                ([month, value]) => value
+            ),
         }
     ];
 });
@@ -205,17 +230,18 @@ const CompanyChartOptions = computed(() => {
         fill: {
             opacity: 1,
         },
-        labels: [...Array(24).keys()].map((n) => `2018-09-0${n + 1}`),
+        labels: Object.entries(companiesTotalWithMonth.value).map(
+            ([month, value]) => month.toLowerCase(),
+        ),
         yaxis: {
-            min: 0,
             show: false,
         },
         xaxis: {
-            type: "datetime",
+
         },
         colors: ["#DCE6EC"],
         title: {
-            text: "3542",
+            text: totalCompanies.value,
             offsetX: 30,
             offsetY: 5,
             style: {
@@ -235,7 +261,10 @@ const CompanyChartOptions = computed(() => {
 const CompanyChartSeries = computed(() => {
     return [
         {
-            data: [30, 40, 45, 50, 49, 60, 70, 81],
+            name: "Aantal",
+            data: Object.entries(companiesTotalWithMonth.value).map(
+                ([month, value]) => value
+            ),
         }
     ];
 });
@@ -270,13 +299,13 @@ const ChallengeTimeChartOptions = computed(() => {
             size: 0,
         },
         labels: Object.entries(challengesWithMonth.value).map(
-            ([month, value]) => month.toLowerCase()
+            ([month, value]) => month.toLowerCase().slice(0,3) + '-' + month.toLowerCase().slice(-2)
+            ,
         ),
         grid: {},
         xaxis: {
             labels: {
                 show: true,
-                format: "MMM 'yy"
             },
             axisTicks: {
                 show: false,
@@ -310,7 +339,7 @@ const ChallengeTimeChartOptions = computed(() => {
 const ChallengeTimeChartSeries = computed(() => {
     return [
         {
-        data: Object.entries(challengesWithMonth.value).map(
+            data: Object.entries(challengesWithMonth.value).map(
                 ([month, value]) => value
             ),
         }
@@ -359,6 +388,59 @@ const ChallengeStatusChartSeries = computed(() => {
     return [21, 23, 19, 14];
 });
 
+const CompanyBranchChartOptions = computed(() => {
+    return {
+        chart: {
+            type: 'bar',
+            height: 350,
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 0,
+                horizontal: true,
+                barHeight: '80%',
+                isFunnel: true,
+            },
+        },
+        dataLabels: {
+            enabled: true,
+            dropShadow: {
+                enabled: true,
+            },
+        },
+        title: {
+            text: "Branches",
+            style: {
+                fontSize: "18px",
+            },
+        },
+        xaxis: {
+            categories: [
+                'Sourced',
+                'Screened',
+                'Assessed',
+                'HR Interview',
+                'Technical',
+                'Verify',
+                'Offered',
+                'Hired',
+            ],
+        },
+        legend: {
+            show: false,
+        },
+    }
+})
+
+const CompanyBranchChartSeries = computed(() => {
+    return [
+        {
+            name: "Funnel Series",
+            data: [1380, 1100, 990, 880, 740, 548, 330, 200],
+        }
+    ];
+});
+
 const ChallengeInputChartOptions = computed(() => {
     return {
         chart: {
@@ -374,7 +456,7 @@ const ChallengeInputChartOptions = computed(() => {
         },
         colors: colorPalette,
         labels: Object.entries(challengesInputsWithMonth.value).map(
-            ([month, value]) => month.toLowerCase().slice(0, 3)),
+            ([month, value]) => month.toLowerCase().slice(5, 8)),
         xaxis: {
             labels: {
                 show: true,
@@ -418,104 +500,4 @@ const ChallengeInputChartSeries = computed(() => {
         },
     ]
 });
-
-const CompanyRequestChartOptions = computed(() => {
-    return {
-        chart: {
-            id: "challengeTimeChart",
-            type: "line",
-            width: "100%",
-            background: "#fff",
-            zoom: {
-                enabled: true,
-            },
-        },
-        plotOptions: {
-            stroke: {
-                width: 4,
-                curve: "smooth",
-            },
-        },
-        colors: colorPalette,
-        title: {
-            floating: false,
-            text: "Bedrijfsaanvragen",
-            align: "left",
-            style: {
-                fontSize: "18px",
-            },
-        },
-        subtitle: {
-            text: "4269",
-            align: "center",
-            margin: 30,
-            offsetY: 40,
-            style: {
-                color: "#222",
-                fontSize: "24px",
-            },
-        },
-        markers: {
-            size: 0,
-        },
-
-        grid: {},
-        xaxis: {
-            labels: {
-                show: true,
-            },
-            axisTicks: {
-                show: false,
-            },
-            tooltip: {
-                enabled: true,
-            },
-        },
-        yaxis: {
-            tickAmount: 2,
-            labels: {
-                show: false,
-            },
-            axisBorder: {
-                show: false,
-            },
-            axisTicks: {
-                show: false,
-            },
-            min: 0,
-        },
-        legend: {
-            position: "top",
-            horizontalAlign: "left",
-            offsetY: -20,
-            offsetX: -30,
-        },
-    }
-});
-
-const CompanyRequestChartSeries = computed(() => {
-    return [
-        {
-            name: "Day Time",
-            data: trigoSeries(52, 20),
-        },
-        {
-            name: "Night Time",
-            data: trigoSeries(33, 27),
-        },
-    ];
-
-});
-
-function trigoSeries(cnt: number, strength: number) {
-    var data = [];
-    for (var i = 0; i < cnt; i++) {
-        data.push(
-            (Math.sin(i / strength) * (i / strength) + i / strength + 1) *
-            (strength * 2),
-        );
-    }
-
-    return data;
-}
 </script>
