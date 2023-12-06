@@ -93,7 +93,7 @@
                         <v-col>
                             <v-file-input
                                 accept="image/png, image/jpeg, image/svg"
-                                label="Upload een bedrijfsprofiel foto"
+                                label="Upload een banner"
                                 variant="outlined"
                                 chips
                                 show-size
