@@ -352,6 +352,11 @@ namespace API {
         const data : any = await getRequest(`graph-data/challenges/filter/date?from=${from}&till=${till}`);
         return data;
     }
+
+    export async function getGraphChallengesInputsWithMonth(from : string, till : string) {
+        const data = await getRequest(`graph-data/challenge-inputs/filter/date?from=${from}&till=${till}`);
+        return data;
+    }
 }
 
 export default API;
