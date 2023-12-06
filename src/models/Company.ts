@@ -7,8 +7,10 @@ export class Company {
     id: number;
     name: string;
     info: string;
-    profileImage: Image | null;
-    bannerImage: Image | null;
+    profileImageId: number | null;
+    profile: Image | null;
+    bannerImageId: number | null;
+    banner: Image | null;
     tags: string;
     branch: Branch;
     createdAt: Date;
@@ -19,10 +21,12 @@ export class Company {
         this.id = data.id;
         this.name = data.name;
         this.info = data.info;
-        this.profileImage = data.profileImageId
+        this.profileImageId = data.profileImageId
+        this.profile = data.profileImageId
             ? new Image({ id: data.profileImageId })
             : null;
-        this.bannerImage = data.bannerImageId
+        this.bannerImageId = data.bannerImageId
+        this.banner = data.bannerImageId
             ? new Image({ id: data.bannerImageId })
             : null;
         this.tags = data.tags;
@@ -32,19 +36,19 @@ export class Company {
         this.country = new Country(data.country);
     }
 
-    getProfileOrDefaultImageUrl() {
-        if (this.profileImage) {
-            return this.profileImage.getUrl();
-        }
-        return `https://ui-avatars.com/api/?name=${this.querySafeName()}`;
-    }
+    // getProfileOrDefaultImageUrl() {
+    //     if (this.profileImage) {
+    //         return this.profileImage.getUrl();
+    //     }
+    //     return `https://ui-avatars.com/api/?name=${this.querySafeName()}`;
+    // }
 
-    getBannerForCompany() {
-        if (this.bannerImage) {
-            return this.bannerImage.getUrl();
-        }
-        return `/banners/banner-1.jpg`;
-    }
+    // getBannerForCompany() {
+    //     if (this.bannerImage) {
+    //         return this.bannerImage.getUrl();
+    //     }
+    //     return `/banners/banner-1.jpg`;
+    // }
 
     querySafeName() {
         return this.name.replace(/ /g, "%20");
