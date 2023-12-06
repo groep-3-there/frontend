@@ -77,7 +77,7 @@
         <v-row>
             <v-col cols="12" class="">
                 <div class="d-flex flex-wrap justify-center mt-8">
-                    <h1 class="italic-title">Challenges</h1>
+                    <h1 class="title">Challenges</h1>
                 </div>
                 <div class="text-right mr-12">
                     <p>
@@ -135,7 +135,7 @@
         <v-row>
             <v-col cols="12" class="">
                 <div class="d-flex flex-wrap justify-center">
-                    <h2 class="title">Afdelingen</h2>
+                <h2 class="title">Afdelingen</h2>
                 </div>
             </v-col>
         </v-row>
@@ -184,7 +184,7 @@
                             .id == company.id
                     "
                 >
-                    <h2 class="title">
+                <h2 class="title">
                         Uw afdeling :
                         {{ sessionStore.loggedInUser?.department?.name }}
                     </h2>
