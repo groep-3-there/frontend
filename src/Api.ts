@@ -107,6 +107,7 @@ namespace API {
             return new User(data);
         }
         catch{
+            console.warn("Error while getting current user");
             return null;
         }
     }
@@ -304,6 +305,88 @@ namespace API {
     }) {
         const data = await postRequest(`auth/create`, userData);
         return new User(data);
+    }
+    export async function recoverPassword(email : String){
+        const res = await fetch(
+            "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=" +
+                FIREBASE_PUBLIC_API_KEY,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    requestType: "PASSWORD_RESET",
+                    email: email,
+                }),
+            },
+        );
+        return res.ok
+    }
+    export async function changeEmail(newEmail : string){
+        try {
+            const res = await fetch(
+                "https://identitytoolkit.googleapis.com/v1/accounts:update?key=" +
+                    FIREBASE_PUBLIC_API_KEY,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        idToken: authToken,
+                        email: newEmail,
+                        returnSecureToken: true,
+                    }),
+                },
+            );
+            if (res.status == 400) {
+                return false;
+            }
+            const json = await res.json();
+            authToken = json.idToken;
+            localStorage.setItem("authToken", authToken);
+            if (authToken) {
+                return true;
+            }
+            return false;
+        } catch (e) {
+            console.warn(e);
+            return false;
+        }
+    }
+
+    export async function changePassword(newPassword : string){
+        try {
+            const res = await fetch(
+                "https://identitytoolkit.googleapis.com/v1/accounts:update?key=" +
+                    FIREBASE_PUBLIC_API_KEY,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        idToken: authToken,
+                        password: newPassword,
+                        returnSecureToken: true,
+                    }),
+                },
+            );
+            if (res.status == 400) {
+                return false;
+            }
+            const json = await res.json();
+            authToken = json.idToken;
+            localStorage.setItem("authToken", authToken);
+            if (authToken) {
+                return true;
+            }
+            return false;
+        } catch (e) {
+            console.warn(e);
+            return false;
+        }
     }
 
     export async function whoami() {

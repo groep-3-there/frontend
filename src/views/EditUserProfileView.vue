@@ -83,6 +83,19 @@
                             ></v-text-field>
                         </v-col>
                     </v-row>
+                    <v-row>
+                        <v-col>
+                            <v-text-field
+                            v-model="newPassword"
+                            label="Nieuw wachtwoord"
+                            variant="outlined"
+                            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                            :type="showPassword ? 'text' : 'password'"
+                            @click:append="showPassword = !showPassword"
+                            :rules="newPassword == '' ? [] : passwordRules"
+                            ></v-text-field>
+                        </v-col>
+                    </v-row>
 
                     <v-row>
                         <v-col>
@@ -179,6 +192,7 @@ import router from "@/router";
 import { Tag } from "@/models/Tag";
 import { User } from "@/models/User";
 import { useSnackbarStore } from "@/store/Snackbar";
+import API from "@/Api";
 const snackbar = useSnackbarStore();
 const originalUser: Ref<User | null> = ref(null);
 const name = ref("");
@@ -187,12 +201,27 @@ const avatar = ref([]);
 const isEmailPublic = ref();
 const isPhoneNumberPublic = ref();
 const email = ref("");
+const newPassword = ref("");
+const showPassword = ref(false);
 const phoneNumber = ref("");
 const standardTags: Ref<Tag[]> = ref([]);
 const tags = ref([] as any);
 const editUserForm = ref(null) as any;
 const idParam = useRoute().params.id;
 let id = parseInt(Array.isArray(idParam) ? idParam[0] : idParam);
+
+
+const passwordRules = [
+    (v: string) => !!v || "Wachtwoord is verplicht",
+    (v: string) =>
+        v.length >= 8 || "Wachtwoord moet minimaal 8 tekens lang zijn",
+    (v: string) =>
+        /[A-Z]/.test(v) || "Wachtwoord moet minimaal 1 hoofdletter bevatten",
+    (v: string) =>
+        /[a-z]/.test(v) || "Wachtwoord moet minimaal 1 kleine letter bevatten",
+    (v: string) =>
+        /[0-9]/.test(v) || "Wachtwoord moet minimaal 1 cijfer bevatten",
+];
 
 const emailRules = [
     (v: string) => !!v || "E-mail is verplicht",
@@ -273,6 +302,20 @@ async function editUser() {
         uploadedAvatarId = response.id;
     } else {
         uploadedAvatarId = originalUser.value!.avatarImageId;
+    }
+    if(email.value !== originalUser.value?.email){
+        const success = await API.changeEmail(email.value)
+        if(!success){
+            snackbar.createSimple("Email kon niet worden bijgewerkt", "error");
+            return;
+        }
+    }
+    if(newPassword.value){
+        const success = await API.changePassword(newPassword.value)
+        if(!success){
+            snackbar.createSimple("Wachtwoord kon niet worden bijgewerkt", "error");
+            return;
+        }
     }
 
     const user = {
