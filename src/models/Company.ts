@@ -8,7 +8,7 @@ export class Company {
     name: string;
     info: string;
     profileImageId: number | null;
-    profile: Image | null;
+    profileImage: Image | null;
     bannerImageId: number | null;
     banner: Image | null;
     tags: string;
@@ -22,7 +22,7 @@ export class Company {
         this.name = data.name;
         this.info = data.info;
         this.profileImageId = data.profileImageId
-        this.profile = data.profileImageId
+        this.profileImage = data.profileImageId
             ? new Image({ id: data.profileImageId })
             : null;
         this.bannerImageId = data.bannerImageId
@@ -36,19 +36,19 @@ export class Company {
         this.country = new Country(data.country);
     }
 
-    // getProfileOrDefaultImageUrl() {
-    //     if (this.profileImage) {
-    //         return this.profileImage.getUrl();
-    //     }
-    //     return `https://ui-avatars.com/api/?name=${this.querySafeName()}`;
-    // }
+    getProfileOrDefaultImageUrl() {
+        if (this.profileImage) {
+            return this.profileImage.getUrl();
+        }
+        return `https://ui-avatars.com/api/?name=${this.querySafeName()}`;
+    }
 
-    // getBannerForCompany() {
-    //     if (this.bannerImage) {
-    //         return this.bannerImage.getUrl();
-    //     }
-    //     return `/banners/banner-1.jpg`;
-    // }
+    getBannerForCompany() {
+        if (this.banner) {
+            return this.banner.getUrl();
+        }
+        return `/banners/banner-1.jpg`;
+    }
 
     querySafeName() {
         return this.name.replace(/ /g, "%20");

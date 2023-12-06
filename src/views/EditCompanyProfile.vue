@@ -1,6 +1,6 @@
 <template>
     <v-container v-if="originalCompany">
-        <v-form ref="editComapnyForm" @submit.prevent>
+        <v-form ref="editCompanyForm" @submit.prevent>
             <v-row>
                 <v-col cols="12">
                     <h1 class="my-2">Bedrijfsprofiel bewerken</h1>
@@ -85,7 +85,6 @@
                     <v-row>
                             <v-col cols="12" md="11">
                                 <v-autocomplete
-                                    clearable
                                     v-model="branch"
                                     label="Branch"
                                     :items="
@@ -158,7 +157,7 @@ const profileImage = ref([]);
 const standardTags: Ref<Tag[]> = ref([]);
 const standardBranches: Ref<Tag[]> = ref([]);
 const tags = ref([] as any);
-const branch = ref([] as any);
+const branch = ref(null as String | null);
 const editCompanyForm = ref(null) as any;
 const idParam = useRoute().params.id;
 let id = parseInt(Array.isArray(idParam) ? idParam[0] : idParam);
@@ -180,7 +179,8 @@ onMounted(async () => {
     originalCompany.value = await Api.getCompany(id);
     name.value = originalCompany.value.name;
     info.value = originalCompany.value.info;
-    tags.value = originalCompany.value.tags.split(",");
+    tags.value = originalCompany.value.tags == "" ? [] : originalCompany.value.tags.split(",");
+    branch.value = originalCompany.value.branch.name;
 });
 
 async function editCompany() {
@@ -210,7 +210,7 @@ async function editCompany() {
         name: name.value,
         info: info.value,
         tags: tagString,
-        branch: branch.value,
+        branch: standardBranches.value.find((b: Branch) => b.name == branch.value),
         profileImageId: uploadedProfileId,
     };
     try {
