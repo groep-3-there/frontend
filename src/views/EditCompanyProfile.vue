@@ -37,6 +37,38 @@
                                 </v-card>
                             </div>
                         </v-col>
+                        <v-col>
+                            <div>
+                                <v-card
+                                    v-if="
+                                        originalCompany?.bannerImageId &&
+                                        banner.length == 0
+                                    "
+                                    class="avatar"
+                                >
+                                    <v-img
+                                        :src="showBannerImage()"
+                                        gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                                        height="200px"
+                                        cover
+                                    >
+                                    </v-img>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-card-text class="text-black"
+                                            >Huidig bedrijfsbanner</v-card-text
+                                        >
+                                        <v-btn
+                                            size="small"
+                                            color="surface-variant"
+                                            variant="text"
+                                            icon="mdi-trash-can-outline"
+                                            @click="deleteBannerImage"
+                                        ></v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </div>
+                        </v-col>
                     </v-row>
 
                     <v-row>
@@ -48,6 +80,24 @@
                                 chips
                                 show-size
                                 v-model="profileImage"
+                                :rules="[
+                                    (v) =>
+                                        v.length == 0 ||
+                                        (v.length == 1 &&
+                                            v[0].size < 10000000) ||
+                                        'De grootte van het bestand moet kleiner zijn dan 10MB!',
+                                ]"
+                            >
+                            </v-file-input>
+                        </v-col>
+                        <v-col>
+                            <v-file-input
+                                accept="image/png, image/jpeg, image/svg"
+                                label="Upload een bedrijfsprofiel foto"
+                                variant="outlined"
+                                chips
+                                show-size
+                                v-model="banner"
                                 :rules="[
                                     (v) =>
                                         v.length == 0 ||
@@ -154,6 +204,7 @@ const originalCompany: Ref<Company | null> = ref(null);
 const name = ref("");
 const info = ref("");
 const profileImage = ref([]);
+const banner = ref([]);
 const standardTags: Ref<Tag[]> = ref([]);
 const standardBranches: Ref<Tag[]> = ref([]);
 const tags = ref([] as any);
@@ -167,6 +218,12 @@ function showProfileImage() {
 }
 function deleteProfileImage() {
     originalCompany.value!.profileImageId = null;
+}
+function showBannerImage() {
+    return `${Api.BASEURL}image/${originalCompany.value?.bannerImageId}`;
+}
+function deleteBannerImage() {
+    originalCompany.value!.bannerImageId = null;
 }
 const nameRules = [
     (v: string) => !!v || "Naam is verplicht",
@@ -205,6 +262,14 @@ async function editCompany() {
         uploadedProfileId = originalCompany.value!.profileImageId;
     }
 
+    let uploadedBannerId = null;
+    if (banner.value?.length) {
+        const response = await Api.uploadImage(banner.value[0]);
+        uploadedBannerId = response.id;
+    } else {
+        uploadedBannerId = originalCompany.value!.bannerImageId;
+    }
+
     const company = {
         id: id,
         name: name.value,
@@ -212,6 +277,7 @@ async function editCompany() {
         tags: tagString,
         branch: standardBranches.value.find((b: Branch) => b.name == branch.value),
         profileImageId: uploadedProfileId,
+        bannerImageId: uploadedBannerId,
     };
     try {
         await Api.updateCompany(company);
