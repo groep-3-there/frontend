@@ -1,20 +1,12 @@
 import { test, expect } from "@playwright/test";
 
-test("has title", async ({ page }) => {
-    await page.goto("https://playwright.dev/");
-
-    // Expect a title "to contain" a substring.
-    await expect(page).toHaveTitle(/Playwright/);
-});
-
-test("get started link", async ({ page }) => {
-    await page.goto("https://playwright.dev/");
-
-    // Click the get started link.
-    await page.getByRole("link", { name: "Get started" }).click();
-
-    // Expects page to have a heading with the name of Installation.
-    await expect(
-        page.getByRole("heading", { name: "Installation" }),
-    ).toBeVisible();
+test('Login als admin', async ({ page }) => {
+  await page.goto('http://localhost:3000/');
+  await page.getByText('Login/Registreer').click();
+  await page.getByPlaceholder('naam@email.com').click();
+  await page.getByPlaceholder('naam@email.com').fill('admin@kapper.nl');
+  await page.getByPlaceholder('naam@email.com').press('Tab');
+  await page.getByLabel('Wachtwoord', { exact: true }).click();
+  await page.getByLabel('Wachtwoord', { exact: true }).fill('kapper123123');
+  await page.getByRole('button', { name: 'Login' }).click();
 });
