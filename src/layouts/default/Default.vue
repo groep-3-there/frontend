@@ -179,6 +179,14 @@
                                 value="Bedrijfsaanvragen"
                             >
                             </v-list-item>
+                            <v-list-item
+                                :key="8"
+                                @click="$router.push('/admin/stats-dashboard')"
+                                prepend-icon="mdi-chart-bar"
+                                title="Statistieken"
+                                value="Statistieken"
+                            >
+                            </v-list-item>
                         </template>
                     </template>
                 </v-list>

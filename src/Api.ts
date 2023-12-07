@@ -440,6 +440,56 @@ namespace API {
         const data = await putRequest(`department/${departmentId}/updateroles`, { updates });
         return data;
     }
+
+    export async function getGraphChallenges() {
+        const data = await getRequest(`graph-data/challenges/total`);
+        return data;
+    }
+
+    export async function getGraphChallengesTotalWithMonth(from : string, till : string) {
+        const data : any = await getRequest(`graph-data/challenges/total-by-date?from=${from}&till=${till}`);
+        return data;
+    }
+
+    export async function getGraphUsers() {
+        const data = await getRequest(`graph-data/users/total`);
+        return data;
+    }
+
+    export async function getGraphUsersTotalWithMonth(from : string, till : string) {
+        const data : any = await getRequest(`graph-data/users/total-by-date?from=${from}&till=${till}`);
+        return data;
+    }
+
+    export async function getGraphCompanies() {
+        const data = await getRequest(`graph-data/companies/total`);
+        return data;
+    }
+
+    export async function getGraphCompaniesTotalWithMonth(from : string, till : string) {
+        const data : any = await getRequest(`graph-data/companies/total-by-date?from=${from}&till=${till}`);
+        return data;
+    }
+
+    export async function getGraphChallengesWithMonth(from : string, till : string) {
+        const data : any = await getRequest(`graph-data/challenges/filter/date?from=${from}&till=${till}`);
+        return data;
+    }
+
+    export async function getGraphChallengesWithStatus() {
+        const data : any = await getRequest(`graph-data/challenges/status`);
+        return data;
+    }
+
+    export async function getGraphCompaniesWithBranches() {
+        const data : any = await getRequest(`graph-data/companies/total-by-branch`);
+        return data;
+    }
+
+    export async function getGraphChallengesInputsWithMonth(from : string, till : string) {
+        const data = await getRequest(`graph-data/challenge-inputs/filter/date?from=${from}&till=${till}`);
+        return data;
+    }
 }
 
 export default API;
