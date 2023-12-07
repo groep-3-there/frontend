@@ -1,0 +1,49 @@
+@keyframes split-letters{
+    0%{
+        letter-spacing: 0px;
+
+    }
+    100%{
+        letter-spacing: 4px;
+    }
+}
+@keyframes fade-in-down{
+    0%{
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100%{
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+@keyframes fade-in-right{
+    0%{
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    100%{
+        opacity: 1;
+        transform: translateX(0px);
+    }
+}
+@keyframes fade-in-left{
+    0%{
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    100%{
+        opacity: 1;
+        transform: translateX(0px);
+    }
+}
+.animate-split-letters{
+    animation: split-letters 1s ease-out 0ms 1 forwards;
+}
+.animate-right{
+    animation: fade-in-right 1s ease-out 0ms 1 forwards;
+}
+.animate-left{
+    animation: fade-in-left 1s ease-out 0ms 1 forwards;
+}
