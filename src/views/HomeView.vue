@@ -35,7 +35,6 @@
 <script lang="ts" setup>
 import { useSessionStore } from "@/store/sessionStore";
 import LandingPageContent from "@/components/LandingPageContent.vue";
-import Homepage from "@/components/Homepage.vue";
 import router from "@/router";
 import { Ref, ref } from "vue";
 import UserHomePage from "@/components/UserHomePage.vue";

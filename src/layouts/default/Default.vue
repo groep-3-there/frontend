@@ -148,7 +148,7 @@
                             @click="$router.push('/challenge/new')"
                             prepend-icon="mdi-plus-box-outline"
                             title="Challenge maken"
-                            value="challenge-new"
+                            value="create-challenge"
                         ></v-list-item>
                         <v-list-item
                             v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment(
