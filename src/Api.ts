@@ -5,9 +5,7 @@ import { User } from "./models/User";
 import { ChallengeSearchResults } from "./models/ChallengeSearchResults";
 import { Branch } from "./models/Branch";
 import { Tag } from "./models/Tag";
-import { CompanyRequests } from "./models/CompanyRequests";
 import { Company } from "./models/Company";
-import { useSessionStore } from "@/store/sessionStore";
 import { CompanyRequestsResults } from "./models/CompanyRequestsResults";
 import { Department } from "./models/Department";
 import { DepartmentCode } from "./models/DepartmentCode";
@@ -99,7 +97,7 @@ namespace API {
     }
 
     /**
-     * Get the current logged in user
+     * Get the current logged-in user
      */
     export async function getCurrentUser() {
         try{
@@ -116,12 +114,10 @@ namespace API {
         return new User(data);
     }
     export async function isEmailRegistered(email: string) {
-        const data = await getRequest(`user/exist/${email}`);
-        return data;
+        return await getRequest(`user/exist/${email}`);
     }
     export async function isPhoneNumberRegistered(phoneNumber: string) {
-        const data = await getRequest(`user/exist/${phoneNumber}`);
-        return data;
+        return await getRequest(`user/exist/${phoneNumber}`);
     }
     export async function getImagesByChallengeId(id: number) {
         const data = await getRequest(`image/challenge/${id}`);
@@ -144,8 +140,7 @@ namespace API {
         return data.map((d: any) => new Country(d));
     }
     export async function getCompanyNames() {
-        const data = await getRequest(`company/names`);
-        return data;
+        return await getRequest(`company/names`);
     }
     export async function getCompanyMembersByCompanyId(id: number) {
         const data = await getRequest(`company/${id}/members`);
@@ -170,15 +165,13 @@ namespace API {
         return new Department(data);
     }
     export async function departmentExists(companyId: number, name: string) {
-        const data = await postRequest(`department/exists`, {
+        return await postRequest(`department/exists`, {
             parentCompanyId: companyId,
             name: name,
         });
-        return data;
     }
     export async function joinDepartment(code: string) {
-        const data = await postRequest(`department/join/${code}`, {});
-        return data;
+        return await postRequest(`department/join/${code}`, {});
     }
 
     export async function getOrGenerateDepartmentCode(departmentId: number) {
@@ -190,11 +183,10 @@ namespace API {
         name: string,
         targetAdminId: number,
     ) {
-        const data = await postRequest(`department/create`, {
+        return await postRequest(`department/create`, {
             name: name,
             adminId: targetAdminId,
         });
-        return data;
     }
 
     export async function getAllChallengesForCompany(id: number) {
@@ -283,14 +275,18 @@ namespace API {
     }
     export async function acceptCompanyRequest(id: number) {
         try {
-            const data = await postRequest(`company-request/${id}/accept`, {});
-        } catch (e) {}
+            await postRequest(`company-request/${id}/accept`, {});
+        } catch (e) {
+            console.warn(e);
+        }
         return;
     }
     export async function rejectCompanyRequest(id: number) {
         try {
-            const data = await postRequest(`company-request/${id}/reject`, {});
-        } catch (e) {}
+            await postRequest(`company-request/${id}/reject`, {});
+        } catch (e) {
+            console.warn(e);
+        }
         return;
     }
     /**
@@ -437,58 +433,47 @@ namespace API {
         return data.map((d: any) => new Role(d));
     }
     export async function updateRoles(departmentId: number, updates: { userId: number, roleId: number }[]) {
-        const data = await putRequest(`department/${departmentId}/updateroles`, { updates });
-        return data;
+        return await putRequest(`department/${departmentId}/updateroles`, {updates});
     }
 
     export async function getGraphChallenges() {
-        const data = await getRequest(`graph-data/challenges/total`);
-        return data;
+        return await getRequest(`graph-data/challenges/total`);
     }
 
     export async function getGraphChallengesTotalWithMonth(from : string, till : string) {
-        const data : any = await getRequest(`graph-data/challenges/total-by-date?from=${from}&till=${till}`);
-        return data;
+        return await getRequest(`graph-data/challenges/total-by-date?from=${from}&till=${till}`);
     }
 
     export async function getGraphUsers() {
-        const data = await getRequest(`graph-data/users/total`);
-        return data;
+        return await getRequest(`graph-data/users/total`);
     }
 
     export async function getGraphUsersTotalWithMonth(from : string, till : string) {
-        const data : any = await getRequest(`graph-data/users/total-by-date?from=${from}&till=${till}`);
-        return data;
+        return await getRequest(`graph-data/users/total-by-date?from=${from}&till=${till}`);
     }
 
     export async function getGraphCompanies() {
-        const data = await getRequest(`graph-data/companies/total`);
-        return data;
+        return await getRequest(`graph-data/companies/total`);
     }
 
     export async function getGraphCompaniesTotalWithMonth(from : string, till : string) {
-        const data : any = await getRequest(`graph-data/companies/total-by-date?from=${from}&till=${till}`);
-        return data;
+        return await getRequest(`graph-data/companies/total-by-date?from=${from}&till=${till}`);
     }
 
     export async function getGraphChallengesWithMonth(from : string, till : string) {
-        const data : any = await getRequest(`graph-data/challenges/filter/date?from=${from}&till=${till}`);
-        return data;
+        return await getRequest(`graph-data/challenges/filter/date?from=${from}&till=${till}`);
     }
 
     export async function getGraphChallengesWithStatus() {
-        const data : any = await getRequest(`graph-data/challenges/status`);
-        return data;
+        return await getRequest(`graph-data/challenges/status`);
     }
 
     export async function getGraphCompaniesWithBranches() {
-        const data : any = await getRequest(`graph-data/companies/total-by-branch`);
-        return data;
+        return await getRequest(`graph-data/companies/total-by-branch`);
     }
 
     export async function getGraphChallengesInputsWithMonth(from : string, till : string) {
-        const data = await getRequest(`graph-data/challenge-inputs/filter/date?from=${from}&till=${till}`);
-        return data;
+        return await getRequest(`graph-data/challenge-inputs/filter/date?from=${from}&till=${till}`);
     }
 }
 
