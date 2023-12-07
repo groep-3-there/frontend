@@ -23,6 +23,5 @@ test('get a challenge', async ({ page }) => {
     await page.locator('div').filter({ hasText: /^Zoeken$/ }).first().click();
     await page.locator('div').filter({ hasText: /^Zoeken$/ }).first().click();
     await page.getByText('LogiTech Solutions BV zoekt').click();
-    await page.getByText('LogiTech Solutions BV zoekt').click();
     await expect(page.getByRole('heading', { name: 'Optimalisatie van Logistieke' })).toBeVisible();
 });
