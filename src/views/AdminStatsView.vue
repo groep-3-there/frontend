@@ -3,49 +3,77 @@
         U bent niet ingelogd
     </template>
     <template v-else>
-        <Banner :banner-src="sessionStore.loggedInUser?.department?.parentCompany.getBannerForCompany()
-            " :logo-src="sessionStore.loggedInUser?.department?.parentCompany?.getProfileOrDefaultImageUrl()
-        " :title="'Statistieken'" :subtitle="'Admin paneel'">
+        <Banner
+            :banner-src="
+                sessionStore.loggedInUser?.department?.parentCompany.getBannerForCompany()
+            "
+            :logo-src="
+                sessionStore.loggedInUser?.department?.parentCompany?.getProfileOrDefaultImageUrl()
+            "
+            :title="'Statistieken'"
+            :subtitle="'Admin paneel'"
+        >
         </Banner>
-        <div style="background-color: aliceblue;">
+        <div style="background-color: aliceblue; padding: 1%">
             <v-row>
                 <v-col cols="12" md="4">
                     <v-card>
-                        <apexchart :options="ChallengeChartOptions" :series="ChallengeChartSeries"></apexchart>
+                        <apexchart
+                            :options="ChallengeChartOptions"
+                            :series="ChallengeChartSeries"
+                        ></apexchart>
                     </v-card>
                 </v-col>
                 <v-col cols="12" md="4">
                     <v-card>
-                        <apexchart :options="UserChartOptions" :series="UserChartSeries"></apexchart>
+                        <apexchart
+                            :options="UserChartOptions"
+                            :series="UserChartSeries"
+                        ></apexchart>
                     </v-card>
                 </v-col>
                 <v-col cols="12" md="4">
                     <v-card>
-                        <apexchart :options="CompanyChartOptions" :series="CompanyChartSeries"></apexchart>
+                        <apexchart
+                            :options="CompanyChartOptions"
+                            :series="CompanyChartSeries"
+                        ></apexchart>
                     </v-card>
                 </v-col>
             </v-row>
             <v-row>
                 <v-col cols="12" md="6">
                     <v-card>
-                        <apexchart :options="ChallengeTimeChartOptions" :series="ChallengeTimeChartSeries"></apexchart>
+                        <apexchart
+                            :options="ChallengeTimeChartOptions"
+                            :series="ChallengeTimeChartSeries"
+                        ></apexchart>
                     </v-card>
                 </v-col>
                 <v-col cols="12" md="6">
                     <v-card>
-                        <apexchart :options="ChallengeStatusChartOptions" :series="ChallengeStatusChartSeries"></apexchart>
+                        <apexchart
+                            :options="ChallengeStatusChartOptions"
+                            :series="ChallengeStatusChartSeries"
+                        ></apexchart>
                     </v-card>
                 </v-col>
             </v-row>
             <v-row>
                 <v-col cols="12" md="6">
                     <v-card>
-                        <apexchart :options="CompanyBranchChartOptions" :series="CompanyBranchChartSeries"></apexchart>
+                        <apexchart
+                            :options="CompanyBranchChartOptions"
+                            :series="CompanyBranchChartSeries"
+                        ></apexchart>
                     </v-card>
                 </v-col>
                 <v-col cols="12" md="6">
                     <v-card>
-                        <apexchart :options="ChallengeInputChartOptions" :series="ChallengeInputChartSeries"></apexchart>
+                        <apexchart
+                            :options="ChallengeInputChartOptions"
+                            :series="ChallengeInputChartSeries"
+                        ></apexchart>
                     </v-card>
                 </v-col>
             </v-row>
@@ -68,9 +96,12 @@ const challengesTotalWithMonth: Ref<any> = ref({});
 const usersTotalWithMonth: Ref<any> = ref({});
 const companiesTotalWithMonth: Ref<any> = ref({});
 const challengesWithMonth: Ref<any> = ref({});
+const challengesWithStatus: Ref<any> = ref({});
+const companiesWithBranches: Ref<any> = ref({});
+const companiesWithBranchesFiltered: Ref<any> = ref({});
 const challengesInputsWithMonth: Ref<any> = ref({});
 const today = new Date().toISOString().split("T")[0];
-let colorPalette = ["#00D8B6", "#008FFB", "#FEB019", "#FF4560", "#775DD0"];
+const colorPalette = ["#00D8B6", "#008FFB", "#FEB019", "#FF4560", "#775DD0"];
 
 onMounted(async () => {
     totalChallenges.value = await Api.getGraphChallenges();
@@ -90,14 +121,22 @@ onMounted(async () => {
     );
 
     challengesWithMonth.value = await Api.getGraphChallengesWithMonth(
-        "2019-01-01",
+        "2022-01-01",
         today.toString(),
     );
 
-    challengesInputsWithMonth.value = await Api.getGraphChallengesInputsWithMonth(
-        "2023-01-01",
-        today.toString(),
+    challengesWithStatus.value = await Api.getGraphChallengesWithStatus();
+
+    companiesWithBranches.value = await Api.getGraphCompaniesWithBranches();
+    companiesWithBranchesFiltered.value = filterAndSortByValue(
+        companiesWithBranches.value,
     );
+
+    challengesInputsWithMonth.value =
+        await Api.getGraphChallengesInputsWithMonth(
+            "2023-01-01",
+            today.toString(),
+        );
 });
 
 const ChallengeChartOptions = computed(() => {
@@ -123,10 +162,13 @@ const ChallengeChartOptions = computed(() => {
         yaxis: {
             min: 0,
             show: false,
+            labels: {
+                formatter: function (val: any) {
+                    return Math.floor(val);
+                },
+            },
         },
-        xaxis: {
-
-        },
+        xaxis: {},
         colors: ["#DCE6EC"],
         title: {
             text: totalChallenges.value,
@@ -150,11 +192,11 @@ const ChallengeChartSeries = computed(() => {
         {
             name: "Aantal",
             data: Object.entries(challengesTotalWithMonth.value).map(
-                ([month, value]) => value
+                ([month, value]) => value,
             ),
         },
     ];
-})
+});
 
 const UserChartOptions = computed(() => {
     return {
@@ -180,9 +222,7 @@ const UserChartOptions = computed(() => {
             min: 0,
             show: false,
         },
-        xaxis: {
-
-        },
+        xaxis: {},
         colors: ["#DCE6EC"],
         title: {
             text: totalUsers.value,
@@ -199,7 +239,7 @@ const UserChartOptions = computed(() => {
                 fontSize: "14px",
             },
         },
-    }
+    };
 });
 
 const UserChartSeries = computed(() => {
@@ -207,9 +247,9 @@ const UserChartSeries = computed(() => {
         {
             name: "Aantal",
             data: Object.entries(usersTotalWithMonth.value).map(
-                ([month, value]) => value
+                ([month, value]) => value,
             ),
-        }
+        },
     ];
 });
 
@@ -236,9 +276,7 @@ const CompanyChartOptions = computed(() => {
         yaxis: {
             show: false,
         },
-        xaxis: {
-
-        },
+        xaxis: {},
         colors: ["#DCE6EC"],
         title: {
             text: totalCompanies.value,
@@ -255,7 +293,7 @@ const CompanyChartOptions = computed(() => {
                 fontSize: "14px",
             },
         },
-    }
+    };
 });
 
 const CompanyChartSeries = computed(() => {
@@ -263,9 +301,9 @@ const CompanyChartSeries = computed(() => {
         {
             name: "Aantal",
             data: Object.entries(companiesTotalWithMonth.value).map(
-                ([month, value]) => value
+                ([month, value]) => value,
             ),
-        }
+        },
     ];
 });
 
@@ -289,7 +327,7 @@ const ChallengeTimeChartOptions = computed(() => {
         colors: colorPalette,
         title: {
             floating: false,
-            text: "Aangemaakte challenges",
+            text: "Challenges",
             align: "left",
             style: {
                 fontSize: "18px",
@@ -299,11 +337,14 @@ const ChallengeTimeChartOptions = computed(() => {
             size: 0,
         },
         labels: Object.entries(challengesWithMonth.value).map(
-            ([month, value]) => month.toLowerCase().slice(0,3) + '-' + month.toLowerCase().slice(-2)
-            ,
+            ([month, value]) =>
+                month.toLowerCase().slice(0, 3) +
+                "-" +
+                month.toLowerCase().slice(-2),
         ),
         grid: {},
         xaxis: {
+            range: 18,
             labels: {
                 show: true,
             },
@@ -315,9 +356,11 @@ const ChallengeTimeChartOptions = computed(() => {
             },
         },
         yaxis: {
-            tickAmount: 2,
             labels: {
                 show: false,
+                formatter: function (val: any) {
+                    return Math.floor(val);
+                },
             },
             axisBorder: {
                 show: false,
@@ -333,18 +376,23 @@ const ChallengeTimeChartOptions = computed(() => {
             offsetY: -20,
             offsetX: -30,
         },
-    }
+        tooltip: {
+            x: {
+                show: false,
+            }
+        },
+    };
 });
 
 const ChallengeTimeChartSeries = computed(() => {
     return [
-        {
+        {   
+            name: "Aantal",
             data: Object.entries(challengesWithMonth.value).map(
-                ([month, value]) => value
+                ([month, value]) => value,
             ),
-        }
+        },
     ];
-
 });
 
 const ChallengeStatusChartOptions = computed(() => {
@@ -376,36 +424,49 @@ const ChallengeStatusChartOptions = computed(() => {
                 fontSize: "18px",
             },
         },
-        labels: ["Open voor ideeën", "In uitvoering", "Afgerond", "Gearchiveerd"],
+        labels: Object.entries(challengesWithStatus.value).map(
+            ([status, value]) =>
+                status.charAt(0).toUpperCase() +
+                status
+                    .slice(1)
+                    .toLowerCase()
+                    .replaceAll("_", " ")
+                    .replace("ideeen", "ideeën"),
+        ),
         legend: {
             position: "left",
             offsetY: 80,
         },
-    }
+    };
 });
 
 const ChallengeStatusChartSeries = computed(() => {
-    return [21, 23, 19, 14];
+    return Object.entries(challengesWithStatus.value).map(
+        ([status, value]) => value,
+    );
 });
 
 const CompanyBranchChartOptions = computed(() => {
     return {
         chart: {
-            type: 'bar',
-            height: 350,
+            type: "bar",
         },
         plotOptions: {
             bar: {
-                borderRadius: 0,
                 horizontal: true,
-                barHeight: '80%',
+                distributed: true,
+                barHeight: "80%",
                 isFunnel: true,
             },
         },
+        colors: colorPalette,
         dataLabels: {
             enabled: true,
             dropShadow: {
                 enabled: true,
+            },
+            formatter: function (val: any, opt: any) {
+                return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val;
             },
         },
         title: {
@@ -415,29 +476,40 @@ const CompanyBranchChartOptions = computed(() => {
             },
         },
         xaxis: {
-            categories: [
-                'Sourced',
-                'Screened',
-                'Assessed',
-                'HR Interview',
-                'Technical',
-                'Verify',
-                'Offered',
-                'Hired',
-            ],
+            show: false,
+            categories: Object.entries(companiesWithBranchesFiltered.value).map(
+                ([branch, value]) =>
+                    branch.charAt(0).toUpperCase() +
+                    branch.slice(1).toLowerCase(),
+            ),
+        },
+        yaxis: {
+            show: false,
+            labels: {
+                formatter: function (val: any) {
+                    return Math.floor(val);
+                },
+            },
         },
         legend: {
             show: false,
         },
-    }
-})
+        tooltip: {
+            x: {
+                show: false,
+            }
+        },
+    };
+});
 
 const CompanyBranchChartSeries = computed(() => {
     return [
         {
-            name: "Funnel Series",
-            data: [1380, 1100, 990, 880, 740, 548, 330, 200],
-        }
+            name: "Aantal",
+            data: Object.entries(companiesWithBranchesFiltered.value).map(
+                ([branch, value]) => (value ? value : null),
+            ),
+        },
     ];
 });
 
@@ -456,7 +528,8 @@ const ChallengeInputChartOptions = computed(() => {
         },
         colors: colorPalette,
         labels: Object.entries(challengesInputsWithMonth.value).map(
-            ([month, value]) => month.toLowerCase().slice(5, 8)),
+            ([month, value]) => month.toLowerCase().slice(5, 8),
+        ),
         xaxis: {
             labels: {
                 show: true,
@@ -479,6 +552,9 @@ const ChallengeInputChartOptions = computed(() => {
                 style: {
                     colors: "#78909c",
                 },
+                formatter: function (val: any) {
+                    return val.toFixed(0);
+                },
             },
         },
         title: {
@@ -488,7 +564,7 @@ const ChallengeInputChartOptions = computed(() => {
                 fontSize: "18px",
             },
         },
-    }
+    };
 });
 
 const ChallengeInputChartSeries = computed(() => {
@@ -496,8 +572,22 @@ const ChallengeInputChartSeries = computed(() => {
         {
             name: "Reacties",
             data: Object.entries(challengesInputsWithMonth.value).map(
-                ([month, value]) => value)
+                ([month, value]) => value,
+            ),
         },
-    ]
+    ];
 });
+
+interface InputObject {
+    [key: string]: number;
+}
+
+function filterAndSortByValue(obj: InputObject): InputObject {
+    const filteredArray = Object.entries(obj)
+        .filter(([, value]) => value !== 0)
+        .sort(([, valueA], [__, valueB]) => valueB - valueA);
+
+    const sortedObj: InputObject = Object.fromEntries(filteredArray);
+    return sortedObj;
+}
 </script>

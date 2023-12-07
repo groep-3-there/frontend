@@ -378,8 +378,18 @@ namespace API {
         return data;
     }
 
+    export async function getGraphChallengesWithStatus() {
+        const data : any = await getRequest(`graph-data/challenges/status`);
+        return data;
+    }
+
+    export async function getGraphCompaniesWithBranches() {
+        const data : any = await getRequest(`graph-data/companies/total-by-branch`);
+        return data;
+    }
+
     export async function getGraphChallengesInputsWithMonth(from : string, till : string) {
-        const data = await getRequest(`graph-data/users/total-by-date?from=${from}&till=${till}`);
+        const data = await getRequest(`graph-data/challenge-inputs/filter/date?from=${from}&till=${till}`);
         return data;
     }
 }
