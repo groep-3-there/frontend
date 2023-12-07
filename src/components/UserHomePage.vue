@@ -13,7 +13,6 @@
                 class="mr-4"
             />
         </HorizontalScroll>
-        <p v-if="companyChallenges.length < 1">Er zijn nog geen challenges van {{ user?.department.parentCompany.name }}</p>
     </section>
     <v-spacer class="my-12"></v-spacer>
     <section v-if="user!.department" class="challenge-section animate-right">

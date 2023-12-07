@@ -137,5 +137,4 @@ const carouselInfo: Ref<
     background-color: rgba(0, 0, 0, 0.6);
     color: #fafafa;
 }
-
 </style>
