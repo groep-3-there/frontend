@@ -2,6 +2,7 @@
     <v-card
         @click="$router.push(`/challenge/${challenge.id}`)"
         class="mx-2 card-outter"
+        min-width="350"
         width="350"
         height="350"
         hover
@@ -71,10 +72,6 @@ import { Company } from "@/models/Company";
 const props = defineProps({
     challenge: {
         type: Challenge,
-        required: true,
-    },
-    company: {
-        type: Company,
         required: true,
     },
 });

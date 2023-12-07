@@ -305,6 +305,7 @@ function getVisibilityCodeName(title: string) {
 
 onMounted(async () => {
     originalChallenge.value = await Api.getChallengeById(id);
+    console.log(originalChallenge.value)
     title.value = originalChallenge.value.title;
     summary.value = originalChallenge.value.summary;
     description.value = originalChallenge.value.description;
@@ -374,7 +375,7 @@ async function editChallenge() {
         description: description.value,
         bannerImageId: uploadedBannerId,
         contactInformation: contactInformation.value,
-        status: "OPEN_VOOR_IDEEEN",
+        status: originalChallenge.value!.status,
         endDate: date.value,
         imageAttachmentsIds: attachmentsWithPreviousImages,
         tags: tagString,

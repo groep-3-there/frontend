@@ -226,7 +226,6 @@ const codeIcon = computed(() => {
 });
 
 watch(companyCode, async (newVal) => {
-    if (!newVal) return;
     if (_thresholdSearchDepartment) {
         return;
     }
@@ -248,6 +247,9 @@ watch(companyCode, async (newVal) => {
 
 const nextText = computed(() => {
     if (stepperStep.value == 2) {
+        if (joinDepartment.value){
+            return "Aansluiten";
+        }
         return "Overslaan";
     }
     return "Volgende";
@@ -421,8 +423,6 @@ async function onSubmit() {
     display: flex;
     align-items: center;
     font-weight: 400;
-}
-* {
 }
 .invite-logo {
     width: 48px;

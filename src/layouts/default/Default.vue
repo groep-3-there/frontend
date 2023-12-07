@@ -148,17 +148,7 @@
                             @click="$router.push('/challenge/new')"
                             prepend-icon="mdi-plus-box-outline"
                             title="Challenge maken"
-                            value="challenge-new"
-                        ></v-list-item>
-                        <v-list-item
-                            v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment(
-                                'DEPARTMENT_MANAGE',
-                                sessionStore.loggedInUser?.department?.id,
-                            )"
-                            @click="$router.push(`/settings/${sessionStore.loggedInUser?.department?.id}`)"
-                            prepend-icon="mdi-cog-outline"
-                            title="Instellingen"
-                            value="settings"
+                            value="create-challenge"
                         ></v-list-item>
                         <v-list-item
                             v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment(
@@ -187,6 +177,14 @@
                                 prepend-icon="mdi-briefcase-check-outline"
                                 title="Bedrijfsaanvragen"
                                 value="Bedrijfsaanvragen"
+                            >
+                            </v-list-item>
+                            <v-list-item
+                                :key="8"
+                                @click="$router.push('/admin/stats-dashboard')"
+                                prepend-icon="mdi-chart-bar"
+                                title="Statistieken"
+                                value="Statistieken"
                             >
                             </v-list-item>
                         </template>
