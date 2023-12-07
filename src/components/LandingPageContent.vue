@@ -39,7 +39,7 @@ import LoginPopup from "./LoginPopup.vue";
 <style scoped>
 
 .about-section{
-    width:min(90%,800px);
+    width:min(90%,900px);
     font-size: 1.3em;
     font-weight: 400;
     padding-left:40px;
@@ -101,14 +101,4 @@ import LoginPopup from "./LoginPopup.vue";
     text-align: center;
     font-size: 2em;
 }
-.animate-split-letters{
-    animation: split-letters 1s ease-out 0ms 1 forwards;
-}
-.animate-right{
-    animation: fade-in-right 1s ease-out 0ms 1 forwards;
-}
-.animate-left{
-    animation: fade-in-left 1s ease-out 0ms 1 forwards;
-}
-
 </style>

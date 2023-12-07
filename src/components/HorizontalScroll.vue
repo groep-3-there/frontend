@@ -1,9 +1,9 @@
 <template>
-    <div class="hor-nav hor-nav-left">
-        <v-icon @click="scroll(-2)">mdi-chevron-left</v-icon>
+    <div class="hor-nav hor-nav-left" v-if="!noScrollAvailable">
+        <v-icon @click="scroll(-1000)">mdi-chevron-left</v-icon>
     </div>
-    <div class="hor-nav hor-nav-right">
-        <v-icon @click="scroll(2)">mdi-chevron-right</v-icon>
+    <div class="hor-nav hor-nav-right" v-if="!noScrollAvailable">
+        <v-icon @click="scroll(1000)">mdi-chevron-right</v-icon>
     </div>
     <div class="horizontal-scroll-content" ref="horizontalScroll">
         <slot></slot>
@@ -13,7 +13,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 
-const targetItem = ref(0);
 const horizontalScroll = ref<HTMLElement | null>(null);
 
 const props = defineProps({
@@ -26,19 +25,14 @@ const props = defineProps({
         default: false,
     },
 });
+const noScrollAvailable = computed(() => {
+    return (horizontalScroll.value?.scrollWidth || 0) <= (horizontalScroll.value?.clientWidth || 0);
+});
 
 function scroll(direction: number) {
-    targetItem.value += direction;
-    targetItem.value = Math.max(0, targetItem.value);
-    targetItem.value = Math.min(
-        targetItem.value,
-        (horizontalScroll.value?.children.length || 1) - 1,
-    );
-    console.log(targetItem.value);
-    horizontalScroll.value?.children[targetItem.value].scrollIntoView({
+    horizontalScroll.value?.scrollBy({
+        left: direction ,
         behavior: "smooth",
-        block: "start",
-        inline: "center",
     });
 }
 const scrollbarCSS = computed(() => {
@@ -48,8 +42,7 @@ onMounted(() => {
     horizontalScroll.value?.addEventListener("wheel", (e) => {
         if(props.disableMouseWheel) return;
         e.preventDefault();
-        if (e.deltaY > 0) scroll(1);
-        else scroll(-1);
+        scroll(e.deltaY*5);
     });
 });
 </script>
@@ -80,6 +73,7 @@ onMounted(() => {
     display: flex;
     overflow-x: scroll;
     padding: 10px;
+    min-height: 300px;
 }
 .horizontal-scroll-content::-webkit-scrollbar {
     display: v-bind(scrollbarCSS);
