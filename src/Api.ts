@@ -5,9 +5,7 @@ import { User } from "./models/User";
 import { ChallengeSearchResults } from "./models/ChallengeSearchResults";
 import { Branch } from "./models/Branch";
 import { Tag } from "./models/Tag";
-import { CompanyRequests } from "./models/CompanyRequests";
 import { Company } from "./models/Company";
-import { useSessionStore } from "@/store/sessionStore";
 import { CompanyRequestsResults } from "./models/CompanyRequestsResults";
 import { Department } from "./models/Department";
 import { DepartmentCode } from "./models/DepartmentCode";
@@ -94,12 +92,12 @@ namespace API {
         return new Challenge(data);
     }
     export async function registerCompany(company: {}) {
-        const data = await postRequest("company/request", company);
+        const data = await postRequest("company-request", company);
         return new Company(data);
     }
 
     /**
-     * Get the current logged in user
+     * Get the current logged-in user
      */
     export async function getCurrentUser() {
         try{
@@ -107,6 +105,7 @@ namespace API {
             return new User(data);
         }
         catch{
+            console.warn("Error while getting current user");
             return null;
         }
     }
@@ -115,12 +114,10 @@ namespace API {
         return new User(data);
     }
     export async function isEmailRegistered(email: string) {
-        const data = await getRequest(`user/exist/${email}`);
-        return data;
+        return await getRequest(`user/exist/${email}`);
     }
     export async function isPhoneNumberRegistered(phoneNumber: string) {
-        const data = await getRequest(`user/exist/${phoneNumber}`);
-        return data;
+        return await getRequest(`user/exist/${phoneNumber}`);
     }
     export async function getImagesByChallengeId(id: number) {
         const data = await getRequest(`image/challenge/${id}`);
@@ -143,8 +140,7 @@ namespace API {
         return data.map((d: any) => new Country(d));
     }
     export async function getCompanyNames() {
-        const data = await getRequest(`company/names`);
-        return data;
+        return await getRequest(`company/names`);
     }
     export async function getCompanyMembersByCompanyId(id: number) {
         const data = await getRequest(`company/${id}/members`);
@@ -169,15 +165,13 @@ namespace API {
         return new Department(data);
     }
     export async function departmentExists(companyId: number, name: string) {
-        const data = await postRequest(`department/exists`, {
+        return await postRequest(`department/exists`, {
             parentCompanyId: companyId,
             name: name,
         });
-        return data;
     }
     export async function joinDepartment(code: string) {
-        const data = await postRequest(`department/join/${code}`, {});
-        return data;
+        return await postRequest(`department/join/${code}`, {});
     }
 
     export async function getOrGenerateDepartmentCode(departmentId: number) {
@@ -189,11 +183,10 @@ namespace API {
         name: string,
         targetAdminId: number,
     ) {
-        const data = await postRequest(`department/create`, {
+        return await postRequest(`department/create`, {
             name: name,
             adminId: targetAdminId,
         });
-        return data;
     }
 
     export async function getAllChallengesForCompany(id: number) {
@@ -237,7 +230,11 @@ namespace API {
         const data = await putRequest(`user/${us.id}`, us);
         return new User(data);
     }
-
+    export async function updateCompany(cp: Company | { id: number }) {
+        const data = await putRequest(`company/${cp.id}`, cp);
+        console.log(data);
+        return new Company(data);
+    }
     export async function uploadImage(img: File) {
         const data = await uploadFile("image/upload", "image", img);
         return new Image(data);
@@ -271,21 +268,25 @@ namespace API {
     }
 
     export async function getCompanyRequests(page?: number): Promise<CompanyRequestsResults> {
-        let urlstring = "company/request?";
+        let urlstring = "company-request?";
         if (page) urlstring += `page=${page}&`;
         const data = await getRequest(urlstring);
         return new CompanyRequestsResults(data);
     }
     export async function acceptCompanyRequest(id: number) {
         try {
-            const data = await postRequest(`company/request/${id}/accept`, {});
-        } catch (e) {}
+            await postRequest(`company-request/${id}/accept`, {});
+        } catch (e) {
+            console.warn(e);
+        }
         return;
     }
     export async function rejectCompanyRequest(id: number) {
         try {
-            const data = await postRequest(`company/request/${id}/reject`, {});
-        } catch (e) {}
+            await postRequest(`company-request/${id}/reject`, {});
+        } catch (e) {
+            console.warn(e);
+        }
         return;
     }
     /**
@@ -300,6 +301,88 @@ namespace API {
     }) {
         const data = await postRequest(`auth/create`, userData);
         return new User(data);
+    }
+    export async function recoverPassword(email : String){
+        const res = await fetch(
+            "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=" +
+                FIREBASE_PUBLIC_API_KEY,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    requestType: "PASSWORD_RESET",
+                    email: email,
+                }),
+            },
+        );
+        return res.ok
+    }
+    export async function changeEmail(newEmail : string){
+        try {
+            const res = await fetch(
+                "https://identitytoolkit.googleapis.com/v1/accounts:update?key=" +
+                    FIREBASE_PUBLIC_API_KEY,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        idToken: authToken,
+                        email: newEmail,
+                        returnSecureToken: true,
+                    }),
+                },
+            );
+            if (res.status == 400) {
+                return false;
+            }
+            const json = await res.json();
+            authToken = json.idToken;
+            localStorage.setItem("authToken", authToken);
+            if (authToken) {
+                return true;
+            }
+            return false;
+        } catch (e) {
+            console.warn(e);
+            return false;
+        }
+    }
+
+    export async function changePassword(newPassword : string){
+        try {
+            const res = await fetch(
+                "https://identitytoolkit.googleapis.com/v1/accounts:update?key=" +
+                    FIREBASE_PUBLIC_API_KEY,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        idToken: authToken,
+                        password: newPassword,
+                        returnSecureToken: true,
+                    }),
+                },
+            );
+            if (res.status == 400) {
+                return false;
+            }
+            const json = await res.json();
+            authToken = json.idToken;
+            localStorage.setItem("authToken", authToken);
+            if (authToken) {
+                return true;
+            }
+            return false;
+        } catch (e) {
+            console.warn(e);
+            return false;
+        }
     }
 
     export async function whoami() {
@@ -350,8 +433,47 @@ namespace API {
         return data.map((d: any) => new Role(d));
     }
     export async function updateRoles(departmentId: number, updates: { userId: number, roleId: number }[]) {
-        const data = await putRequest(`department/${departmentId}/updateroles`, { updates });
-        return data;
+        return await putRequest(`department/${departmentId}/updateroles`, {updates});
+    }
+
+    export async function getGraphChallenges() {
+        return await getRequest(`graph-data/challenges/total`);
+    }
+
+    export async function getGraphChallengesTotalWithMonth(from : string, till : string) {
+        return await getRequest(`graph-data/challenges/total-by-date?from=${from}&till=${till}`);
+    }
+
+    export async function getGraphUsers() {
+        return await getRequest(`graph-data/users/total`);
+    }
+
+    export async function getGraphUsersTotalWithMonth(from : string, till : string) {
+        return await getRequest(`graph-data/users/total-by-date?from=${from}&till=${till}`);
+    }
+
+    export async function getGraphCompanies() {
+        return await getRequest(`graph-data/companies/total`);
+    }
+
+    export async function getGraphCompaniesTotalWithMonth(from : string, till : string) {
+        return await getRequest(`graph-data/companies/total-by-date?from=${from}&till=${till}`);
+    }
+
+    export async function getGraphChallengesWithMonth(from : string, till : string) {
+        return await getRequest(`graph-data/challenges/filter/date?from=${from}&till=${till}`);
+    }
+
+    export async function getGraphChallengesWithStatus() {
+        return await getRequest(`graph-data/challenges/status`);
+    }
+
+    export async function getGraphCompaniesWithBranches() {
+        return await getRequest(`graph-data/companies/total-by-branch`);
+    }
+
+    export async function getGraphChallengesInputsWithMonth(from : string, till : string) {
+        return await getRequest(`graph-data/challenge-inputs/filter/date?from=${from}&till=${till}`);
     }
 }
 

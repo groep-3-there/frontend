@@ -1,4 +1,5 @@
 <template>
+    <ForgotPassword v-if="showForgotPassword" @on-close="showForgotPassword = false"></ForgotPassword>
     <v-row justify="center">
         <v-dialog v-model="opened" class="dialog">
             <v-card class="rounded-4 card-dialog">
@@ -62,9 +63,14 @@
                         ></v-progress-circular>
                     </template>
                 </v-btn>
-                <p @click="register" class="register mx-auto mb-2">
-                    Nog geen account? Registeren
-                </p>
+                <div class="d-flex mt-2">
+                    <p @click="register" class="register mx-auto mb-2">
+                        Nog geen account? Registeren
+                    </p>
+                    <p @click="showForgotPassword = true" class="register mx-auto mb-2">
+                        Wachtwoord vergeten?
+                    </p>
+                </div>
             </v-card>
             <v-card> </v-card>
         </v-dialog>
@@ -109,6 +115,7 @@ import API from "@/Api";
 import { onMounted, watch } from "vue";
 import { ref } from "vue";
 import UserRegisterPopup from "./UserRegisterPopup.vue";
+import ForgotPassword from "./ForgotPassword.vue"
 import { useSessionStore } from "@/store/sessionStore";
 const sessionStore = useSessionStore();
 const emit = defineEmits(["onClose", "onRequestRegister"]);
@@ -118,6 +125,7 @@ const showPassword = ref(false);
 const opened = ref(true);
 const error = ref("");
 const loading = ref(false);
+const showForgotPassword = ref(false)
 
 const success = ref(false);
 
