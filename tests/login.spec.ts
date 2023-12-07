@@ -6,24 +6,27 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('get a challenge', async ({ page }) => {
-    await page.route('*/**/api/v1/challenge/search?', async (route) => {
-        await route.fulfill({ 
-          json: jsonFiles.mockSearchResult
-        });
-    });
+  try {
+      await page.route('*/**/api/v1/challenge/search?', async (route) => {
+          await route.fulfill({
+              json: jsonFiles.mockSearchResult
+          });
+      });
 
-    await page.route('*/**/api/v1/reaction/challenge/1', async (route) => {
-      await route.fulfill({ 
-        json: jsonFiles.mockChallenge
-       });
-    });
+      await page.route('*/**/api/v1/reaction/challenge/1', async (route) => {
+          await route.fulfill({
+              json: jsonFiles.mockChallenge
+          });
+      });
 
-         
+      await page.goto('http://localhost:3000/');
+      await page.locator('div').filter({ hasText: /^Zoeken$/ }).first().click();
+      await page.locator('div').filter({ hasText: /^Zoeken$/ }).first().click();
+      await page.getByText('LogiTech Solutions BV zoekt').click();
+      await page.getByText('LogiTech Solutions BV zoekt').click();
+      await expect(page.getByRole('heading', { name: 'Optimalisatie van Logistieke' })).toBeVisible();
 
-    await page.goto('http://localhost:3000/');
-    await page.locator('div').filter({ hasText: /^Zoeken$/ }).first().click();
-    await page.locator('div').filter({ hasText: /^Zoeken$/ }).first().click();
-    await page.getByText('LogiTech Solutions BV zoekt').click();
-    await page.getByText('LogiTech Solutions BV zoekt').click();
-    await expect(page.getByRole('heading', { name: 'Optimalisatie van Logistieke' })).toBeVisible();
+  } catch (error) {
+      throw new Error(`Test failed: ${error.message}`);
+  }
 });
