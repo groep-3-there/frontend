@@ -210,6 +210,18 @@ const editUserForm = ref(null) as any;
 const idParam = useRoute().params.id;
 let id = parseInt(Array.isArray(idParam) ? idParam[0] : idParam);
 
+const passwordRules = [
+    (v: string) => !!v || "Wachtwoord is verplicht",
+    (v: string) =>
+        v.length >= 8 || "Wachtwoord moet minimaal 8 tekens lang zijn",
+    (v: string) =>
+        /[A-Z]/.test(v) || "Wachtwoord moet minimaal 1 hoofdletter bevatten",
+    (v: string) =>
+        /[a-z]/.test(v) || "Wachtwoord moet minimaal 1 kleine letter bevatten",
+    (v: string) =>
+        /[0-9]/.test(v) || "Wachtwoord moet minimaal 1 cijfer bevatten",
+];
+
 const emailRules = [
     (v: string) => !!v || "E-mail is verplicht",
     (v: string) =>
