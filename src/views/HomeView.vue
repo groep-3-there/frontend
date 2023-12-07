@@ -51,7 +51,7 @@ const carouselInfo: Ref<
         actionUrl: "/challenges"    
     },
     {
-        bannerImage: "/homepage/kapsalon2.jpg",
+        bannerImage: "/homepage/kapsalon.jpg",
         infoImage: "/homepage/eline.jpg",
         text: "Hoe Eline haar kapsalon innoveerde met de nieuwste technologie",
         // TODO: Add action url
