@@ -38,6 +38,48 @@
                                 ></v-autocomplete>
                             </v-col>
                         </v-row>
+                        <v-row>
+                            <v-col cols="12" md="11">
+                                <v-autocomplete
+                                    class=""
+                                    @update:model-value="
+                                        (e: any) => countryString = (e)
+                                    "
+                                    :rules="[
+                                        (v) => !!v || 'Dit veld is verplicht!',
+                                    ]"
+                                    :items="countries"
+                                    variant="outlined"
+                                    closable-chips
+                                    color="blue-grey-lighten-2"
+                                    item-title="name"
+                                    item-value="code"
+                                    label="Land"
+                                >
+                                    <template v-slot:chip="{ props, item }">
+                                        <v-chip
+                                            v-bind="props"
+                                            :prepend-avatar="
+                                                item.raw.getImageUrl()
+                                            "
+                                            :text="item.raw.name"
+                                        ></v-chip>
+                                    </template>
+
+                                    <template v-slot:item="{ props, item }">
+                                        <v-list-item
+                                            v-bind="props"
+                                            :prepend-avatar="
+                                                item?.raw?.getImageUrl()
+                                            "
+                                            :title="item?.raw?.name"
+                                            :is="item?.raw?.code"
+                                            :subtitle="`${item?.raw?.code}`"
+                                        ></v-list-item>
+                                    </template>
+                                </v-autocomplete>
+                            </v-col>
+                        </v-row>
 
                         <v-row>
                             <v-col cols="12" md="11">
@@ -86,11 +128,14 @@ import { Branch } from "@/models/Branch";
 import { Tag } from "@/models/Tag";
 import router from "@/router";
 import { useSnackbarStore } from "@/store/Snackbar";
+import { Country } from "@/models/Country";
 
 const snackStore = useSnackbarStore();
 const companyName = ref("");
 const branchString: Ref<string | null> = ref("");
 const standardbranches: Ref<Branch[]> = ref([]);
+const countries: Ref<Country[]> = ref([]);
+const countryString: Ref<string> = ref("");
 const showPopUp = ref(true);
 const emit = defineEmits(["onClose"]);
 
@@ -109,6 +154,7 @@ function close() {
 onMounted(async () => {
     standardTags.value = await Api.getTags();
     standardbranches.value = await Api.getBranches();
+    countries.value = await Api.getCountries();
 });
 
 watch(showPopUp, () => {
@@ -137,6 +183,7 @@ async function registerCompany() {
         name: companyName.value,
         branch: branch,
         tags: tagString,
+        country: countries.value.find((c) => c.code == countryString.value),
     };
 
     try {

@@ -29,9 +29,6 @@
         <v-form @submit.prevent ref="registerForm">
             <v-stepper-window>
                 <v-stepper-window-item value="1">
-                    <v-alert type="error" v-if="emailIsTaken">
-                        Dit email adres is al in gebruik
-                    </v-alert>
                     <v-text-field
                         label="E-mailadres"
                         v-model="email"
@@ -229,7 +226,6 @@ const codeIcon = computed(() => {
 });
 
 watch(companyCode, async (newVal) => {
-    if (!newVal) return;
     if (_thresholdSearchDepartment) {
         return;
     }
@@ -251,6 +247,9 @@ watch(companyCode, async (newVal) => {
 
 const nextText = computed(() => {
     if (stepperStep.value == 2) {
+        if (joinDepartment.value){
+            return "Aansluiten";
+        }
         return "Overslaan";
     }
     return "Volgende";
@@ -312,6 +311,7 @@ const emailRules = [
     (v: string) =>
         /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
         "E-mail moet geldig zijn",
+    (v: string) => !emailIsTaken.value || "E-mail is al in gebruik"
 ];
 let _throttleEmailExist: any = null;
 const emailIsTaken = ref(false);
@@ -423,8 +423,6 @@ async function onSubmit() {
     display: flex;
     align-items: center;
     font-weight: 400;
-}
-* {
 }
 .invite-logo {
     width: 48px;

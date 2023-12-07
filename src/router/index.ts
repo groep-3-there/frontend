@@ -39,7 +39,7 @@ const routes = [
                 component: () => import("@/views/EditChallengeView.vue"),
             },
             {
-                path: "create-challenge",
+                path: "challenge/new",
                 name: "Create Challenge",
                 component: () => import("@/views/CreateChallengeView.vue"),
             },
@@ -62,6 +62,11 @@ const routes = [
                 path: "company/:id",
                 name: "Company",
                 component: () => import("@/views/CompanyView.vue"),
+            },
+            {
+                path: "company/:id/edit",
+                name: "Bedrijf bewerken",
+                component: () => import("@/views/EditCompanyProfile.vue"),
             },
             {
                 path: "/admin",
@@ -88,7 +93,7 @@ const routes = [
 ];
 
 const router = createRouter({
-    history: createWebHistory(import.meta.env.BASE_URL),
+    history: createWebHistory(),
     routes,
 });
 

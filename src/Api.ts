@@ -12,6 +12,7 @@ import { CompanyRequestsResults } from "./models/CompanyRequestsResults";
 import { Department } from "./models/Department";
 import { DepartmentCode } from "./models/DepartmentCode";
 import { Role } from "./models/Role";
+import { Country } from "./models/Country";
 
 async function postRequest(url: string, bodyObject: {}) {
     const res = await fetch(API.BASEURL + url, {
@@ -106,6 +107,7 @@ namespace API {
             return new User(data);
         }
         catch{
+            console.warn("Error while getting current user");
             return null;
         }
     }
@@ -115,6 +117,10 @@ namespace API {
     }
     export async function isEmailRegistered(email: string) {
         const data = await getRequest(`user/exist/${email}`);
+        return data;
+    }
+    export async function isPhoneNumberRegistered(phoneNumber: string) {
+        const data = await getRequest(`user/exist/${phoneNumber}`);
         return data;
     }
     export async function getImagesByChallengeId(id: number) {
@@ -132,6 +138,10 @@ namespace API {
     export async function getBranches() {
         const data = await getRequest(`branch/all`);
         return data.map((d: any) => new Branch(d));
+    }
+    export async function getCountries(){
+        const data = await getRequest(`country/all`);
+        return data.map((d: any) => new Country(d));
     }
     export async function getCompanyNames() {
         const data = await getRequest(`company/names`);
@@ -228,7 +238,11 @@ namespace API {
         const data = await putRequest(`user/${us.id}`, us);
         return new User(data);
     }
-
+    export async function updateCompany(cp: Company | { id: number }) {
+        const data = await putRequest(`company/${cp.id}`, cp);
+        console.log(data);
+        return new Company(data);
+    }
     export async function uploadImage(img: File) {
         const data = await uploadFile("image/upload", "image", img);
         return new Image(data);
@@ -261,8 +275,10 @@ namespace API {
         return data.map((d: any) => new Tag(d));
     }
 
-    export async function getCompanyRequests(): Promise<CompanyRequestsResults> {
-        const data = await getRequest(`company/request`);
+    export async function getCompanyRequests(page?: number): Promise<CompanyRequestsResults> {
+        let urlstring = "company/request?";
+        if (page) urlstring += `page=${page}&`;
+        const data = await getRequest(urlstring);
         return new CompanyRequestsResults(data);
     }
     export async function acceptCompanyRequest(id: number) {
@@ -289,6 +305,88 @@ namespace API {
     }) {
         const data = await postRequest(`auth/create`, userData);
         return new User(data);
+    }
+    export async function recoverPassword(email : String){
+        const res = await fetch(
+            "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=" +
+                FIREBASE_PUBLIC_API_KEY,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    requestType: "PASSWORD_RESET",
+                    email: email,
+                }),
+            },
+        );
+        return res.ok
+    }
+    export async function changeEmail(newEmail : string){
+        try {
+            const res = await fetch(
+                "https://identitytoolkit.googleapis.com/v1/accounts:update?key=" +
+                    FIREBASE_PUBLIC_API_KEY,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        idToken: authToken,
+                        email: newEmail,
+                        returnSecureToken: true,
+                    }),
+                },
+            );
+            if (res.status == 400) {
+                return false;
+            }
+            const json = await res.json();
+            authToken = json.idToken;
+            localStorage.setItem("authToken", authToken);
+            if (authToken) {
+                return true;
+            }
+            return false;
+        } catch (e) {
+            console.warn(e);
+            return false;
+        }
+    }
+
+    export async function changePassword(newPassword : string){
+        try {
+            const res = await fetch(
+                "https://identitytoolkit.googleapis.com/v1/accounts:update?key=" +
+                    FIREBASE_PUBLIC_API_KEY,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        idToken: authToken,
+                        password: newPassword,
+                        returnSecureToken: true,
+                    }),
+                },
+            );
+            if (res.status == 400) {
+                return false;
+            }
+            const json = await res.json();
+            authToken = json.idToken;
+            localStorage.setItem("authToken", authToken);
+            if (authToken) {
+                return true;
+            }
+            return false;
+        } catch (e) {
+            console.warn(e);
+            return false;
+        }
     }
 
     export async function whoami() {

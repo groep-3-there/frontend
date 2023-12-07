@@ -14,16 +14,16 @@ export const useSessionStore = defineStore("session", {
                 return;
             }
 
-            try {
-                this.loggedInUser = await API.getCurrentUser();
-            } catch (e) {
+            this.loggedInUser = await API.getCurrentUser();
+            if(this.loggedInUser === null) {
+                //probably expired token
                 API.removeAuthToken();
                 useSnackbarStore().createSimple(
                     "U bent uitgelogd, log opnieuw in",
                     "warning",
                 );
-                console.warn(e);
             }
+           
         },
         async logOut() {
             API.removeAuthToken();
@@ -31,6 +31,7 @@ export const useSessionStore = defineStore("session", {
         },
         async logIn(username: string, password: string) {
             let success = false;
+            API.removeAuthToken();
             try {
                 success = await API.firebaseLoginAndUseToken(
                     username,
