@@ -12,7 +12,10 @@
                 <!-- Permanent overlay -->
                 <img class="carousel-img" :src="slide.bannerImage" />
                 <div class="carousel-img-overlay">
-                    <div class="carousel-item-info d-flex align-center" @click="router.push(slide.actionUrl)">
+                    <div
+                        class="carousel-item-info d-flex align-center"
+                        @click="router.push(slide.actionUrl)"
+                    >
                         <img class="info-img" :src="slide.infoImage" />
                         <p class="info-text ml-2">{{ slide.text }}</p>
                     </div>
@@ -39,37 +42,38 @@ import UserHomePage from "@/components/UserHomePage.vue";
 
 const sessionStore = useSessionStore();
 
-
 const carouselInfo: Ref<
-    { infoImage: string; text: string; bannerImage: string, actionUrl:string }[]
+    {
+        infoImage: string;
+        text: string;
+        bannerImage: string;
+        actionUrl: string;
+    }[]
 > = ref([
     {
         bannerImage: "/homepage/duurzaam.jpg",
         infoImage: "/homepage/florijn.jpg",
         text: "Met AI werken we aan een duurzame toekomst",
         // TODO: Add action url
-        actionUrl: "/challenges"    
+        actionUrl: "/challenges",
     },
     {
         bannerImage: "/homepage/kapsalon.jpg",
         infoImage: "/homepage/eline.jpg",
         text: "Hoe Eline haar kapsalon innoveerde met de nieuwste technologie",
         // TODO: Add action url
-        actionUrl: "/challenges"
+        actionUrl: "/challenges",
     },
     {
         bannerImage: "/homepage/timessquare.jpg",
         infoImage: "/homepage/josie.jpg",
         text: "Vanuit Friesland een advertentie platform bouwen voor New York? Met Matchmaker kan het!",
         // TODO: Add action url
-        actionUrl: "/challenges"
+        actionUrl: "/challenges",
     },
 ]);
-
 </script>
-
 <style scoped>
-
 .info-img {
     height: 100%;
     aspect-ratio: 1/1;
@@ -91,7 +95,7 @@ const carouselInfo: Ref<
     margin-left: 10px;
     margin-bottom: 10px;
 }
-.carousel-item-info:hover{
+.carousel-item-info:hover {
     cursor: pointer;
 }
 
@@ -118,7 +122,6 @@ const carouselInfo: Ref<
     margin-top: 10px;
     opacity: 0;
     animation: fade-in-down 1s ease-out 0ms 1 forwards;
-
 }
 
 .carousel-img {
@@ -135,5 +138,4 @@ const carouselInfo: Ref<
     background-color: rgba(0, 0, 0, 0.6);
     color: #fafafa;
 }
-
 </style>
