@@ -114,7 +114,7 @@
                 v-for="challenge in filteredChallenges"
                 :key="challenge.id"
             >
-                <ChallengeCard :challenge="challenge" :company="company" />
+                <ChallengeCard :challenge="challenge" />
             </template>
             <template v-if="filteredChallenges.length == 0">
                 <div class="d-flex flex-wrap justify-center">
