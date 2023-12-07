@@ -94,7 +94,7 @@ namespace API {
         return new Challenge(data);
     }
     export async function registerCompany(company: {}) {
-        const data = await postRequest("company/request", company);
+        const data = await postRequest("company-request", company);
         return new Company(data);
     }
 
@@ -276,20 +276,20 @@ namespace API {
     }
 
     export async function getCompanyRequests(page?: number): Promise<CompanyRequestsResults> {
-        let urlstring = "company/request?";
+        let urlstring = "company-request?";
         if (page) urlstring += `page=${page}&`;
         const data = await getRequest(urlstring);
         return new CompanyRequestsResults(data);
     }
     export async function acceptCompanyRequest(id: number) {
         try {
-            const data = await postRequest(`company/request/${id}/accept`, {});
+            const data = await postRequest(`company-request/${id}/accept`, {});
         } catch (e) {}
         return;
     }
     export async function rejectCompanyRequest(id: number) {
         try {
-            const data = await postRequest(`company/request/${id}/reject`, {});
+            const data = await postRequest(`company-request/${id}/reject`, {});
         } catch (e) {}
         return;
     }
