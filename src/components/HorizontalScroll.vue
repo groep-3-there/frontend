@@ -1,12 +1,15 @@
 <template>
-    <div class="hor-nav hor-nav-left" v-if="!noScrollAvailable">
-        <v-icon @click="scroll(-1000)">mdi-chevron-left</v-icon>
-    </div>
-    <div class="hor-nav hor-nav-right" v-if="!noScrollAvailable">
-        <v-icon @click="scroll(1000)">mdi-chevron-right</v-icon>
-    </div>
-    <div class="horizontal-scroll-content" ref="horizontalScroll">
-        <slot></slot>
+    <div class="wrapper">
+        <div class="hor-nav hor-nav-left" v-if="!noScrollAvailable">
+            <v-icon @click="scroll(-1000)">mdi-chevron-left</v-icon>
+        </div>
+        <div class="hor-nav hor-nav-right" v-if="!noScrollAvailable">
+            <v-icon @click="scroll(1000)">mdi-chevron-right</v-icon>
+        </div>
+        <div class="horizontal-scroll-content" ref="horizontalScroll">
+            <slot></slot>
+        </div>
+
     </div>
 </template>
 
@@ -18,7 +21,7 @@ const horizontalScroll = ref<HTMLElement | null>(null);
 const props = defineProps({
     disableMouseWheel: {
         type: Boolean,
-        default: false,
+        default: true,
     },
     hideScrollbar: {
         type: Boolean,
@@ -26,7 +29,8 @@ const props = defineProps({
     },
 });
 const noScrollAvailable = computed(() => {
-    return (horizontalScroll.value?.scrollWidth || 0) <= (horizontalScroll.value?.clientWidth || 0);
+    return false;
+    // return (horizontalScroll.value?.scrollWidth || 0) <= (horizontalScroll.value?.clientWidth || 0);
 });
 
 function scroll(direction: number) {
@@ -47,7 +51,12 @@ onMounted(() => {
 });
 </script>
 <style>
+.wrapper{
+    position: relative;
+    max-width: 100%;
+}
 .hor-nav {
+    z-index: 20;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);

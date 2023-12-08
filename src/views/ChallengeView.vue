@@ -183,7 +183,7 @@
                     <ChallengeCreateReaction
                         v-if="challenge.status == 'OPEN_VOOR_IDEEEN'"
                         :targetChallenge="challenge"
-                        @updateReactions="updateReactions"
+                        @updateReactions="reactionPostedHandler"
                     />
                 </section>
                 <v-divider class="my-4"></v-divider>
@@ -199,6 +199,7 @@
                     @update-challenge="loadChallenge"
                 >
                 </ChallengeReaction>
+                <div class="my-4" ref="pageEnd"></div>
             </v-col>
         </v-row>
     </template>
@@ -274,6 +275,7 @@ import { useSessionStore } from "@/store/sessionStore";
 import NotFound from "@/components/NotFound.vue";
 import Banner from "@/components/Banner.vue";
 import UserBubble from "@/components/UserBubble.vue";
+const pageEnd : Ref<HTMLElement | null> = ref(null);
 const sessionStore = useSessionStore();
 
 const concludePopup = ref(false);
@@ -312,6 +314,13 @@ async function updateReactions() {
     challengeInputs.value = await API.getChallengeInputs(parseInt(id));
 }
 
+async function reactionPostedHandler(){
+    await updateReactions();
+    setTimeout(() => {
+        scrollToBottom();
+        
+    }, 100);
+}
 function archive() {
     if (challenge.value) {
         challenge.value.status = "GEARCHIVEERD";
@@ -321,5 +330,9 @@ function archive() {
 
 function openImage(imageUrl: string) {
     window.open(imageUrl, "_blank");
+}
+function scrollToBottom(){
+    console.log(pageEnd.value)
+    pageEnd.value?.scrollIntoView({ behavior: 'smooth' })
 }
 </script>

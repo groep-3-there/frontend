@@ -135,7 +135,7 @@
                                 sessionStore.loggedInUser?.department
                                     ?.parentCompany.name
                             "
-                            value="shared"
+                            value="user-header"
                         ></v-list-item>
                         <v-list-item
                             v-if="
@@ -201,14 +201,17 @@
                 </v-list>
                 <v-divider></v-divider>
 
-                <v-list density="compact" nav v-if="sessionStore.loggedInUser">
+               
+                <template v-slot:append>
+                    <v-list density="compact" nav v-if="sessionStore.loggedInUser">
                     <v-list-item
                         @click="logOut()"
-                        prepend-icon="mdi-account-multiple"
-                        title="Log uit"
+                        prepend-icon="mdi-logout"
+                        title="Uitloggen"
                         value="shared"
                     ></v-list-item>
                 </v-list>
+                </template>
             </v-navigation-drawer>
 
             <v-main :class="{ sideBarSpacing: lgAndUp }">
@@ -262,6 +265,8 @@ import CompanyRegistrationPopUp from "@/components/CompanyRegistrationPopUp.vue"
 import JoinCompanyPopup from "@/components/JoinCompanyPopup.vue";
 import InviteListener from "@/components/InviteListener.vue";
 import { useSessionStore } from "@/store/sessionStore";
+import { useRoute } from "vue-router";
+import router from "@/router";
 const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay();
 const sessionStore = useSessionStore();
 const loginPopup = ref(false);
@@ -288,5 +293,6 @@ function openSidebar() {
 
 function logOut() {
     sessionStore.logOut();
+    router.push("/");
 }
 </script>
