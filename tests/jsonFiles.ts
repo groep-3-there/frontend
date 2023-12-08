@@ -657,3 +657,289 @@ export const mockCompanyRequest = {
   "numberOfElements": 2,
   "empty": false
 };
+
+export const mockUserJelle = {
+  "id": 3,
+  "firebaseId": "SR3TD4Jf2RZ5qbNNF8kcIBu6kjl1",
+  "name": "Jelle Jacobs",
+  "info": "Hallo ik ben Jelle, en loop sinds kort stage bij Kapper Eline",
+  "tags": "stage,kapper,enthousiast,technologie",
+  "createdAt": "2020-01-01",
+  "lastSeen": null,
+  "avatarImageId": null,
+  "isEmailPublic": true,
+  "isPhoneNumberPublic": true,
+  "acceptedTosDate": "2020-01-01",
+  "email": "medewerker@kapper.nl",
+  "phoneNumber": "0630384453",
+  "role": {
+    "id": 3,
+    "name": "Afdeling beheerder",
+    "createdAt": "2020-01-01",
+    "isMatchmaker": false,
+    "isDepartmentAdmin": true,
+    "isAssignable": true,
+    "permissions": [
+      {
+        "id": 1,
+        "codeName": "CHALLENGE_READ",
+        "description": "Het bekijken van een challenge en reacties achterlaten",
+        "fancyName": "Challenge bekijken"
+      },
+      {
+        "id": 3,
+        "codeName": "CHALLENGE_MANAGE",
+        "description": "Het beheren van een challenge & kiezen van reacties",
+        "fancyName": "Beheer challenge"
+      },
+      {
+        "id": 8,
+        "codeName": "DEPARTMENT_MANAGE",
+        "description": "Het beheren van en afdeling",
+        "fancyName": "Afdeling beheren"
+      }
+    ],
+    "assignable": true,
+    "departmentAdmin": true,
+    "matchmaker": false
+  },
+  "department": {
+    "id": 1,
+    "name": "Management",
+    "parentCompany": {
+      "id": 1,
+      "name": "Kapper Eline",
+      "info": "Kapper Eline is een kapper die niet stilstaat, ik sta voorop in de technologische ontwikkelingen",
+      "profileImageId": null,
+      "bannerImageId": null,
+      "tags": "kapper,innovatie",
+      "branch": {
+        "id": 7,
+        "name": "Gezondheidszorg en maatschappelijke dienstverlening"
+      },
+      "createdAt": "2020-01-01",
+      "ownerId": 1,
+      "country": {
+        "code": "NL",
+        "name": "Netherlands"
+      }
+    },
+    "createdAt": "2020-01-01"
+  },
+  "phoneNumberPublic": true,
+  "inCompany": true,
+  "emailPublic": true
+};
+
+export const mockAssignableRoles = [
+  {
+    "id": 1,
+    "name": "Medewerker",
+    "createdAt": "2020-01-01",
+    "isMatchmaker": false,
+    "isDepartmentAdmin": false,
+    "isAssignable": true,
+    "permissions": [
+      {
+        "id": 1,
+        "codeName": "CHALLENGE_READ",
+        "description": "Het bekijken van een challenge en reacties achterlaten",
+        "fancyName": "Challenge bekijken"
+      }
+    ],
+    "assignable": true,
+    "departmentAdmin": false,
+    "matchmaker": false
+  },
+  {
+    "id": 2,
+    "name": "Challenger",
+    "createdAt": "2020-01-01",
+    "isMatchmaker": false,
+    "isDepartmentAdmin": false,
+    "isAssignable": true,
+    "permissions": [
+      {
+        "id": 1,
+        "codeName": "CHALLENGE_READ",
+        "description": "Het bekijken van een challenge en reacties achterlaten",
+        "fancyName": "Challenge bekijken"
+      },
+      {
+        "id": 3,
+        "codeName": "CHALLENGE_MANAGE",
+        "description": "Het beheren van een challenge & kiezen van reacties",
+        "fancyName": "Beheer challenge"
+      }
+    ],
+    "assignable": true,
+    "departmentAdmin": false,
+    "matchmaker": false
+  },
+  {
+    "id": 3,
+    "name": "Afdeling beheerder",
+    "createdAt": "2020-01-01",
+    "isMatchmaker": false,
+    "isDepartmentAdmin": true,
+    "isAssignable": true,
+    "permissions": [
+      {
+        "id": 1,
+        "codeName": "CHALLENGE_READ",
+        "description": "Het bekijken van een challenge en reacties achterlaten",
+        "fancyName": "Challenge bekijken"
+      },
+      {
+        "id": 3,
+        "codeName": "CHALLENGE_MANAGE",
+        "description": "Het beheren van een challenge & kiezen van reacties",
+        "fancyName": "Beheer challenge"
+      },
+      {
+        "id": 8,
+        "codeName": "DEPARTMENT_MANAGE",
+        "description": "Het beheren van en afdeling",
+        "fancyName": "Afdeling beheren"
+      }
+    ],
+    "assignable": true,
+    "departmentAdmin": true,
+    "matchmaker": false
+  }
+];
+
+export const mockDepartmentMembers = [
+  {
+    "id": 3,
+    "firebaseId": "SR3TD4Jf2RZ5qbNNF8kcIBu6kjl1",
+    "name": "Jelle Jacobs",
+    "info": "Hallo ik ben Jelle, en loop sinds kort stage bij Kapper Eline",
+    "tags": "stage,kapper,enthousiast,technologie",
+    "createdAt": "2020-01-01",
+    "lastSeen": null,
+    "avatarImageId": null,
+    "isEmailPublic": true,
+    "isPhoneNumberPublic": true,
+    "acceptedTosDate": "2020-01-01",
+    "email": "medewerker@kapper.nl",
+    "phoneNumber": "0630384453",
+    "role": {
+      "id": 3,
+      "name": "Afdeling beheerder",
+      "createdAt": "2020-01-01",
+      "isMatchmaker": false,
+      "isDepartmentAdmin": true,
+      "isAssignable": true,
+      "permissions": [
+        {
+          "id": 1,
+          "codeName": "CHALLENGE_READ",
+          "description": "Het bekijken van een challenge en reacties achterlaten",
+          "fancyName": "Challenge bekijken"
+        },
+        {
+          "id": 3,
+          "codeName": "CHALLENGE_MANAGE",
+          "description": "Het beheren van een challenge & kiezen van reacties",
+          "fancyName": "Beheer challenge"
+        },
+        {
+          "id": 8,
+          "codeName": "DEPARTMENT_MANAGE",
+          "description": "Het beheren van en afdeling",
+          "fancyName": "Afdeling beheren"
+        }
+      ],
+      "assignable": true,
+      "departmentAdmin": true,
+      "matchmaker": false
+    },
+    "department": {
+      "id": 1,
+      "name": "Management",
+      "parentCompany": {
+        "id": 1,
+        "name": "Kapper Eline",
+        "info": "Kapper Eline is een kapper die niet stilstaat, ik sta voorop in de technologische ontwikkelingen",
+        "profileImageId": null,
+        "bannerImageId": null,
+        "tags": "kapper,innovatie",
+        "branch": {
+          "id": 7,
+          "name": "Gezondheidszorg en maatschappelijke dienstverlening"
+        },
+        "createdAt": "2020-01-01",
+        "ownerId": 1,
+        "country": {
+          "code": "NL",
+          "name": "Netherlands"
+        }
+      },
+      "createdAt": "2020-01-01"
+    },
+    "phoneNumberPublic": true,
+    "inCompany": true,
+    "emailPublic": true
+  },
+  {
+    "id": 2,
+    "firebaseId": "9gJQuvQ2h8PxIvVPae8oTN9ukMW2",
+    "name": "Eline de Groot",
+    "info": "Hoiii ik ben Eline, enthousiaste kapster.",
+    "tags": "kapper,technologie,innovatie",
+    "createdAt": "2020-01-01",
+    "lastSeen": null,
+    "avatarImageId": null,
+    "isEmailPublic": true,
+    "isPhoneNumberPublic": true,
+    "acceptedTosDate": "2020-01-01",
+    "email": "challenger@kapper.nl",
+    "phoneNumber": "0630384453",
+    "role": {
+      "id": 1,
+      "name": "Medewerker",
+      "createdAt": "2020-01-01",
+      "isMatchmaker": false,
+      "isDepartmentAdmin": false,
+      "isAssignable": true,
+      "permissions": [
+        {
+          "id": 1,
+          "codeName": "CHALLENGE_READ",
+          "description": "Het bekijken van een challenge en reacties achterlaten",
+          "fancyName": "Challenge bekijken"
+        }
+      ],
+      "assignable": true,
+      "departmentAdmin": false,
+      "matchmaker": false
+    },
+    "department": {
+      "id": 1,
+      "name": "Management",
+      "parentCompany": {
+        "id": 1,
+        "name": "Kapper Eline",
+        "info": "Kapper Eline is een kapper die niet stilstaat, ik sta voorop in de technologische ontwikkelingen",
+        "profileImageId": null,
+        "bannerImageId": null,
+        "tags": "kapper,innovatie",
+        "branch": {
+          "id": 7,
+          "name": "Gezondheidszorg en maatschappelijke dienstverlening"
+        },
+        "createdAt": "2020-01-01",
+        "ownerId": 1,
+        "country": {
+          "code": "NL",
+          "name": "Netherlands"
+        }
+      },
+      "createdAt": "2020-01-01"
+    },
+    "phoneNumberPublic": true,
+    "inCompany": true,
+    "emailPublic": true
+  }
+];
