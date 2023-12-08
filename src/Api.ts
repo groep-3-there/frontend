@@ -13,6 +13,7 @@ import { Department } from "./models/Department";
 import { DepartmentCode } from "./models/DepartmentCode";
 import { Role } from "./models/Role";
 import { Country } from "./models/Country";
+import { Permission } from "./models/Permission";
 
 async function postRequest(url: string, bodyObject: {}) {
     const res = await fetch(API.BASEURL + url, {
@@ -280,13 +281,13 @@ namespace API {
     export async function acceptCompanyRequest(id: number) {
         try {
             const data = await postRequest(`company/request/${id}/accept`, {});
-        } catch (e) {}
+        } catch (e) {return null}
         return;
     }
     export async function rejectCompanyRequest(id: number) {
         try {
             const data = await postRequest(`company/request/${id}/reject`, {});
-        } catch (e) {}
+        } catch (e) {return null}
         return;
     }
     /**
@@ -428,13 +429,34 @@ namespace API {
         const data = await getRequest(`department/${departmentId}/members`);
         return data.map((d: any) => new User(d));
     }
-    export async function LoadAssignableRoles() {
+    export async function getAssignableRoles() : Promise<Role[]> {
         const data = await getRequest(`role/assignable`);
         return data.map((d: any) => new Role(d));
     }
     export async function updateRoles(departmentId: number, updates: { userId: number, roleId: number }[]) {
         const data = await putRequest(`department/${departmentId}/updateroles`, { updates });
         return data;
+    }
+    export async function getAllPermissions() : Promise<Permission[]>{
+        const data = await getRequest("permission")
+        return data.map((i:any)=>new Permission(i));
+    }
+    export async function getRole(id:number){
+        const data = await getRequest(`role/${id}`)
+        return new Role(data);
+    }
+    export async function getAllRoles() : Promise<Role[]>{
+        const data = await getRequest(`role`)
+        return data.map((i:any)=>new Role(i));
+    }
+    /**Id is made in backend */
+    export async function createRole(newRole : Role){
+        const data = await postRequest(`role`, newRole);
+        return new Role(data);
+    }
+    export async function updateRole(role : Role){
+        const data = await putRequest(`role/${role.id}`, role);
+        return new Role(data);
     }
 }
 

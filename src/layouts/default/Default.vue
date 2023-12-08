@@ -179,6 +179,14 @@
                                 value="Bedrijfsaanvragen"
                             >
                             </v-list-item>
+                            <v-list-item
+                                :key="8"
+                                @click="$router.push('/admin/roles')"
+                                prepend-icon="mdi-briefcase-check-outline"
+                                title="Rollen bewerken"
+                                value="edit-roles"
+                            >
+                            </v-list-item>
                         </template>
                     </template>
                 </v-list>
