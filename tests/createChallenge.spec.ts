@@ -39,6 +39,7 @@ test('create a challenge', async ({ page }) => {
     await page.getByText('Publiek').click();
     await page.getByLabel('Einddatum').fill('2023-12-10');
     await page.getByRole('button', { name: 'Aanmaken' }).click();
+    await page.waitForTimeout(60000); // Wait for 60 seconds
     await expect(page.getByRole('heading', { name: 'Test Challenge' })).toBeVisible();
     await expect(page.locator('section').filter({ hasText: 'Samenvattingtest beschrijving' }).getByRole('paragraph')).toBeVisible();
   });
