@@ -7,7 +7,8 @@
     "test": "echo \"No tests yet\" && exit 0",
     "preview": "vite preview",
     "unittest": "vitest",
-    "e2etest": "playwright test",
+    "guitest": "npx playwright test",
+    "guitest-ui": "npx playwright test --ui",
     "lint": "eslint . --fix --ignore-path .gitignore"
   },
   "dependencies": {

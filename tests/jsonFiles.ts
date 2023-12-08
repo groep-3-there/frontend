@@ -236,3 +236,137 @@ export const mockSearchResult = {
 "numberOfElements": 2,
 "empty": false
 };
+
+export const mockProfileEline = {
+  "id": 2,
+  "firebaseId": "9gJQuvQ2h8PxIvVPae8oTN9ukMW2",
+  "name": "Eline de Groot",
+  "info": "Hoiii ik ben Eline, enthousiaste kapster.",
+  "tags": "kapper,technologie,innovatie",
+  "createdAt": "2020-01-01",
+  "lastSeen": null,
+  "avatarImageId": null,
+  "isEmailPublic": true,
+  "isPhoneNumberPublic": true,
+  "acceptedTosDate": "2020-01-01",
+  "email": "challenger@kapper.nl",
+  "phoneNumber": "0630384453",
+  "role": {
+      "id": 2,
+      "name": "Challenger",
+      "createdAt": "2020-01-01",
+      "isMatchmaker": false,
+      "isDepartmentAdmin": false,
+      "isAssignable": true,
+      "permissions": [
+          {
+              "id": 1,
+              "codeName": "CHALLENGE_READ",
+              "description": "Het bekijken van een challenge en reacties achterlaten",
+              "fancyName": "Challenge bekijken"
+          },
+          {
+              "id": 3,
+              "codeName": "CHALLENGE_MANAGE",
+              "description": "Het beheren van een challenge & kiezen van reacties",
+              "fancyName": "Beheer challenge"
+          }
+      ],
+      "assignable": true,
+      "departmentAdmin": false,
+      "matchmaker": false
+  },
+  "department": {
+      "id": 1,
+      "name": "Management",
+      "parentCompany": {
+          "id": 1,
+          "name": "Kapper Eline",
+          "info": "Kapper Eline is een kapper die niet stilstaat, ik sta voorop in de technologische ontwikkelingen",
+          "profileImageId": null,
+          "bannerImageId": null,
+          "tags": "kapper,innovatie",
+          "branch": {
+              "id": 7,
+              "name": "Gezondheidszorg en maatschappelijke dienstverlening"
+          },
+          "createdAt": "2020-01-01",
+          "ownerId": 1,
+          "country": {
+              "code": "NL",
+              "name": "Netherlands"
+          }
+      },
+      "createdAt": "2020-01-01"
+  },
+  "inCompany": true,
+  "emailPublic": true,
+  "phoneNumberPublic": true
+};
+
+export const mockTags= [
+  {
+    "id": 1,
+    "name": "Website"
+  },
+  {
+    "id": 2,
+    "name": "App"
+  },
+  {
+    "id": 3,
+    "name": "Digitaal ecosysteem"
+  },
+  {
+    "id": 4,
+    "name": "Digitale Veiligheid"
+  },
+  {
+    "id": 5,
+    "name": "Marketing"
+  },
+  {
+    "id": 6,
+    "name": "Social Media"
+  },
+  {
+    "id": 7,
+    "name": "Educatie"
+  },
+  {
+    "id": 8,
+    "name": "Digitale Strategie"
+  },
+  {
+    "id": 9,
+    "name": "Kunstmatige intelligentie (AI)"
+  },
+  {
+    "id": 10,
+    "name": "Online betalingen"
+  },
+  {
+    "id": 11,
+    "name": "Verduurzaming"
+  },
+  {
+    "id": 12,
+    "name": "Digitalisering"
+  },
+  {
+    "id": 13,
+    "name": "Design"
+  },
+  {
+    "id": 14,
+    "name": "Data"
+  },
+  {
+    "id": 15,
+    "name": "Blockchain"
+  },
+  {
+    "id": 16,
+    "name": "Prototype"
+  }
+]
