@@ -65,9 +65,7 @@
 }
 </style>
 <script setup lang="ts">
-import { defineProps } from "vue";
 import { Challenge } from "@/models/Challenge";
-import { Company } from "@/models/Company";
 
 const props = defineProps({
     challenge: {
