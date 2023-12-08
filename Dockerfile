@@ -1,4 +1,3 @@
-# Stage 1: Frontend Build
 FROM node:latest as build-stage
 WORKDIR /app
 COPY package*.json ./
@@ -6,31 +5,23 @@ RUN npm install
 COPY ./ .
 RUN npm run build
 
-# Stage 2: Certbot
-FROM certbot/certbot as certbot-stage
-RUN apt-get update && \
-    apt-get install -y certbot
+# Use a base image with NGINX and Certbot
+FROM nginx:latest as production-stage
 
-# Stage 3: Nginx and Certificates
-FROM nginx as production-stage
 RUN mkdir /app
-
-# Copy frontend files from the build stage
 COPY --from=build-stage /app/dist /app
-
-# Copy Certbot from the certbot stage
-COPY --from=certbot-stage /usr/bin/certbot /usr/bin/certbot
-
-# Obtain SSL certificates using Certbot
-RUN mkdir -p /usr/share/nginx/html && \
-    certbot certonly --webroot --webroot-path=/usr/share/nginx/html --agree-tos -m your@email.com -d your_domain.com
-
-# Copy SSL certificates from Certbot to Nginx
-COPY --from=production-stage /etc/letsencrypt /etc/letsencrypt
-
-# Copy Nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Expose ports
+# Expose ports for HTTP and HTTPS
 EXPOSE 80
 EXPOSE 443
+
+# Install Certbot dependencies
+RUN apt-get update && \
+    apt-get install -y certbot python3-certbot-nginx
+
+# Set up a volume for Certbot data
+VOLUME /etc/letsencrypt
+
+# Command to start NGINX
+CMD ["nginx", "-g", "daemon off;"]
