@@ -20,8 +20,10 @@ EXPOSE 443
 RUN apt-get update && \
     apt-get install -y certbot python3-certbot-nginx
 
+# Obtain SSL certificates using Certbot
+RUN certbot certonly --webroot --webroot-path=/app --agree-tos -m florijnmunster@outlook.com -d matchmakergroep3.nl
+
 # Set up a volume for Certbot data
 VOLUME /etc/letsencrypt
 
-# Command to start NGINX
-CMD ["nginx", "-g", "daemon off;"]
+# Command to get certificates and start NGINX
