@@ -1,39 +1,21 @@
-# Stage 1: Build Stage
-FROM node:latest as build-stage
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY ./ .
-RUN npm run build
+# Use an image with Certbot and Nginx
+FROM certbot/certbot as certbot
 
-# Stage 2: Production Stage
-FROM nginx:latest as production-stage
-RUN mkdir /app
-COPY --from=build-stage /app/dist /app
+# Stage 1: Obtain SSL certificates
+RUN certbot certonly --webroot --webroot-path=/usr/share/nginx/html --agree-tos -m florijnmunster@outlook.com -d matchmakergroep3.nl
 
-# Stage 3: Nginx Configuration
-COPY nginx.conf /etc/nginx/nginx.conf
-
-# Stage 4: Certbot Stage
-FROM certbot/certbot as certbot-stage
-
-# Final Stage
+# Stage 2: Build frontend
 FROM nginx:latest
 
-# Copy built frontend files from the production stage
-COPY --from=production-stage /app /usr/share/nginx/html
+# Copy SSL certificates from the Certbot stage
+COPY --from=certbot /etc/letsencrypt /etc/letsencrypt
+
+# Copy frontend files
+COPY /app /usr/share/nginx/html
 
 # Copy Nginx configuration
-COPY --from=production-stage /etc/nginx/nginx.conf /etc/nginx/nginx.conf
-
-RUN mkdir /etc/letsencrypt
-
-# Copy Certbot configurations
-COPY --from=certbot-stage /etc/letsencrypt /etc/letsencrypt
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expose ports
 EXPOSE 80
 EXPOSE 443
-
-# Command to renew certificates (you can customize as needed)
-CMD ["certbot", "renew", "--nginx"]
