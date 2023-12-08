@@ -21,10 +21,6 @@ COPY --from=build-stage /app/dist /app
 # Copy Certbot from the certbot stage
 COPY --from=certbot-stage /usr/bin/certbot /usr/bin/certbot
 
-# Install Certbot dependencies for Nginx plugin
-RUN apt-get update && \
-    apt-get install -y python3-certbot-nginx
-
 # Obtain SSL certificates using Certbot
 RUN mkdir -p /usr/share/nginx/html && \
     certbot certonly --webroot --webroot-path=/usr/share/nginx/html --agree-tos -m your@email.com -d your_domain.com
