@@ -31,3 +31,9 @@ jobs:
     - run: npm test
     - run: npx playwright install  --with-deps
     - run: npx playwright test
+    stages:
+    - test
+
+    tests:
+    stage: test
+    image: mcr.microsoft.com/playwright:v1.40.0-jammy
