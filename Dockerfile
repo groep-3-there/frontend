@@ -26,6 +26,8 @@ COPY --from=production-stage /app /usr/share/nginx/html
 # Copy Nginx configuration
 COPY --from=production-stage /etc/nginx/nginx.conf /etc/nginx/nginx.conf
 
+RUN mkdir /etc/letsencrypt
+
 # Copy Certbot configurations
 COPY --from=certbot-stage /etc/letsencrypt /etc/letsencrypt
 
