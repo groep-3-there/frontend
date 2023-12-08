@@ -64,6 +64,11 @@ const routes = [
                 component: () => import("@/views/CompanyView.vue"),
             },
             {
+                path: "company/:id/edit",
+                name: "Bedrijf bewerken",
+                component: () => import("@/views/EditCompanyProfile.vue"),
+            },
+            {
                 path: "/admin",
                 name: "Admin",
                 component: () => import("@/views/AdminView.vue"),
@@ -77,6 +82,11 @@ const routes = [
                 path: "admin/roles",
                 name: "Roles",
                 component: () => import("@/views/RoleEditView.vue"),
+            },
+            {
+                path: "admin/stats-dashboard",
+                name: "Admin Stats",
+                component: () => import("@/views/AdminStatsView.vue"),
             },
             {
                 path: "settings/:id",

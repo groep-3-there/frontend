@@ -148,7 +148,7 @@
                             @click="$router.push('/challenge/new')"
                             prepend-icon="mdi-plus-box-outline"
                             title="Challenge maken"
-                            value="challenge-new"
+                            value="create-challenge"
                         ></v-list-item>
                         <v-list-item
                             v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment(
@@ -182,11 +182,20 @@
                             <v-list-item
                                 :key="8"
                                 @click="$router.push('/admin/roles')"
-                                prepend-icon="mdi-briefcase-check-outline"
+                                prepend-icon="mdi-account-group"
                                 title="Rollen bewerken"
                                 value="edit-roles"
                             >
                             </v-list-item>
+                            <v-list-item
+                                :key="9"
+                                @click="$router.push('/admin/stats-dashboard')"
+                                prepend-icon="mdi-chart-bar"
+                                title="Statistieken"
+                                value="Statistieken"
+                            >
+                            </v-list-item>
+
                         </template>
                     </template>
                 </v-list>

@@ -1,11 +1,10 @@
 <template v-if="sessionStore.loggedInUser">
     <Banner
-        title="Rollen"
-        :subtitle="'Instellingen'"
+        title="Rollen bewerken"
+        :subtitle="'Admin paneel'"
         :banner-src="company?.getBannerForCompany()"
         :logo-src="company?.getProfileOrDefaultImageUrl()"
     />
-
     <v-row>
         <v-col cols="12" md="4" class="mx-auto d-flex align-center">
             <v-select
@@ -113,7 +112,7 @@
             </v-row>
         </v-col>
     </v-row>
-    <v-row>
+    <v-row v-if="selectedRole">
         <v-col cols="10" md="6" class="mx-auto d-flex justify-center">
             <v-btn color="primary" variant="elevated" @click="saveChanges"
                 ><span v-if="!updating">Opslaan</span>
@@ -151,7 +150,7 @@ const allRoles = ref<Role[]>([]);
 const allPermissions = ref<Permission[]>([]);
 // selected
 const selectedRole: Ref<Role | null> = ref(null);
-const selectedRoleId = ref<number>(1);
+const selectedRoleId = ref<number | null>(null);
 // toggle and computed result
 const selectedIds = ref<number[]>([]);
 const selectedPermissions = computed(() => {
@@ -173,6 +172,7 @@ async function loadData() {
     allPermissions.value = await API.getAllPermissions();
 
     if (selectId) {
+        selectedRoleId.value = selectId;
         selectRole(selectId);
     }
 }

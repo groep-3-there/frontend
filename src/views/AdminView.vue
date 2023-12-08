@@ -24,6 +24,14 @@
                     ><h2>Bedrijfsaanvragen</h2></v-btn
                 >
             </v-col>
+            <v-col cols="9" md="6" class="d-flex justify-center">
+                <v-btn
+                    color="primary"
+                    class="admin-action"
+                    @click="$router.push('/admin/stats-dashboard')"
+                    ><h2>Statistieken</h2></v-btn
+                >
+            </v-col>
         </v-row>
     </template>
 </template>

@@ -108,7 +108,8 @@
     box-shadow: 0 0 4px 2px rgba(67, 67, 67, 0.386);
 }
 .company-logo {
-    max-width: min(80%, 25vw);
+    width: 72px;
+    height: 72px;
     border-radius: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
