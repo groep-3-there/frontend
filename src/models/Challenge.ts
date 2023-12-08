@@ -15,7 +15,7 @@ export class Challenge {
     summary: string;
     status: string;
     createdAt: Date;
-    endDate: Date;
+    endDate: Date | null;
     tags: string;
     visibility: string;
     imageAttachments: Image[];
@@ -35,7 +35,7 @@ export class Challenge {
         this.summary = data.summary;
         this.status = data.status;
         this.createdAt = new Date(data.createdAt);
-        this.endDate = new Date(data.endDate);
+        this.endDate = data.endDate ? new Date(data.endDate) : null;
         this.tags = data.tags;
         this.visibility = data.visibility;
         this.imageAttachments = data.imageAttachmentsIds

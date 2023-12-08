@@ -138,7 +138,6 @@
                     <h2 class="post-heading">Contact informatie</h2>
                     <p v-html="challenge.contactInformation"></p>
                 </section>
-
                 <section v-if="challenge.endDate">
                     <h2 class="post-heading">Einddatum</h2>
                     <p>
