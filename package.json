@@ -9,6 +9,7 @@
     "unittest": "vitest",
     "guitest": "npx playwright test",
     "guitest-ui": "npx playwright test --ui",
+    "gen-guitest": "npx playwright codegen http://localhost:3000\n",
     "lint": "eslint . --fix --ignore-path .gitignore"
   },
   "dependencies": {
