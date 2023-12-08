@@ -181,12 +181,21 @@
                             </v-list-item>
                             <v-list-item
                                 :key="8"
+                                @click="$router.push('/admin/roles')"
+                                prepend-icon="mdi-account-group"
+                                title="Rollen bewerken"
+                                value="edit-roles"
+                            >
+                            </v-list-item>
+                            <v-list-item
+                                :key="9"
                                 @click="$router.push('/admin/stats-dashboard')"
                                 prepend-icon="mdi-chart-bar"
                                 title="Statistieken"
                                 value="Statistieken"
                             >
                             </v-list-item>
+
                         </template>
                     </template>
                 </v-list>

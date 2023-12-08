@@ -100,7 +100,7 @@ onMounted(async () => {
 });
 
 async function LoadAssignableRoles() {
-    assignableRoles.value = await API.LoadAssignableRoles();
+    assignableRoles.value = await API.getAssignableRoles();
 }
 
 async function LoadUsers() {

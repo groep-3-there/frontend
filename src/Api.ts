@@ -11,6 +11,7 @@ import { Department } from "./models/Department";
 import { DepartmentCode } from "./models/DepartmentCode";
 import { Role } from "./models/Role";
 import { Country } from "./models/Country";
+import { Permission } from "./models/Permission";
 
 async function postRequest(url: string, bodyObject: {}) {
     const res = await fetch(API.BASEURL + url, {
@@ -428,12 +429,33 @@ namespace API {
         const data = await getRequest(`department/${departmentId}/members`);
         return data.map((d: any) => new User(d));
     }
-    export async function LoadAssignableRoles() {
+    export async function getAssignableRoles() : Promise<Role[]> {
         const data = await getRequest(`role/assignable`);
         return data.map((d: any) => new Role(d));
     }
     export async function updateRoles(departmentId: number, updates: { userId: number, roleId: number }[]) {
         return await putRequest(`department/${departmentId}/updateroles`, {updates});
+    }
+    export async function getAllPermissions() : Promise<Permission[]>{
+        const data = await getRequest("permission")
+        return data.map((i:any)=>new Permission(i));
+    }
+    export async function getRole(id:number){
+        const data = await getRequest(`role/${id}`)
+        return new Role(data);
+    }
+    export async function getAllRoles() : Promise<Role[]>{
+        const data = await getRequest(`role`)
+        return data.map((i:any)=>new Role(i));
+    }
+    /**Id is made in backend */
+    export async function createRole(newRole : Role){
+        const data = await postRequest(`role`, newRole);
+        return new Role(data);
+    }
+    export async function updateRole(role : Role){
+        const data = await putRequest(`role/${role.id}`, role);
+        return new Role(data);
     }
 
     export async function getGraphChallenges() {

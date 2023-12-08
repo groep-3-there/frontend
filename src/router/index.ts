@@ -79,6 +79,11 @@ const routes = [
                 component: () => import("@/views/CompanyRequestView.vue"),
             },
             {
+                path: "admin/roles",
+                name: "Roles",
+                component: () => import("@/views/RoleEditView.vue"),
+            },
+            {
                 path: "admin/stats-dashboard",
                 name: "Admin Stats",
                 component: () => import("@/views/AdminStatsView.vue"),
