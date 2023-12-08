@@ -61,7 +61,7 @@ async function getRequest(url: string) {
 namespace API {
     export const BACKEND_URL = import.meta.env.PROD
         ? "https://matchmakergroep3.nl:8443"
-        : "https://matchmakergroep3.nl:8443";
+        : "http://localhost:8080";
     export const BASEURL = `${BACKEND_URL}/api/v1/`;
 
     export const FIREBASE_PUBLIC_API_KEY =
