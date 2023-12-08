@@ -30,4 +30,4 @@ jobs:
     - run: npm run build --if-present
     - run: npm test
     - run: npx playwright install  --with-deps
-    - run: npx playwright test
+    - run: npx playwright test --headed
