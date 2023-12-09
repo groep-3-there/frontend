@@ -2,9 +2,12 @@
     <div>
         <h1>Notifications</h1>
         <div>
-            <div v-for="notification in notifications" :key="notification.id">
-                <div>{{ notification?.title }}</div>
-            </div>
+            <NotificationCard
+                v-for="notification in notifications"
+                :key="notification.id"
+                :notification="notification"
+                class="mr-4"
+            />
         </div>
     </div>
 </template>
@@ -16,6 +19,7 @@ import { onMounted } from "vue";
 import API from "@/Api";
 import { useSessionStore } from "@/store/sessionStore";
 import { Notification } from "@/models/Notification";
+import NotificationCard from "@/components/NotificationCard.vue";
 
 const user = ref() as Ref<User | null>;
 

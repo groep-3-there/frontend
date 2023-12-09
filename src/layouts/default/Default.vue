@@ -96,11 +96,35 @@
                 <v-divider></v-divider>
                 <v-list density="compact" nav v-if="sessionStore.loggedInUser">
                     <v-list-item
+                        :key="2"
                         @click="$router.push('/notifications')"
-                        prepend-icon="mdi-bell"
-                        title="Notificaties"
                         value="notifications"
-                    ></v-list-item>
+                    >
+                        <v-badge
+                            style="display: block; margin: 0px"
+                            :inline="true"
+                            size
+                            :content="
+                                sessionStore.loggedInUser?.notifications?.length
+                            "
+                        >
+                            <v-icon
+                                style="margin-right: 10px; margin-left: -4px"
+                                icon="mdi-bell-outline"
+                                size="24"
+                            ></v-icon>
+                            <v-list-item-title
+                                style="
+                                    justify-content: end;
+                                    margin-left: 10px;
+                                    margin-right: 10px;
+                                    align-items: center;
+                                    display: inline-flex;
+                                "
+                                >Notificaties</v-list-item-title
+                            >
+                        </v-badge>
+                    </v-list-item>
                     <v-list-subheader>Uw bedrijf</v-list-subheader>
                     <v-list-item
                         v-if="!sessionStore.loggedInUser.department"
@@ -233,6 +257,13 @@
 .sideBarSpacing {
     margin-left: v-bind(widthPx);
     margin-right: v-bind(widthPx);
+}
+
+.badge-no-margin {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    /* margin: 0 4px; */
 }
 
 .sidebar-toggle-btn {
