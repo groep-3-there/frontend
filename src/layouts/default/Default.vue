@@ -77,6 +77,7 @@
                         title="Home"
                         value="home-home"
                     ></v-list-item>
+
                     <v-list-item
                         :key="1"
                         @click="$router.push('/debug')"
@@ -94,6 +95,12 @@
                 </v-list>
                 <v-divider></v-divider>
                 <v-list density="compact" nav v-if="sessionStore.loggedInUser">
+                    <v-list-item
+                        @click="$router.push('/notifications')"
+                        prepend-icon="mdi-bell"
+                        title="Notificaties"
+                        value="notifications"
+                    ></v-list-item>
                     <v-list-subheader>Uw bedrijf</v-list-subheader>
                     <v-list-item
                         v-if="!sessionStore.loggedInUser.department"
@@ -151,11 +158,17 @@
                             value="create-challenge"
                         ></v-list-item>
                         <v-list-item
-                            v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment(
-                                'DEPARTMENT_MANAGE',
-                                sessionStore.loggedInUser?.department?.id,
-                            )"
-                            @click="$router.push(`/settings/${sessionStore.loggedInUser?.department?.id}`)"
+                            v-if="
+                                sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                                    'DEPARTMENT_MANAGE',
+                                    sessionStore.loggedInUser?.department?.id,
+                                )
+                            "
+                            @click="
+                                $router.push(
+                                    `/settings/${sessionStore.loggedInUser?.department?.id}`,
+                                )
+                            "
                             prepend-icon="mdi-cog-outline"
                             title="Instellingen"
                             value="settings"
@@ -195,7 +208,6 @@
                                 value="Statistieken"
                             >
                             </v-list-item>
-
                         </template>
                     </template>
                 </v-list>

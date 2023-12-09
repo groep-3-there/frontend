@@ -1,6 +1,7 @@
 import { Department } from "./Department";
 import { Image } from "./Image";
 import { Role } from "./Role";
+import { Notification } from "./Notification";
 
 export class User {
     id: number;
@@ -18,6 +19,7 @@ export class User {
     phoneNumber: string;
     role: Role | null;
     department: Department | null;
+    notifications: Notification[] | [];
 
     constructor(data: any) {
         this.id = data.id;
@@ -41,6 +43,7 @@ export class User {
         this.department = data.department
             ? new Department(data.department)
             : null;
+        this.notifications = data.notifications
     }
 
     getAvatarOrDefaultUrl() {
