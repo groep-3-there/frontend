@@ -7,12 +7,15 @@
             :subtitle="'Bedrijfsprofiel'"
             :banner-src="company.getBannerForCompany()"
         />
+        <!--Heart icon when pressed follow the company-->
+        <v-icon @click="API.followCompanyAsLoggedInUser(company.id)">
+            mdi-heart
+        </v-icon>
         <v-row>
             <v-col md="3" class="d-flex align-center justify-center">
                 <SmallCountryFlag :country="company.country" class="mr-2" />
                 <p>
                     {{ company.country.name }}
-
                 </p>
             </v-col>
             <v-col cols="12" md="6" class="">
@@ -21,10 +24,11 @@
                         {{ company.branch.name }}
                     </Tag>
                     <template v-if="company.tags">
-                    <Tag v-for="tag in company.tags.split(',')" :key="tag">{{
-                        tag
-                    }}</Tag>
-
+                        <Tag
+                            v-for="tag in company.tags.split(',')"
+                            :key="tag"
+                            >{{ tag }}</Tag
+                        >
                     </template>
                 </div>
             </v-col>
@@ -63,13 +67,11 @@
             </v-col>
         </v-row>
         <v-row>
-            
-            
-
             <v-col cols="12" class="">
-                <div class="d-flex flex-wrap justify-center" v-html="company.info">
-                    
-                </div>
+                <div
+                    class="d-flex flex-wrap justify-center"
+                    v-html="company.info"
+                ></div>
             </v-col>
 
             <v-divider class="mt-4"></v-divider>
@@ -135,7 +137,7 @@
         <v-row>
             <v-col cols="12" class="">
                 <div class="d-flex flex-wrap justify-center">
-                <h2 class="title">Afdelingen</h2>
+                    <h2 class="title">Afdelingen</h2>
                 </div>
             </v-col>
         </v-row>
@@ -184,7 +186,7 @@
                             .id == company.id
                     "
                 >
-                <h2 class="title">
+                    <h2 class="title">
                         Uw afdeling :
                         {{ sessionStore.loggedInUser?.department?.name }}
                     </h2>

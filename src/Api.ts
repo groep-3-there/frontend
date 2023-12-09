@@ -501,6 +501,10 @@ namespace API {
     export async function setNotificationToRead(id : number){
         return await putRequest(`notifications/read/${id}`, {});
     }
+
+    export async function followCompanyAsLoggedInUser(id : number){
+        return await putRequest(`company/${id}/follow`, {});
+    }
 }
 
 export default API;
