@@ -1,23 +1,11 @@
 <template>
     <v-card
-        class="mx-2 card-outter"
-        min-width="350"
-        width="350"
-        height="350"
-        hover
-    >
-        <v-card-title>
-            {{ notification.title }}
-        </v-card-title>
-
-        <v-card-text class="shorten-text description">
-            {{ notification.description }}
-        </v-card-text>
-
-        <v-card-actions class="card-actions">
-            <p class="author-name">{{ notification.link }} |</p>
-        </v-card-actions>
-    </v-card>
+        class=""
+        max-width="500"
+        :title="notification.title"
+        :subtitle="notification.description"
+        @click="$router.push(`${notification.link}`)"
+    ></v-card>
 </template>
 <style>
 .author-name {
@@ -51,6 +39,7 @@
 <script setup lang="ts">
 import { defineProps } from "vue";
 import { Notification } from "@/models/Notification";
+import { useRoute } from "vue-router";
 
 const props = defineProps({
     notification: {
@@ -58,4 +47,7 @@ const props = defineProps({
         required: true,
     },
 });
+
+const idParam = useRoute().params.id;
+let id = Array.isArray(idParam) ? idParam[0] : idParam;
 </script>

@@ -105,7 +105,9 @@
                             :inline="true"
                             size
                             :content="
-                                sessionStore.loggedInUser?.notifications?.length
+                                sessionStore.loggedInUser?.notifications?.filter(
+                                    (n) => n.read === false,
+                                ).length
                             "
                         >
                             <v-icon

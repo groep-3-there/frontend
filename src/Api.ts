@@ -497,6 +497,10 @@ namespace API {
     export async function getGraphChallengesInputsWithMonth(from : string, till : string) {
         return await getRequest(`graph-data/challenge-inputs/filter/date?from=${from}&till=${till}`);
     }
+
+    export async function setNotificationToRead(id : number){
+        return await putRequest(`notifications/read/${id}`, {});
+    }
 }
 
 export default API;
