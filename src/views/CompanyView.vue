@@ -8,9 +8,29 @@
             :banner-src="company.getBannerForCompany()"
         />
         <!--Heart icon when pressed follow the company-->
-        <v-icon @click="API.followCompanyAsLoggedInUser(company.id)">
-            mdi-heart
-        </v-icon>
+
+        <div @click="console.log(isFollowing)">
+            <div v-if="isFollowing">
+                <v-icon
+                    @click="
+                        API.stopFollowingCompanyAsLoggedInUser(company.id);
+                        company.followerIds = company.followerIds.filter(
+                            (f) => f != userId,
+                        );
+                    "
+                    >mdi-heart</v-icon
+                >
+            </div>
+            <div v-else>
+                <v-icon
+                    @click="
+                        API.followCompanyAsLoggedInUser(company.id);
+                        company.followerIds.push(userId);
+                    "
+                    >mdi-heart-outline</v-icon
+                >
+            </div>
+        </div>
         <v-row>
             <v-col md="3" class="d-flex align-center justify-center">
                 <SmallCountryFlag :country="company.country" class="mr-2" />
@@ -342,6 +362,13 @@ const inviteLink = ref("");
 const inviteLinkCopied = ref(false);
 const members: Ref<User[]> = ref([]);
 
+const userId = ref(0);
+
+const isFollowing = computed(() => {
+    if (!company.value?.followerIds) return false;
+    return company.value?.followerIds.some((f) => f == userId.value);
+});
+
 const filteredChallenges = computed(() => {
     if (!challenges.value) return [];
     if (departmentNameFilter.value == "Alles") return challenges.value;
@@ -373,6 +400,7 @@ onMounted(async () => {
     await getDepartmentsForCompany();
     await getAllChallengesForCompany();
     await loadUsers();
+    userId.value = user.value?.id as number;
 });
 async function getDepartmentInviteCode() {
     const code = await API.getOrGenerateDepartmentCode(parseInt(id));

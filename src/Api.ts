@@ -505,6 +505,10 @@ namespace API {
     export async function followCompanyAsLoggedInUser(id : number){
         return await putRequest(`company/${id}/follow`, {});
     }
+
+    export async function stopFollowingCompanyAsLoggedInUser(id : number){
+        return await putRequest(`company/${id}/unfollow`, {});
+    }
 }
 
 export default API;
