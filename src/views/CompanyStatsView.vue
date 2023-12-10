@@ -147,18 +147,19 @@ const DepartmentChartOptions = computed(() => {
         yaxis: {
             show: false
         },
+        title: {
+            text: "Afdelingen",
+            style: {
+                fontSize: "18px",
+            },
+        }
 
     }
 });
 
 const DepartmentChartSeries = computed(() => {
-    return [
-        {
-            name: "Medewerkers",
-            data: Object.entries(departmentsWithStaff.value).map(
-                ([month, value]) => value,)
-        },
-    ];
+    return Object.entries(departmentsWithStaff.value).map(
+                ([month, value]) => value,)  
 });
 
 const ChallengeInputChartOptions = computed(() => {
