@@ -66,6 +66,35 @@
                         value="home-login"
                     >
                     </v-list-item>
+                    <v-list-item
+                        :key="2"
+                        @click="$router.push('/notifications')"
+                        value="notifications"
+                    >
+                        <v-badge
+                            style="display: block; margin: 0px"
+                            :color="unreadNotifications.length > 0 ? 'red' : 'grey' "
+                            :inline="true"
+                            size
+                            :content="unreadNotifications.length"
+                        >
+                            <v-icon
+                                style="margin-right: 10px; margin-left: -4px"
+                                icon="mdi-bell-outline"
+                                size="24"
+                            ></v-icon>
+                            <v-list-item-title
+                                style="
+                                    justify-content: end;
+                                    margin-left: 10px;
+                                    margin-right: 10px;
+                                    align-items: center;
+                                    display: inline-flex;
+                                "
+                                >Notificaties</v-list-item-title
+                            >
+                        </v-badge>
+                    </v-list-item>
                 </v-list>
 
                 <v-divider></v-divider>
@@ -95,38 +124,7 @@
                 </v-list>
                 <v-divider></v-divider>
                 <v-list density="compact" nav v-if="sessionStore.loggedInUser">
-                    <v-list-item
-                        :key="2"
-                        @click="$router.push('/notifications')"
-                        value="notifications"
-                    >
-                        <v-badge
-                            style="display: block; margin: 0px"
-                            :inline="true"
-                            size
-                            :content="
-                                sessionStore.loggedInUser?.notifications?.filter(
-                                    (n) => n.read === false,
-                                ).length
-                            "
-                        >
-                            <v-icon
-                                style="margin-right: 10px; margin-left: -4px"
-                                icon="mdi-bell-outline"
-                                size="24"
-                            ></v-icon>
-                            <v-list-item-title
-                                style="
-                                    justify-content: end;
-                                    margin-left: 10px;
-                                    margin-right: 10px;
-                                    align-items: center;
-                                    display: inline-flex;
-                                "
-                                >Notificaties</v-list-item-title
-                            >
-                        </v-badge>
-                    </v-list-item>
+                   
                     <v-list-subheader>Uw bedrijf</v-list-subheader>
                     <v-list-item
                         v-if="!sessionStore.loggedInUser.department"
@@ -325,6 +323,13 @@ onMounted(async () => {
 const drawerWidth = ref(256);
 const widthPx = computed(() => {
     return `${drawerWidth.value / 2}px`;
+});
+
+const unreadNotifications = computed(() => {
+    if(!sessionStore.loggedInUser){ return [] }
+    return sessionStore.loggedInUser?.notifications?.filter(
+        (n) => n.read === false
+    )
 });
 
 function openSidebar() {

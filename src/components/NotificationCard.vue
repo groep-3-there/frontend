@@ -1,13 +1,15 @@
 <template>
     <v-card
-        class=""
-        max-width="500"
+        class="notification"
         :title="notification.title"
         :subtitle="notification.description"
         @click="$router.push(`${notification.link}`)"
     ></v-card>
 </template>
 <style>
+.notification{
+    width: 100%;
+}
 .author-name {
     color: rgb(120, 120, 120);
     font-size: small;
