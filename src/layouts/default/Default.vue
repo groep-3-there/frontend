@@ -162,7 +162,7 @@
                         ></v-list-item>
                         <v-list-item
                             v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment(
-                                'DEPARTMENT_MANAGE',
+                                'COMPANY_GRAPH_READ',
                                 sessionStore.loggedInUser?.department?.id,
                             )"
                             @click="$router.push(`/settings/${sessionStore.loggedInUser?.department?.id}`)"
