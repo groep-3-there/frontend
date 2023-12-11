@@ -25,7 +25,7 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
-    baseURL: "http://127.0.0.1:3000",
+    baseURL: "http://localhost:3000",
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     navigationTimeout: 60000
@@ -38,6 +38,7 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+      
     },
 
     {
@@ -73,6 +74,7 @@ export default defineConfig({
     timeout: 120000,
     stdout: 'ignore',
     stderr: 'pipe',
+    
   },
 });
 
