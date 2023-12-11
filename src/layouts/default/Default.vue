@@ -57,7 +57,6 @@
                     </v-list-item>
                     <v-list-item
                         v-else
-                        :key="1"
                         @click="loginPopup = true"
                         color="primary"
                         prepend-icon="mdi-account-plus"
@@ -67,7 +66,6 @@
                     </v-list-item>
                     <v-list-item
                         v-if="sessionStore.loggedInUser"
-                        :key="2"
                         @click="$router.push('/notifications')"
                         value="notifications"
                     >
@@ -102,7 +100,6 @@
                 <v-divider></v-divider>
                 <v-list density="compact" nav>
                     <v-list-item
-                        :key="3"
                         @click="$router.push('/')"
                         prepend-icon="mdi-home"
                         title="Home"
@@ -110,14 +107,12 @@
                     ></v-list-item>
 
                     <v-list-item
-                        :key="4"
                         @click="$router.push('/debug')"
                         prepend-icon="mdi-bug"
                         title="Debug"
                         value="debug"
                     ></v-list-item>
                     <v-list-item
-                        :key="5"
                         @click="$router.push('/challenges')"
                         prepend-icon="mdi-magnify"
                         title="Zoeken"
@@ -129,7 +124,6 @@
                     <v-list-subheader>Uw bedrijf</v-list-subheader>
                     <v-list-item
                         v-if="!sessionStore.loggedInUser.department"
-                        :key="9"
                         prepend-icon="mdi-briefcase-check-outline"
                         @click="companyRegisterPopup = true"
                         title="Registreer uw bedrijf"
@@ -138,7 +132,6 @@
 
                     <v-list-item
                         v-if="!sessionStore.loggedInUser.department"
-                        :key="9"
                         prepend-icon="mdi-briefcase-check-outline"
                         @click="joinCompanyPopup = true"
                         title="Sluit u aan bij bedrijf"
@@ -176,7 +169,6 @@
                                     sessionStore.loggedInUser?.department?.id,
                                 )
                             "
-                            :key="5"
                             @click="$router.push('/challenge/new')"
                             prepend-icon="mdi-plus-box-outline"
                             title="Challenge maken"
@@ -207,14 +199,12 @@
                         >
                             <v-list-subheader>Admin</v-list-subheader>
                             <v-list-item
-                                :key="8"
                                 @click="$router.push('/admin')"
                                 prepend-icon="mdi-security"
                                 title="Admin"
                                 value="admin"
                             ></v-list-item>
                             <v-list-item
-                                :key="8"
                                 @click="$router.push('/admin/grade-companies')"
                                 prepend-icon="mdi-briefcase-check-outline"
                                 title="Bedrijfsaanvragen"
@@ -222,7 +212,6 @@
                             >
                             </v-list-item>
                             <v-list-item
-                                :key="8"
                                 @click="$router.push('/admin/roles')"
                                 prepend-icon="mdi-account-group"
                                 title="Rollen bewerken"
@@ -230,7 +219,6 @@
                             >
                             </v-list-item>
                             <v-list-item
-                                :key="9"
                                 @click="$router.push('/admin/stats-dashboard')"
                                 prepend-icon="mdi-chart-bar"
                                 title="Statistieken"
