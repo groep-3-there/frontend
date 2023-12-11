@@ -71,7 +71,7 @@ namespace API {
     let authToken = localStorage.getItem("authToken") || "";
 
     export function hasAuthToken() {
-        return authToken != "";
+        return authToken != "";   
     }
     export function removeAuthToken() {
         localStorage.setItem("authToken", "");
