@@ -18,7 +18,7 @@ test('get a challenge', async ({ page }) => {
   });
 
   await page.locator('div').filter({ hasText: /^Zoeken$/ }).first().click();
-  console.log(page.innerHTML)
+  console.log(await page.content())
   await page.getByRole('heading', { name: 'Optimalisatie van Logistieke' }).click();
   await expect(page.getByRole('heading', { name: 'Optimalisatie van Logistieke' })).toBeVisible();
   await expect(page.getByText('LogiTech Solutions BV staat')).toBeVisible();
