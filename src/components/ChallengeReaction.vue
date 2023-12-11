@@ -1,5 +1,6 @@
 <template>
     <v-container
+        :id="`reaction-${props.challengeInput.id}`"
         class="reaction mb-4"
         :class="{ 'chosen-reaction': challengeInput.isChosenAnswer }"
     >
@@ -114,9 +115,13 @@
 import { ChallengeInput } from "@/models/ChallengeInput";
 import Tag from "@/components/Tag.vue";
 import API from "@/Api";
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import AreYouSurePopup from "./AreYouSurePopup.vue";
 import UserBubble from "./UserBubble.vue";
+import { useRoute } from "vue-router";
+const scrollToParam = useRoute().query.scrollTo;
+const scrollToId = Array.isArray(scrollToParam) ? Number(scrollToParam[0]) : Number(scrollToParam)
+
 const props = defineProps({
     challengeInput: {
         type: ChallengeInput,
@@ -129,7 +134,16 @@ const props = defineProps({
     },
 });
 
-const emit = defineEmits(["updateChallenge"]);
+onMounted(()=>{
+    if(scrollToParam && scrollToId == props.challengeInput.id){
+        const el = document.getElementById(`reaction-${props.challengeInput.id}`);
+        if(el){
+            el.scrollIntoView({behavior: "smooth"});
+        }
+    }
+})
+
+const emit = defineEmits(["updateChallenge" ,"setThisToSelectedAnswer"]);
 
 const smallText = computed(() => props.challengeInput.text.substring(0, 1000));
 const shortened = computed(
@@ -142,7 +156,7 @@ const markSelectedPopup = ref(false);
 async function markSelected() {
     markSelectedPopup.value = false;
     const updated = await API.markReactionAsChosen(props.challengeInput.id);
-    props.challengeInput.isChosenAnswer = updated.isChosenAnswer;
+    emit("setThisToSelectedAnswer")
     emit("updateChallenge");
 }
 </script>

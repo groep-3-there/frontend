@@ -2,7 +2,7 @@
     <Banner title="Notificaties" subtitle="Uw account" banner-src="/banners/banner-1.jpg"/>
     <h3 class="mx-auto font-weight-light text-center my-8">Hier vind u notificaties over nieuwe challenges bij bedrijven die u volgt, updates over uw bedrijfsaanvraag en meer!</h3>
     <v-row>
-        <v-col cols="12" class="d-flex justify-center mx-auto">
+        <v-col cols="6" class="d-flex justify-center mx-auto">
             <v-switch
                 label="Stuur mij emails bij nieuwe notificaties"
                 class="d-flex justify-center"
@@ -11,22 +11,29 @@
                 v-model="emailPreference"
                 ></v-switch>
         </v-col>
+        <v-col cols="6" class="d-flex justify-center mx-auto">
+            <v-tooltip :text="'Alle notificaties verwijderen'" :location="'top'">
+            <template v-slot:activator="{ props }">
+            <v-icon v-bind="props" class="delete-notifications" @click="clearNotifications" color="red">mdi-delete</v-icon>
+        </template>
+        </v-tooltip>
+        </v-col>
     </v-row>
     <v-divider class="my-4"></v-divider>
     <v-row>
-        <v-col v-if="notifications.length > 0" md="6" cols="12" class="mx-auto">
+        <v-col v-if="notifications.length > 0" md="8" cols="11" class="mx-auto">
             <NotificationCard
                 v-for="notification in notifications"
                 :key="notification.id"
                 :notification="notification"
-                class="mr-4"
+                class="mt-3"
                 @click="
                     notification.read = true;
                     //Remove notification from list
+                    API.setNotificationToRead(notification.id);
                     notifications = notifications.filter(
                         (n) => n.id !== notification.id,
                     );
-                    API.setNotificationToRead(notification.id);
                 "
             />
         </v-col>
@@ -61,10 +68,18 @@ onMounted(async () => {
     //Only get unread notifications
     if(!user.value){ return }
     
-    notifications.value = user.value?.notifications.filter(
+    notifications.value = user.value?.notifications.reverse().filter(
         (n) => n.read === false,
     );
 });
+function clearNotifications(){
+    notifications.value.forEach((n) => {
+        n.read = true;
+        API.setNotificationToRead(n.id);
+    });
+    sessionStore.forceUpdate(); // for the sidebar
+    notifications.value = [];
+}
 
 function setEmailPreference() {
     // updatingEmailPreference.value = true;
@@ -76,4 +91,8 @@ function setEmailPreference() {
 }
 
 </script>
-<style lang="css" scoped></style>
+<style lang="css" scoped>
+.delete-notifications:hover{
+    cursor: pointer;
+}
+</style>

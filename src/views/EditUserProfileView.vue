@@ -23,7 +23,7 @@
                                     </v-img>
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
-                                        <v-card-text class="text-black"
+                                        <v-card-text class=""
                                             >Huidige avatar</v-card-text
                                         >
                                         <v-btn

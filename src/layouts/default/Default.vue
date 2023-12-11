@@ -232,13 +232,16 @@
 
                
                 <template v-slot:append>
-                    <v-list density="compact" nav v-if="sessionStore.loggedInUser">
-                    <v-list-item
-                        @click="logOut()"
-                        prepend-icon="mdi-logout"
-                        title="Uitloggen"
-                        value="shared"
-                    ></v-list-item>
+
+                    <v-list density="compact" nav >
+                        <v-switch prepend-icon="mdi-theme-light-dark" v-model="darkMode" label="Donkere modus"></v-switch>
+                        <v-list-item
+                        v-if="sessionStore.loggedInUser"
+                            @click="logOut()"
+                            prepend-icon="mdi-logout"
+                            title="Uitloggen"
+                            value="shared"
+                        ></v-list-item>
                 </v-list>
                 </template>
             </v-navigation-drawer>
@@ -288,7 +291,7 @@
 </style>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, watch } from "vue";
 import { ref } from "vue";
 import { useDisplay } from "vuetify";
 import LoginPopup from "@/components/LoginPopup.vue";
@@ -303,6 +306,9 @@ import InviteListener from "@/components/InviteListener.vue";
 import { useSessionStore } from "@/store/sessionStore";
 import { useRoute } from "vue-router";
 import router from "@/router";
+import { useTheme } from 'vuetify'
+const theme = useTheme()
+
 const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay();
 const sessionStore = useSessionStore();
 const loginPopup = ref(false);
@@ -310,11 +316,13 @@ const userRegisterPopup = ref(false);
 const sidebarVisibleOnSmallDevice = ref(true);
 const companyRegisterPopup = ref(false);
 const joinCompanyPopup = ref(false);
+const darkMode = ref(false);
 
 onMounted(async () => {
     if (mdAndDown.value) {
         sidebarVisibleOnSmallDevice.value = false;
     }
+    darkMode.value =  theme.global.name.value == "dark"
 });
 
 //Drawer size
@@ -332,6 +340,10 @@ const unreadNotifications = computed(() => {
     );
 });
 
+watch(darkMode, (dark)=>{
+    theme.global.name.value = dark ? 'dark' : 'light'
+
+})
 function openSidebar() {
     sidebarVisibleOnSmallDevice.value = !sidebarVisibleOnSmallDevice.value;
 }

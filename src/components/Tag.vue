@@ -6,7 +6,6 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-
 const props = defineProps({
     type: {
         type: String,
@@ -24,7 +23,7 @@ const color = computed(() => {
         case "feedback":
             return "primary";
         case "question":
-            return "primary";
+            return "lightblue";
         default:
             return "darkgreen";
     }

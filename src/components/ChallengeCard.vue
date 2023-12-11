@@ -1,10 +1,7 @@
 <template>
     <v-card
         @click="$router.push(`/challenge/${challenge.id}`)"
-        class="mx-2 card-outter"
-        min-width="350"
-        width="350"
-        height="350"
+        class="mx-2 card"
         hover
     >
         <v-img
@@ -36,6 +33,10 @@
     </v-card>
 </template>
 <style>
+.card{
+    min-width: min(60vw,350px);
+    width: min(60vw, 350px);
+}
 .author-name {
     color: rgb(120, 120, 120);
     font-size: small;

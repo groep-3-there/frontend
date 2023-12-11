@@ -14,7 +14,7 @@
             :subtitle="'Admin paneel'"
         >
         </Banner>
-        <div style="background-color: aliceblue; padding: 1%">
+        <div :class="{'bg-aliceblue' : !isDarkmode, 'transparent': isDarkmode}"  style="padding: 1%">
             <v-row>
                 <v-col cols="12" sm="4">
                     <v-card>
@@ -102,7 +102,11 @@ const companiesWithBranchesFiltered: Ref<any> = ref({});
 const challengesInputsWithMonth: Ref<any> = ref({});
 const today = new Date().toISOString().split("T")[0];
 const colorPalette = ["#00D8B6", "#008FFB", "#FEB019", "#FF4560", "#775DD0"];
-
+import { useTheme } from 'vuetify'
+const theme = useTheme()
+const isDarkmode = computed(()=>{
+    return theme.global.name.value === 'dark'
+})
 onMounted(async () => {
     totalChallenges.value = await Api.getGraphChallenges();
     challengesTotalWithMonth.value = await Api.getGraphChallengesTotalWithMonth(
@@ -141,11 +145,13 @@ onMounted(async () => {
 
 const ChallengeChartOptions = computed(() => {
     return {
+        theme:{
+            mode: isDarkmode.value ? 'dark' : 'light'
+        },
         chart: {
             id: "challengechart",
             type: "area",
             width: "100%",
-            background: "#fff",
             sparkline: {
                 enabled: true,
             },
@@ -200,11 +206,13 @@ const ChallengeChartSeries = computed(() => {
 
 const UserChartOptions = computed(() => {
     return {
+        theme:{
+            mode: isDarkmode.value ? 'dark' : 'light'
+        },
         chart: {
             id: "userchart",
             type: "area",
             width: "100%",
-            background: "#fff",
             sparkline: {
                 enabled: true,
             },
@@ -221,6 +229,11 @@ const UserChartOptions = computed(() => {
         yaxis: {
             min: 0,
             show: false,
+            labels: {
+                formatter: function (val: any) {
+                    return Math.floor(val);
+                },
+            },
         },
         xaxis: {},
         colors: ["#DCE6EC"],
@@ -255,11 +268,13 @@ const UserChartSeries = computed(() => {
 
 const CompanyChartOptions = computed(() => {
     return {
+        theme:{
+            mode: isDarkmode.value ? 'dark' : 'light'
+        },
         chart: {
             id: "companychart",
             type: "area",
             width: "100%",
-            background: "#fff",
             sparkline: {
                 enabled: true,
             },
@@ -275,6 +290,11 @@ const CompanyChartOptions = computed(() => {
         ),
         yaxis: {
             show: false,
+            labels: {
+                formatter: function (val: any) {
+                    return Math.floor(val);
+                },
+            },
         },
         xaxis: {},
         colors: ["#DCE6EC"],
@@ -309,11 +329,13 @@ const CompanyChartSeries = computed(() => {
 
 const ChallengeTimeChartOptions = computed(() => {
     return {
+        theme:{
+            mode: isDarkmode.value ? 'dark' : 'light'
+        },
         chart: {
             id: "challengeTimeChart",
             type: "line",
             width: "100%",
-            background: "#fff",
             zoom: {
                 enabled: true,
             },
@@ -397,11 +419,13 @@ const ChallengeTimeChartSeries = computed(() => {
 
 const ChallengeStatusChartOptions = computed(() => {
     return {
+        theme:{
+            mode: isDarkmode.value ? 'dark' : 'light'
+        },
         chart: {
             id: "challengeStatusChart",
             type: "donut",
             width: "100%",
-            background: "#fff",
         },
         dataLabels: {
             enabled: true,
@@ -448,6 +472,9 @@ const ChallengeStatusChartSeries = computed(() => {
 
 const CompanyBranchChartOptions = computed(() => {
     return {
+        theme:{
+            mode: isDarkmode.value ? 'dark' : 'light'
+        },
         chart: {
             type: "bar",
         },
@@ -515,10 +542,12 @@ const CompanyBranchChartSeries = computed(() => {
 
 const ChallengeInputChartOptions = computed(() => {
     return {
+        theme:{
+            mode: isDarkmode.value ? 'dark' : 'light'
+        },
         chart: {
             type: "bar",
             width: "100%",
-            background: "#fff",
             stacked: true,
         },
         plotOptions: {
