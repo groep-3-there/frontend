@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import * as jsonFiles from './jsonFiles.ts';
+import * as jsonFiles from './jsonFiles';
 
 test.beforeEach(async ({ page }) => {
   await page.route('*/**/api/v1/user/3', async (route) => {
