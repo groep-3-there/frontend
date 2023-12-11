@@ -221,6 +221,11 @@ const UserChartOptions = computed(() => {
         yaxis: {
             min: 0,
             show: false,
+            labels: {
+                formatter: function (val: any) {
+                    return Math.floor(val);
+                },
+            },
         },
         xaxis: {},
         colors: ["#DCE6EC"],
@@ -275,6 +280,11 @@ const CompanyChartOptions = computed(() => {
         ),
         yaxis: {
             show: false,
+            labels: {
+                formatter: function (val: any) {
+                    return Math.floor(val);
+                },
+            },
         },
         xaxis: {},
         colors: ["#DCE6EC"],
