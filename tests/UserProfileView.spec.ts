@@ -2,19 +2,19 @@ import {test, expect} from '@playwright/test';
 import * as jsonFiles from './jsonFiles';
 
 test('View profile', async ({page}) => {
-  await page.route('*/**/api/v1/user/2', async (route) => {
+  await page.route('*/**/user/2', async (route) => {
     await route.fulfill({
       json: jsonFiles.mockProfileEline
     });
   });
 
-  await page.route('*/**/api/v1/auth/user', async (route) => {
+  await page.route('*/**/auth/user', async (route) => {
     await route.fulfill({
       json: jsonFiles.mockProfileEline
     });
   });
 
-  await page.route('*/**/api/v1/tags', async (route) => {
+  await page.route('*/**/tags', async (route) => {
     await route.fulfill({
       json: jsonFiles.mockTags
     });
@@ -32,19 +32,19 @@ test('View profile', async ({page}) => {
 });
 
 test('Edit profile', async ({page}) => {
-  await page.route('*/**/api/v1/user/2', async (route) => {
+  await page.route('*/**/user/2', async (route) => {
     await route.fulfill({
       json: jsonFiles.mockProfileEline
     });
   });
 
-  await page.route('*/**/api/v1/auth/user', async (route) => {
+  await page.route('*/**/auth/user', async (route) => {
     await route.fulfill({
       json: jsonFiles.mockProfileEline
     });
   });
 
-  await page.route('*/**/api/v1/tags', async (route) => {
+  await page.route('*/**/tags', async (route) => {
     await route.fulfill({
       json: jsonFiles.mockTags
     });
