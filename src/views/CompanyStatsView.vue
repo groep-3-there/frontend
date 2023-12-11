@@ -54,7 +54,6 @@ const theme = useTheme()
 const isDarkmode = computed(()=>{
     return theme.global.name.value === 'dark'
 })
-
 onMounted(async () => {
     if (id) {
         company.value = await Api.getCompany(id);

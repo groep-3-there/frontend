@@ -308,6 +308,7 @@ import { useRoute } from "vue-router";
 import router from "@/router";
 import { useTheme } from 'vuetify'
 const theme = useTheme()
+
 const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay();
 const sessionStore = useSessionStore();
 const loginPopup = ref(false);
