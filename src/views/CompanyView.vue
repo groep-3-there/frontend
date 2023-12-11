@@ -7,36 +7,48 @@
             :subtitle="'Bedrijfsprofiel'"
             :banner-src="company.getBannerForCompany()"
         />
-        <!--Heart icon when pressed follow the company-->
-
-        <div @click="console.log(isFollowing)">
-            <div v-if="isFollowing">
-                <v-icon
-                    @click="
-                        API.stopFollowingCompanyAsLoggedInUser(company.id);
-                        company.followerIds = company.followerIds.filter(
-                            (f) => f != userId,
-                        );
-                    "
-                    >mdi-heart</v-icon
-                >
-            </div>
-            <div v-else>
-                <v-icon
-                    @click="
-                        API.followCompanyAsLoggedInUser(company.id);
-                        company.followerIds.push(userId);
-                    "
-                    >mdi-heart-outline</v-icon
-                >
-            </div>
-        </div>
         <v-row>
-            <v-col md="3" class="d-flex align-center justify-center">
-                <SmallCountryFlag :country="company.country" class="mr-2" />
-                <p>
-                    {{ company.country.name }}
-                </p>
+            <v-col md="3" class="d-flex align-center justify-space-around">
+                <!--Heart icon when pressed follow the company-->
+
+                <v-tooltip :text="isFollowing ? 'U volgt dit bedrijf' : 'Dit bedrijf volgen'" :location="'top'">
+                    <template v-slot:activator="{ props }"> 
+                        <div v-if="isFollowing" v-bind="props">
+                            <v-icon
+                                @click="
+                                    API.stopFollowingCompanyAsLoggedInUser(
+                                        company.id,
+                                    );
+                                    company.followerIds =
+                                        company.followerIds.filter(
+                                            (f) => f != userId,
+                                        );
+                                "
+                                :color="'#ff4040'"
+                                :size="36"
+                                >mdi-heart</v-icon
+                            >
+                        </div>
+    
+                        <div v-else v-bind="props">
+                            <v-icon
+                                @click="
+                                    API.followCompanyAsLoggedInUser(company.id);
+                                    company.followerIds.push(userId);
+                                "
+                                :size="36"
+                                >mdi-heart-outline</v-icon
+                            >
+                        </div>
+                    </template>
+                </v-tooltip>
+
+                <div class="d-flex align-center">
+                    <SmallCountryFlag :country="company.country" class="mr-2" />
+                    <p>
+                        {{ company.country.name }}
+                    </p>
+                </div>
             </v-col>
             <v-col cols="12" md="6" class="">
                 <div class="d-flex flex-wrap justify-center">
