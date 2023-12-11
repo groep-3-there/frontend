@@ -130,7 +130,6 @@ onMounted(async () => {
     
 }
 .challenge-section > h3 {
-    /* color: black; */
     transition:
         color 0.5s ease-in-out,
         letter-spacing 0.2s ease-in-out;
