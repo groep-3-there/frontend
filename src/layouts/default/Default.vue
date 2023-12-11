@@ -167,7 +167,7 @@
                                 sessionStore.loggedInUser?.department
                                     ?.parentCompany.name
                             "
-                            value="shared"
+                            value="user-header"
                         ></v-list-item>
                         <v-list-item
                             v-if="
@@ -183,17 +183,21 @@
                             value="create-challenge"
                         ></v-list-item>
                         <v-list-item
-                            v-if="
-                                sessionStore.loggedInUser?.hasPermissionAtDepartment(
-                                    'DEPARTMENT_MANAGE',
-                                    sessionStore.loggedInUser?.department?.id,
-                                )
-                            "
-                            @click="
-                                $router.push(
-                                    `/settings/${sessionStore.loggedInUser?.department?.id}`,
-                                )
-                            "
+                            v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                                'DEPARTMENT_MANAGE',
+                                sessionStore.loggedInUser?.department?.id,
+                            )"
+                            @click="$router.push(`/company/${sessionStore.loggedInUser?.department?.id}/stats-dashboard`)"
+                            prepend-icon="mdi-chart-bar"
+                            title="Statistieken"
+                            value="statistieken"
+                        ></v-list-item>
+                        <v-list-item
+                            v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                                'COMPANY_GRAPH_READ',
+                                sessionStore.loggedInUser?.department?.id,
+                            )"
+                            @click="$router.push(`/settings/${sessionStore.loggedInUser?.department?.id}`)"
                             prepend-icon="mdi-cog-outline"
                             title="Instellingen"
                             value="settings"
@@ -238,14 +242,17 @@
                 </v-list>
                 <v-divider></v-divider>
 
-                <v-list density="compact" nav v-if="sessionStore.loggedInUser">
+               
+                <template v-slot:append>
+                    <v-list density="compact" nav v-if="sessionStore.loggedInUser">
                     <v-list-item
                         @click="logOut()"
-                        prepend-icon="mdi-account-multiple"
-                        title="Log uit"
+                        prepend-icon="mdi-logout"
+                        title="Uitloggen"
                         value="shared"
                     ></v-list-item>
                 </v-list>
+                </template>
             </v-navigation-drawer>
 
             <v-main :class="{ sideBarSpacing: lgAndUp }">
@@ -306,6 +313,8 @@ import CompanyRegistrationPopUp from "@/components/CompanyRegistrationPopUp.vue"
 import JoinCompanyPopup from "@/components/JoinCompanyPopup.vue";
 import InviteListener from "@/components/InviteListener.vue";
 import { useSessionStore } from "@/store/sessionStore";
+import { useRoute } from "vue-router";
+import router from "@/router";
 const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay();
 const sessionStore = useSessionStore();
 const loginPopup = ref(false);
@@ -341,5 +350,6 @@ function openSidebar() {
 
 function logOut() {
     sessionStore.logOut();
+    router.push("/");
 }
 </script>

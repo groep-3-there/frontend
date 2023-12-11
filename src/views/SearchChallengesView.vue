@@ -5,15 +5,21 @@
         </h1>
 
         <v-row class="align-center">
-            <v-col cols="10" md="8">
+            <v-col cols="12" md="8">
                 <v-text-field
                     label="Zoekterm"
                     variant="underlined"
                     v-model="searchTerm"
                 ></v-text-field>
             </v-col>
-            <v-col cols="2"
-                ><v-btn
+            <v-col
+                cols="6"
+                md="2"
+                class="d-flex justify-md-end justify-md-center"
+
+                order="last"
+            >
+                <v-btn
                     class="zoekknop"
                     prepend-icon="mdi-magnify"
                     @click="search()"
@@ -23,11 +29,12 @@
                 </v-btn>
             </v-col>
             <v-col
-                cols="12"
+                cols="6"
                 md="2"
                 offset-md="0"
+                
                 order-md="first"
-                class="d-flex justify-center"
+                class="d-flex justify-md-center justify-end"
             >
                 <v-btn
                     class="filterknop"
@@ -66,21 +73,45 @@
         </v-row>
 
         <v-row>
-            <v-col cols="12" md="6">
-                <v-radio-group
-                    inline
-                    v-model="sort"
-                    class="d-flex justify-center justify-md-end"
+            <v-col cols="12" md="6" class="d-flex justify-end">
+                <v-tooltip
+                    :text="'Sorteren op nieuwste eerst'"
+                    :location="'top'"
                 >
-                    <v-radio
-                        label="Nieuwste eerst"
-                        value="newest_first"
-                    ></v-radio>
-                    <v-radio
-                        label="Einddatum dichtbij eerst"
-                        value="deadline_closest_first"
-                    ></v-radio>
-                </v-radio-group>
+                    <template v-slot:activator="{ props }">
+                        <p
+                            v-bind="props"
+                            class="department-filter-option"
+                            :class="{
+                                'text-primary': sort == 'newest_first',
+                                'text-coolgray': sort != 'newest_first',
+                            }"
+                            @click="sort = 'newest_first'"
+                        >
+                            Nieuwste eerst
+                        </p>
+                    </template>
+                </v-tooltip>
+                <v-tooltip
+                    :text="'Sorteren op einddatum dichtbij'"
+                    :location="'top'"
+                >
+                    <template v-slot:activator="{ props }">
+                        <p
+                            v-bind="props"
+                            @click="sort = 'deadline_closest_first'"
+                            class="department-filter-option"
+                            :class="{
+                                'text-primary':
+                                    sort == 'deadline_closest_first',
+                                'text-coolgray':
+                                    sort != 'deadline_closest_first',
+                            }"
+                        >
+                            Einddatum dichtbij eerst
+                        </p>
+                    </template>
+                </v-tooltip>
             </v-col>
             <v-col
                 cols="12"
@@ -265,5 +296,10 @@ async function getPage() {
 <style scoped>
 .title {
     padding: 4rem 0 0 0;
+}
+.department-filter-option {
+    cursor: pointer;
+    transition: color 0.2s;
+    margin-left: 10px;
 }
 </style>

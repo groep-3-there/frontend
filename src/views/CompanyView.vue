@@ -143,21 +143,23 @@
                 <v-spacer class="mb-4"></v-spacer>
             </v-col>
         </v-row>
-        <v-row class="challenge-hero d-flex justify-center">
-            <template
-                v-for="challenge in filteredChallenges"
-                :key="challenge.id"
-            >
-                <ChallengeCard :challenge="challenge" />
-            </template>
+        <v-row class="challenges">
+            <HorizontalScroll v-if="filteredChallenges.length">
+                <ChallengeCard v-for="challenge in filteredChallenges" :key="challenge.id" :challenge="challenge" />
+            </HorizontalScroll>
             <template v-if="filteredChallenges.length == 0">
-                <div class="d-flex flex-wrap justify-center">
+                <div class="d-flex flex-wrap justify-center mx-auto">
                     <p class="title">Geen challenges gevonden</p>
                 </div>
             </template>
         </v-row>
-
+        <v-divider class="my-8"></v-divider>
+        <div class="d-flex flex-wrap justify-center mt-8">
+            <h1 class="title">Leden</h1>
+        </div>
+        <v-spacer class="my-4"></v-spacer>
         <v-row class="d-flex justify-center flex-wrap user-bubbles mx-auto">
+            
             <UserBubble
                 v-for="user in members"
                 :with-name="false"
@@ -176,7 +178,7 @@
         <v-row>
             <p class="mx-auto">
                 <span v-for="department in departments" :key="department.id">
-                    {{ department.name }}&nbsp
+                    {{ department.name }}&nbsp;
                 </span>
             </p>
         </v-row>
@@ -313,12 +315,6 @@
     color: white;
 }
 
-.challenge-hero {
-    background-size: cover;
-    background-position: 0;
-    min-height: 400px;
-    max-height: fit-content;
-}
 
 .company-logo {
     max-width: min(80%, 25vw);
@@ -357,6 +353,7 @@ import DepartmentAddPopup from "@/components/DepartmentAddPopup.vue";
 import UserBubble from "@/components/UserBubble.vue";
 import Banner from "@/components/Banner.vue";
 import SmallCountryFlag from "@/components/SmallCountryFlag.vue";
+import HorizontalScroll from "@/components/HorizontalScroll.vue";
 const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay();
 
 const user = ref() as Ref<User | null>;

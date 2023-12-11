@@ -46,7 +46,6 @@
 }
 .hero-logo {
     width: min(40%, 25vw);
-
     border-radius: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
@@ -62,7 +61,7 @@ const props = defineProps({
     subtitle: String,
     darken: {
         type: Boolean,
-        default: false,
+        default: true,
     },
     logoClickSrc: {
         type: String,

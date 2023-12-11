@@ -61,7 +61,7 @@ async function getRequest(url: string) {
 
 namespace API {
     export const BACKEND_URL = import.meta.env.PROD
-        ? "http://matchmakergroep3.nl:8080"
+        ? "https://matchmakergroep3.nl:8443"
         : "http://localhost:8080";
     export const BASEURL = `${BACKEND_URL}/api/v1/`;
 
@@ -496,6 +496,22 @@ namespace API {
 
     export async function getGraphChallengesInputsWithMonth(from : string, till : string) {
         return await getRequest(`graph-data/challenge-inputs/filter/date?from=${from}&till=${till}`);
+    }
+
+    export async function getGraphCompanyChallengesWithMonth(from : string, till : string, companyId : number) {
+        return await getRequest(`graph-data/company/${companyId}/challenges/filter/date?from=${from}&till=${till}`);
+    }
+
+    export async function getGraphCompanyChallengesWithStatus(companyId : number) {
+        return await getRequest(`graph-data/company/${companyId}/challenges/status`);
+    }
+
+    export async function getGraphCompanyChallengesInputsWithMonth(from : string, till : string, companyId : number) {
+        return await getRequest(`graph-data/company/${companyId}/challenge-inputs/filter/date?from=${from}&till=${till}`);
+    }
+
+    export async function getGraphCompanyDepartments(companyId : number) {
+        return await getRequest(`graph-data/company/${companyId}/departments/users`);
     }
 
     export async function setNotificationToRead(id : number){
