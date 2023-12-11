@@ -5,6 +5,7 @@ import viteConfig from "./vite.config";
 export default mergeConfig(
     viteConfig,
     defineConfig({
+        workers: 1,
         test: {
             environment: "jsdom",
             exclude: [...configDefaults.exclude, "e2e/*"],
