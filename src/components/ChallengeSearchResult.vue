@@ -1,5 +1,5 @@
 <template>
-    <v-container class="challenge-card">
+    <v-container class="challenge-card" :class="{'challenge-card-darkmode': theme.global.current.value.dark}">
         <v-row class="d-flex justify-center">
             <v-col
                 cols="2"
@@ -80,6 +80,7 @@
                                 v-for="tag in challenge?.tags.split(',')"
                                 text="Tags van deze challenge"
                                 :location="'top'"
+                                :key="tag"
                             >
                                 <template v-slot:activator="{ props }">
                                     <Tag v-bind="props" :key="tag">{{
@@ -98,7 +99,9 @@
 <script setup lang="ts">
 import { Challenge } from "@/models/Challenge";
 import Tag from "@/components/Tag.vue";
+import { useTheme } from 'vuetify'
 
+const theme = useTheme()
 defineProps({
     challenge: Challenge,
 });
@@ -120,11 +123,26 @@ defineProps({
     margin: 1rem 0 0 0;
     border-radius: 15px;
     box-shadow: 2px 2px darkgray;
+    transition: box-shadow 0.2s ease-in-out;
 }
 .challenge-card:hover {
     cursor: pointer;
     box-shadow: 4px 4px darkgray;
 }
+.challenge-card-darkmode{
+    border: 1px solid black;
+    margin: 1rem 0 0 0;
+    border-radius: 15px;
+    box-shadow: 2px 2px rgb(51, 51, 51);
+
+}
+.challenge-card-darkmode:hover{
+    cursor: pointer;
+    box-shadow: 2px 2px rgb(86, 86, 86);
+
+}
+
+
 
 .image {
     min-width: 3rem;

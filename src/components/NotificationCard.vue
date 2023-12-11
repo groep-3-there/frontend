@@ -1,41 +1,23 @@
 <template>
     <v-card
         class="notification"
-        :title="notification.title"
-        :subtitle="notification.description"
         @click="$router.push(`${notification.link}`)"
-    ></v-card>
+    >
+    <div class="content">
+        <h3>
+            {{ notification.title }}
+        </h3>
+        <p class="text-coolgray">
+            {{ notification.description }}
+        </p>
+
+    </div>
+  </v-card>
 </template>
 <style>
-.notification{
+.content{
     width: 100%;
-}
-.author-name {
-    color: rgb(120, 120, 120);
-    font-size: small;
-}
-
-.description {
-    min-height: 100px;
-}
-
-.shorten-text {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-}
-
-.company-logo-small {
-    height: 36px;
-    width: 36px;
-    object-fit: cover;
-    border-radius: 100%;
-    margin-left: auto;
-}
-
-.card-actions {
-    margin-left: 10px;
+    padding: 10px;
 }
 </style>
 <script setup lang="ts">

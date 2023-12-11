@@ -29,9 +29,13 @@
                     ></v-list-item>
                 </template>
             </v-select>
-            <v-btn color="primary ml-2 p-0" @click="newRole"
-                ><v-icon>mdi-plus</v-icon></v-btn
-            >
+            <v-tooltip :text="'Nieuwe rol aanmaken'" :location="'top'">
+                <template v-slot:activator="{ props }">
+                    <v-btn v-bind="props" color="primary ml-2 p-0" @click="newRole"
+                        ><v-icon>mdi-plus</v-icon></v-btn
+                    >
+                </template>
+            </v-tooltip>
         </v-col>
     </v-row>
     <v-divider class="my-4"></v-divider>
@@ -191,8 +195,7 @@ async function saveChanges() {
     } catch (e) {
         snackbar.createSimple(`Er is iets misgegaan`, "error");
         return;
-    }
-    finally {
+    } finally {
         updating.value = false;
     }
     if (!result) {

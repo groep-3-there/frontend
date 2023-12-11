@@ -196,6 +196,7 @@
                     :challengeInput="input"
                     :key="input.id"
                     @update-challenge="loadChallenge"
+                    @setThisToSelectedAnswer="input.isChosenAnswer = true"
                 >
                 </ChallengeReaction>
                 <div class="my-4" ref="pageEnd"></div>

@@ -1,8 +1,9 @@
 <template>
     <div v-if="editor">
         <div
-            :class="{ 'red-border': showError }"
+            :class="{ 'red-border': showError, 'bg-menugray':true }"
             class="options d-flex flex-wrap"
+
         >
             <div
                 @click="editor.chain().focus().toggleBold().run()"
@@ -214,7 +215,6 @@
 }
 
 .options {
-    background-color: rgb(241, 241, 241);
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border-top: 1px solid gray;

@@ -23,7 +23,7 @@
                                     </v-img>
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
-                                        <v-card-text class="text-black"
+                                        <v-card-text class=""
                                             >Huidig bedrijfsprofiel foto</v-card-text
                                         >
                                         <v-btn
@@ -79,7 +79,7 @@
                                     </v-img>
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
-                                        <v-card-text class="text-black"
+                                        <v-card-text class=""
                                             >Huidig bedrijfsbanner</v-card-text
                                         >
                                         <v-btn
