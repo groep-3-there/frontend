@@ -32,9 +32,12 @@
             </v-col>
             <v-col cols="12" md="6" class="">
                 <div class="d-flex flex-wrap justify-center">
-                    <Tag v-for="tag in challenge.tags.split(',')" :key="tag">{{
+                    <template v-if="challenge.tags !== ''">
+                    <Tag  v-for="tag in challenge.tags.split(',')" :key="tag">{{
                         tag
                     }}</Tag>
+                    </template>
+                        
                 </div>
             </v-col>
             <v-col cols="12" md="3" class="d-flex justify-center align-center">
