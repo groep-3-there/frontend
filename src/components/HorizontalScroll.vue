@@ -1,10 +1,10 @@
 <template>
     <div class="wrapper">
         <div class="hor-nav hor-nav-left" v-if="!noScrollAvailable">
-            <v-icon @click="scroll(-1000)">mdi-chevron-left</v-icon>
+            <v-icon :color="isDarkmode ? 'white' : 'black'" @click="scroll(-1000)">mdi-chevron-left</v-icon>
         </div>
         <div class="hor-nav hor-nav-right" v-if="!noScrollAvailable">
-            <v-icon @click="scroll(1000)">mdi-chevron-right</v-icon>
+            <v-icon :color="isDarkmode ? 'white' : 'black'" @click="scroll(1000)">mdi-chevron-right</v-icon>
         </div>
         <div class="horizontal-scroll-content" ref="horizontalScroll">
             <slot></slot>
@@ -15,7 +15,11 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-
+import { useTheme } from 'vuetify'
+const theme = useTheme()
+const isDarkmode = computed(()=>{
+    return theme.global.name.value === 'dark'
+})
 const horizontalScroll = ref<HTMLElement | null>(null);
 
 const props = defineProps({
@@ -29,8 +33,8 @@ const props = defineProps({
     },
 });
 const noScrollAvailable = computed(() => {
-    return false;
-    // return (horizontalScroll.value?.scrollWidth || 0) <= (horizontalScroll.value?.clientWidth || 0);
+    // return false;
+    return (horizontalScroll.value?.scrollWidth || 0) <= (horizontalScroll.value?.clientWidth || 0);
 });
 
 function scroll(direction: number) {

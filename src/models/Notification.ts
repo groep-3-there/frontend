@@ -9,6 +9,6 @@ export class Notification {
         this.title = data.title;
         this.description = data.description;
         this.read = data.read;
-        this.link = data.userId;
+        this.link = data.link;
     }
 }

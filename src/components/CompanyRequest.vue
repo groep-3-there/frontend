@@ -55,7 +55,7 @@
     border: 1px solid grey;
     border-radius: 10px;
     padding: 30px;
-    background-color: rgb(232, 232, 232);
+    /* background-color: rgb(232, 232, 232); */
     margin: 10px;
 }
 </style>

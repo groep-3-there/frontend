@@ -7,7 +7,7 @@
             " :logo-src="sessionStore.loggedInUser?.department?.parentCompany?.getProfileOrDefaultImageUrl()
         " :title="'Statistieken'" :subtitle="'Dashboard'">
         </Banner>
-        <div style="background-color: aliceblue; padding: 1%">
+        <div style="padding: 1%" :class="{'bg-aliceblue' : !isDarkmode, 'transparent': isDarkmode}">
             <v-row>
                 <v-col cols="12" sm="6">
                     <apexchart :options="ChallengeStatusChartOptions" :series="ChallengeStatusChartSeries"></apexchart>
@@ -49,6 +49,11 @@ const challengesInputsWithMonth: Ref<any> = ref({});
 const departmentsWithStaff: Ref<any> = ref({});
 const today = new Date().toISOString().split("T")[0];
 const colorPalette = ["#00D8B6", "#008FFB", "#FEB019", "#FF4560", "#775DD0"];
+import { useTheme } from 'vuetify'
+const theme = useTheme()
+const isDarkmode = computed(()=>{
+    return theme.global.name.value === 'dark'
+})
 
 onMounted(async () => {
     if (id) {
@@ -80,11 +85,13 @@ onMounted(async () => {
 
 const ChallengeStatusChartOptions = computed(() => {
     return {
+        theme:{
+            mode: isDarkmode.value ? 'dark' : 'light'
+        },
         chart: {
             id: "challengeStatusChart",
             type: "donut",
             width: "100%",
-            background: "#fff",
         },
         dataLabels: {
             enabled: true,
@@ -131,10 +138,12 @@ const ChallengeStatusChartSeries = computed(() => {
 
 const DepartmentChartOptions = computed(() => {
     return {
+        theme:{
+            mode: isDarkmode.value ? 'dark' : 'light'
+        },
         chart: {
             type: 'polarArea',
             width: "100%",
-            background: "#fff",
         },
         stroke: {
             colors: ['#fff']
@@ -164,10 +173,12 @@ const DepartmentChartSeries = computed(() => {
 
 const ChallengeInputChartOptions = computed(() => {
     return {
+        theme:{
+            mode: isDarkmode.value ? 'dark' : 'light'
+        },
         chart: {
             type: "bar",
             width: "100%",
-            background: "#fff",
             stacked: true,
         },
         plotOptions: {
@@ -229,11 +240,13 @@ const ChallengeInputChartSeries = computed(() => {
 
 const ChallengeTimeChartOptions = computed(() => {
     return {
+        theme:{
+            mode: isDarkmode.value ? 'dark' : 'light'
+        },
         chart: {
             id: "challengeTimeChart",
             type: "line",
             width: "100%",
-            background: "#fff",
             zoom: {
                 enabled: true,
             },

@@ -1,6 +1,6 @@
 <template>
     <section class="about-section animate-right">
-        <h3>⭐Wat is MatchMaker?</h3>
+        <h3 color="black">⭐Wat is MatchMaker?</h3>
         <p>
             Matchmaker is een innovatief bedrijf dat excelleert in het verbinden
             van problemen met doeltreffende oplossingen. Met een scherp oog voor
@@ -75,7 +75,7 @@ import LoginPopup from "./LoginPopup.vue";
     }
 }
 .about-section > h3 {
-    color: black;
+    /* color: black; */
     transition:
         color 0.5s ease-in-out,
         letter-spacing 0.2s ease-in-out;

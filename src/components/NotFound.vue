@@ -19,7 +19,7 @@
 
 .text {
     font-weight: 400;
-    color: rgb(0, 0, 0);
+    /* color: rgb(0, 0, 0); */
 }
 
 .hero {
