@@ -155,6 +155,16 @@
                                 'DEPARTMENT_MANAGE',
                                 sessionStore.loggedInUser?.department?.id,
                             )"
+                            @click="$router.push(`/company/${sessionStore.loggedInUser?.department?.id}/stats-dashboard`)"
+                            prepend-icon="mdi-chart-bar"
+                            title="Statistieken"
+                            value="statistieken"
+                        ></v-list-item>
+                        <v-list-item
+                            v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                                'COMPANY_GRAPH_READ',
+                                sessionStore.loggedInUser?.department?.id,
+                            )"
                             @click="$router.push(`/settings/${sessionStore.loggedInUser?.department?.id}`)"
                             prepend-icon="mdi-cog-outline"
                             title="Instellingen"

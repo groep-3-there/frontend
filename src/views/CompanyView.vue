@@ -144,7 +144,7 @@
         <v-row>
             <p class="mx-auto">
                 <span v-for="department in departments" :key="department.id">
-                    {{ department.name }}&nbsp
+                    {{ department.name }}&nbsp;
                 </span>
             </p>
         </v-row>
