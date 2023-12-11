@@ -1,6 +1,7 @@
 import { Department } from "./Department";
 import { Image } from "./Image";
 import { Role } from "./Role";
+import { Notification } from "./Notification";
 
 export class User {
     id: number;
@@ -18,6 +19,8 @@ export class User {
     phoneNumber: string;
     role: Role | null;
     department: Department | null;
+    notifications: Notification[] | [];
+    allowedEmailNotifications: boolean;
 
     constructor(data: any) {
         this.id = data.id;
@@ -41,6 +44,8 @@ export class User {
         this.department = data.department
             ? new Department(data.department)
             : null;
+        this.notifications = data.notifications.map((n:any) => new Notification(n))
+        this.allowedEmailNotifications = data.allowedEmailNotifications || false;
     }
 
     getAvatarOrDefaultUrl() {
@@ -70,9 +75,9 @@ export class User {
         if (!this.department || !this.role) {
             return false;
         }
-        if (this.role.isMatchmaker) {
-            return true;
-        }
+        // if (this.role.isMatchmaker) {
+        //     return true;
+        // }
         if (this.department.id !== departmentId) {
             return false;
         }

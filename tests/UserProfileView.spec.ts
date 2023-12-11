@@ -4,7 +4,7 @@ import * as jsonFiles from './jsonFiles';
 test('View profile', async ({page}) => {
   await page.route('**/user/2', async (route) => {
     await route.fulfill({
-      json: jsonFiles.mockProfileEline
+      json: jsonFiles.mockChallengerEline
     });
   });
 
@@ -12,7 +12,7 @@ test('View profile', async ({page}) => {
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify(jsonFiles.mockProfileEline),
+      body: JSON.stringify(jsonFiles.mockChallengerEline),
     });
 
     await page.route('**/tags', async (route) => {
@@ -39,7 +39,7 @@ test('Edit profile', async ({page}) => {
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify(jsonFiles.mockProfileEline),
+      body: JSON.stringify(jsonFiles.mockChallengerEline),
     });
   });
 
@@ -47,7 +47,7 @@ test('Edit profile', async ({page}) => {
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify(jsonFiles.mockProfileEline),
+      body: JSON.stringify(jsonFiles.mockChallengerEline),
     });
   });
 

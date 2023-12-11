@@ -285,15 +285,11 @@ const standardTags: Ref<Tag[]> = ref([]);
 const banner = ref([]);
 const images = ref([]);
 const tags = ref([] as any);
-const date = ref("");
+const date : Ref<string | null> = ref(null);
 const editChallengeForm = ref(null) as any;
 const idParam = useRoute().params.id;
 let id = parseInt(Array.isArray(idParam) ? idParam[0] : idParam);
 function visibilityProperties(item: any) {
-    return {
-        title: item.title,
-        subtitle: item.subtitle,
-    };
     return {
         title: item.title,
         subtitle: item.subtitle,
@@ -316,7 +312,7 @@ onMounted(async () => {
         }
     })?.title;
     tags.value = originalChallenge.value.tags.split(",");
-    date.value = originalChallenge.value.endDate.toISOString().slice(0, 10);
+    date.value = originalChallenge.value.endDate?.toISOString().slice(0, 10) || null;
     standardTags.value = await Api.getTags();
 });
 

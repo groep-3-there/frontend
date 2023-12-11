@@ -5,7 +5,7 @@
             ⭐Nieuwste challenges van {{ user?.department.parentCompany.name }}
         </h3>
         <v-divider class="mb-2"></v-divider>
-        <HorizontalScroll>
+        <HorizontalScroll v-if="companyChallenges.length">
             <ChallengeCard
                 v-for="challenge in companyChallenges"
                 :key="challenge.id"
@@ -13,6 +13,9 @@
                 class="mr-4"
             />
         </HorizontalScroll>
+        <p class="no-challenge-msg" v-if="companyChallenges.length === 0">
+            Er zijn nog geen challenges van jouw bedrijf. <RouterLink to="/challenge/new">Maak er een aan!</RouterLink>
+        </p>
     </section>
     <v-spacer class="my-12"></v-spacer>
     <section v-if="user!.department" class="challenge-section animate-right">
@@ -98,6 +101,10 @@ onMounted(async () => {
 });
 </script>
 <style scoped>
+.no-challenge-msg{
+    font-size: 0.8em;
+
+}
 .end-text {
     width: min(90%, 800px);
     font-size: 1.3em;
@@ -111,11 +118,17 @@ onMounted(async () => {
     font-weight: 400;
     padding-left: 40px;
     padding-right: 40px;
-    max-width: 70%;
+    max-width: 90%;
     margin-left: auto;
     margin-right: auto;
 }
-
+@media screen and (max-width: 1000px) {
+    .challenge-section{
+        max-width: 100%;
+        padding:10px;
+    }
+    
+}
 .challenge-section > h3 {
     color: black;
     transition:
@@ -155,10 +168,11 @@ onMounted(async () => {
 
 .cto-action {
     position: absolute;
+    width: 100%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    font-size: 2em;
+    font-size: 1.8em;
 }
 </style>

@@ -79,14 +79,29 @@ const routes = [
                 component: () => import("@/views/CompanyRequestView.vue"),
             },
             {
+                path: "admin/roles",
+                name: "Roles",
+                component: () => import("@/views/RoleEditView.vue"),
+            },
+            {
                 path: "admin/stats-dashboard",
                 name: "Admin Stats",
                 component: () => import("@/views/AdminStatsView.vue"),
             },
             {
+                path: "company/:id/stats-dashboard",
+                name: "Company Stats",
+                component: () => import("@/views/CompanyStatsView.vue"),
+            },
+            {
                 path: "settings/:id",
                 name: "Settings",
                 component: () => import("@/views/DepartmentSettingsView.vue"),
+            },
+            {
+                path: "notifications",
+                name: "Notifications",
+                component: () => import("@/views/NotificationsView.vue"),
             }
         ],
     },

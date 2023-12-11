@@ -13,23 +13,17 @@
         </v-row>
 
         <v-row class="personalia">
-            <v-col cols="6" class="image d-flex">
-                <img
-                    width="64"
-                    height="64"
-                    :src="challengeInput.author.getAvatarOrDefaultUrl()"
-                    class="author-profile-picture"
-                />
-
-                <div cols="2" class="name ml-2" justify-start>
-                    <p>{{ challengeInput.author.name }}</p>
-                    <p class="author-subtitle">
-                        {{ challengeInput.author.getSubtitle() }}
-                    </p>
-                </div>
+            <v-col cols="9" md="6" class="image d-flex">
+                
+                <UserBubble
+                    :user="challengeInput.author"
+                    class="ml-2"
+                    :size="64"
+                ></UserBubble>
             </v-col>
             <v-col
-                cols="6"
+                cols="3"
+                md="6"
                 class="reaction-tag d-flex justify-end"
                 align-self="center"
             >
@@ -110,6 +104,10 @@
     font-weight: bolder;
     cursor: pointer;
 }
+.reaction-tag{
+    min-width: fit-content;
+    padding:0;
+}
 </style>
 
 <script setup lang="ts">
@@ -118,6 +116,7 @@ import Tag from "@/components/Tag.vue";
 import API from "@/Api";
 import { computed, ref } from "vue";
 import AreYouSurePopup from "./AreYouSurePopup.vue";
+import UserBubble from "./UserBubble.vue";
 const props = defineProps({
     challengeInput: {
         type: ChallengeInput,

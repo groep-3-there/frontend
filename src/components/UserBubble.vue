@@ -40,7 +40,7 @@
 }
 .user-box:hover {
     cursor: pointer;
-    border-bottom: 1px solid #c4c4c4;
+    /* border-bottom: 1px solid #c4c4c4; */
 }
 </style>
 <script setup lang="ts">

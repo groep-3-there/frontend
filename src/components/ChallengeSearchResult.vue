@@ -24,26 +24,22 @@
                 </v-row>
 
                 <v-row no-gutters class="date-and-tags align-self-end">
-                    <v-col
-                        v-if="challenge?.endDate"
-                        cols="12"
-                        md="4"
-                        class="d-flex align-center"
-                    >
-                        <p>
-                            <v-icon>mdi-calendar-blank</v-icon>
+                    <v-col cols="12" md="4" class="d-flex align-center">
+                        <template v-if="challenge?.endDate">
+                            <p>
+                                <v-icon>mdi-calendar-blank</v-icon>
 
-                            {{
-                                new Date(challenge.endDate).toLocaleDateString(
-                                    "nl-nl",
-                                    {
+                                {{
+                                    new Date(
+                                        challenge.endDate,
+                                    ).toLocaleDateString("nl-nl", {
                                         day: "numeric",
                                         month: "long",
                                         year: "numeric",
-                                    },
-                                )
-                            }}
-                        </p>
+                                    })
+                                }}
+                            </p>
+                        </template>
                     </v-col>
                     <v-col>
                         <template v-if="challenge?.status == 'AFGEROND'">
