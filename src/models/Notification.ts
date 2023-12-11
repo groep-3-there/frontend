@@ -7,7 +7,7 @@ export class Notification {
     constructor(data: any) {
         this.id = data.id;
         this.title = data.title;
-        this.description = data.message;
+        this.description = data.description;
         this.read = data.read;
         this.link = data.userId;
     }

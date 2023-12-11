@@ -29,7 +29,6 @@
                     API.setNotificationToRead(notification.id);
                 "
             />
-            
         </v-col>
         <v-col v-else>
             <p class="mx-auto font-weight-light text-center my-8">Geen ongelezen meldingen</p>

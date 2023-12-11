@@ -55,7 +55,6 @@
                             {{ sessionStore.loggedInUser?.getSubtitle() }}
                         </p>
                     </v-list-item>
-
                     <v-list-item
                         v-else
                         :key="1"
@@ -67,13 +66,16 @@
                     >
                     </v-list-item>
                     <v-list-item
+                        v-if="sessionStore.loggedInUser"
                         :key="2"
                         @click="$router.push('/notifications')"
                         value="notifications"
                     >
                         <v-badge
                             style="display: block; margin: 0px"
-                            :color="unreadNotifications.length > 0 ? 'red' : 'grey' "
+                            :color="
+                                unreadNotifications.length > 0 ? 'red' : 'grey'
+                            "
                             :inline="true"
                             size
                             :content="unreadNotifications.length"
@@ -100,7 +102,7 @@
                 <v-divider></v-divider>
                 <v-list density="compact" nav>
                     <v-list-item
-                        :key="1"
+                        :key="3"
                         @click="$router.push('/')"
                         prepend-icon="mdi-home"
                         title="Home"
@@ -108,14 +110,14 @@
                     ></v-list-item>
 
                     <v-list-item
-                        :key="1"
+                        :key="4"
                         @click="$router.push('/debug')"
                         prepend-icon="mdi-bug"
                         title="Debug"
                         value="debug"
                     ></v-list-item>
                     <v-list-item
-                        :key="4"
+                        :key="5"
                         @click="$router.push('/challenges')"
                         prepend-icon="mdi-magnify"
                         title="Zoeken"
@@ -124,7 +126,6 @@
                 </v-list>
                 <v-divider></v-divider>
                 <v-list density="compact" nav v-if="sessionStore.loggedInUser">
-                   
                     <v-list-subheader>Uw bedrijf</v-list-subheader>
                     <v-list-item
                         v-if="!sessionStore.loggedInUser.department"
@@ -326,10 +327,12 @@ const widthPx = computed(() => {
 });
 
 const unreadNotifications = computed(() => {
-    if(!sessionStore.loggedInUser){ return [] }
+    if (!sessionStore.loggedInUser) {
+        return [];
+    }
     return sessionStore.loggedInUser?.notifications?.filter(
-        (n) => n.read === false
-    )
+        (n) => n.read === false,
+    );
 });
 
 function openSidebar() {
