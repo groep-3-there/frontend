@@ -55,10 +55,8 @@
                             {{ sessionStore.loggedInUser?.getSubtitle() }}
                         </p>
                     </v-list-item>
-
                     <v-list-item
                         v-else
-                        :key="1"
                         @click="loginPopup = true"
                         color="primary"
                         prepend-icon="mdi-account-plus"
@@ -66,26 +64,55 @@
                         value="home-login"
                     >
                     </v-list-item>
+                    <v-list-item
+                        v-if="sessionStore.loggedInUser"
+                        @click="$router.push('/notifications')"
+                        value="notifications"
+                    >
+                        <v-badge
+                            style="display: block; margin: 0px"
+                            :color="
+                                unreadNotifications.length > 0 ? 'red' : 'grey'
+                            "
+                            :inline="true"
+                            size
+                            :content="unreadNotifications.length"
+                        >
+                            <v-icon
+                                style="margin-right: 10px; margin-left: -4px"
+                                icon="mdi-bell-outline"
+                                size="24"
+                            ></v-icon>
+                            <v-list-item-title
+                                style="
+                                    justify-content: end;
+                                    margin-left: 10px;
+                                    margin-right: 10px;
+                                    align-items: center;
+                                    display: inline-flex;
+                                "
+                                >Notificaties</v-list-item-title
+                            >
+                        </v-badge>
+                    </v-list-item>
                 </v-list>
 
                 <v-divider></v-divider>
                 <v-list density="compact" nav>
                     <v-list-item
-                        :key="1"
                         @click="$router.push('/')"
                         prepend-icon="mdi-home"
                         title="Home"
                         value="home-home"
                     ></v-list-item>
+
                     <v-list-item
-                        :key="1"
                         @click="$router.push('/debug')"
                         prepend-icon="mdi-bug"
                         title="Debug"
                         value="debug"
                     ></v-list-item>
                     <v-list-item
-                        :key="4"
                         @click="$router.push('/challenges')"
                         prepend-icon="mdi-magnify"
                         title="Zoeken"
@@ -97,7 +124,6 @@
                     <v-list-subheader>Uw bedrijf</v-list-subheader>
                     <v-list-item
                         v-if="!sessionStore.loggedInUser.department"
-                        :key="9"
                         prepend-icon="mdi-briefcase-check-outline"
                         @click="companyRegisterPopup = true"
                         title="Registreer uw bedrijf"
@@ -106,7 +132,6 @@
 
                     <v-list-item
                         v-if="!sessionStore.loggedInUser.department"
-                        :key="9"
                         prepend-icon="mdi-briefcase-check-outline"
                         @click="joinCompanyPopup = true"
                         title="Sluit u aan bij bedrijf"
@@ -144,7 +169,6 @@
                                     sessionStore.loggedInUser?.department?.id,
                                 )
                             "
-                            :key="5"
                             @click="$router.push('/challenge/new')"
                             prepend-icon="mdi-plus-box-outline"
                             title="Challenge maken"
@@ -175,14 +199,12 @@
                         >
                             <v-list-subheader>Admin</v-list-subheader>
                             <v-list-item
-                                :key="8"
                                 @click="$router.push('/admin')"
                                 prepend-icon="mdi-security"
                                 title="Admin"
                                 value="admin"
                             ></v-list-item>
                             <v-list-item
-                                :key="8"
                                 @click="$router.push('/admin/grade-companies')"
                                 prepend-icon="mdi-briefcase-check-outline"
                                 title="Bedrijfsaanvragen"
@@ -190,7 +212,6 @@
                             >
                             </v-list-item>
                             <v-list-item
-                                :key="8"
                                 @click="$router.push('/admin/roles')"
                                 prepend-icon="mdi-account-group"
                                 title="Rollen bewerken"
@@ -198,14 +219,12 @@
                             >
                             </v-list-item>
                             <v-list-item
-                                :key="9"
                                 @click="$router.push('/admin/stats-dashboard')"
                                 prepend-icon="mdi-chart-bar"
                                 title="Statistieken"
                                 value="Statistieken"
                             >
                             </v-list-item>
-
                         </template>
                     </template>
                 </v-list>
@@ -234,6 +253,13 @@
 .sideBarSpacing {
     margin-left: v-bind(widthPx);
     margin-right: v-bind(widthPx);
+}
+
+.badge-no-margin {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    /* margin: 0 4px; */
 }
 
 .sidebar-toggle-btn {
@@ -295,6 +321,15 @@ onMounted(async () => {
 const drawerWidth = ref(256);
 const widthPx = computed(() => {
     return `${drawerWidth.value / 2}px`;
+});
+
+const unreadNotifications = computed(() => {
+    if (!sessionStore.loggedInUser) {
+        return [];
+    }
+    return sessionStore.loggedInUser?.notifications?.filter(
+        (n) => n.read === false,
+    );
 });
 
 function openSidebar() {

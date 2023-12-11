@@ -8,12 +8,47 @@
             :banner-src="company.getBannerForCompany()"
         />
         <v-row>
-            <v-col md="3" class="d-flex align-center justify-center">
-                <SmallCountryFlag :country="company.country" class="mr-2" />
-                <p>
-                    {{ company.country.name }}
+            <v-col md="3" class="d-flex align-center justify-space-around">
+                <!--Heart icon when pressed follow the company-->
 
-                </p>
+                <v-tooltip :text="isFollowing ? 'U volgt dit bedrijf' : 'Dit bedrijf volgen'" :location="'top'">
+                    <template v-slot:activator="{ props }"> 
+                        <div v-if="isFollowing" v-bind="props">
+                            <v-icon
+                                @click="
+                                    API.stopFollowingCompanyAsLoggedInUser(
+                                        company.id,
+                                    );
+                                    company.followerIds =
+                                        company.followerIds.filter(
+                                            (f) => f != userId,
+                                        );
+                                "
+                                :color="'#ff4040'"
+                                :size="36"
+                                >mdi-heart</v-icon
+                            >
+                        </div>
+    
+                        <div v-else v-bind="props">
+                            <v-icon
+                                @click="
+                                    API.followCompanyAsLoggedInUser(company.id);
+                                    company.followerIds.push(userId);
+                                "
+                                :size="36"
+                                >mdi-heart-outline</v-icon
+                            >
+                        </div>
+                    </template>
+                </v-tooltip>
+
+                <div class="d-flex align-center">
+                    <SmallCountryFlag :country="company.country" class="mr-2" />
+                    <p>
+                        {{ company.country.name }}
+                    </p>
+                </div>
             </v-col>
             <v-col cols="12" md="6" class="">
                 <div class="d-flex flex-wrap justify-center">
@@ -21,10 +56,11 @@
                         {{ company.branch.name }}
                     </Tag>
                     <template v-if="company.tags">
-                    <Tag v-for="tag in company.tags.split(',')" :key="tag">{{
-                        tag
-                    }}</Tag>
-
+                        <Tag
+                            v-for="tag in company.tags.split(',')"
+                            :key="tag"
+                            >{{ tag }}</Tag
+                        >
                     </template>
                 </div>
             </v-col>
@@ -63,13 +99,11 @@
             </v-col>
         </v-row>
         <v-row>
-            
-            
-
             <v-col cols="12" class="">
-                <div class="d-flex flex-wrap justify-center" v-html="company.info">
-                    
-                </div>
+                <div
+                    class="d-flex flex-wrap justify-center"
+                    v-html="company.info"
+                ></div>
             </v-col>
 
             <v-divider class="mt-4"></v-divider>
@@ -137,7 +171,7 @@
         <v-row>
             <v-col cols="12" class="">
                 <div class="d-flex flex-wrap justify-center">
-                <h2 class="title">Afdelingen</h2>
+                    <h2 class="title">Afdelingen</h2>
                 </div>
             </v-col>
         </v-row>
@@ -186,7 +220,7 @@
                             .id == company.id
                     "
                 >
-                <h2 class="title">
+                    <h2 class="title">
                         Uw afdeling :
                         {{ sessionStore.loggedInUser?.department?.name }}
                     </h2>
@@ -337,6 +371,13 @@ const inviteLink = ref("");
 const inviteLinkCopied = ref(false);
 const members: Ref<User[]> = ref([]);
 
+const userId = ref(0);
+
+const isFollowing = computed(() => {
+    if (!company.value?.followerIds) return false;
+    return company.value?.followerIds.some((f) => f == userId.value);
+});
+
 const filteredChallenges = computed(() => {
     if (!challenges.value) return [];
     if (departmentNameFilter.value == "Alles") return challenges.value;
@@ -368,6 +409,7 @@ onMounted(async () => {
     await getDepartmentsForCompany();
     await getAllChallengesForCompany();
     await loadUsers();
+    userId.value = user.value?.id as number;
 });
 async function getDepartmentInviteCode() {
     const code = await API.getOrGenerateDepartmentCode(parseInt(id));

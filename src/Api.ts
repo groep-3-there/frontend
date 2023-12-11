@@ -513,6 +513,18 @@ namespace API {
     export async function getGraphCompanyDepartments(companyId : number) {
         return await getRequest(`graph-data/company/${companyId}/departments/users`);
     }
+
+    export async function setNotificationToRead(id : number){
+        return await putRequest(`notifications/read/${id}`, {});
+    }
+
+    export async function followCompanyAsLoggedInUser(id : number){
+        return await putRequest(`company/${id}/follow`, {});
+    }
+
+    export async function stopFollowingCompanyAsLoggedInUser(id : number){
+        return await putRequest(`company/${id}/unfollow`, {});
+    }
 }
 
 export default API;
