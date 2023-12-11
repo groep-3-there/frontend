@@ -12,6 +12,21 @@
             :title="'Bedrijfsaanvragen'"
             :subtitle="'Admin paneel'"
         />
+        <v-col md="9" cols="12" class="mx-auto">
+            <p class="text-left">
+                <template v-if="requests?.content.length === 0">
+                    Er zijn geen bedrijfsaanvragen
+                </template>
+                <template v-else-if="requests?.totalElements === 1">
+                    Er is 1 aanvraag
+                </template>
+                <template v-else>
+                    Er zijn {{ requests?.totalElements }} aanvragen
+                </template>
+            </p>
+
+        </v-col>
+        <v-divider class="my-2"></v-divider>
         <template
             v-for="companyRequest in requests?.content"
             :key="companyRequest.id"

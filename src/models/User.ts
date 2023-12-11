@@ -70,9 +70,9 @@ export class User {
         if (!this.department || !this.role) {
             return false;
         }
-        if (this.role.isMatchmaker) {
-            return true;
-        }
+        // if (this.role.isMatchmaker) {
+        //     return true;
+        // }
         if (this.department.id !== departmentId) {
             return false;
         }
