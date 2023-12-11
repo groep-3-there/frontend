@@ -8,12 +8,47 @@
             :banner-src="company.getBannerForCompany()"
         />
         <v-row>
-            <v-col md="3" class="d-flex align-center justify-center">
-                <SmallCountryFlag :country="company.country" class="mr-2" />
-                <p>
-                    {{ company.country.name }}
+            <v-col md="3" class="d-flex align-center justify-space-around">
+                <!--Heart icon when pressed follow the company-->
 
-                </p>
+                <v-tooltip :text="isFollowing ? 'U volgt dit bedrijf' : 'Dit bedrijf volgen'" :location="'top'">
+                    <template v-slot:activator="{ props }"> 
+                        <div v-if="isFollowing" v-bind="props">
+                            <v-icon
+                                @click="
+                                    API.stopFollowingCompanyAsLoggedInUser(
+                                        company.id,
+                                    );
+                                    company.followerIds =
+                                        company.followerIds.filter(
+                                            (f) => f != userId,
+                                        );
+                                "
+                                :color="'#ff4040'"
+                                :size="36"
+                                >mdi-heart</v-icon
+                            >
+                        </div>
+    
+                        <div v-else v-bind="props">
+                            <v-icon
+                                @click="
+                                    API.followCompanyAsLoggedInUser(company.id);
+                                    company.followerIds.push(userId);
+                                "
+                                :size="36"
+                                >mdi-heart-outline</v-icon
+                            >
+                        </div>
+                    </template>
+                </v-tooltip>
+
+                <div class="d-flex align-center">
+                    <SmallCountryFlag :country="company.country" class="mr-2" />
+                    <p>
+                        {{ company.country.name }}
+                    </p>
+                </div>
             </v-col>
             <v-col cols="12" md="6" class="">
                 <div class="d-flex flex-wrap justify-center">
@@ -21,10 +56,11 @@
                         {{ company.branch.name }}
                     </Tag>
                     <template v-if="company.tags">
-                    <Tag v-for="tag in company.tags.split(',')" :key="tag">{{
-                        tag
-                    }}</Tag>
-
+                        <Tag
+                            v-for="tag in company.tags.split(',')"
+                            :key="tag"
+                            >{{ tag }}</Tag
+                        >
                     </template>
                 </div>
             </v-col>
@@ -63,13 +99,11 @@
             </v-col>
         </v-row>
         <v-row>
-            
-            
-
             <v-col cols="12" class="">
-                <div class="d-flex flex-wrap justify-center" v-html="company.info">
-                    
-                </div>
+                <div
+                    class="d-flex flex-wrap justify-center"
+                    v-html="company.info"
+                ></div>
             </v-col>
 
             <v-divider class="mt-4"></v-divider>
@@ -109,21 +143,23 @@
                 <v-spacer class="mb-4"></v-spacer>
             </v-col>
         </v-row>
-        <v-row class="challenge-hero d-flex justify-center">
-            <template
-                v-for="challenge in filteredChallenges"
-                :key="challenge.id"
-            >
-                <ChallengeCard :challenge="challenge" />
-            </template>
+        <v-row class="challenges">
+            <HorizontalScroll v-if="filteredChallenges.length">
+                <ChallengeCard v-for="challenge in filteredChallenges" :key="challenge.id" :challenge="challenge" />
+            </HorizontalScroll>
             <template v-if="filteredChallenges.length == 0">
-                <div class="d-flex flex-wrap justify-center">
+                <div class="d-flex flex-wrap justify-center mx-auto">
                     <p class="title">Geen challenges gevonden</p>
                 </div>
             </template>
         </v-row>
-
+        <v-divider class="my-8"></v-divider>
+        <div class="d-flex flex-wrap justify-center mt-8">
+            <h1 class="title">Leden</h1>
+        </div>
+        <v-spacer class="my-4"></v-spacer>
         <v-row class="d-flex justify-center flex-wrap user-bubbles mx-auto">
+            
             <UserBubble
                 v-for="user in members"
                 :with-name="false"
@@ -135,14 +171,14 @@
         <v-row>
             <v-col cols="12" class="">
                 <div class="d-flex flex-wrap justify-center">
-                <h2 class="title">Afdelingen</h2>
+                    <h2 class="title">Afdelingen</h2>
                 </div>
             </v-col>
         </v-row>
         <v-row>
             <p class="mx-auto">
                 <span v-for="department in departments" :key="department.id">
-                    {{ department.name }}&nbsp
+                    {{ department.name }}&nbsp;
                 </span>
             </p>
         </v-row>
@@ -184,7 +220,7 @@
                             .id == company.id
                     "
                 >
-                <h2 class="title">
+                    <h2 class="title">
                         Uw afdeling :
                         {{ sessionStore.loggedInUser?.department?.name }}
                     </h2>
@@ -279,12 +315,6 @@
     color: white;
 }
 
-.challenge-hero {
-    background-size: cover;
-    background-position: 0;
-    min-height: 400px;
-    max-height: fit-content;
-}
 
 .company-logo {
     max-width: min(80%, 25vw);
@@ -323,6 +353,7 @@ import DepartmentAddPopup from "@/components/DepartmentAddPopup.vue";
 import UserBubble from "@/components/UserBubble.vue";
 import Banner from "@/components/Banner.vue";
 import SmallCountryFlag from "@/components/SmallCountryFlag.vue";
+import HorizontalScroll from "@/components/HorizontalScroll.vue";
 const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay();
 
 const user = ref() as Ref<User | null>;
@@ -339,6 +370,13 @@ const inviteCode = ref("");
 const inviteLink = ref("");
 const inviteLinkCopied = ref(false);
 const members: Ref<User[]> = ref([]);
+
+const userId = ref(0);
+
+const isFollowing = computed(() => {
+    if (!company.value?.followerIds) return false;
+    return company.value?.followerIds.some((f) => f == userId.value);
+});
 
 const filteredChallenges = computed(() => {
     if (!challenges.value) return [];
@@ -371,6 +409,7 @@ onMounted(async () => {
     await getDepartmentsForCompany();
     await getAllChallengesForCompany();
     await loadUsers();
+    userId.value = user.value?.id as number;
 });
 async function getDepartmentInviteCode() {
     const code = await API.getOrGenerateDepartmentCode(parseInt(id));

@@ -11,6 +11,7 @@ import { Department } from "./models/Department";
 import { DepartmentCode } from "./models/DepartmentCode";
 import { Role } from "./models/Role";
 import { Country } from "./models/Country";
+import { Permission } from "./models/Permission";
 
 async function postRequest(url: string, bodyObject: {}) {
     const res = await fetch(API.BASEURL + url, {
@@ -60,7 +61,7 @@ async function getRequest(url: string) {
 
 namespace API {
     export const BACKEND_URL = import.meta.env.PROD
-        ? "http://matchmakergroep3.nl:8080"
+        ? "https://matchmakergroep3.nl:8443"
         : "http://localhost:8080";
     export const BASEURL = `${BACKEND_URL}/api/v1/`;
 
@@ -428,12 +429,33 @@ namespace API {
         const data = await getRequest(`department/${departmentId}/members`);
         return data.map((d: any) => new User(d));
     }
-    export async function LoadAssignableRoles() {
+    export async function getAssignableRoles() : Promise<Role[]> {
         const data = await getRequest(`role/assignable`);
         return data.map((d: any) => new Role(d));
     }
     export async function updateRoles(departmentId: number, updates: { userId: number, roleId: number }[]) {
         return await putRequest(`department/${departmentId}/updateroles`, {updates});
+    }
+    export async function getAllPermissions() : Promise<Permission[]>{
+        const data = await getRequest("permission")
+        return data.map((i:any)=>new Permission(i));
+    }
+    export async function getRole(id:number){
+        const data = await getRequest(`role/${id}`)
+        return new Role(data);
+    }
+    export async function getAllRoles() : Promise<Role[]>{
+        const data = await getRequest(`role`)
+        return data.map((i:any)=>new Role(i));
+    }
+    /**Id is made in backend */
+    export async function createRole(newRole : Role){
+        const data = await postRequest(`role`, newRole);
+        return new Role(data);
+    }
+    export async function updateRole(role : Role){
+        const data = await putRequest(`role/${role.id}`, role);
+        return new Role(data);
     }
 
     export async function getGraphChallenges() {
@@ -474,6 +496,34 @@ namespace API {
 
     export async function getGraphChallengesInputsWithMonth(from : string, till : string) {
         return await getRequest(`graph-data/challenge-inputs/filter/date?from=${from}&till=${till}`);
+    }
+
+    export async function getGraphCompanyChallengesWithMonth(from : string, till : string, companyId : number) {
+        return await getRequest(`graph-data/company/${companyId}/challenges/filter/date?from=${from}&till=${till}`);
+    }
+
+    export async function getGraphCompanyChallengesWithStatus(companyId : number) {
+        return await getRequest(`graph-data/company/${companyId}/challenges/status`);
+    }
+
+    export async function getGraphCompanyChallengesInputsWithMonth(from : string, till : string, companyId : number) {
+        return await getRequest(`graph-data/company/${companyId}/challenge-inputs/filter/date?from=${from}&till=${till}`);
+    }
+
+    export async function getGraphCompanyDepartments(companyId : number) {
+        return await getRequest(`graph-data/company/${companyId}/departments/users`);
+    }
+
+    export async function setNotificationToRead(id : number){
+        return await putRequest(`notifications/read/${id}`, {});
+    }
+
+    export async function followCompanyAsLoggedInUser(id : number){
+        return await putRequest(`company/${id}/follow`, {});
+    }
+
+    export async function stopFollowingCompanyAsLoggedInUser(id : number){
+        return await putRequest(`company/${id}/unfollow`, {});
     }
 }
 

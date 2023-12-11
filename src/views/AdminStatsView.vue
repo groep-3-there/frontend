@@ -16,7 +16,7 @@
         </Banner>
         <div style="background-color: aliceblue; padding: 1%">
             <v-row>
-                <v-col cols="12" md="4">
+                <v-col cols="12" sm="4">
                     <v-card>
                         <apexchart
                             :options="ChallengeChartOptions"
@@ -24,7 +24,7 @@
                         ></apexchart>
                     </v-card>
                 </v-col>
-                <v-col cols="12" md="4">
+                <v-col cols="12" sm="4">
                     <v-card>
                         <apexchart
                             :options="UserChartOptions"
@@ -32,7 +32,7 @@
                         ></apexchart>
                     </v-card>
                 </v-col>
-                <v-col cols="12" md="4">
+                <v-col cols="12" sm="4">
                     <v-card>
                         <apexchart
                             :options="CompanyChartOptions"
@@ -42,7 +42,7 @@
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="12" md="6">
+                <v-col cols="12" sm="6">
                     <v-card>
                         <apexchart
                             :options="ChallengeTimeChartOptions"
@@ -50,7 +50,7 @@
                         ></apexchart>
                     </v-card>
                 </v-col>
-                <v-col cols="12" md="6">
+                <v-col cols="12" sm="6">
                     <v-card>
                         <apexchart
                             :options="ChallengeStatusChartOptions"
@@ -60,7 +60,7 @@
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="12" md="6">
+                <v-col cols="12" sm="6">
                     <v-card>
                         <apexchart
                             :options="CompanyBranchChartOptions"
@@ -68,7 +68,7 @@
                         ></apexchart>
                     </v-card>
                 </v-col>
-                <v-col cols="12" md="6">
+                <v-col cols="12" sm="6">
                     <v-card>
                         <apexchart
                             :options="ChallengeInputChartOptions"

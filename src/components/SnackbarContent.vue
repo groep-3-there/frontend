@@ -1,5 +1,6 @@
 <template>
     <div class="wrapper">
+        
         <div
             v-for="snack in snackbarStore.snacks"
             @click="snackbarStore.snacks.shift()"
@@ -46,13 +47,13 @@ function getStylingForType(type: string) {
 }
 
 .wrapper {
-    position: absolute;
+    position: fixed;
     top: 10px;
     right: 50%;
     z-index: 100;
     height: 200px;
     width: 100%;
-    max-width: 500px;
+    max-width: min(500px, 100%);
     transform: translate(50%);
     pointer-events: none;
 }
@@ -60,7 +61,7 @@ function getStylingForType(type: string) {
 .snack-item {
     position: static;
     height: 75px;
-    width: 500px;
+    width: calc(min(500px,100%) - 10px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -70,6 +71,8 @@ function getStylingForType(type: string) {
     padding-top: 15px;
     padding-bottom: 15px;
     margin-bottom: 10px;
+    margin-left: 5px;
+    margin-right: 5px;;
     pointer-events: all;
 }
 .snack-item:hover {

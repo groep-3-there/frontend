@@ -115,14 +115,22 @@ const carouselInfo: Ref<
     font-size: 1.2em;
     font-weight: 400;
     letter-spacing: 2px;
-    width: min(100%, 600px);
+    width: min(90%, 600px);
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
     opacity: 0;
     animation: fade-in-down 1s ease-out 0ms 1 forwards;
 }
-
+@media screen and (max-width: 1000px) {
+    .website-title {
+        font-size: 2.5em;
+    }
+    .website-subtitle{
+        font-size:0.8em;
+    }
+    
+}
 .carousel-img {
     width: 100%;
     height: 100%;

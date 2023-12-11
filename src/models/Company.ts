@@ -16,6 +16,7 @@ export class Company {
     createdAt: Date;
     ownerId: number;
     country: Country;
+    followerIds: number[];
 
     constructor(data: any) {
         this.id = data.id;
@@ -34,6 +35,7 @@ export class Company {
         this.createdAt = data.createdAt;
         this.ownerId = data.ownerId;
         this.country = new Country(data.country);
+        this.followerIds = data.followerIds;
     }
 
     getProfileOrDefaultImageUrl() {

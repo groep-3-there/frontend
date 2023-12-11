@@ -37,6 +37,30 @@
                                 </v-card>
                             </div>
                         </v-col>
+                    </v-row>
+                    
+                    <v-row>
+                        <v-col>
+                            <v-file-input
+                                accept="image/png, image/jpeg, image/svg"
+                                label="Upload een bedrijfsprofiel foto"
+                                variant="outlined"
+                                chips
+                                show-size
+                                v-model="profileImage"
+                                :rules="[
+                                    (v) =>
+                                        v.length == 0 ||
+                                        (v.length == 1 &&
+                                            v[0].size < 10000000) ||
+                                        'De grootte van het bestand moet kleiner zijn dan 10MB!',
+                                ]"
+                            >
+                            </v-file-input>
+                        </v-col>
+                    </v-row>
+
+                    <v-row>
                         <v-col>
                             <div>
                                 <v-card
@@ -72,24 +96,6 @@
                     </v-row>
 
                     <v-row>
-                        <v-col>
-                            <v-file-input
-                                accept="image/png, image/jpeg, image/svg"
-                                label="Upload een bedrijfsprofiel foto"
-                                variant="outlined"
-                                chips
-                                show-size
-                                v-model="profileImage"
-                                :rules="[
-                                    (v) =>
-                                        v.length == 0 ||
-                                        (v.length == 1 &&
-                                            v[0].size < 10000000) ||
-                                        'De grootte van het bestand moet kleiner zijn dan 10MB!',
-                                ]"
-                            >
-                            </v-file-input>
-                        </v-col>
                         <v-col>
                             <v-file-input
                                 accept="image/png, image/jpeg, image/svg"

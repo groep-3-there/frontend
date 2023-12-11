@@ -30,14 +30,10 @@ const newReactionContent = ref("");
 
 //The backend understands this one (english and capitalised)
 const newReactionTypedFormatted = computed(() => {
-    switch (newReactionType.value) {
-        case "Idee":
-            return "IDEA";
-        case "Vraag":
-            return "QUESTION";
-        case "Feedback":
-            return "FEEDBACK";
-    }
+        if(newReactionType.value === "Idee") return "IDEA"
+        if(newReactionType.value === "Vraag") return "QUESTION"
+        if(newReactionType.value === "Feedback") return "FEEDBACK"
+        return "IDEA"
 });
 
 const props = defineProps({

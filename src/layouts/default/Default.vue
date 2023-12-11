@@ -55,10 +55,8 @@
                             {{ sessionStore.loggedInUser?.getSubtitle() }}
                         </p>
                     </v-list-item>
-
                     <v-list-item
                         v-else
-                        :key="1"
                         @click="loginPopup = true"
                         color="primary"
                         prepend-icon="mdi-account-plus"
@@ -66,26 +64,55 @@
                         value="home-login"
                     >
                     </v-list-item>
+                    <v-list-item
+                        v-if="sessionStore.loggedInUser"
+                        @click="$router.push('/notifications')"
+                        value="notifications"
+                    >
+                        <v-badge
+                            style="display: block; margin: 0px"
+                            :color="
+                                unreadNotifications.length > 0 ? 'red' : 'grey'
+                            "
+                            :inline="true"
+                            size
+                            :content="unreadNotifications.length"
+                        >
+                            <v-icon
+                                style="margin-right: 10px; margin-left: -4px"
+                                icon="mdi-bell-outline"
+                                size="24"
+                            ></v-icon>
+                            <v-list-item-title
+                                style="
+                                    justify-content: end;
+                                    margin-left: 10px;
+                                    margin-right: 10px;
+                                    align-items: center;
+                                    display: inline-flex;
+                                "
+                                >Notificaties</v-list-item-title
+                            >
+                        </v-badge>
+                    </v-list-item>
                 </v-list>
 
                 <v-divider></v-divider>
                 <v-list density="compact" nav>
                     <v-list-item
-                        :key="1"
                         @click="$router.push('/')"
                         prepend-icon="mdi-home"
                         title="Home"
                         value="home-home"
                     ></v-list-item>
+
                     <v-list-item
-                        :key="1"
                         @click="$router.push('/debug')"
                         prepend-icon="mdi-bug"
                         title="Debug"
                         value="debug"
                     ></v-list-item>
                     <v-list-item
-                        :key="4"
                         @click="$router.push('/challenges')"
                         prepend-icon="mdi-magnify"
                         title="Zoeken"
@@ -97,7 +124,6 @@
                     <v-list-subheader>Uw bedrijf</v-list-subheader>
                     <v-list-item
                         v-if="!sessionStore.loggedInUser.department"
-                        :key="9"
                         prepend-icon="mdi-briefcase-check-outline"
                         @click="companyRegisterPopup = true"
                         title="Registreer uw bedrijf"
@@ -106,7 +132,6 @@
 
                     <v-list-item
                         v-if="!sessionStore.loggedInUser.department"
-                        :key="9"
                         prepend-icon="mdi-briefcase-check-outline"
                         @click="joinCompanyPopup = true"
                         title="Sluit u aan bij bedrijf"
@@ -135,7 +160,7 @@
                                 sessionStore.loggedInUser?.department
                                     ?.parentCompany.name
                             "
-                            value="shared"
+                            value="user-header"
                         ></v-list-item>
                         <v-list-item
                             v-if="
@@ -144,7 +169,6 @@
                                     sessionStore.loggedInUser?.department?.id,
                                 )
                             "
-                            :key="5"
                             @click="$router.push('/challenge/new')"
                             prepend-icon="mdi-plus-box-outline"
                             title="Challenge maken"
@@ -153,6 +177,16 @@
                         <v-list-item
                             v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment(
                                 'DEPARTMENT_MANAGE',
+                                sessionStore.loggedInUser?.department?.id,
+                            )"
+                            @click="$router.push(`/company/${sessionStore.loggedInUser?.department?.id}/stats-dashboard`)"
+                            prepend-icon="mdi-chart-bar"
+                            title="Statistieken"
+                            value="statistieken"
+                        ></v-list-item>
+                        <v-list-item
+                            v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                                'COMPANY_GRAPH_READ',
                                 sessionStore.loggedInUser?.department?.id,
                             )"
                             @click="$router.push(`/settings/${sessionStore.loggedInUser?.department?.id}`)"
@@ -165,14 +199,12 @@
                         >
                             <v-list-subheader>Admin</v-list-subheader>
                             <v-list-item
-                                :key="8"
                                 @click="$router.push('/admin')"
                                 prepend-icon="mdi-security"
                                 title="Admin"
                                 value="admin"
                             ></v-list-item>
                             <v-list-item
-                                :key="8"
                                 @click="$router.push('/admin/grade-companies')"
                                 prepend-icon="mdi-briefcase-check-outline"
                                 title="Bedrijfsaanvragen"
@@ -180,7 +212,13 @@
                             >
                             </v-list-item>
                             <v-list-item
-                                :key="8"
+                                @click="$router.push('/admin/roles')"
+                                prepend-icon="mdi-account-group"
+                                title="Rollen bewerken"
+                                value="edit-roles"
+                            >
+                            </v-list-item>
+                            <v-list-item
                                 @click="$router.push('/admin/stats-dashboard')"
                                 prepend-icon="mdi-chart-bar"
                                 title="Statistieken"
@@ -192,14 +230,17 @@
                 </v-list>
                 <v-divider></v-divider>
 
-                <v-list density="compact" nav v-if="sessionStore.loggedInUser">
+               
+                <template v-slot:append>
+                    <v-list density="compact" nav v-if="sessionStore.loggedInUser">
                     <v-list-item
                         @click="logOut()"
-                        prepend-icon="mdi-account-multiple"
-                        title="Log uit"
+                        prepend-icon="mdi-logout"
+                        title="Uitloggen"
                         value="shared"
                     ></v-list-item>
                 </v-list>
+                </template>
             </v-navigation-drawer>
 
             <v-main :class="{ sideBarSpacing: lgAndUp }">
@@ -212,6 +253,13 @@
 .sideBarSpacing {
     margin-left: v-bind(widthPx);
     margin-right: v-bind(widthPx);
+}
+
+.badge-no-margin {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    /* margin: 0 4px; */
 }
 
 .sidebar-toggle-btn {
@@ -253,6 +301,8 @@ import CompanyRegistrationPopUp from "@/components/CompanyRegistrationPopUp.vue"
 import JoinCompanyPopup from "@/components/JoinCompanyPopup.vue";
 import InviteListener from "@/components/InviteListener.vue";
 import { useSessionStore } from "@/store/sessionStore";
+import { useRoute } from "vue-router";
+import router from "@/router";
 const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay();
 const sessionStore = useSessionStore();
 const loginPopup = ref(false);
@@ -273,11 +323,21 @@ const widthPx = computed(() => {
     return `${drawerWidth.value / 2}px`;
 });
 
+const unreadNotifications = computed(() => {
+    if (!sessionStore.loggedInUser) {
+        return [];
+    }
+    return sessionStore.loggedInUser?.notifications?.filter(
+        (n) => n.read === false,
+    );
+});
+
 function openSidebar() {
     sidebarVisibleOnSmallDevice.value = !sidebarVisibleOnSmallDevice.value;
 }
 
 function logOut() {
     sessionStore.logOut();
+    router.push("/");
 }
 </script>
