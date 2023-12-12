@@ -52,7 +52,7 @@ export class User {
         if (this.avatar) {
             return this.avatar.getUrl();
         }
-        return `https://ui-avatars.com/api/?name=${this.querySafeName()}`;
+        return `https://ui-avatars.com/api/?name=${this.querySafeName()}?size=128`;
     }
     querySafeName() {
         return this.name.replace(/ /g, "%20");
