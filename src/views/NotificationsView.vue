@@ -34,13 +34,6 @@
                 </template>
             </v-tooltip>
         </v-col>
-        <v-col cols="6" class="d-flex justify-center mx-auto">
-            <v-tooltip :text="'Alle notificaties verwijderen'" :location="'top'">
-            <template v-slot:activator="{ props }">
-            <v-icon v-bind="props" class="delete-notifications" @click="clearNotifications" color="red">mdi-delete</v-icon>
-        </template>
-        </v-tooltip>
-        </v-col>
     </v-row>
     <v-divider class="my-4"></v-divider>
     <v-row>
