@@ -20,7 +20,7 @@ export class User {
     role: Role | null;
     department: Department | null;
     notifications: Notification[] | [];
-    allowedEmailNotifications: boolean;
+    allowEmailNotifications: boolean;
 
     constructor(data: any) {
         this.id = data.id;
@@ -45,7 +45,7 @@ export class User {
             ? new Department(data.department)
             : null;
         this.notifications = data.notifications.map((n:any) => new Notification(n))
-        this.allowedEmailNotifications = data.allowedEmailNotifications || false;
+        this.allowEmailNotifications = data.allowEmailNotifications || false;
     }
 
     getAvatarOrDefaultUrl() {
