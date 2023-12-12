@@ -24,9 +24,11 @@
                 }}
             </v-col>
             <v-col cols="12" md="6" class="d-flex flex-wrap justify-center">
-                <Tag v-for="tag in user.tags.split(',')" :key="tag">{{
-                    tag
-                }}</Tag>
+                <template v-if="user.tags">
+                    <Tag v-for="tag in user.tags.split(',')" :key="tag">{{
+                        tag
+                    }}</Tag>
+                </template>
             </v-col>
             <v-col cols="12" md="3" class="d-flex justify-center align-center">
                 <v-menu v-if="user.id === sessionStore.loggedInUser?.id">

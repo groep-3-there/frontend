@@ -42,7 +42,7 @@ export class Company {
         if (this.profileImage) {
             return this.profileImage.getUrl();
         }
-        return `https://ui-avatars.com/api/?name=${this.querySafeName()}`;
+        return `https://ui-avatars.com/api/?name=${this.querySafeName()}?size=128`;
     }
 
     getBannerForCompany() {

@@ -318,6 +318,7 @@ const companyRegisterPopup = ref(false);
 const joinCompanyPopup = ref(false);
 const darkMode = ref(false);
 
+
 onMounted(async () => {
     if (mdAndDown.value) {
         sidebarVisibleOnSmallDevice.value = false;
@@ -342,6 +343,7 @@ const unreadNotifications = computed(() => {
 
 watch(darkMode, (dark)=>{
     theme.global.name.value = dark ? 'dark' : 'light'
+    localStorage.setItem("theme", theme.global.name.value)
 
 })
 function openSidebar() {

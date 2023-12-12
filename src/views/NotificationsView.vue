@@ -93,7 +93,6 @@ watch(emailPreference, async() => {
 onMounted(async () => {
     user.value = await API.getCurrentUser();
     //Only get unread notifications
-
     if (!user.value) {
         return;
     }
@@ -103,7 +102,6 @@ onMounted(async () => {
         .filter((n) => n.read === false);
 });
 function clearNotifications() {
-
     notifications.value.forEach((n) => {
         n.read = true;
         API.setNotificationToRead(n.id);
