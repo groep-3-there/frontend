@@ -1,6 +1,13 @@
 <template>
-    <Banner title="Notificaties" subtitle="Uw account" banner-src="/banners/banner-1.jpg"/>
-    <h3 class="mx-auto font-weight-light text-center my-8">Hier vind u notificaties over nieuwe challenges bij bedrijven die u volgt, updates over uw bedrijfsaanvraag en meer!</h3>
+    <Banner
+        title="Notificaties"
+        subtitle="Uw account"
+        banner-src="/banners/banner-1.jpg"
+    />
+    <h3 class="mx-auto font-weight-light text-center my-8">
+        Hier vind u notificaties over nieuwe challenges bij bedrijven die u
+        volgt, updates over uw bedrijfsaanvraag en meer!
+    </h3>
     <v-row>
         <v-col cols="6" class="d-flex justify-center mx-auto">
             <v-switch
@@ -9,7 +16,23 @@
                 :color="'green'"
                 :loading="updatingEmailPreference"
                 v-model="emailPreference"
-                ></v-switch>
+            ></v-switch>
+        </v-col>
+        <v-col cols="6" class="d-flex justify-center mx-auto align-center">
+            <v-tooltip
+                :text="'Alle notificaties verwijderen'"
+                :location="'top'"
+            >
+                <template v-slot:activator="{ props }">
+                    <v-icon
+                        v-bind="props"
+                        class="delete-notifications"
+                        @click="clearNotifications"
+                        color="red"
+                        >mdi-delete</v-icon
+                    >
+                </template>
+            </v-tooltip>
         </v-col>
         <v-col cols="6" class="d-flex justify-center mx-auto">
             <v-tooltip :text="'Alle notificaties verwijderen'" :location="'top'">
@@ -38,7 +61,9 @@
             />
         </v-col>
         <v-col v-else>
-            <p class="mx-auto font-weight-light text-center my-8">Geen ongelezen meldingen</p>
+            <p class="mx-auto font-weight-light text-center my-8">
+                Geen ongelezen meldingen
+            </p>
         </v-col>
     </v-row>
 </template>
@@ -52,27 +77,40 @@ import { useSessionStore } from "@/store/sessionStore";
 import { Notification } from "@/models/Notification";
 import NotificationCard from "@/components/NotificationCard.vue";
 import Banner from "@/components/Banner.vue";
+import { useSnackbarStore } from "@/store/Snackbar";
 
 const user = ref() as Ref<User | null>;
 const updatingEmailPreference = ref(false);
 const emailPreference = ref(false);
 const sessionStore = useSessionStore();
 const notifications: Ref<Notification[]> = ref([]);
-
-watch(emailPreference, () => {
-    alert("Not implemented yet")
+const snackbarStore = useSnackbarStore();
+watch(emailPreference, async() => {
+    const result = await API.updateNotificationPreferences(user.value!, {
+        email: emailPreference.value,
+    });
+    snackbarStore.createSimple(
+        result.allowEmailNotifications
+            ? "U ontvangt nu emails bij nieuwe notificaties"
+            : "U ontvangt geen emails meer bij nieuwe notificaties", 
+            "success"
+    );
 });
 
 onMounted(async () => {
     user.value = await API.getCurrentUser();
     //Only get unread notifications
-    if(!user.value){ return }
-    
-    notifications.value = user.value?.notifications.reverse().filter(
-        (n) => n.read === false,
-    );
+
+    if (!user.value) {
+        return;
+    }
+
+    notifications.value = user.value?.notifications
+        .reverse()
+        .filter((n) => n.read === false);
 });
-function clearNotifications(){
+function clearNotifications() {
+
     notifications.value.forEach((n) => {
         n.read = true;
         API.setNotificationToRead(n.id);
@@ -89,10 +127,9 @@ function setEmailPreference() {
     //     sessionStore.setUser(user.value!);
     // });
 }
-
 </script>
 <style lang="css" scoped>
-.delete-notifications:hover{
+.delete-notifications:hover {
     cursor: pointer;
 }
 </style>
