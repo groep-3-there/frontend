@@ -22,7 +22,19 @@ import { useSnackbarStore } from "./store/Snackbar";
 import SnackbarContent from "./components/SnackbarContent.vue";
 import API from "./Api";
 import { onMounted } from "vue";
+import { onBeforeMount } from "vue";
+import { useTheme } from 'vuetify'
+import { watch } from "fs";
+const theme = useTheme()
 
+onBeforeMount(()=>{
+    //initialize theme
+    const fromStorage = localStorage.getItem("theme");
+    if (fromStorage) {
+        theme.global.name.value = fromStorage;
+    }
+
+})
 const sessionStore = useSessionStore();
 const ready = ref(true);
 setInterval(() => {
@@ -30,6 +42,7 @@ setInterval(() => {
 }, 300000);
 
 const snackbar = useSnackbarStore();
+
 onMounted(async () => {
     setInterval(async () => {
         try {
