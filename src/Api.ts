@@ -231,6 +231,11 @@ namespace API {
         const data = await putRequest(`user/${us.id}`, us);
         return new User(data);
     }
+    export async function updateNotificationPreferences(user: User, preferences : {email :boolean}) {
+        //wil only work on the logged in user
+        const data = await putRequest(`user/${user.id}/notificationPreferences`, preferences);
+        return new User(data);
+    }
     export async function updateCompany(cp: Company | { id: number }) {
         const data = await putRequest(`company/${cp.id}`, cp);
         console.log(data);
