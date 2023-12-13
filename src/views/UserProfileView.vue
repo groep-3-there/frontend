@@ -94,7 +94,7 @@
                         <v-icon size="32"> mdi-email-outline </v-icon>
                         {{ user.email }}
                     </div>
-                    <div v-if="user.isPhoneNumberPublic">
+                    <div v-if="user.isPhoneNumberPublic && user.phoneNumber">
                         <v-icon size="32"> mdi-phone </v-icon>
                         {{ user.phoneNumber }}
                     </div>

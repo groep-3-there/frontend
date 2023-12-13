@@ -40,7 +40,26 @@
                     </v-row>
 
                     <v-row>
-                        <v-col>
+                        <v-col class="d-flex justify-space-around">
+                            <v-tooltip v-model="showPictureTip" location="top">
+                                <template v-slot:activator="{ props }">
+                                    <v-btn
+                                        icon
+                                        v-bind="props"
+                                        class="tooltip"
+                                        color="primary"
+                                        @click="showPictureTip = !showPictureTip"
+                                    >
+                                        <v-icon color="secundary">
+                                            mdi-information-variant
+                                        </v-icon>
+                                    </v-btn>
+                                </template>
+                                <span>
+                                    <p>Maximale groote profielfoto: 10MB</p>
+                                    <p>Aangeraden aspect ratio: 1:1 (vierkant)</p>
+                                </span>
+                            </v-tooltip>
                             <v-file-input
                                 accept="image/png, image/jpeg, image/svg"
                                 label="Upload een avatar"
@@ -115,6 +134,7 @@
                                 v-if="originalUser"
                                 :initialize-with="originalUser.info"
                                 @model-value-changed="(e) => (info = e)"
+                                :required="false"
                             ></RichEditor>
                         </v-col>
                     </v-row>
@@ -207,6 +227,7 @@ const phoneNumber = ref("");
 const standardTags: Ref<Tag[]> = ref([]);
 const tags = ref([] as any);
 const editUserForm = ref(null) as any;
+const showPictureTip = ref(false);
 const idParam = useRoute().params.id;
 let id = parseInt(Array.isArray(idParam) ? idParam[0] : idParam);
 
@@ -254,9 +275,8 @@ watch(email, async () => {
     }, 500);
 });
 const phoneNumberRules = [
-    (v: string) => !!v || "Telefoonnummer is verplicht",
     (v: string) =>
-        /(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{10}$)/.test(v) ||
+        !v || /(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{10}$)/.test(v) ||
         "Telefoon moet geldig zijn"
 ];
 function showAvatar() {

@@ -34,6 +34,7 @@
 .hero-title {
     font-size: 4rem;
     font-weight: 1000;
+    max-width: 100%;
 }
 @media screen and (max-width: 1000px) {
     .hero-title {

@@ -229,8 +229,6 @@
                     </template>
                 </v-list>
                 <v-divider></v-divider>
-
-               
                 <template v-slot:append>
 
                     <v-list density="compact" nav >
