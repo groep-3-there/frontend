@@ -56,7 +56,7 @@
     </template>
 </template>
 
-<style>
+<style scoped>
 .admin-action {
     width: 80%;
     min-height: 100px;

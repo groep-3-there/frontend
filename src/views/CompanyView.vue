@@ -277,7 +277,7 @@
     </template>
 </template>
 
-<style>
+<style  scoped>
 .user-bubbles {
     max-width: 70%;
 }
