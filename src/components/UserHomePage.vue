@@ -18,7 +18,7 @@
         </p>
     </section>
     <v-spacer class="my-12"></v-spacer>
-    <section v-if="user!.department" class="challenge-section animate-right">
+    <section class="challenge-section animate-right">
         <h3>🎇Nieuwste challenges op het platform</h3>
         <v-divider class="mb-2"></v-divider>
         <HorizontalScroll>
