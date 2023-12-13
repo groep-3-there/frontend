@@ -117,7 +117,26 @@
                         </v-col>
                     </v-row>
                     <v-row>
-                        <v-col>
+                        <v-col class="d-flex justify-space-around">
+                            <v-tooltip v-model="showBannerTip" location="top">
+                                <template v-slot:activator="{ props }">
+                                    <v-btn
+                                        icon
+                                        v-bind="props"
+                                        class="tooltip"
+                                        color="primary"
+                                        @click="showBannerTip = !showBannerTip"
+                                    >
+                                        <v-icon color="secundary">
+                                            mdi-information-variant
+                                        </v-icon>
+                                    </v-btn>
+                                </template>
+                                <span>
+                                    <p>Maximale groote banner: 10MB</p>
+                                    <p>Aangeraden aspect ratio: 16:9</p>
+                                </span>
+                            </v-tooltip>
                             <v-file-input
                                 accept="image/png, image/jpeg, image/svg"
                                 label="Upload een nieuwe banner"
@@ -138,7 +157,26 @@
                     </v-row>
 
                     <v-row>
-                        <v-col>
+                        <v-col class="d-flex justify-space-around">
+                            <v-tooltip v-model="showImagesTip" location="top">
+                                <template v-slot:activator="{ props }">
+                                    <v-btn
+                                        icon
+                                        v-bind="props"
+                                        class="tooltip"
+                                        color="primary"
+                                        @click="showImagesTip = !showImagesTip"
+                                    >
+                                        <v-icon color="secundary">
+                                            mdi-information-variant
+                                        </v-icon>
+                                    </v-btn>
+                                </template>
+                                <span>
+                                    <p>Maximaal 8 afbeeldingen</p>
+                                    <p>Maximale groote per afbeelding: 10MB</p>
+                                </span>
+                            </v-tooltip>
                             <v-file-input
                                 accept="image/png, image/jpeg, image/svg"
                                 label="Upload afbeeldingen"
@@ -287,6 +325,9 @@ const images = ref([]);
 const tags = ref([] as any);
 const date : Ref<string | null> = ref(null);
 const editChallengeForm = ref(null) as any;
+const showImagesTip = ref(false);
+const showBannerTip = ref(false);
+
 const idParam = useRoute().params.id;
 let id = parseInt(Array.isArray(idParam) ? idParam[0] : idParam);
 function visibilityProperties(item: any) {

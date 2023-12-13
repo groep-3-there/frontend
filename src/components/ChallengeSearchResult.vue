@@ -16,11 +16,14 @@
 
             <v-col cols="10" class="challenge-info d-flex flex-column">
                 <v-row no-gutters>
-                    <h3>{{ challenge?.title }}</h3>
+                    <h3 class="challenge-title">{{ challenge?.title }}</h3>
                 </v-row>
 
                 <v-row v-if="challenge?.summary" no-gutters>
-                    {{ challenge?.summary }}
+                    <p class="challenge-subtitle">
+                        {{ challenge?.summary }}
+
+                    </p>
                 </v-row>
 
                 <v-row no-gutters class="date-and-tags align-self-end">
@@ -108,6 +111,9 @@ defineProps({
 </script>
 
 <style scoped>
+.challenge-title, .challenge-subtitle{
+    max-width: 100%;
+}
 .image-section {
     position: relative;
 }

@@ -87,6 +87,7 @@
                                         v-bind="props"
                                         class="tooltip"
                                         color="primary"
+                                        @click="showBanner = !showBanner"
                                     >
                                         <v-icon color="secundary">
                                             mdi-information-variant
@@ -126,6 +127,7 @@
                                         v-bind="props"
                                         class="tooltip"
                                         color="primary"
+                                        @click="showImages = !showImages"
                                     >
                                         <v-icon color="secundary">
                                             mdi-information-variant

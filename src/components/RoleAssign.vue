@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <v-row>
-            <v-col cols="12" md="6" class="d-flex justify-center align-center">
+            <v-col cols="12" md="4" class="d-flex justify-start mx-auto align-center">
                 <user-bubble v-bind:user="props.user" :with-name="true" :size="48" :with-subtitle="false"></user-bubble>
             </v-col>
             <v-col cols="12" md="6" class="d-flex justify-center align-center">
