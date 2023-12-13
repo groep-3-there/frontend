@@ -40,7 +40,26 @@
                     </v-row>
                     
                     <v-row>
-                        <v-col>
+                        <v-col class="d-flex justify-space-around">
+                            <v-tooltip v-model="showProfileImageTip" location="top">
+                                <template v-slot:activator="{ props }">
+                                    <v-btn
+                                        icon
+                                        v-bind="props"
+                                        class="tooltip"
+                                        color="primary"
+                                        @click="showProfileImageTip = !showProfileImageTip"
+                                    >
+                                        <v-icon color="secundary">
+                                            mdi-information-variant
+                                        </v-icon>
+                                    </v-btn>
+                                </template>
+                                <span>
+                                    <p>Maximale groote profielfoto: 10MB</p>
+                                    <p>Aangeraden aspect ratio: 1:1 (vierkant)</p>
+                                </span>
+                            </v-tooltip>
                             <v-file-input
                                 accept="image/png, image/jpeg, image/svg"
                                 label="Upload een bedrijfsprofiel foto"
@@ -96,7 +115,26 @@
                     </v-row>
 
                     <v-row>
-                        <v-col>
+                        <v-col class="d-flex justify-space-around">
+                            <v-tooltip v-model="showBannerTip" location="top">
+                                <template v-slot:activator="{ props }">
+                                    <v-btn
+                                        icon
+                                        v-bind="props"
+                                        class="tooltip"
+                                        color="primary"
+                                        @click="showBannerTip = !showBannerTip"
+                                    >
+                                        <v-icon color="secundary">
+                                            mdi-information-variant
+                                        </v-icon>
+                                    </v-btn>
+                                </template>
+                                <span>
+                                    <p>Maximale groote banner: 10MB</p>
+                                    <p>Aangeraden aspect ratio: 16:9</p>
+                                </span>
+                            </v-tooltip>
                             <v-file-input
                                 accept="image/png, image/jpeg, image/svg"
                                 label="Upload een bedrijfsbanner"
@@ -254,7 +292,8 @@ const name = ref("");
 const info = ref("");
 const profileImage = ref([]);
 const banner = ref([]);
-
+const showProfileImageTip = ref(false);
+const showBannerTip = ref(false);
 const country: Ref<Country | null> = ref(null);
 const standardCountries: Ref<Country[]> = ref([]);
 const tags = ref([] as any);

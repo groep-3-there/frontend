@@ -1,7 +1,7 @@
 <template>
     <div v-if="editor">
         <div
-            :class="{ 'red-border': showError, 'bg-menugray':true }"
+            :class="{ 'red-border': showError && required, 'bg-menugray':true }"
             class="options d-flex flex-wrap"
 
         >
@@ -174,14 +174,14 @@
         <div
             :class="{
                 'edit-box': true,
-                'red-border': showError,
+                'red-border': showError && required,
                 'gray-text': placeholderShowing,
             }"
         >
             <editor-content class="editing" :editor="editor" />
         </div>
     </div>
-    <div class="v-input__details" v-if="showError">
+    <div class="v-input__details" v-if="required && showError">
         <div class="error-msg">Dit veld is verplicht!</div>
     </div>
 </template>
@@ -279,6 +279,11 @@ const props = defineProps({
     initializeWith: {
         type: String,
         default: null,
+        required: false,
+    },
+    required: {
+        type: Boolean,
+        default: true,
         required: false,
     },
 });

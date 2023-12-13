@@ -1,9 +1,9 @@
 <template>
     <div class="wrapper">
-        <div class="hor-nav hor-nav-left" v-if="!noScrollAvailable">
+        <div class="hor-nav hor-nav-left" v-if="!hideArrows">
             <v-icon :color="isDarkmode ? 'white' : 'black'" @click="scroll(-1000)">mdi-chevron-left</v-icon>
         </div>
-        <div class="hor-nav hor-nav-right" v-if="!noScrollAvailable">
+        <div class="hor-nav hor-nav-right" v-if="!hideArrows">
             <v-icon :color="isDarkmode ? 'white' : 'black'" @click="scroll(1000)">mdi-chevron-right</v-icon>
         </div>
         <div class="horizontal-scroll-content" ref="horizontalScroll">
@@ -31,11 +31,13 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    hideArrows:{
+        type: Boolean,
+        default: false,
+        required: false
+    }
 });
-const noScrollAvailable = computed(() => {
-    // return false;
-    return (horizontalScroll.value?.scrollWidth || 0) <= (horizontalScroll.value?.clientWidth || 0);
-});
+
 
 function scroll(direction: number) {
     horizontalScroll.value?.scrollBy({
