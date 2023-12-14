@@ -208,7 +208,7 @@
     </template>
 </template>
 
-<style scoped>
+<style>
 .small-text {
     font-size: 0.8em;
 }
