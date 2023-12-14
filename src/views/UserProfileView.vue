@@ -104,7 +104,7 @@
     </template>
 </template>
 
-<style>
+<style scoped>
 .company-hover:hover{
     cursor: pointer;
     box-shadow: 0 0 4px 2px rgba(67, 67, 67, 0.386);

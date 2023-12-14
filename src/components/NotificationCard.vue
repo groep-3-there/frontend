@@ -14,7 +14,7 @@
     </div>
   </v-card>
 </template>
-<style>
+<style scoped>
 .content{
     width: 100%;
     padding: 10px;

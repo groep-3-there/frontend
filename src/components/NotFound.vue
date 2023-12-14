@@ -11,7 +11,7 @@
     </v-row>
 </template>
 
-<style>
+<style scoped>
 .challenge-title {
     font-size: 4rem;
     font-weight: 1000;
