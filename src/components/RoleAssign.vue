@@ -19,7 +19,7 @@
     </v-container>
 </template>
 
-<style>
+<style scoped>
 
 </style>
 

@@ -85,7 +85,7 @@
         </v-dialog>
     </v-row>
 </template>
-<style>
+<style scoped>
 .dialog {
     max-width: 600px;
     min-width: 200px;

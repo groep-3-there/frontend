@@ -56,7 +56,7 @@ onMounted(() => {
     });
 });
 </script>
-<style>
+<style scoped>
 .wrapper{
     position: relative;
     max-width: 100%;

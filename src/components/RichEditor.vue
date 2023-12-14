@@ -185,7 +185,7 @@
         <div class="error-msg">Dit veld is verplicht!</div>
     </div>
 </template>
-<style>
+<style scoped>
 .gray-text {
     color: rgb(146, 146, 146) !important;
 }

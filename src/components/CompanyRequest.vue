@@ -38,7 +38,7 @@
     </v-container>
 </template>
 
-<style>
+<style scoped>
 .item {
     transition: box-shadow 0.4s;
     max-width: 1200px;
