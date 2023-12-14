@@ -7,7 +7,7 @@
         </v-main>
     </v-app>
 </template>
-<style>
+<style scoped>
 .snack-item {
     position: absolute;
     bottom: 0;

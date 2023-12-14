@@ -32,7 +32,7 @@
         </v-card-actions>
     </v-card>
 </template>
-<style>
+<style scoped>
 .card{
     min-width: min(60vw,350px);
     width: min(60vw, 350px);

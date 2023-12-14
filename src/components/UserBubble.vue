@@ -25,7 +25,7 @@
         </template>
     </v-tooltip>
 </template>
-<style>
+<style scoped>
 .user-logo-small {
     height: v-bind(sizePx);
     object-fit: cover;

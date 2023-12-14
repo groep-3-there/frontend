@@ -80,7 +80,7 @@
     </v-container>
 </template>
 
-<style>
+<style scoped>
 .reaction {
     /* border: 1px solid blue; */
     /* border-bottom: 1px solid blue; */

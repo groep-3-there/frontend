@@ -358,7 +358,7 @@ async function createChallenge() {
 }
 </script>
 
-<style>
+<style scoped>
 .date {
     max-width: 11rem;
 }
