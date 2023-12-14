@@ -25,7 +25,7 @@
             </v-col>
             <v-col cols="12" md="6" class="d-flex flex-wrap justify-center">
                 <template v-if="user.tags">
-                    <Tag v-for="tag in user.tags.split(',')" :key="tag">{{
+                    <Tag v-for="tag in user.getTagList()" :key="tag">{{
                         tag
                     }}</Tag>
                 </template>

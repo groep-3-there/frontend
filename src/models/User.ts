@@ -64,6 +64,11 @@ export class User {
         }
         return `${this.role.name} bij ${this.department.parentCompany.name}`;
     }
+    getTagList(){
+        if(this.tags === null || this.tags === undefined || this.tags === '')
+            return []
+        return this.tags.split(',')
+    }
 
     hasPermissionAtDepartment(
         permission: string,

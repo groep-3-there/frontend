@@ -49,4 +49,9 @@ export class Challenge {
         }
         return `/banner-default.jpg`;
     }
+    getTagList(){
+        if(this.tags === null || this.tags === undefined || this.tags === '')
+            return []
+        return this.tags.split(',')
+    }
 }

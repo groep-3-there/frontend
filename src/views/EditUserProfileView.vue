@@ -148,6 +148,7 @@
                                 variant="outlined"
                                 multiple
                                 chips
+                                closable-chips
                                 clearable
                                 :rules="[
                                     (v) =>
@@ -297,7 +298,7 @@ onMounted(async () => {
     info.value = originalUser.value.info;
     email.value = originalUser.value.email;
     phoneNumber.value = originalUser.value.phoneNumber;
-    tags.value = originalUser.value.tags.split(",");
+    tags.value = originalUser.value.getTagList();
     isEmailPublic.value = originalUser.value.isEmailPublic;
     isPhoneNumberPublic.value = originalUser.value.isPhoneNumberPublic;
 });

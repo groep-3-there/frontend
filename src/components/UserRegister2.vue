@@ -29,26 +29,57 @@
         <v-form @submit.prevent ref="registerForm">
             <v-stepper-window>
                 <v-stepper-window-item value="1">
-                    <v-text-field
-                        label="E-mailadres"
-                        v-model="email"
-                        type="text"
-                        class="mt-2"
-                        variant="outlined"
-                        :rules="emailRules"
-                    >
-                    </v-text-field>
-                    <v-text-field
-                        label="Wachtwoord"
-                        v-model="password"
-                        class="mt-2"
-                        variant="outlined"
-                        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                        :type="showPassword ? 'text' : 'password'"
-                        @click:append="showPassword = !showPassword"
-                        :rules="passwordRules"
-                    >
-                    </v-text-field>
+                    <v-row cols="12" class="d-flex flex-column mx-8 my-4">
+                        <v-text-field
+                            label="E-mailadres"
+                            v-model="email"
+                            type="text"
+                            class="mt-2"
+                            variant="outlined"
+                            :rules="emailRules"
+                            ref="emailInput"
+                        >
+                        </v-text-field>
+                        <v-text-field
+                            label="Wachtwoord"
+                            v-model="password"
+                            class="mt-2"
+                            variant="outlined"
+                            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                            :type="showPassword ? 'text' : 'password'"
+                            @click:append="showPassword = !showPassword"
+                            :rules="passwordRules"
+                        >
+                        </v-text-field>
+                    </v-row>
+                    <v-row>
+                        <v-col cols="12">
+                            <v-checkbox @update:model-value="(v)=>acceptVoorwaarden = v" :rules="acceptedRules" class="d-flex flex-column align-center">
+                                <template v-slot:label>
+                                    <div>
+                                        Ik ga akkoord met de
+                                        <v-tooltip location="top">
+                                            <template
+                                                v-slot:activator="{
+                                                    props,
+                                                }"
+                                            >
+                                                <a
+                                                    href="about#blank"
+                                                    target="_blank"
+                                                    v-bind="props"
+                                                    @click.stop
+                                                >
+                                                    algemene voorwaarden
+                                                </a>
+                                            </template>
+                                            open in een nieuw tabblad
+                                        </v-tooltip>
+                                    </div>
+                                </template>
+                            </v-checkbox>
+                        </v-col>
+                    </v-row>
                 </v-stepper-window-item>
                 <v-stepper-window-item value="2">
                     <v-card flat class="mt-2">
@@ -132,35 +163,6 @@
                                 </v-col>
                             </v-row>
                             <v-row>
-                                <v-col cols="12" class="pt-3">
-                                    <v-checkbox :rules="acceptedRules">
-                                        <template v-slot:label>
-                                            <div>
-                                                Ik ga akkoord met de
-                                                <v-tooltip location="top">
-                                                    <template
-                                                        v-slot:activator="{
-                                                            props,
-                                                        }"
-                                                    >
-                                                        <a
-                                                            href="about#blank"
-                                                            target="_blank"
-                                                            v-bind="props"
-                                                            @click.stop
-                                                        >
-                                                            algemene voorwaarden
-                                                        </a>
-                                                    </template>
-                                                    open een niew tabblad
-                                                </v-tooltip>
-                                            </div>
-                                        </template>
-                                    </v-checkbox>
-                                </v-col>
-                            </v-row>
-
-                            <v-row>
                                 <v-col
                                     class="d-flex justify-center align-center"
                                 >
@@ -209,12 +211,12 @@ const sessionStore = useSessionStore();
 const emit = defineEmits(["onClose", "onRequestLogin"]);
 const registerForm = ref(null) as any;
 const codeParam = useRoute().query.invite;
-
+const acceptVoorwaarden = ref(false);
 const joinDepartment: Ref<Department | null> = ref(null);
 const companyCode = ref("");
 let _thresholdSearchDepartment: any = null;
 const checkingInProgress = ref(false);
-
+const emailInput : Ref<any | null> = ref(null);
 const codeIcon = computed(() => {
     if (checkingInProgress.value) {
         return "mdi-loading mdi-spin";
@@ -293,6 +295,11 @@ const stepOneRules = [
             return rule(password.value) !== true;
         });
     },
+    () => {
+        return !acceptedRules.some((rule) => {
+            return rule(acceptVoorwaarden.value) !== true;
+        });
+    },
 ];
 const stepTwoRules = [
     () => {
@@ -331,11 +338,13 @@ watch(email, async () => {
 
         const result = await API.isEmailRegistered(email.value);
         if (result) {
-            console.log("taken");
+            console.log("email is taken");
             emailIsTaken.value = true;
+            console.log(emailIsTaken.value);
+            emailInput.value.validate()
         }
     }, 500);
-});
+}, {immediate: true});
 
 const password = ref("");
 const showPassword = ref(false);
@@ -401,9 +410,10 @@ async function onSubmit() {
     };
 
     await API.postCreateUser(userData)
-        .then((res) => {
+        .then(async (res) => {
             emit("onClose");
-            sessionStore.logIn(res.email, password.value);
+
+            await sessionStore.logIn(res.email, password.value);
             snackbarStore.createSimple(
                 "Uw account is aangemaakt, u bent ingelogd",
                 "success",
