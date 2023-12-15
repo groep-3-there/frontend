@@ -52,7 +52,7 @@
                     >
                     <v-row no-gutters
                         ><v-col cols="12" class="no-maringin-first-child"
-                            ><Tag v-for="tag in companyRequest.tags.split(',')" :key="tag">
+                            ><Tag v-for="tag in companyRequest.getTagList()" :key="tag">
                                 {{ tag }}
                             </Tag>
                         </v-col></v-row

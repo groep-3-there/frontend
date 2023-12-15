@@ -169,6 +169,7 @@
                                 :items="standardTags.map((tag) => tag.name)"
                                 variant="outlined"
                                 multiple
+                                closable-chips
                                 chips
                                 clearable
                                 :rules="[

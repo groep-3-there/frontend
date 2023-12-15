@@ -80,7 +80,7 @@
                         </v-tooltip>
                         <template v-if="challenge?.tags">
                             <v-tooltip
-                                v-for="tag in challenge?.tags.split(',')"
+                                v-for="tag in challenge?.getTagList()"
                                 text="Tags van deze challenge"
                                 :location="'top'"
                                 :key="tag"

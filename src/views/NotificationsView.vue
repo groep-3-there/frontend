@@ -96,6 +96,7 @@ onMounted(async () => {
     if (!user.value) {
         return;
     }
+    emailPreference.value = user.value.allowEmailNotifications;
 
     notifications.value = user.value?.notifications
         .reverse()

@@ -239,6 +239,7 @@
                                 multiple
                                 chips
                                 clearable
+                                closeable-chips
                                 :rules="[
                                     (v) =>
                                         !v.some((i: string) => {
@@ -352,7 +353,7 @@ onMounted(async () => {
             return item.codeName === originalChallenge.value.visibility;
         }
     })?.title;
-    tags.value = originalChallenge.value.tags.split(",");
+    tags.value = originalChallenge.value.getTagList();
     date.value = originalChallenge.value.endDate?.toISOString().slice(0, 10) || null;
     standardTags.value = await Api.getTags();
 });

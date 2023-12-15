@@ -44,7 +44,11 @@ export class Company {
         }
         return `https://ui-avatars.com/api/?name=${this.querySafeName()}?size=128`;
     }
-
+    getTagList(){
+        if(this.tags === null || this.tags === undefined || this.tags === '')
+            return []
+        return this.tags.split(',')
+    }
     getBannerForCompany() {
         if (this.banner) {
             return this.banner.getUrl();

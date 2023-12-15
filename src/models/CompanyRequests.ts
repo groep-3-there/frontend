@@ -20,4 +20,9 @@ export class CompanyRequests {
         this.branch = data.branch;
         this.country = new Country(data.country);
     }
+    getTagList(){
+        if(this.tags === null || this.tags === undefined || this.tags === '')
+            return []
+        return this.tags.split(',')
+    }
 }
