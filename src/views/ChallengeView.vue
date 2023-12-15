@@ -33,7 +33,7 @@
             <v-col cols="12" md="6" class="">
                 <div class="d-flex flex-wrap justify-center">
                     <template v-if="challenge.tags !== ''">
-                    <Tag  v-for="tag in challenge.tags.split(',')" :key="tag">{{
+                    <Tag  v-for="tag in challenge.getTagList()" :key="tag">{{
                         tag
                     }}</Tag>
                     </template>

@@ -57,7 +57,7 @@
                     </Tag>
                     <template v-if="company.tags">
                         <Tag
-                            v-for="tag in company.tags.split(',')"
+                            v-for="tag in company.getTagList()"
                             :key="tag"
                             >{{ tag }}</Tag
                         >

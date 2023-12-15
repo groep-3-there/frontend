@@ -90,6 +90,7 @@
                                     variant="outlined"
                                     multiple
                                     chips
+                                    closable-chips
                                     clearable
                                     :rules="[
                                         (v) =>

@@ -201,6 +201,7 @@
                                 :items="standardTags.map((tag) => tag.name)"
                                 variant="outlined"
                                 multiple
+                                closable-chips
                                 chips
                                 clearable
                                 :rules="[
@@ -328,7 +329,7 @@ onMounted(async () => {
     originalCompany.value = await Api.getCompany(id);
     name.value = originalCompany.value.name;
     info.value = originalCompany.value.info;
-    tags.value = originalCompany.value.tags == "" ? [] : originalCompany.value.tags.split(",");
+    tags.value = originalCompany.value.tags == "" ? [] : originalCompany.value.getTagList();
     branch.value = originalCompany.value.branch.name;
     country.value = originalCompany.value.country;
 });
