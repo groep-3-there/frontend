@@ -1,9 +1,11 @@
 <template>
     <div v-if="editor">
         <div
-            :class="{ 'red-border': showError && required, 'bg-menugray':true }"
+            :class="{
+                'red-border': showError && required,
+                'bg-menugray': true,
+            }"
             class="options d-flex flex-wrap"
-
         >
             <div
                 @click="editor.chain().focus().toggleBold().run()"
@@ -185,7 +187,7 @@
         <div class="error-msg">Dit veld is verplicht!</div>
     </div>
 </template>
-<style scoped>
+<style>
 .gray-text {
     color: rgb(146, 146, 146) !important;
 }
