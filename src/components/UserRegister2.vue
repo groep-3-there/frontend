@@ -75,6 +75,7 @@
                                             </template>
                                             open in een nieuw tabblad
                                         </v-tooltip>
+                                        en ga er mee akkoord dat mijn gegevens worden opgeslagen en gebruikt.
                                     </div>
                                 </template>
                             </v-checkbox>
@@ -414,8 +415,9 @@ async function onSubmit() {
             emit("onClose");
 
             await sessionStore.logIn(res.email, password.value);
+            await API.sendVerificationEmail();
             snackbarStore.createSimple(
-                "Uw account is aangemaakt, u bent ingelogd",
+                "Uw account is aangemaakt, u heeft een verificatie email ontvangen",
                 "success",
             );
         })

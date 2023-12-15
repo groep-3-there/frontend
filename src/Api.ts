@@ -308,6 +308,23 @@ namespace API {
         const data = await postRequest(`auth/create`, userData);
         return new User(data);
     }
+    export async function sendVerificationEmail() {
+        const res = await fetch(
+            "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=" +
+                FIREBASE_PUBLIC_API_KEY,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    requestType: "VERIFY_EMAIL",
+                    idToken: authToken,
+                }),
+            },
+        );
+        return res.ok;
+    }
     export async function recoverPassword(email : String){
         const res = await fetch(
             "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=" +

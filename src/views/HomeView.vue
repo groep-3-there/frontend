@@ -38,9 +38,14 @@ import LandingPageContent from "@/components/LandingPageContent.vue";
 import router from "@/router";
 import { Ref, ref } from "vue";
 import UserHomePage from "@/components/UserHomePage.vue";
+import { useSnackbarStore } from "@/store/Snackbar";
 
 const sessionStore = useSessionStore();
-
+const param = router.currentRoute.value.query["emailVerified"]
+const verified = Array.isArray(param) ? param[0] : param;
+if(Number(verified) === 1){
+    useSnackbarStore().createSimple("Email is geverifieerd!", "success");
+}
 const carouselInfo: Ref<
     {
         infoImage: string;
