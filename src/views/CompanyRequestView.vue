@@ -35,7 +35,7 @@
                 <v-col cols="12" md="9" class="mx-auto">
                     <CompanyRequest
                         :companyRequest="companyRequest"
-                        @requestUpdateRequests="loadRequests"
+                        @requestUpdateRequests="loadRequests(page)"
                         class="border"
                     ></CompanyRequest>
                 </v-col>
