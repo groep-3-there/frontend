@@ -70,7 +70,7 @@
                         value="notifications"
                     >
                         <v-badge
-                            style="display: block; margin: 0px"
+                            style="display: block; margin: 0"
                             :color="
                                 unreadNotifications.length > 0 ? 'red' : 'grey'
                             "
@@ -277,13 +277,6 @@
     margin-right: v-bind(widthPx);
 }
 
-.badge-no-margin {
-    align-items: center;
-    display: inline-flex;
-    justify-content: center;
-    /* margin: 0 4px; */
-}
-
 .sidebar-toggle-btn {
     position: fixed;
     bottom: 2%;
@@ -323,12 +316,11 @@ import CompanyRegistrationPopUp from "@/components/CompanyRegistrationPopUp.vue"
 import JoinCompanyPopup from "@/components/JoinCompanyPopup.vue";
 import InviteListener from "@/components/InviteListener.vue";
 import { useSessionStore } from "@/store/sessionStore";
-import { useRoute } from "vue-router";
 import router from "@/router";
 import { useTheme } from 'vuetify'
 const theme = useTheme()
 
-const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay();
+const { lgAndUp, mdAndDown } = useDisplay();
 const sessionStore = useSessionStore();
 const loginPopup = ref(false);
 const userRegisterPopup = ref(false);
