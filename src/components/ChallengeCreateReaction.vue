@@ -3,20 +3,25 @@
         @model-value-changed="(c: string) => (newReactionContent = c)"
         :placeholder="`Uw reactie`"
     ></RichEditor>
-    <div class="reaction-options">
-        <div class="reaction-type-selector d-flex justify-center align-center">
-            <v-select
-                variant="outlined"
-                v-model="newReactionType"
-                label="Type Reactie"
-                :items="['Idee', 'Vraag', 'Feedback']"
-                >Type</v-select
-            >
-        </div>
+    <v-spacer class="my-4"></v-spacer>
+    <v-row class="d-flex justify-end align-center">
+        <v-col cols="8" md="4">
+            <div class="reaction-options">
+                <div class="reaction-type-selector d-flex justify-center align-center">
+                    <v-select
+                        variant="outlined"
+                        v-model="newReactionType"
+                        label="Type Reactie"
+                        :items="['Idee', 'Vraag', 'Feedback']"
+                        >Type</v-select
+                    >
+                </div>
+            </div>
+        </v-col>
         <div class="d-flex justify-center align-center">
             <v-btn @click="postReaction" color="primary">Plaatsen</v-btn>
         </div>
-    </div>
+    </v-row>
 </template>
 
 <script setup lang="ts">
