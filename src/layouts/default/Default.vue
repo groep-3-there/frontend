@@ -70,7 +70,7 @@
                         value="notifications"
                     >
                         <v-badge
-                            style="display: block; margin: 0px"
+                            style="display: block; margin: 0"
                             :color="
                                 unreadNotifications.length > 0 ? 'red' : 'grey'
                             "
@@ -195,16 +195,31 @@
                             value="settings"
                         ></v-list-item>
                         <template
-                            v-if="sessionStore.loggedInUser.role?.isMatchmaker"
+                            v-if="
+                            sessionStore.loggedInUser.role?.isMatchmaker
+                            ||
+                                sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                              'COMPANY_GRADE',
+                                  sessionStore.loggedInUser?.department?.id)
+                            ||
+                                  sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                              'MATCHMAKER_GRAPH_READ',
+                                  sessionStore.loggedInUser?.department?.id,)
+                            "
                         >
                             <v-list-subheader>Admin</v-list-subheader>
                             <v-list-item
+                              v-if="sessionStore.loggedInUser?.role?.isMatchmaker"
                                 @click="$router.push('/admin')"
                                 prepend-icon="mdi-security"
                                 title="Admin"
                                 value="admin"
                             ></v-list-item>
                             <v-list-item
+                              v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                                'COMPANY_GRADE',
+                                sessionStore.loggedInUser?.department?.id)"
+
                                 @click="$router.push('/admin/grade-companies')"
                                 prepend-icon="mdi-briefcase-check-outline"
                                 title="Bedrijfsaanvragen"
@@ -212,6 +227,8 @@
                             >
                             </v-list-item>
                             <v-list-item
+                              v-if="sessionStore.loggedInUser?.role?.isMatchmaker"
+
                                 @click="$router.push('/admin/roles')"
                                 prepend-icon="mdi-account-group"
                                 title="Rollen bewerken"
@@ -219,6 +236,10 @@
                             >
                             </v-list-item>
                             <v-list-item
+                              v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                                'MATCHMAKER_GRAPH_READ',
+                                sessionStore.loggedInUser?.department?.id)"
+
                                 @click="$router.push('/admin/stats-dashboard')"
                                 prepend-icon="mdi-chart-bar"
                                 title="Statistieken"
@@ -254,13 +275,6 @@
 .sideBarSpacing {
     margin-left: v-bind(widthPx);
     margin-right: v-bind(widthPx);
-}
-
-.badge-no-margin {
-    align-items: center;
-    display: inline-flex;
-    justify-content: center;
-    /* margin: 0 4px; */
 }
 
 .sidebar-toggle-btn {
@@ -302,12 +316,11 @@ import CompanyRegistrationPopUp from "@/components/CompanyRegistrationPopUp.vue"
 import JoinCompanyPopup from "@/components/JoinCompanyPopup.vue";
 import InviteListener from "@/components/InviteListener.vue";
 import { useSessionStore } from "@/store/sessionStore";
-import { useRoute } from "vue-router";
 import router from "@/router";
 import { useTheme } from 'vuetify'
 const theme = useTheme()
 
-const { mobile, lgAndDown, lgAndUp, mdAndDown, lg, name } = useDisplay();
+const { lgAndUp, mdAndDown } = useDisplay();
 const sessionStore = useSessionStore();
 const loginPopup = ref(false);
 const userRegisterPopup = ref(false);
