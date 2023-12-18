@@ -195,16 +195,31 @@
                             value="settings"
                         ></v-list-item>
                         <template
-                            v-if="sessionStore.loggedInUser.role?.isMatchmaker"
+                            v-if="
+                            sessionStore.loggedInUser.role?.isMatchmaker
+                            ||
+                                sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                              'COMPANY_GRADE',
+                                  sessionStore.loggedInUser?.department?.id)
+                            ||
+                                  sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                              'MATCHMAKER_GRAPH_READ',
+                                  sessionStore.loggedInUser?.department?.id,)
+                            "
                         >
                             <v-list-subheader>Admin</v-list-subheader>
                             <v-list-item
+                              v-if="sessionStore.loggedInUser?.role?.isMatchmaker"
                                 @click="$router.push('/admin')"
                                 prepend-icon="mdi-security"
                                 title="Admin"
                                 value="admin"
                             ></v-list-item>
                             <v-list-item
+                              v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                                'COMPANY_GRADE',
+                                sessionStore.loggedInUser?.department?.id)"
+
                                 @click="$router.push('/admin/grade-companies')"
                                 prepend-icon="mdi-briefcase-check-outline"
                                 title="Bedrijfsaanvragen"
@@ -212,6 +227,8 @@
                             >
                             </v-list-item>
                             <v-list-item
+                              v-if="sessionStore.loggedInUser?.role?.isMatchmaker"
+
                                 @click="$router.push('/admin/roles')"
                                 prepend-icon="mdi-account-group"
                                 title="Rollen bewerken"
@@ -219,6 +236,10 @@
                             >
                             </v-list-item>
                             <v-list-item
+                              v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                                'MATCHMAKER_GRAPH_READ',
+                                sessionStore.loggedInUser?.department?.id)"
+
                                 @click="$router.push('/admin/stats-dashboard')"
                                 prepend-icon="mdi-chart-bar"
                                 title="Statistieken"
