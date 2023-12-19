@@ -1,6 +1,6 @@
 # Matchmaker front-end
 
-Copyright Florijn Munster, Eelco Jansma, Luke van de Pol, Tjerk Venema & Rik Wildschut
+Copyright Florijn Munster, Eelco Jansma, Jelle Blaeser, Luke van de Pol, Tjerk Venema & Rik Wildschut
 
 Semester 7 project voor NHL Stenden HBO-ICT.
 
