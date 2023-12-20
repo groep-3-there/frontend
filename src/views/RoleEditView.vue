@@ -31,7 +31,10 @@
             </v-select>
             <v-tooltip :text="'Nieuwe rol aanmaken'" :location="'top'">
                 <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" color="primary ml-2 p-0" @click="newRole"
+                    <v-btn
+                        v-bind="props"
+                        color="primary ml-2 p-0"
+                        @click="newRole"
                         ><v-icon>mdi-plus</v-icon></v-btn
                     >
                 </template>
@@ -86,7 +89,7 @@
                 </v-col>
                 <v-col cols="2">
                     <v-switch
-                        v-model="selectedRole.isAssignable"
+                        v-model="selectedRole.isDepartmentAdmin"
                         :color="'green'"
                         :loading="updating"
                     />
