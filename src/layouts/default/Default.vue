@@ -105,13 +105,6 @@
                         title="Home"
                         value="home-home"
                     ></v-list-item>
-
-                    <v-list-item
-                        @click="$router.push('/debug')"
-                        prepend-icon="mdi-bug"
-                        title="Debug"
-                        value="debug"
-                    ></v-list-item>
                     <v-list-item
                         @click="$router.push('/challenges')"
                         prepend-icon="mdi-magnify"
@@ -175,51 +168,69 @@
                             value="create-challenge"
                         ></v-list-item>
                         <v-list-item
-                            v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment(
-                                'DEPARTMENT_MANAGE',
-                                sessionStore.loggedInUser?.department?.id,
-                            )"
-                            @click="$router.push(`/company/${sessionStore.loggedInUser?.department?.id}/stats-dashboard`)"
+                            v-if="
+                                sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                                    'DEPARTMENT_MANAGE',
+                                    sessionStore.loggedInUser?.department?.id,
+                                )
+                            "
+                            @click="
+                                $router.push(
+                                    `/company/${sessionStore.loggedInUser?.department?.id}/stats-dashboard`,
+                                )
+                            "
                             prepend-icon="mdi-chart-bar"
                             title="Statistieken"
                             value="statistieken"
                         ></v-list-item>
                         <v-list-item
-                            v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment(
-                                'COMPANY_GRAPH_READ',
-                                sessionStore.loggedInUser?.department?.id,
-                            )"
-                            @click="$router.push(`/settings/${sessionStore.loggedInUser?.department?.id}`)"
+                            v-if="
+                                sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                                    'COMPANY_GRAPH_READ',
+                                    sessionStore.loggedInUser?.department?.id,
+                                )
+                            "
+                            @click="
+                                $router.push(
+                                    `/settings/${sessionStore.loggedInUser?.department?.id}`,
+                                )
+                            "
                             prepend-icon="mdi-cog-outline"
                             title="Instellingen"
                             value="settings"
                         ></v-list-item>
                         <template
                             v-if="
-                            sessionStore.loggedInUser.role?.isMatchmaker
-                            ||
+                                sessionStore.loggedInUser.role?.isMatchmaker ||
                                 sessionStore.loggedInUser?.hasPermissionAtDepartment(
-                              'COMPANY_GRADE',
-                                  sessionStore.loggedInUser?.department?.id)
-                            ||
-                                  sessionStore.loggedInUser?.hasPermissionAtDepartment(
-                              'MATCHMAKER_GRAPH_READ',
-                                  sessionStore.loggedInUser?.department?.id,)
+                                    'COMPANY_GRADE',
+                                    sessionStore.loggedInUser?.department?.id,
+                                ) ||
+                                sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                                    'MATCHMAKER_GRAPH_READ',
+                                    sessionStore.loggedInUser?.department?.id,
+                                )
                             "
                         >
                             <v-list-subheader>Admin</v-list-subheader>
                             <v-list-item
-                              v-if="sessionStore.loggedInUser?.role?.isMatchmaker"
+                                v-if="
+                                    sessionStore.loggedInUser?.role
+                                        ?.isMatchmaker
+                                "
                                 @click="$router.push('/admin')"
                                 prepend-icon="mdi-security"
                                 title="Admin"
                                 value="admin"
                             ></v-list-item>
                             <v-list-item
-                              v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment(
-                                'COMPANY_GRADE',
-                                sessionStore.loggedInUser?.department?.id)"
-
+                                v-if="
+                                    sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                                        'COMPANY_GRADE',
+                                        sessionStore.loggedInUser?.department
+                                            ?.id,
+                                    )
+                                "
                                 @click="$router.push('/admin/grade-companies')"
                                 prepend-icon="mdi-briefcase-check-outline"
                                 title="Bedrijfsaanvragen"
@@ -227,8 +238,10 @@
                             >
                             </v-list-item>
                             <v-list-item
-                              v-if="sessionStore.loggedInUser?.role?.isMatchmaker"
-
+                                v-if="
+                                    sessionStore.loggedInUser?.role
+                                        ?.isMatchmaker
+                                "
                                 @click="$router.push('/admin/roles')"
                                 prepend-icon="mdi-account-group"
                                 title="Rollen bewerken"
@@ -236,10 +249,13 @@
                             >
                             </v-list-item>
                             <v-list-item
-                              v-if="sessionStore.loggedInUser?.hasPermissionAtDepartment(
-                                'MATCHMAKER_GRAPH_READ',
-                                sessionStore.loggedInUser?.department?.id)"
-
+                                v-if="
+                                    sessionStore.loggedInUser?.hasPermissionAtDepartment(
+                                        'MATCHMAKER_GRAPH_READ',
+                                        sessionStore.loggedInUser?.department
+                                            ?.id,
+                                    )
+                                "
                                 @click="$router.push('/admin/stats-dashboard')"
                                 prepend-icon="mdi-chart-bar"
                                 title="Statistieken"
@@ -251,17 +267,20 @@
                 </v-list>
                 <v-divider></v-divider>
                 <template v-slot:append>
-
-                    <v-list density="compact" nav >
-                        <v-switch prepend-icon="mdi-theme-light-dark" v-model="darkMode" label="Donkere modus"></v-switch>
+                    <v-list density="compact" nav>
+                        <v-switch
+                            prepend-icon="mdi-theme-light-dark"
+                            v-model="darkMode"
+                            label="Donkere modus"
+                        ></v-switch>
                         <v-list-item
-                        v-if="sessionStore.loggedInUser"
+                            v-if="sessionStore.loggedInUser"
                             @click="logOut()"
                             prepend-icon="mdi-logout"
                             title="Uitloggen"
                             value="shared"
                         ></v-list-item>
-                </v-list>
+                    </v-list>
                 </template>
             </v-navigation-drawer>
 
@@ -317,8 +336,8 @@ import JoinCompanyPopup from "@/components/JoinCompanyPopup.vue";
 import InviteListener from "@/components/InviteListener.vue";
 import { useSessionStore } from "@/store/sessionStore";
 import router from "@/router";
-import { useTheme } from 'vuetify'
-const theme = useTheme()
+import { useTheme } from "vuetify";
+const theme = useTheme();
 
 const { lgAndUp, mdAndDown } = useDisplay();
 const sessionStore = useSessionStore();
@@ -329,12 +348,11 @@ const companyRegisterPopup = ref(false);
 const joinCompanyPopup = ref(false);
 const darkMode = ref(false);
 
-
 onMounted(async () => {
     if (mdAndDown.value) {
         sidebarVisibleOnSmallDevice.value = false;
     }
-    darkMode.value =  theme.global.name.value == "dark"
+    darkMode.value = theme.global.name.value == "dark";
 });
 
 //Drawer size
@@ -352,11 +370,10 @@ const unreadNotifications = computed(() => {
     );
 });
 
-watch(darkMode, (dark)=>{
-    theme.global.name.value = dark ? 'dark' : 'light'
-    localStorage.setItem("theme", theme.global.name.value)
-
-})
+watch(darkMode, (dark) => {
+    theme.global.name.value = dark ? "dark" : "light";
+    localStorage.setItem("theme", theme.global.name.value);
+});
 function openSidebar() {
     sidebarVisibleOnSmallDevice.value = !sidebarVisibleOnSmallDevice.value;
 }
