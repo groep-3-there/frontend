@@ -105,6 +105,12 @@
                         title="Home"
                         value="home-home"
                     ></v-list-item>
+                  <v-list-item
+                    @click="$router.push('/debug')"
+                    prepend-icon="mdi-bug"
+                    title="Debug"
+                    value="Debug"
+                  ></v-list-item>
                     <v-list-item
                         @click="$router.push('/challenges')"
                         prepend-icon="mdi-magnify"
@@ -287,7 +293,7 @@
             <v-main :class="{ sideBarSpacing: lgAndUp }">
                 <router-view v-slot="{ Component, route }">
                     <transition name="fade">
-                        <div :key="route.path">  
+                        <div :key="route.path">
                             <component :is="Component"></component>
                         </div>
                     </transition>
