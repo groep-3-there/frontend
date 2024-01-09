@@ -1,3 +1,6 @@
+html{
+    scroll-behavior: smooth;
+}
 @keyframes split-letters{
     0%{
         letter-spacing: 0px;

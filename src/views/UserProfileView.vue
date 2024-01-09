@@ -69,7 +69,7 @@
                     <h2 class="post-heading">Bedrijf</h2>
                     <v-spacer class="my-2"></v-spacer>
 
-                    <div class="company-icon company-hover"
+                    <div v-if="user.department?.parentCompany" class="company-icon company-hover"
                     @click="$router.push(`/company/${user.department?.parentCompany.id}`)"
                     
                     >
@@ -80,8 +80,8 @@
                             class="company-logo"
                         />
                         <p class="ml-5">
-                            {{ user.department?.name }} |
-                            {{ user.department?.parentCompany.name }}
+                            {{ user.department.name }} |
+                            {{ user.department.parentCompany.name }}
                         </p>
                     </div>
                 </div>
