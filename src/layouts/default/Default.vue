@@ -285,12 +285,28 @@
             </v-navigation-drawer>
 
             <v-main :class="{ sideBarSpacing: lgAndUp }">
-                <router-view></router-view>
+                <router-view v-slot="{ Component, route }">
+                    <transition name="fade">
+                        <div :key="route.path">  
+                            <component :is="Component"></component>
+                        </div>
+                    </transition>
+                </router-view>
             </v-main>
         </v-app>
     </v-card>
 </template>
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 .sideBarSpacing {
     margin-left: v-bind(widthPx);
     margin-right: v-bind(widthPx);
