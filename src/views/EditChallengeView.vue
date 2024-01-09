@@ -239,7 +239,7 @@
                                 multiple
                                 chips
                                 clearable
-                                closable-chips
+                                closeable-chips
                                 :rules="[
                                     (v) =>
                                         !v.some((i: string) => {
